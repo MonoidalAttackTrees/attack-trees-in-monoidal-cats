@@ -1,0 +1,7 @@
+*.bbl
+.gitignore
+*.aux
+*.blg
+*.log
+*.out
+refs.bib
