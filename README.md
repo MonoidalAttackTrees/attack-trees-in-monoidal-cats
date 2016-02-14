@@ -31,3 +31,5 @@ and programs between attack trees correspond to semantically valid
 transformations of attack trees.  Therefore, designing and
 manipulating complex attack trees in Lina provides a higher confidence
 that the resulting analysis is correct.
+
+http://www.nsf.gov/awardsearch/showAward?AWD_ID=1565557
