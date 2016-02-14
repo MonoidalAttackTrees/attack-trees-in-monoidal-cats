@@ -1,98 +1,100 @@
 * Year 1
   * March 2016: 
-    - First Half: Advertise for UG Student and Summer Ph.D Student
-    - Second Half: Advertise for UG Student and Summer Ph.D Student
+    ** First Half: Advertise for UG Student and Summer Ph.D Student
+    ** Second Half: Advertise for UG Student and Summer Ph.D Student
 
   * April 2016:
-    - First Half:
-    - Second Half:
+    ** First Half: Prove existing attack tree models are monoidal
+    ** Second Half: Write intro to dialectica spaces
   
   * May 2016:
-    - First Half:
-    - Second Half:
+    ** First Half: Show existing attack tree operators are in dialectica spaces
+    ** Second Half: 
+        *** Show ILL is interpretable in dialectica spaces soundly (well-known)
+        *** Get the UG student started on implementing basic parts of LNL logic.
 
   * June 2016:
-    - First Half:
-    - Second Half:
+    ** First Half: 
+    ** Second Half:
 
   * July 2016:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * August 2016:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * September 2016:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * October 2016:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * November 2016:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * December 2016:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
 * Year 2
   * January 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * February 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * March 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * April 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
   
   * May 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * June 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * July 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * August 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * September 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * October 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * November 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * December 2017:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
 * Year 3
   * January 2018:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
 
   * February 2018:
-    - First Half:
-    - Second Half:
+    ** First Half:
+    ** Second Half:
