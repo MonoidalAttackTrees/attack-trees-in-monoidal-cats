@@ -1,6 +1,7 @@
 People
 ------
 
+Valeria de Paiva <valeria.depaiva@gmail.com>
 Stephanie Weirich <sweirich@cis.upenn.edu>
 Tim Sheard <sheard@cs.pdx.edu>
 
