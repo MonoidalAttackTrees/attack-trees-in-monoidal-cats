@@ -1,3 +1,9 @@
+People
+------
+
+Stephanie Weirich <sweirich@cis.upenn.edu>
+Tim Sheard <sheard@cs.pdx.edu>
+
 Mailing Lists
 -------------
 
