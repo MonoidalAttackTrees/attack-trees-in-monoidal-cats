@@ -118,7 +118,7 @@ ff →𝔹 tt = tt
 ff →𝔹 ff = tt
 
 isLineale𝔹 : Lineale 𝔹
-isLineale𝔹 = MkLineale isMonPoset𝔹 (λ a b → (~ a) || b , {!!} , {!!})
+isLineale𝔹 = MkLineale isMonPoset𝔹 (λ a b → a →𝔹 b , aux₁ , aux₂)
  where
   aux₁ : {a b y : 𝔹} → y ≤𝔹 (a →𝔹 b) ≡ tt
   aux₁ {tt}{tt}{tt} = refl
