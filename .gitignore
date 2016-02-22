@@ -5,3 +5,9 @@
 *.log
 *.out
 refs.bib
+\\#.*
+.*\\#
+\\#.*\\#
+#.*
+*.agdai
+/dialectica-spaces/#lineales.agda#
