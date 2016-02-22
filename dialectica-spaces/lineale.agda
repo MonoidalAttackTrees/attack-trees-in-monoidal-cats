@@ -37,14 +37,14 @@ isPoset2 = MkPoset _≤2_ aux₁ aux₂ aux₃
   aux₁ {ff} = refl
 
   aux₂ : {a b c : 𝔹} → a ≤2 b ≡ tt → b ≤2 c ≡ tt → a ≤2 c ≡ tt
-  aux₂ {tt} {tt} {tt} x x₁ = refl
   aux₂ {tt} {tt} {ff} x x₁ = x₁
-  aux₂ {tt} {ff} {tt} x x₁ = refl
   aux₂ {tt} {ff} {ff} x x₁ = x
+  aux₂ {tt} {tt} {tt} x x₁ = refl
   aux₂ {ff} {tt} {tt} x x₁ = refl
   aux₂ {ff} {tt} {ff} x x₁ = refl
   aux₂ {ff} {ff} {tt} x x₁ = refl
   aux₂ {ff} {ff} {ff} x x₁ = refl
+  aux₂ {tt} {ff} {tt} x x₁ = refl  
 
   aux₃ : {a b : 𝔹} → a ≤2 b ≡ tt → b ≤2 a ≡ tt → a ≡ b
   aux₃ {tt} {tt} x x₁ = refl
@@ -120,6 +120,9 @@ record MonPoset (P : Set) : Set where
    compat : ∀{a b : P} → ¡ (rel poset) a b → (∀{c : P} → ¡ (rel poset) (mul a c) (mul b c))
 
 open MonPoset
+
+compat-sym : ∀{P : Set}{p : MonPoset P}{a b : P} → ¡ (rel (poset p)) a b → (∀{c : P} → ¡ (rel (poset p)) ((mul p) c a) ((mul p) c b))
+compat-sym {P}{MkMonPoset _⊗_ ut (MkPoset _≤_ r t s) asc li ri sm cp} {a}{b} p₁ {c} rewrite sm {c}{a} | sm {c}{b} = cp {a}{b} p₁ {c}
 
 _⊗2_ : 𝔹 → 𝔹 → 𝔹
 _⊗2_ = _&&_
