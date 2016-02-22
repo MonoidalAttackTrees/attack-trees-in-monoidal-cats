@@ -16,6 +16,9 @@ reflDC = prefl (poset (mposet l-pf))
 transDC : {a b c : L} → a ≤DC b → b ≤DC c → a ≤DC c
 transDC = ptrans (poset (mposet l-pf))
 
+_⊗L_ : L → L → L
+x ⊗L y = mul (mposet l-pf) x y
+
 -- The objects:
 Obj : Set₁
 Obj = Σ[ U ∈ Set ] (Σ[ X ∈ Set ] (U → X → L))
@@ -94,25 +97,28 @@ _≡h_ {(U , X , α)}{(V , Y , β)} (f , F , p₁) (g , G , p₂) = f ≡ g × F
 ○-idr {U , X , _}{V , Y , _}{f , F , _} = refl , refl
 
 
--- -----------------------------------------------------------------------
--- -- DC₂(Sets) is a SMC                                              --
--- -----------------------------------------------------------------------
+-----------------------------------------------------------------------
+-- SMC Structure                                                     --
+-----------------------------------------------------------------------
 
--- -- The tensor functor: ⊗
--- _⊗ᵣ_ : ∀{U X V Y : Set} → (U → X → Set) → (V → Y → Set) → ((U × V) → (X × Y) → Set)
--- _⊗ᵣ_ α β (u , v) (x , y) = (α u x) × (β v y)
+-- The tensor functor: ⊗
+_⊗ᵣ_ : ∀{U X V Y : Set} → (U → X → L) → (V → Y → L) → ((U × V) → (X × Y) → L)
+_⊗ᵣ_ α β (u , v) (x , y) = (α u x) ⊗L (β v y)
 
--- _⊗ₒ_ : (A B : Obj) → Obj
--- (U , X , α) ⊗ₒ (V , Y , β) = ((U × V) , (X × Y) , α ⊗ᵣ β)
+_⊗ₒ_ : (A B : Obj) → Obj
+(U , X , α) ⊗ₒ (V , Y , β) = ((U × V) , (X × Y) , α ⊗ᵣ β)
 
--- F⊗ : ∀{Z T V X U Y : Set}{F : U → Z → X}{G : V → T → Y} → (U × V) → (Z × T) → (X × Y)
--- F⊗ {F = F}{G} (u , v) (z , t) = F u z , G v t
+F⊗ : ∀{Z T V X U Y : Set}{F : U → Z → X}{G : V → T → Y} → (U × V) → (Z × T) → (X × Y)
+F⊗ {F = F}{G} (u , v) (z , t) = F u z , G v t
   
--- _⊗ₐ_ : {A B C D : Obj} → Hom A C → Hom B D → Hom (A ⊗ₒ B) (C ⊗ₒ D)
--- _⊗ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁) (g , G , p₂) = ⟨ f , g ⟩ , F⊗ {F = F}{G} , p⊗
---  where
---   p⊗ : {u : Σ U (λ x → V)} {y : Σ Z (λ x → T)} → (α ⊗ᵣ β) u (F⊗ {F = F}{G} u y) → (γ ⊗ᵣ δ) (⟨ f , g ⟩ u) y
---   p⊗ {u , v}{z , t} (p₃ , p₄) = p₁  p₃ , p₂ p₄
+_⊗ₐ_ : {A B C D : Obj} → Hom A C → Hom B D → Hom (A ⊗ₒ B) (C ⊗ₒ D)
+_⊗ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁) (g , G , p₂) = ⟨ f , g ⟩ , F⊗ {F = F}{G} , (λ {u} {y} → p⊗ {u}{y})
+ where
+  p⊗ : {u : Σ U (λ x → V)} {y : Σ Z (λ x → T)} →
+      rel (poset (mposet l-pf)) ((α ⊗ᵣ β) u (F⊗ {F = F}{G = G} u y))
+      ((γ ⊗ᵣ δ) (⟨ f , g ⟩ u) y)
+      ≡ tt
+  p⊗ {u , v}{z , t} = {!!}
 
 
 -- -- The unit for tensor:
