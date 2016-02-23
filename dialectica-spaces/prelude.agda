@@ -11,6 +11,7 @@ open import eq public
 open import list public
 open import list-thms public
 open import bool public
+open import bool-thms public
 
 -- Extensionality will be used when proving equivalences of morphisms.
 postulate ext-set : ∀{l1 l2 : level} → extensionality {l1} {l2}

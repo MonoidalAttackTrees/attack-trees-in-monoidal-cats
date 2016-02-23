@@ -1,11 +1,8 @@
 open import prelude
 open import lineale
+open import lineale-thms
 
 module DCSets (L : Set) (l-pf : Lineale L) where
-
-open Poset
-open MonPoset
-open Lineale
 
 _≤DC_ : L → L → Set
 x ≤DC y = ¡ (rel (poset (mposet l-pf))) x y
