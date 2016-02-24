@@ -3,23 +3,56 @@ module ConcreteLineales where
 open import prelude
 open import lineale
 
+Two : Set
+Two = 𝔹
+
+_≤2_ : Two → Two → 𝔹
+tt ≤2 ff = ff
+_ ≤2 _ = tt
+
+_⊗2_ : Two → Two → Two
+_⊗2_ = _&&_
+
+_→2_ : Two → Two → Two
+tt →2 ff = ff
+_ →2 _ = tt
+
 data Three : Set where
   zero : Three
   half : Three
   one : Three
 
-_≤2_ : 𝔹 → 𝔹 → 𝔹
-tt ≤2 ff = ff
-_ ≤2 _ = tt
+_≤3_ : Three → Three → 𝔹
+half ≤3 zero = ff
+one ≤3 zero = ff
+one ≤3 half = ff
+_ ≤3 _ = tt
 
-isPoset2 : Poset 𝔹
+_⊗3_ : Three → Three → Three
+zero ⊗3 zero = zero
+zero ⊗3 half = zero
+zero ⊗3 one = zero
+half ⊗3 zero = zero
+half ⊗3 half = half
+half ⊗3 one = half
+one ⊗3 zero = zero
+one ⊗3 half = half
+one ⊗3 one = one
+
+_→3_ : Three → Three → Three
+half →3 zero = zero
+one →3 zero = zero
+one →3 half = half
+_ →3 _ = one
+
+isPoset2 : Poset Two
 isPoset2 = MkPoset _≤2_ aux₁ aux₂ aux₃
  where
-  aux₁ : {a : 𝔹} → a ≤2 a ≡ tt
+  aux₁ : {a : Two} → a ≤2 a ≡ tt
   aux₁ {tt} = refl
   aux₁ {ff} = refl
 
-  aux₂ : {a b c : 𝔹} → a ≤2 b ≡ tt → b ≤2 c ≡ tt → a ≤2 c ≡ tt
+  aux₂ : {a b c : Two} → a ≤2 b ≡ tt → b ≤2 c ≡ tt → a ≤2 c ≡ tt
   aux₂ {tt} {tt} {ff} x x₁ = x₁
   aux₂ {tt} {ff} {ff} x x₁ = x
   aux₂ {tt} {tt} {tt} x x₁ = refl
@@ -29,17 +62,11 @@ isPoset2 = MkPoset _≤2_ aux₁ aux₂ aux₃
   aux₂ {ff} {ff} {ff} x x₁ = refl
   aux₂ {tt} {ff} {tt} x x₁ = refl  
 
-  aux₃ : {a b : 𝔹} → a ≤2 b ≡ tt → b ≤2 a ≡ tt → a ≡ b
+  aux₃ : {a b : Two} → a ≤2 b ≡ tt → b ≤2 a ≡ tt → a ≡ b
   aux₃ {tt} {tt} x x₁ = refl
   aux₃ {tt} {ff} x x₁ = sym x
   aux₃ {ff} {tt} x x₁ = x₁
   aux₃ {ff} {ff} x x₁ = refl
-
-_≤3_ : Three → Three → 𝔹
-half ≤3 zero = ff
-one ≤3 zero = ff
-one ≤3 half = ff
-_ ≤3 _ = tt
 
 isPoset3 : Poset Three
 isPoset3 = MkPoset _≤3_ (λ {a} → aux₁ {a}) (λ{a b c} → aux₂ {a}{b}{c}) aux₃
@@ -88,14 +115,11 @@ isPoset3 = MkPoset _≤3_ (λ {a} → aux₁ {a}) (λ{a b c} → aux₂ {a}{b}{c
    aux₃ {one} {zero} p₁ p₂ = ⊥-elim (ff≡tt p₁)
    aux₃ {one} {half} p₁ p₂ = ⊥-elim (ff≡tt p₁)
    aux₃ {one} {one} p₁ p₂ = refl
-
-_⊗2_ : 𝔹 → 𝔹 → 𝔹
-_⊗2_ = _&&_
-
-isMonPoset2 : MonPoset 𝔹
+   
+isMonPoset2 : MonPoset Two
 isMonPoset2 = MkMonPoset _⊗2_ tt isPoset2 (λ {a b c} → aux₁ {a}{b}{c}) refl aux₂ (λ {a b} → aux₃ {a}{b}) aux₄
   where
-    aux₁ : {a b c : 𝔹} → a && b && c ≡ (a && b) && c
+    aux₁ : {a b c : Two} → a && b && c ≡ (a && b) && c
     aux₁ {tt} {tt} {tt} = refl
     aux₁ {tt} {tt} {ff} = refl
     aux₁ {tt} {ff} {tt} = refl
@@ -105,17 +129,17 @@ isMonPoset2 = MkMonPoset _⊗2_ tt isPoset2 (λ {a b c} → aux₁ {a}{b}{c}) re
     aux₁ {ff} {ff} {tt} = refl
     aux₁ {ff} {ff} {ff} = refl
 
-    aux₂ : {a : 𝔹} → a && tt ≡ a
+    aux₂ : {a : Two} → a && tt ≡ a
     aux₂ {tt} = refl
     aux₂ {ff} = refl
 
-    aux₃ : {a b : 𝔹} → a && b ≡ b && a
+    aux₃ : {a b : Two} → a && b ≡ b && a
     aux₃ {tt} {tt} = refl
     aux₃ {tt} {ff} = refl
     aux₃ {ff} {tt} = refl
     aux₃ {ff} {ff} = refl
 
-    aux₄ : {a b : 𝔹} → a ≤2 b ≡ tt → {c : 𝔹} → (a && c) ≤2 (b && c) ≡ tt
+    aux₄ : {a b : Two} → a ≤2 b ≡ tt → {c : Two} → (a && c) ≤2 (b && c) ≡ tt
     aux₄ {tt} {tt} x {tt} = refl
     aux₄ {tt} {tt} x {ff} = refl
     aux₄ {tt} {ff} x {tt} = x
@@ -124,17 +148,6 @@ isMonPoset2 = MkMonPoset _⊗2_ tt isPoset2 (λ {a b c} → aux₁ {a}{b}{c}) re
     aux₄ {ff} {tt} x {ff} = refl
     aux₄ {ff} {ff} x {tt} = refl
     aux₄ {ff} {ff} x {ff} = refl
-
-_⊗3_ : Three → Three → Three
-zero ⊗3 zero = zero
-zero ⊗3 half = zero
-zero ⊗3 one = zero
-half ⊗3 zero = zero
-half ⊗3 half = half
-half ⊗3 one = half
-one ⊗3 zero = zero
-one ⊗3 half = half
-one ⊗3 one = one
 
 assoc3 : {a b c : Three} → a ⊗3 (b ⊗3 c) ≡ (a ⊗3 b) ⊗3 c
 assoc3 {zero} {zero} {zero} = refl
@@ -218,20 +231,16 @@ comp3 {one} {one} x {one} = refl
 isMonPoset3 : MonPoset Three
 isMonPoset3 = MkMonPoset _⊗3_ one isPoset3 (λ{a b c} → assoc3 {a}{b}{c}) left-ident3 right-ident3 (λ{a b} → symm3 {a}{b}) (λ {a b} → comp3 {a}{b})
 
-_→2_ : 𝔹 → 𝔹 → 𝔹
-tt →2 ff = ff
-_ →2 _ = tt
-
-isLineale2 : Lineale 𝔹
+isLineale2 : Lineale Two
 isLineale2 = MkLineale isMonPoset2 _→2_ aux₁ aux₂
  where
-   aux₁ : (a b : 𝔹) → (a && a →2 b) ≤2 b ≡ tt
+   aux₁ : (a b : Two) → (a && a →2 b) ≤2 b ≡ tt
    aux₁ tt tt = refl
    aux₁ tt ff = refl
    aux₁ ff tt = refl
    aux₁ ff ff = refl
 
-   aux₂ : {a b y : 𝔹} → (y && a) ≤2 b ≡ tt → y ≤2 (a →2 b) ≡ tt
+   aux₂ : {a b y : Two} → (y && a) ≤2 b ≡ tt → y ≤2 (a →2 b) ≡ tt
    aux₂ {tt} {tt} {tt} x = refl
    aux₂ {tt} {tt} {ff} x = refl
    aux₂ {tt} {ff} {tt} x = x
@@ -240,12 +249,6 @@ isLineale2 = MkLineale isMonPoset2 _→2_ aux₁ aux₂
    aux₂ {ff} {tt} {ff} x = refl
    aux₂ {ff} {ff} {tt} x = refl
    aux₂ {ff} {ff} {ff} x = refl
-
-_→3_ : Three → Three → Three
-half →3 zero = zero
-one →3 zero = zero
-one →3 half = half
-_ →3 _ = one
 
 adj3 : {a b y : Three} → (y ⊗3 a) ≤3 b ≡ tt → y ≤3 (a →3 b) ≡ tt
 adj3 {zero} {zero} {zero} p = refl

@@ -37,6 +37,6 @@ record Lineale (L : Set) : Set where
    l-imp : L → L → L
    
    rlcomp : (a b : L) → ¡ (rel (poset mposet)) ((mul mposet) a (l-imp a b)) b
-   adj : {a b y : L} → ¡ (rel (poset mposet)) (mul mposet y a) b → ¡ (rel (poset mposet)) y (l-imp a b)
+   adj : {a b y : L} → ¡ (rel (poset mposet)) (mul mposet a y) b → ¡ (rel (poset mposet)) y (l-imp a b)
 
 open Lineale public

@@ -244,7 +244,7 @@ _⊸ₒ_ : Obj → Obj → Obj
 
 _⊸ₐ_ : {A B C D : Obj} → Hom C A → Hom B D → Hom (A ⊸ₒ B) (C ⊸ₒ D)
 _⊸ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁) (g , G , p₂) =
-  h , H , {!!}
+  h , H , (λ {u y} → cond {u}{y})
  where
   h : Σ (U → V) (λ x → U → Y → X) → Σ (W → S) (λ x → W → T → Z)
   h (i , I) = (λ w → g (i (f w))) , (λ w t → F w (I (f w) (G (i (f w)) t)))
@@ -252,133 +252,133 @@ _⊸ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁)
   H (i , I) (w , t) = f w , G (i (f w)) t
   cond : {u : Σ (U → V) (λ x → U → Y → X)} {y : Σ W (λ x → T)} →
       rel (poset (mposet l-pf)) (⊸-cond {α = α}{β} u (H u y)) (⊸-cond {α = γ}{δ} (h u) y) ≡ tt
-  cond {i , I}{w , y} = {!!}
+  cond {i , I}{w , y} = l-imp-funct {L} {l-pf} p₁ p₂
 
--- cur : {A B C : Obj}
---   → Hom (A ⊗ₒ B) C
---   → Hom A (B ⊸ₒ C)
--- cur {U , X , α}{V , Y , β}{W , Z , γ} (f , F , p₁)
---   = (λ u → (λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) , (λ u r → fst (F (u , (fst r)) (snd r))) , cond 
---  where
---    cond : {u : U} {y : Σ V (λ x → Z)}
---      → α u (fst (F (u , fst y) (snd y)))
---      → ⊸-cond {α = β}{γ} ((λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) y   
---    cond {u}{v , z} p₂ p₃ with (p₁ {u , v}{z})
---    ... | p₄ with F (u , v) z
---    ... | (x , y) = p₄ (p₂ , p₃)
+cur : {A B C : Obj}
+  → Hom (A ⊗ₒ B) C
+  → Hom A (B ⊸ₒ C)
+cur {U , X , α}{V , Y , β}{W , Z , γ} (f , F , p₁)
+  = (λ u → (λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) , (λ u r → fst (F (u , (fst r)) (snd r))) , (λ {u y} → cond {u}{y})
+ where
+   cond : {u : U} {y : Σ V (λ x → Z)}
+     → rel (poset (mposet l-pf)) (α u (fst (F (u , fst y) (snd y))))
+      (⊸-cond {α = β}{γ} ((λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) y)
+      ≡ tt
+   cond {u}{v , z} with p₁ {u , v}{z} 
+   ... | p₂ with F (u , v) z
+   ... | t₁ , t₂ rewrite sym (symm (mposet l-pf) {(β v t₂)}{(α u t₁)}) = adj l-pf p₂    
+
+cur-≡h : ∀{A B C}{f₁ f₂ : Hom (A ⊗ₒ B) C}
+  → f₁ ≡h f₂
+  → cur f₁ ≡h cur f₂
+cur-≡h {U , X , α}{V , Y , β}{W , Z , γ}
+       {f₁ , F₁ , p₁}{f₂ , F₂ , p₂} (p₃ , p₄)
+       rewrite p₃ | p₄ = refl , refl
+
+uncur : {A B C : Obj}
+  → Hom A (B ⊸ₒ C)
+  → Hom (A ⊗ₒ B) C
+uncur {U , X , α}{V , Y , β}{W , Z , γ} (f , F , p₁)
+  = let h = λ r → fst (f (fst r)) (snd r)
+        H = λ r z → F (fst r) (snd r , z) , snd (f (fst r)) (snd r) z
+     in h , (H , (λ {u y} → cond {u}{y}))
+ where
+  cond : {u : Σ U (λ x → V)} {y : Z} →
+      rel (poset (mposet l-pf))
+      ((α ⊗ᵣ β) u (F (fst u) (snd u , y) , snd (f (fst u)) (snd u) y))
+      (γ (fst (f (fst u)) (snd u)) y)
+      ≡ tt
+  cond {u , v}{z} with p₁ {u}{v , z}
+  ... | p₂ with f u
+  ... | t₁ , t₂ rewrite symm (mposet l-pf) {α u (F u (v , z))}{β v (t₂ v z)} = adj-inv {L} {l-pf} p₂ 
+  
+cur-uncur-bij₁ : ∀{A B C}{f : Hom (A ⊗ₒ B) C}
+  → uncur (cur f) ≡h f
+cur-uncur-bij₁ {U , X , α}{V , Y , β}{W , Z , γ}{f , F , p₁} = ext-set aux₁ , ext-set aux₂
+ where
+   aux₁ : {a : Σ U (λ x → V)} → f (fst a , snd a) ≡ f a
+   aux₁ {u , v} = refl
+   aux₂ : {a : Σ U (λ x → V)} → (λ z → fst (F (fst a , snd a) z) , snd (F (fst a , snd a) z)) ≡ F a
+   aux₂ {u , v} = ext-set aux₃
+    where
+      aux₃ : {a : Z} → (fst (F (u , v) a) , snd (F (u , v) a)) ≡ F (u , v) a
+      aux₃ {z} with F (u , v) z
+      ... | x , y = refl
+
+cur-uncur-bij₂ : ∀{A B C}{g : Hom A (B ⊸ₒ C)}
+  → cur (uncur g) ≡h g
+cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set aux) , ext-set (ext-set aux')
+ where
+  aux : {a : U} → ((λ v → fst (g a) v) , (λ v z → snd (g a) v z)) ≡ g a
+  aux {u} with g u
+  ... | i , I = refl
+  aux' : {u : U}{r : Σ V (λ x → Z)} → G u (fst r , snd r) ≡ G u r
+  aux' {u}{v , z} = refl
+
+-- The of-course exponential:
+!ₒ-cond : ∀{U X : Set} → (α : U → X → L) → U → 𝕃 X → L
+!ₒ-cond {U}{X} α u [] = unit (mposet l-pf) 
+!ₒ-cond {U}{X} α u (x :: xs) = (α u x) ⊗L (!ₒ-cond α u xs) 
+
+!ₒ-cond-++ : ∀{U X : Set}{α : U → X → L}{u : U}{l₁ l₂ : 𝕃 X}
+  → !ₒ-cond α u (l₁ ++ l₂) ≡ ((!ₒ-cond α u l₁) ⊗L (!ₒ-cond α u l₂))
+!ₒ-cond-++ {U}{X}{α}{u}{[]}{l₂} =  sym (left-ident (mposet l-pf) { !ₒ-cond α u l₂}) 
+!ₒ-cond-++ {U}{X}{α}{u}{x :: xs}{l₂} rewrite !ₒ-cond-++ {U}{X}{α}{u}{xs}{l₂} = assoc (mposet l-pf) {(α u x)}{(!ₒ-cond α u xs)}{(!ₒ-cond α u l₂)}
+
+!ₒ : Obj → Obj
+!ₒ (U , X , α) = U ,  X * , !ₒ-cond {U}{X} α
+
+!ₐ-s : ∀{U Y X : Set}
+  → (U → Y → X)
+  → (U → Y * → X *)
+!ₐ-s f u l = map (f u) l
+
+!ₐ : {A B : Obj} → Hom A B → Hom (!ₒ A) (!ₒ B)
+!ₐ {U , X , α}{V , Y , β} (f , F , p) = f , (!ₐ-s F , (λ {u y} → aux {u}{y}))
+ where
+   aux : {u : U} {y : 𝕃 Y} → rel (poset (mposet l-pf)) (!ₒ-cond α u (map (F u) y)) (!ₒ-cond β (f u) y) ≡ tt
+   aux {u}{[]} =  prefl (poset (mposet l-pf)) 
+   aux {u}{y :: ys} with aux {u}{ys}
+   ... | IH = l-mul-funct {p = mposet l-pf} p IH
+
+-- Of-course is a comonad:
+ε : ∀{A} → Hom (!ₒ A) A
+ε {U , X , α} = id-set , (λ u x → [ x ]) , (λ {u}{x} → cond {u}{x})
+ where
+  cond : {u : U} {y : X} → rel (poset (mposet l-pf))
+      (mul (mposet l-pf) (α u y) (unit (mposet l-pf))) (α u y)
+      ≡ tt
+  cond {u}{x} rewrite right-ident (mposet l-pf) {α u x} = prefl (poset (mposet l-pf))
+
+δ-s : {U X : Set} → U → 𝕃 (𝕃 X) → 𝕃 X
+δ-s u xs = foldr _++_ [] xs
+  
+δ : ∀{A} → Hom (!ₒ A) (!ₒ (!ₒ A))
+δ {U , X , α} = id-set , δ-s , (λ {u ls} → cond {u}{ls})
+ where
+   cond : {u : U} {y : 𝕃 (𝕃 X)} →
+      rel (poset (mposet l-pf)) (!ₒ-cond α u (foldr _++_ [] y))
+      (!ₒ-cond (!ₒ-cond α) u y)
+      ≡ tt
+   cond {u}{[]} = prefl (poset (mposet l-pf))
+   cond {u}{l :: ls} with !ₒ-cond-++ {U}{X}{α}{u}{l}{foldr _++_ [] ls}
+   ... | p' rewrite p' = compat-sym {p = mposet l-pf} (cond {u} {ls})
    
+comonand-diag₁ : ∀{A}
+  → (δ {A}) ○ (!ₐ (δ {A})) ≡h (δ {A}) ○ (δ { !ₒ A})
+comonand-diag₁ {U , X , α} = refl , ext-set (λ {x} → ext-set (λ {l} → aux {x} {l}))
+ where
+  aux : ∀{x : U}{l : 𝕃 (𝕃 (𝕃 X))}
+    → foldr _++_ [] (!ₐ-s (λ u xs
+    → foldr _++_ [] xs) x l) ≡ foldr _++_ [] (foldr _++_ [] l)
+  aux {u}{[]} = refl
+  aux {u}{x :: xs} rewrite aux {u}{xs} = foldr-append {_}{_}{X}{X}{x}{foldr _++_ [] xs}
 
--- cur-≡h : ∀{A B C}{f₁ f₂ : Hom (A ⊗ₒ B) C}
---   → f₁ ≡h f₂
---   → cur f₁ ≡h cur f₂
--- cur-≡h {U , X , α}{V , Y , β}{W , Z , γ}
---        {f₁ , F₁ , p₁}{f₂ , F₂ , p₂} (p₃ , p₄)
---        rewrite p₃ | p₄ = refl , refl
-
--- cur-cong : ∀{A B C}{f₁ f₂ : Hom (A ⊗ₒ B) C} → f₁ ≡h f₂ → cur f₁ ≡h cur f₂
--- cur-cong {(U , X , α)} {(V , Y , β)} {(W , Z , γ)}{f₁ , F₁ , _}{f₂ , F₂ , _} (p₁ , p₂) rewrite p₁ | p₂ = refl , refl
-
-
--- uncur : {A B C : Obj}
---   → Hom A (B ⊸ₒ C)
---   → Hom (A ⊗ₒ B) C
--- uncur {U , X , α}{V , Y , β}{W , Z , γ} (f , F , p₁)
---   = let h = λ r → fst (f (fst r)) (snd r)
---         H = λ r z → F (fst r) (snd r , z) , snd (f (fst r)) (snd r) z
---      in h , (H , cond)
---  where
---   cond : {u : Σ U (λ x → V)} {y : Z} →
---       (α ⊗ᵣ β) u (F (fst u) (snd u , y) , snd (f (fst u)) (snd u) y) →
---       γ (fst (f (fst u)) (snd u)) y
---   cond {u , v}{z} (p₂ , p₃) with p₁ {u} {v , z}
---   ... | p₄ with f u
---   ... | i , I = p₄ p₂ p₃
-  
--- cur-uncur-bij₁ : ∀{A B C}{f : Hom (A ⊗ₒ B) C}
---   → uncur (cur f) ≡h f
--- cur-uncur-bij₁ {U , X , α}{V , Y , β}{W , Z , γ}{f , F , p₁} = ext-set aux₁ , ext-set aux₂
---  where
---    aux₁ : {a : Σ U (λ x → V)} → f (fst a , snd a) ≡ f a
---    aux₁ {u , v} = refl
---    aux₂ : {a : Σ U (λ x → V)} → (λ z → fst (F (fst a , snd a) z) , snd (F (fst a , snd a) z)) ≡ F a
---    aux₂ {u , v} = ext-set aux₃
---     where
---       aux₃ : {a : Z} → (fst (F (u , v) a) , snd (F (u , v) a)) ≡ F (u , v) a
---       aux₃ {z} with F (u , v) z
---       ... | x , y = refl
-
--- cur-uncur-bij₂ : ∀{A B C}{g : Hom A (B ⊸ₒ C)}
---   → cur (uncur g) ≡h g
--- cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set aux) , ext-set (ext-set aux')
---  where
---   aux : {a : U} → ((λ v → fst (g a) v) , (λ v z → snd (g a) v z)) ≡ g a
---   aux {u} with g u
---   ... | i , I = refl
---   aux' : {u : U}{r : Σ V (λ x → Z)} → G u (fst r , snd r) ≡ G u r
---   aux' {u}{v , z} = refl
-
-
--- -- The of-course exponential:
--- !ₒ-cond : ∀{U X : Set} → (α : U → X → Set) → U → 𝕃 X → Set  
--- !ₒ-cond {U}{X} α u [] = ⊤
--- !ₒ-cond {U}{X} α u (x :: xs) = (α u x) × (!ₒ-cond α u xs)
-
--- !ₒ-cond-++ : ∀{U X : Set}{α : U → X → Set}{u : U}{l₁ l₂ : 𝕃 X}
---   → !ₒ-cond α u (l₁ ++ l₂) ≡ ((!ₒ-cond α u l₁) × (!ₒ-cond α u l₂))
--- !ₒ-cond-++ {U}{X}{α}{u}{[]}{l₂} = ∧-unit
--- !ₒ-cond-++ {U}{X}{α}{u}{x :: xs}{l₂} rewrite !ₒ-cond-++ {U}{X}{α}{u}{xs}{l₂} = ∧-assoc
-
--- !ₒ : Obj → Obj
--- !ₒ (U , X , α) = U ,  X * , !ₒ-cond α
-
--- !ₐ-s : ∀{U Y X : Set}
---   → (U → Y → X)
---   → (U → Y * → X *)
--- !ₐ-s f u l = map (f u) l
-
--- !ₐ : {A B : Obj} → Hom A B → Hom (!ₒ A) (!ₒ B)
--- !ₐ {U , X , α}{V , Y , β} (f , F , p) = f , (!ₐ-s F , aux)
---  where
---    aux : {u : U} {y : 𝕃 Y} → !ₒ-cond α u (!ₐ-s F u y) → !ₒ-cond β (f u) y
---    aux {u}{[]} p₁ = triv
---    aux {u}{y :: ys} (p₁ , p₂) = p p₁ , aux p₂
-
--- -- Of-course is a comonad:
--- ε : ∀{A} → Hom (!ₒ A) A
--- ε {U , X , α} = id-set , (λ u x → [ x ]) , fst
-
--- δ-s : {U X : Set} → U → 𝕃 (𝕃 X) → 𝕃 X
--- δ-s u xs = foldr _++_ [] xs
-  
--- δ : ∀{A} → Hom (!ₒ A) (!ₒ (!ₒ A))
--- δ {U , X , α} = id-set , δ-s , cond
---  where
---    cond : {u : U} {y : 𝕃 (𝕃 X)} → !ₒ-cond α u (foldr _++_ [] y) → !ₒ-cond (!ₒ-cond α) u y
---    cond {u}{[]} p = triv
---    cond {u}{l :: ls} p with !ₒ-cond-++ {U}{X}{α}{u}{l}{foldr _++_ [] ls}
---    ... | p' rewrite p' with p
---    ... | p₂ , p₃ = p₂ , cond {u}{ls} p₃    
-
--- comonand-diag₁ : ∀{A}
---   → (δ {A}) ○ (!ₐ (δ {A})) ≡h (δ {A}) ○ (δ { !ₒ A})
--- comonand-diag₁ {U , X , α} = refl , ext-set (λ {x} → ext-set (λ {l} → aux {x} {l}))
---  where
---   aux : ∀{x : U}{l : 𝕃 (𝕃 (𝕃 X))}
---     → foldr _++_ [] (!ₐ-s (λ u xs
---     → foldr _++_ [] xs) x l) ≡ foldr _++_ [] (foldr _++_ [] l)
---   aux {u}{[]} = refl
---   aux {u}{x :: xs} rewrite aux {u}{xs} = foldr-append {_}{_}{X}{X}{x}{foldr _++_ [] xs}
-
-
--- foldr-map : ∀{ℓ}{A : Set ℓ}{l : 𝕃 A} → l ≡ foldr _++_ [] (map (λ x₁ → x₁ :: []) l)
--- foldr-map {_}{_}{[]} = refl
--- foldr-map {ℓ}{A}{x :: xs} rewrite sym (foldr-map {ℓ}{A}{xs}) = refl
-
--- comonand-diag₂ : ∀{A}
---   → (δ {A}) ○ (ε { !ₒ A}) ≡h (δ {A}) ○ (!ₐ (ε {A}))
--- comonand-diag₂ {U , X , α} =
---   refl , ext-set (λ {u} → ext-set (λ {l} → aux {l}))
---   where
---     aux : ∀{a : 𝕃 X} → a ++ [] ≡ foldr _++_ [] (map (λ x → x :: []) a)
---     aux {[]} = refl
---     aux {x :: xs} rewrite (++[] xs) | sym (foldr-map {_}{X}{xs}) = refl    
+comonand-diag₂ : ∀{A}
+  → (δ {A}) ○ (ε { !ₒ A}) ≡h (δ {A}) ○ (!ₐ (ε {A}))
+comonand-diag₂ {U , X , α} =
+  refl , ext-set (λ {u} → ext-set (λ {l} → aux {l}))
+  where
+    aux : ∀{a : 𝕃 X} → a ++ [] ≡ foldr _++_ [] (map (λ x → x :: []) a)
+    aux {[]} = refl
+    aux {x :: xs} rewrite (++[] xs) | sym (foldr-map {_}{X}{xs}) = refl    
