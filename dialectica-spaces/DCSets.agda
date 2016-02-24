@@ -2,8 +2,17 @@ open import prelude
 open import lineale
 open import lineale-thms
 
+-----------------------------------------------------------------------
+-- The definition of the dialectica category DC on Sets              --
+-- parameterized by an arbitrary lineale.  DC is described in        --
+-- Valeria de Paiva's thesis:                                        --
+--   http://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-213.pdf          --
+-----------------------------------------------------------------------
 module DCSets (L : Set) (l-pf : Lineale L) where
 
+-----------------------------------------------------------------------
+-- Initial local definitions to make reading types easier            --
+-----------------------------------------------------------------------
 _≤L_ : L → L → Set
 x ≤L y = ¡ (rel (poset (mposet l-pf))) x y
 
@@ -44,6 +53,10 @@ adjL : {a b y : L} →
       rel (poset (mposet l-pf)) (mul (mposet l-pf) a y) b ≡ tt →
       rel (poset (mposet l-pf)) y (l-imp l-pf a b) ≡ tt
 adjL = adj l-pf
+
+-----------------------------------------------------------------------
+-- We have a category                                                --
+-----------------------------------------------------------------------
 
 -- The objects:
 Obj : Set₁
@@ -123,7 +136,7 @@ _≡h_ {(U , X , α)}{(V , Y , β)} (f , F , p₁) (g , G , p₂) = f ≡ g × F
 ○-idr {U , X , _}{V , Y , _}{f , F , _} = refl , refl
 
 -----------------------------------------------------------------------
--- SMC Structure                                                     --
+-- SMCC Structure                                                    --
 -----------------------------------------------------------------------
 
 -- The tensor functor: ⊗
@@ -320,7 +333,11 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
   aux' : {u : U}{r : Σ V (λ x → Z)} → G u (fst r , snd r) ≡ G u r
   aux' {u}{v , z} = refl
 
--- The of-course exponential:
+-----------------------------------------------------------------------
+-- The of-course exponential                                         --
+-----------------------------------------------------------------------
+
+-- On objects:
 !ₒ-cond : ∀{U X : Set} → (α : U → X → L) → U → 𝕃 X → L
 !ₒ-cond {U}{X} α u [] = unitL
 !ₒ-cond {U}{X} α u (x :: xs) = (α u x) ⊗L (!ₒ-cond α u xs) 
@@ -333,6 +350,7 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
 !ₒ : Obj → Obj
 !ₒ (U , X , α) = U ,  X * , !ₒ-cond {U}{X} α
 
+-- On arrows:
 !ₐ-s : ∀{U Y X : Set}
   → (U → Y → X)
   → (U → Y * → X *)
@@ -346,13 +364,14 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
    aux {u}{y :: ys} with aux {u}{ys}
    ... | IH = l-mul-funct {p = mposet l-pf} p IH
 
--- Of-course is a comonad:
+-- The unit of the comonad:
 ε : ∀{A} → Hom (!ₒ A) A
 ε {U , X , α} = id-set , (λ u x → [ x ]) , (λ {u}{x} → cond {u}{x})
  where
   cond : {u : U} {y : X} → ((α u y) ⊗L unitL) ≤L (α u y)
   cond {u}{x} rewrite right-identL {α u x} = reflL
 
+-- The duplicator of the comonad:
 δ-s : {U X : Set} → U → 𝕃 (𝕃 X) → 𝕃 X
 δ-s u xs = foldr _++_ [] xs
   
@@ -364,7 +383,8 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
    cond {u}{[]} = reflL
    cond {u}{l :: ls} with !ₒ-cond-++ {U}{X}{α}{u}{l}{foldr _++_ [] ls}
    ... | p' rewrite p' = compat-sym {p = mposet l-pf} (cond {u} {ls})
-   
+
+-- The proper diagrams:
 comonand-diag₁ : ∀{A}
   → (δ {A}) ○ (!ₐ (δ {A})) ≡h (δ {A}) ○ (δ { !ₒ A})
 comonand-diag₁ {U , X , α} = refl , ext-set (λ {x} → ext-set (λ {l} → aux {x} {l}))

@@ -1,3 +1,10 @@
+-----------------------------------------------------------------------
+-- The definition of lineales. They are used to enforce the weak     --
+-- adjunction condition on arrows in dialectica categories.          --
+-- Lineales are due to Martin Hyland and Valeria de Paiva:           --
+--   http://www.cs.bham.ac.uk/~vdp/publications/Lineales91.pdf       --
+-----------------------------------------------------------------------
+
 module lineale where
 
 open import prelude
