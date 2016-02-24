@@ -38,7 +38,7 @@ comp : {A B C : Obj} → Hom A B → Hom B C → Hom A C
 comp {(U , X , α)} {(V , Y , β)} {(W , Z , γ)} (f , F , p₁) (g , G , p₂) =
   (g ∘ f , (λ u z → F u (G (f u) z)), aux₁)
  where
-   aux₁ : {u : U} {y : Z} → rel (poset (mposet l-pf)) (α u (F u (G (f u) y))) (γ (g (f u)) y) ≡ tt
+   aux₁ : {u : U} {y : Z} → (α u (F u (G (f u) y))) ≤DC (γ (g (f u)) y)
    aux₁ {u}{z} = transDC (p₁ {u} {G (f u) z}) p₂
    
 infixl 5 _○_
@@ -100,7 +100,6 @@ _≡h_ {(U , X , α)}{(V , Y , β)} (f , F , p₁) (g , G , p₂) = f ≡ g × F
 ○-idr : ∀{A B}{f : Hom A B} → f ○ id ≡h f
 ○-idr {U , X , _}{V , Y , _}{f , F , _} = refl , refl
 
-
 -----------------------------------------------------------------------
 -- SMC Structure                                                     --
 -----------------------------------------------------------------------
@@ -119,9 +118,7 @@ _⊗ₐ_ : {A B C D : Obj} → Hom A C → Hom B D → Hom (A ⊗ₒ B) (C ⊗�
 _⊗ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁) (g , G , p₂) = ⟨ f , g ⟩ , F⊗ {F = F}{G} , (λ {u} {y} → p⊗ {u}{y})
  where
   p⊗ : {u : Σ U (λ x → V)} {y : Σ Z (λ x → T)} →
-      rel (poset (mposet l-pf)) ((α ⊗ᵣ β) u (F⊗ {F = F}{G = G} u y))
-      ((γ ⊗ᵣ δ) (⟨ f , g ⟩ u) y)
-      ≡ tt
+      ((α ⊗ᵣ β) u (F⊗ {F = F}{G = G} u y)) ≤DC ((γ ⊗ᵣ δ) (⟨ f , g ⟩ u) y)
   p⊗ {u , v}{z , t} with compat-sym {L}{mposet l-pf}{(β v (G v t))}{(δ (g v) t)} p₂ {(γ (f u) z)}
   ... | cp₂ with compatDC (p₁ {u}{z}) {β v (G v t)}
   ... | cp₁ = transDC cp₁ cp₂
@@ -138,8 +135,7 @@ J = (⊤ , ⊤ , (λ x y → unitDC))
 
 -- The left-unitor:
 λ⊗-p : ∀{U X α}{u : Σ ⊤ (λ x → U)} {y : X} →
-      rel (poset (mposet l-pf)) ((ι ⊗ᵣ α) u (triv , y)) (α (snd u) y) ≡
-      tt
+      ((ι ⊗ᵣ α) u (triv , y)) ≤DC (α (snd u) y)
 λ⊗-p {U}{X}{α}{(triv , u)}{x} rewrite left-ident (mposet l-pf) {(α u x)} = reflDC
    
 λ⊗ : ∀{A : Obj} → Hom (I ⊗ₒ A) A
@@ -149,8 +145,7 @@ J = (⊤ , ⊤ , (λ x y → unitDC))
 λ⊗-inv {(U , X , α)} = (λ u → triv , u) , (λ _ r → snd r) , (λ {u}{y} → λ⊗-inv-p {U}{X}{α}{u}{y})
  where
   λ⊗-inv-p : ∀{U X α}{u : U} {y : Σ ⊤ (λ x → X)} →
-      rel (poset (mposet l-pf)) (α u (snd y)) ((ι ⊗ᵣ α) (triv , u) y) ≡
-      tt
+      (α u (snd y)) ≤DC ((ι ⊗ᵣ α) (triv , u) y) 
   λ⊗-inv-p {U}{X}{α}{u}{triv , x} rewrite left-ident (mposet l-pf) {(α u x)} = reflDC
 
 -- The right-unitor:
@@ -158,8 +153,7 @@ J = (⊤ , ⊤ , (λ x y → unitDC))
 ρ⊗ {(U , X , α)} = fst , (λ r x → x , triv) , (λ {u}{y} → ρ⊗-p {U}{X}{α}{u}{y})
  where
   ρ⊗-p : ∀{U X α}{u : Σ U (λ x → ⊤)} {y : X} →
-      rel (poset (mposet l-pf)) ((α ⊗ᵣ ι) u (y , triv)) (α (fst u) y) ≡
-      tt
+      ((α ⊗ᵣ ι) u (y , triv)) ≤DC (α (fst u) y)
   ρ⊗-p {U}{X}{α}{(u , triv)}{x} rewrite right-ident (mposet l-pf) {(α u x)} = reflDC
 
 
@@ -167,8 +161,7 @@ J = (⊤ , ⊤ , (λ x y → unitDC))
 ρ⊗-inv {(U , X , α)} = (λ u → u , triv) , (λ u r → fst r) , (λ {u} {y} → ρ⊗-p-inv {U} {X} {α} {u} {y})
  where
    ρ⊗-p-inv : ∀{U X α}{u : U} {y : Σ X (λ x → ⊤)} →
-      rel (poset (mposet l-pf)) (α u (fst y)) ((α ⊗ᵣ ι) (u , triv) y) ≡
-      tt
+      (α u (fst y)) ≤DC ((α ⊗ᵣ ι) (u , triv) y) 
    ρ⊗-p-inv {U}{X}{α}{u}{x , triv} rewrite right-ident (mposet l-pf) {(α u x)} = reflDC
 
 -- Symmetry:
@@ -176,9 +169,7 @@ J = (⊤ , ⊤ , (λ x y → unitDC))
 β⊗ {(U , X , α)}{(V , Y , β)} = twist-× , (λ r₁ r₂ → twist-× r₂) , (λ {u y} → β⊗-p {U}{V}{Y}{X}{α}{β}{u}{y})
  where
    β⊗-p : ∀{U V Y X α β}{u : Σ U (λ x → V)} {y : Σ Y (λ x → X)} →
-      rel (poset (mposet l-pf)) ((α ⊗ᵣ β) u (twist-× y))
-      ((β ⊗ᵣ α) (twist-× u) y)
-      ≡ tt
+      ((α ⊗ᵣ β) u (twist-× y)) ≤DC ((β ⊗ᵣ α) (twist-× u) y)
    β⊗-p {U}{V}{Y}{X}{α}{β}{u , v}{y , x} rewrite symm (mposet l-pf) {α u x}{β v y} = reflDC
 
 -- The associator:
@@ -190,9 +181,7 @@ Fα-inv (u , (v , w)) ((x , y) , z) = x , y , z
  where
    α-inv-cond : {u : Σ U (λ x → Σ V (λ x₁ → W))}
       {y : Σ (Σ X (λ x → Y)) (λ x → Z)} →
-      rel (poset (mposet l-pf)) ((α ⊗ᵣ (β ⊗ᵣ γ)) u (Fα-inv u y))
-      (((α ⊗ᵣ β) ⊗ᵣ γ) (rl-assoc-× u) y)
-      ≡ tt
+      ((α ⊗ᵣ (β ⊗ᵣ γ)) u (Fα-inv u y)) ≤DC (((α ⊗ᵣ β) ⊗ᵣ γ) (rl-assoc-× u) y)
    α-inv-cond {u , (v , w)}{(x , y) , z} rewrite assoc (mposet l-pf) {α u x}{β v y}{γ w z} = reflDC
 
 
@@ -204,9 +193,7 @@ Fα {V}{W}{X}{Y}{U}{Z} ((u , v) , w) (x , (y , z)) = (x , y) , z
  where
   α-cond : {u : Σ (Σ U (λ x → V)) (λ x → W)}
        {y : Σ X (λ x → Σ Y (λ x₁ → Z))} →
-      rel (poset (mposet l-pf)) (((α ⊗ᵣ β) ⊗ᵣ γ) u (Fα u y))
-      ((α ⊗ᵣ (β ⊗ᵣ γ)) (lr-assoc-× u) y)
-      ≡ tt
+      (((α ⊗ᵣ β) ⊗ᵣ γ) u (Fα u y)) ≤DC ((α ⊗ᵣ (β ⊗ᵣ γ)) (lr-assoc-× u) y)
   α-cond {(u , v) , w}{x , (y , z)} rewrite assoc (mposet l-pf) {α u x}{β v y}{γ w z} = reflDC
 
 α⊗-id₁ : ∀{A B C} → (α⊗ {A}{B}{C}) ○ α⊗-inv ≡h id
@@ -251,7 +238,7 @@ _⊸ₐ_ {(U , X , α)}{(V , Y , β)}{(W , Z , γ)}{(S , T , δ)} (f , F , p₁)
   H : Σ (U → V) (λ x → U → Y → X) → Σ W (λ x → T) → Σ U (λ x → Y)
   H (i , I) (w , t) = f w , G (i (f w)) t
   cond : {u : Σ (U → V) (λ x → U → Y → X)} {y : Σ W (λ x → T)} →
-      rel (poset (mposet l-pf)) (⊸-cond {α = α}{β} u (H u y)) (⊸-cond {α = γ}{δ} (h u) y) ≡ tt
+      (⊸-cond {α = α}{β} u (H u y)) ≤DC (⊸-cond {α = γ}{δ} (h u) y)
   cond {i , I}{w , y} = l-imp-funct {L} {l-pf} p₁ p₂
 
 cur : {A B C : Obj}
@@ -261,9 +248,8 @@ cur {U , X , α}{V , Y , β}{W , Z , γ} (f , F , p₁)
   = (λ u → (λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) , (λ u r → fst (F (u , (fst r)) (snd r))) , (λ {u y} → cond {u}{y})
  where
    cond : {u : U} {y : Σ V (λ x → Z)}
-     → rel (poset (mposet l-pf)) (α u (fst (F (u , fst y) (snd y))))
-      (⊸-cond {α = β}{γ} ((λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) y)
-      ≡ tt
+     →     (α u (fst (F (u , fst y) (snd y))))
+       ≤DC (⊸-cond {α = β}{γ} ((λ v → f (u , v)) , (λ v z → snd (F (u , v) z))) y)   
    cond {u}{v , z} with p₁ {u , v}{z} 
    ... | p₂ with F (u , v) z
    ... | t₁ , t₂ rewrite sym (symm (mposet l-pf) {(β v t₂)}{(α u t₁)}) = adj l-pf p₂    
@@ -283,11 +269,8 @@ uncur {U , X , α}{V , Y , β}{W , Z , γ} (f , F , p₁)
         H = λ r z → F (fst r) (snd r , z) , snd (f (fst r)) (snd r) z
      in h , (H , (λ {u y} → cond {u}{y}))
  where
-  cond : {u : Σ U (λ x → V)} {y : Z} →
-      rel (poset (mposet l-pf))
-      ((α ⊗ᵣ β) u (F (fst u) (snd u , y) , snd (f (fst u)) (snd u) y))
-      (γ (fst (f (fst u)) (snd u)) y)
-      ≡ tt
+  cond : {u : Σ U (λ x → V)} {y : Z} →      
+      ((α ⊗ᵣ β) u (F (fst u) (snd u , y) , snd (f (fst u)) (snd u) y)) ≤DC (γ (fst (f (fst u)) (snd u)) y)
   cond {u , v}{z} with p₁ {u}{v , z}
   ... | p₂ with f u
   ... | t₁ , t₂ rewrite symm (mposet l-pf) {α u (F u (v , z))}{β v (t₂ v z)} = adj-inv {L} {l-pf} p₂ 
@@ -317,7 +300,7 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
 
 -- The of-course exponential:
 !ₒ-cond : ∀{U X : Set} → (α : U → X → L) → U → 𝕃 X → L
-!ₒ-cond {U}{X} α u [] = unit (mposet l-pf) 
+!ₒ-cond {U}{X} α u [] = unitDC
 !ₒ-cond {U}{X} α u (x :: xs) = (α u x) ⊗L (!ₒ-cond α u xs) 
 
 !ₒ-cond-++ : ∀{U X : Set}{α : U → X → L}{u : U}{l₁ l₂ : 𝕃 X}
@@ -336,8 +319,8 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
 !ₐ : {A B : Obj} → Hom A B → Hom (!ₒ A) (!ₒ B)
 !ₐ {U , X , α}{V , Y , β} (f , F , p) = f , (!ₐ-s F , (λ {u y} → aux {u}{y}))
  where
-   aux : {u : U} {y : 𝕃 Y} → rel (poset (mposet l-pf)) (!ₒ-cond α u (map (F u) y)) (!ₒ-cond β (f u) y) ≡ tt
-   aux {u}{[]} =  prefl (poset (mposet l-pf)) 
+   aux : {u : U} {y : 𝕃 Y} → (!ₒ-cond α u (map (F u) y)) ≤DC (!ₒ-cond β (f u) y)
+   aux {u}{[]} =  reflDC 
    aux {u}{y :: ys} with aux {u}{ys}
    ... | IH = l-mul-funct {p = mposet l-pf} p IH
 
@@ -345,10 +328,8 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
 ε : ∀{A} → Hom (!ₒ A) A
 ε {U , X , α} = id-set , (λ u x → [ x ]) , (λ {u}{x} → cond {u}{x})
  where
-  cond : {u : U} {y : X} → rel (poset (mposet l-pf))
-      (mul (mposet l-pf) (α u y) (unit (mposet l-pf))) (α u y)
-      ≡ tt
-  cond {u}{x} rewrite right-ident (mposet l-pf) {α u x} = prefl (poset (mposet l-pf))
+  cond : {u : U} {y : X} → ((α u y) ⊗L unitDC) ≤DC (α u y)
+  cond {u}{x} rewrite right-ident (mposet l-pf) {α u x} = reflDC
 
 δ-s : {U X : Set} → U → 𝕃 (𝕃 X) → 𝕃 X
 δ-s u xs = foldr _++_ [] xs
@@ -357,10 +338,8 @@ cur-uncur-bij₂ {U , X , α}{V , Y , β}{W , Z , γ}{g , G , p₁} = (ext-set a
 δ {U , X , α} = id-set , δ-s , (λ {u ls} → cond {u}{ls})
  where
    cond : {u : U} {y : 𝕃 (𝕃 X)} →
-      rel (poset (mposet l-pf)) (!ₒ-cond α u (foldr _++_ [] y))
-      (!ₒ-cond (!ₒ-cond α) u y)
-      ≡ tt
-   cond {u}{[]} = prefl (poset (mposet l-pf))
+      (!ₒ-cond α u (foldr _++_ [] y)) ≤DC (!ₒ-cond (!ₒ-cond α) u y)
+   cond {u}{[]} = reflDC
    cond {u}{l :: ls} with !ₒ-cond-++ {U}{X}{α}{u}{l}{foldr _++_ [] ls}
    ... | p' rewrite p' = compat-sym {p = mposet l-pf} (cond {u} {ls})
    
