@@ -5,9 +5,10 @@ This is a formalization of dialectica spaces in the two flavors from
 Valeria de Paiva's thesis.  The first flavor is DC over Sets and the
 second is GC over sets.  We call the latter Dial over sets.
 
-Each type of space requires the notion of a lineale which are
-essentially symmetric monoidal closed categories over partially
-ordered sets:
+Each type of space requires the notion of a lineale. A lineale is
+essentially a symmetric monoidal closed category in the category of
+partially ordered sets. (or A lineale corresponds to the
+poset-reflection of the notion of a monoidal closed category).
 
 - Defined in [lineale.agda](lineale.agda)
 - Theorems about lineales can be found in [lineale-thms.agda](lineale-thms.agda)
