@@ -18,6 +18,6 @@ Finally, we have the two types of dialectica spaces:
 - DC over sets can be found in [DCSets.agda](DCSets.agda)
 - Dial over sets can be found in [DialSets.agda](DialSets.agda)
 
-This formalization is in Agda and depends on the [Augusta University
-Agda Library](https://github.com/heades/AUGL).  Lastly, this has only
-be tested with Agda 2.4.2.4.
+This formalization was developed and tested with Agda 2.4.2.4 and
+depends on the [Augusta University Agda
+Library](https://github.com/heades/AUGL).
