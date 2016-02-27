@@ -125,7 +125,6 @@ half ⊗3 half = half
 half ⊗3 one = half
 one ⊗3 half = half
 
-
 _→3_ : Three → Three → Three
 half →3 zero = zero
 one →3 zero = zero
@@ -259,6 +258,124 @@ comp3 {one} {one} x {zero} = refl
 comp3 {one} {one} x {half} = refl
 comp3 {one} {one} x {one} = refl
 
+_⊗3₂_ : Three → Three → Three
+zero ⊗3₂ zero = zero
+zero ⊗3₂ one = zero
+one ⊗3₂ zero = zero
+one ⊗3₂ one = one
+zero ⊗3₂ half = zero
+half ⊗3₂ zero = zero
+half ⊗3₂ half = half
+half ⊗3₂ one = one
+one ⊗3₂ half = one
+
+isMonPoset3₂ : MonPoset Three
+isMonPoset3₂ = MkMonPoset _⊗3₂_ half isPoset3 (λ {a b c} → assoc3₂ {a}{b}{c}) left-ident3₂ right-ident3₂ (λ {a b} → symm3₂ {a}{b}) (λ {a b} → comp3₂ {a}{b})
+ where
+   assoc3₂ : {a b c : Three} → a ⊗3₂ (b ⊗3₂ c) ≡ (a ⊗3₂ b) ⊗3₂ c
+   assoc3₂ {zero} {zero} {zero} = refl
+   assoc3₂ {zero} {zero} {half} = refl
+   assoc3₂ {zero} {zero} {one} = refl
+   assoc3₂ {zero} {half} {zero} = refl
+   assoc3₂ {zero} {half} {half} = refl
+   assoc3₂ {zero} {half} {one} = refl
+   assoc3₂ {zero} {one} {zero} = refl
+   assoc3₂ {zero} {one} {half} = refl
+   assoc3₂ {zero} {one} {one} = refl
+   assoc3₂ {half} {zero} {zero} = refl
+   assoc3₂ {half} {zero} {half} = refl
+   assoc3₂ {half} {zero} {one} = refl
+   assoc3₂ {half} {half} {zero} = refl
+   assoc3₂ {half} {half} {half} = refl
+   assoc3₂ {half} {half} {one} = refl
+   assoc3₂ {half} {one} {zero} = refl
+   assoc3₂ {half} {one} {half} = refl
+   assoc3₂ {half} {one} {one} = refl
+   assoc3₂ {one} {zero} {zero} = refl
+   assoc3₂ {one} {zero} {half} = refl
+   assoc3₂ {one} {zero} {one} = refl
+   assoc3₂ {one} {half} {zero} = refl
+   assoc3₂ {one} {half} {half} = refl
+   assoc3₂ {one} {half} {one} = refl
+   assoc3₂ {one} {one} {zero} = refl
+   assoc3₂ {one} {one} {half} = refl
+   assoc3₂ {one} {one} {one} = refl
+
+   left-ident3₂ : {a : Three} → half ⊗3₂ a ≡ a
+   left-ident3₂ {zero} = refl
+   left-ident3₂ {half} = refl
+   left-ident3₂ {one} = refl
+
+   right-ident3₂ : {a : Three} → a ⊗3₂ half ≡ a
+   right-ident3₂ {zero} = refl
+   right-ident3₂ {half} = refl
+   right-ident3₂ {one} = refl
+
+   symm3₂ : {a b : Three} → a ⊗3₂ b ≡ b ⊗3₂ a
+   symm3₂ {zero} {zero} = refl
+   symm3₂ {zero} {half} = refl
+   symm3₂ {zero} {one} = refl
+   symm3₂ {half} {zero} = refl
+   symm3₂ {half} {half} = refl
+   symm3₂ {half} {one} = refl
+   symm3₂ {one} {zero} = refl
+   symm3₂ {one} {half} = refl
+   symm3₂ {one} {one} = refl
+
+   comp3₂ : {a b : Three} → a ≤3 b ≡ tt → {c : Three} → (a ⊗3₂ c) ≤3 (b ⊗3₂ c) ≡ tt
+   comp3₂ {zero} {zero} x {zero} = refl
+   comp3₂ {zero} {zero} x {half} = refl
+   comp3₂ {zero} {zero} x {one} = refl
+   comp3₂ {zero} {half} x {zero} = refl
+   comp3₂ {zero} {half} x {half} = refl
+   comp3₂ {zero} {half} x {one} = refl
+   comp3₂ {zero} {one} x {zero} = refl
+   comp3₂ {zero} {one} x {half} = refl
+   comp3₂ {zero} {one} x {one} = refl
+   comp3₂ {half} {zero} x {zero} = refl
+   comp3₂ {half} {zero} x {half} = x
+   comp3₂ {half} {zero} x {one} = x
+   comp3₂ {half} {half} x {zero} = refl
+   comp3₂ {half} {half} x {half} = refl
+   comp3₂ {half} {half} x {one} = refl
+   comp3₂ {half} {one} x {zero} = refl
+   comp3₂ {half} {one} x {half} = refl
+   comp3₂ {half} {one} x {one} = refl
+   comp3₂ {one} {zero} x {zero} = refl
+   comp3₂ {one} {zero} x {half} = x
+   comp3₂ {one} {zero} x {one} = x
+   comp3₂ {one} {half} x {zero} = refl
+   comp3₂ {one} {half} x {half} = x
+   comp3₂ {one} {half} x {one} = refl
+   comp3₂ {one} {one} x {zero} = refl
+   comp3₂ {one} {one} x {half} = refl
+   comp3₂ {one} {one} x {one} = refl
+
+-- Note that these do not hold, we cannot fill in the holes.  Thus,
+-- ⊗3₂ is a tensor product and not a cartesian product.
+--
+-- proj₁3₂ : ∀{a b} → ¡ _≤3_ (a ⊗3₂ b) a
+-- proj₁3₂ {zero} {zero} = refl
+-- proj₁3₂ {zero} {half} = refl
+-- proj₁3₂ {zero} {one} = refl
+-- proj₁3₂ {half} {zero} = refl
+-- proj₁3₂ {half} {half} = refl
+-- proj₁3₂ {half} {one} = {!!}
+-- proj₁3₂ {one} {zero} = refl
+-- proj₁3₂ {one} {half} = refl
+-- proj₁3₂ {one} {one} = refl
+--
+-- proj₂3₂ : ∀{a b} → ¡ _≤3_ (a ⊗3₂ b) b
+-- proj₂3₂ {zero} {zero} = refl
+-- proj₂3₂ {zero} {half} = refl
+-- proj₂3₂ {zero} {one} = refl
+-- proj₂3₂ {half} {zero} = refl
+-- proj₂3₂ {half} {half} = refl
+-- proj₂3₂ {half} {one} = refl
+-- proj₂3₂ {one} {zero} = refl
+-- proj₂3₂ {one} {half} = {!!}
+-- proj₂3₂ {one} {one} = refl
+
 isMonPoset3 : MonPoset Three
 isMonPoset3 = MkMonPoset _⊗3_ one isPoset3 (λ{a b c} → assoc3 {a}{b}{c}) left-ident3 right-ident3 (λ{a b} → symm3 {a}{b}) (λ {a b} → comp3 {a}{b})
 
@@ -304,6 +421,56 @@ rlcomp3 one one = refl
 
 isLineale3 : Lineale Three
 isLineale3 = MkLineale isMonPoset3 _→3_ rlcomp3 (λ {a b y} → adj3 {a}{b}{y})
+
+_→3₂_ : Three → Three → Three
+half →3₂ zero = zero
+one →3₂ zero = zero
+one →3₂ half = zero
+half →3₂ half = half
+_ →3₂ _ = one
+
+isLineale3₂ : Lineale Three
+isLineale3₂ = MkLineale isMonPoset3₂ _→3₂_ aux (λ {a b y} → aux' a b y)
+ where
+   aux : (a b : Three) → (a ⊗3₂ (a →3₂ b)) ≤3 b ≡ tt
+   aux zero zero = refl
+   aux zero half = refl
+   aux zero one = refl
+   aux half zero = refl
+   aux half half = refl
+   aux half one = refl
+   aux one zero = refl
+   aux one half = refl
+   aux one one = refl
+
+   aux' : (a b y : Three) → (a ⊗3₂ y) ≤3 b ≡ tt → y ≤3 (a →3₂ b) ≡ tt
+   aux' zero zero zero x = refl
+   aux' zero zero half x = refl
+   aux' zero zero one x = refl
+   aux' zero half zero x = refl
+   aux' zero half half x = refl
+   aux' zero half one x = refl
+   aux' zero one zero x = refl
+   aux' zero one half x = refl
+   aux' zero one one x = refl
+   aux' half zero zero x = refl
+   aux' half zero half x = x
+   aux' half zero one x = x
+   aux' half half zero x = refl
+   aux' half half half x = refl
+   aux' half half one x = x
+   aux' half one zero x = refl
+   aux' half one half x = refl
+   aux' half one one x = refl
+   aux' one zero zero x = refl
+   aux' one zero half x = x
+   aux' one zero one x = x
+   aux' one half zero x = refl
+   aux' one half half x = x
+   aux' one half one x = x
+   aux' one one zero x = refl
+   aux' one one half x = refl
+   aux' one one one x = refl
 
 -----------------------------------------------------------------------
 -- The lineale 4                                                     --
@@ -692,3 +859,105 @@ isLineale4 = MkLineale isMonPoset4 _→4_ rlcomp4 (λ {a b y} → adj4 {a}{b}{y}
   adj4 {one} {one} {quater} x = refl
   adj4 {one} {one} {half} x = refl
   adj4 {one} {one} {one} x = refl
+
+proj₁4 : ∀{a b} → ¡ _≤4_ (a ⊗4 b) a
+proj₁4 {zero} {zero} = refl
+proj₁4 {zero} {quater} = refl
+proj₁4 {zero} {half} = refl
+proj₁4 {zero} {one} = refl
+proj₁4 {quater} {zero} = refl
+proj₁4 {quater} {quater} = refl
+proj₁4 {quater} {half} = refl
+proj₁4 {quater} {one} = refl
+proj₁4 {half} {zero} = refl
+proj₁4 {half} {quater} = refl
+proj₁4 {half} {half} = refl
+proj₁4 {half} {one} = refl
+proj₁4 {one} {zero} = refl
+proj₁4 {one} {quater} = refl
+proj₁4 {one} {half} = refl
+proj₁4 {one} {one} = refl
+
+proj₂4 : ∀{a b} → ¡ _≤4_ (a ⊗4 b) b
+proj₂4 {zero} {zero} = refl
+proj₂4 {zero} {quater} = refl
+proj₂4 {zero} {half} = refl
+proj₂4 {zero} {one} = refl
+proj₂4 {quater} {zero} = refl
+proj₂4 {quater} {quater} = refl
+proj₂4 {quater} {half} = refl
+proj₂4 {quater} {one} = refl
+proj₂4 {half} {zero} = refl
+proj₂4 {half} {quater} = refl
+proj₂4 {half} {half} = refl
+proj₂4 {half} {one} = refl
+proj₂4 {one} {zero} = refl
+proj₂4 {one} {quater} = refl
+proj₂4 {one} {half} = refl
+proj₂4 {one} {one} = refl
+
+ctr4 : ∀{c a b} → ¡ _≤4_ c a → ¡ _≤4_ c b → ¡ _≤4_ c (a ⊗4 b)
+ctr4 {zero} {zero} {zero} x x₁ = refl
+ctr4 {zero} {zero} {quater} x x₁ = refl
+ctr4 {zero} {zero} {half} x x₁ = refl
+ctr4 {zero} {zero} {one} x x₁ = refl
+ctr4 {zero} {quater} {zero} x x₁ = refl
+ctr4 {zero} {quater} {quater} x x₁ = refl
+ctr4 {zero} {quater} {half} x x₁ = refl
+ctr4 {zero} {quater} {one} x x₁ = refl
+ctr4 {zero} {half} {zero} x x₁ = refl
+ctr4 {zero} {half} {quater} x x₁ = refl
+ctr4 {zero} {half} {half} x x₁ = refl
+ctr4 {zero} {half} {one} x x₁ = refl
+ctr4 {zero} {one} {zero} x x₁ = refl
+ctr4 {zero} {one} {quater} x x₁ = refl
+ctr4 {zero} {one} {half} x x₁ = refl
+ctr4 {zero} {one} {one} x x₁ = refl
+ctr4 {quater} {zero} {zero} x x₁ = x
+ctr4 {quater} {zero} {quater} x x₁ = x
+ctr4 {quater} {zero} {half} x x₁ = x
+ctr4 {quater} {zero} {one} x x₁ = x
+ctr4 {quater} {quater} {zero} x x₁ = x₁
+ctr4 {quater} {quater} {quater} x x₁ = refl
+ctr4 {quater} {quater} {half} x x₁ = refl
+ctr4 {quater} {quater} {one} x x₁ = refl
+ctr4 {quater} {half} {zero} x x₁ = x₁
+ctr4 {quater} {half} {quater} x x₁ = refl
+ctr4 {quater} {half} {half} x x₁ = refl
+ctr4 {quater} {half} {one} x x₁ = refl
+ctr4 {quater} {one} {zero} x x₁ = x₁
+ctr4 {quater} {one} {quater} x x₁ = refl
+ctr4 {quater} {one} {half} x x₁ = refl
+ctr4 {quater} {one} {one} x x₁ = refl
+ctr4 {half} {zero} {zero} x x₁ = x
+ctr4 {half} {zero} {quater} x x₁ = x
+ctr4 {half} {zero} {half} x x₁ = x
+ctr4 {half} {zero} {one} x x₁ = x
+ctr4 {half} {quater} {zero} x x₁ = x
+ctr4 {half} {quater} {quater} x x₁ = x
+ctr4 {half} {quater} {half} x x₁ = x
+ctr4 {half} {quater} {one} x x₁ = x
+ctr4 {half} {half} {zero} x x₁ = x₁
+ctr4 {half} {half} {quater} x x₁ = x₁
+ctr4 {half} {half} {half} x x₁ = refl
+ctr4 {half} {half} {one} x x₁ = refl
+ctr4 {half} {one} {zero} x x₁ = x₁
+ctr4 {half} {one} {quater} x x₁ = x₁
+ctr4 {half} {one} {half} x x₁ = refl
+ctr4 {half} {one} {one} x x₁ = refl
+ctr4 {one} {zero} {zero} x x₁ = x
+ctr4 {one} {zero} {quater} x x₁ = x
+ctr4 {one} {zero} {half} x x₁ = x
+ctr4 {one} {zero} {one} x x₁ = x
+ctr4 {one} {quater} {zero} x x₁ = x
+ctr4 {one} {quater} {quater} x x₁ = x
+ctr4 {one} {quater} {half} x x₁ = x
+ctr4 {one} {quater} {one} x x₁ = x
+ctr4 {one} {half} {zero} x x₁ = x
+ctr4 {one} {half} {quater} x x₁ = x
+ctr4 {one} {half} {half} x x₁ = x
+ctr4 {one} {half} {one} x x₁ = x
+ctr4 {one} {one} {zero} x x₁ = x₁
+ctr4 {one} {one} {quater} x x₁ = x₁
+ctr4 {one} {one} {half} x x₁ = x₁
+ctr4 {one} {one} {one} x x₁ = refl
