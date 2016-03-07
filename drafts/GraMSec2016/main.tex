@@ -58,7 +58,33 @@
 \section{Introduction}
 \label{sec:introduction}
 
+What do propositional logic, multisets, directed acyclic graphs,
+source sink graphs, Petri nets, and Markov processes all have in
+common?  They are all mathematical models of attack trees \cite{??},
+but even more than that, they can all be modeled in some form of a
+symmetric monoidal category\footnote{We provide a proof that the
+  category of source sink graphs is monoidal in
+  Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal}.}
+\cite{?} -- for the definition of a symmetric monoidal category see
+Appendix~\ref{sec:symmetric_monoidal_categories}.  Taking things a
+little bit further, monoidal categories have a tight correspondence
+with linear logic through the beautiful Curry-Howard-Lambek
+correspondence \cite{?}.  This correspondence states that objects of a
+monoidal category correspond to the formulas of linear logic and the
+morphisms correspond to proofs of valid sequents of the logic.  I
+propose that attack trees -- in many different flavors -- be modeled
+as objects in monoidal categories, and hence, as formulas of linear
+logic.
 
+The Curry-Howard-Lambek correspondence is a three way relationship:
+\begin{center}
+  \setlength{\tabcolsep}{7pt}
+  \begin{tabular}{ccccc}
+    Categories & $\iff$ & Logic    & $\iff$   & Functional Programming\\
+    Objects    & $\iff$ & Formulas & $\iff$   & Types    \\
+    Morphisms  & $\iff$ & Proofs   & $\iff$   & Programs 
+  \end{tabular}
+\end{center}
 
 % section introduction (end)
 
@@ -77,16 +103,21 @@
 
 % section abstract_semantics_of_attack_trees_in_monoidal_categories (end)
 
-\section{Reasoning about Attack Trees in Linear Logic}
-\label{sec:attack_trees_in_linear_logic}
+\section{Lina: A Domain Specific PL for Threat Analysis}
+\label{sec:lina:_a_domain_specific_pl_for_threat_analysis}
 
-% section attack_trees_in_linear_logic (end)
+% section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
-\nocite{*}
 \bibliographystyle{plain}
 \bibliography{ref}
 
 \appendix
+
+\section{Symmetric Monoidal Categories}
+\label{sec:symmetric_monoidal_categories}
+
+% section symmetric_monoidal_categories (end)
+
 
 \section{Source Sink Graphs are Symmetric Monoidal}
 \label{sec:source_sink_graphs_are_symmetric_monoidal}
