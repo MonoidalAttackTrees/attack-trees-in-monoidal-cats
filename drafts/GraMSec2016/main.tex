@@ -2,6 +2,7 @@
 
 \usepackage{amssymb,amsmath}
 \usepackage{cmll}
+\usepackage{textcomp}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
 \usepackage{mathpartir}
@@ -85,7 +86,49 @@ The Curry-Howard-Lambek correspondence is a three way relationship:
     Morphisms  & $\iff$ & Proofs   & $\iff$   & Programs 
   \end{tabular}
 \end{center}
+By modeling attack trees in monoidal categories we obtain a sound
+mathematical model, a logic for reasoning about attack trees, and the
+means of constructing a functional programming language for defining
+attack trees (as types), and constructing semantically valid
+transformations (as programs) of attack trees.
 
+Linear logic was first proposed by Girard \cite{?} and was quickly
+realized to be a theory of resources.  In linear logic, every
+hypothesis must be used exactly once.  Thus, formulas like $A \otimes
+A$ and $A$ are not logically equivalent -- here $\otimes$ is linear
+conjunction.  This resource perspective of linear logic has been very
+fruitful in computer science.  It has lead to linear logic as being a
+logical foundation of concurrency \cite{?} where formulas may be
+considered as processes.  This perspective fits modeling attack trees
+perfectly, because they essentially correspond to concurrent
+processes.
+
+Girard's genius behind linear logic was that he isolated the
+structural rules -- weakening and contraction -- by treating them as
+an effect and putting them inside a comonad called the of-course
+exponential denoted $!A$.  In fact, $!A \otimes !A$ is logically
+equivalent to $!A$, and thus, by staying in the comonad we become
+propositional.  This implies that a modal of attack trees in linear
+logic also provides a model of attack trees in propositional logic,
+and a combination of the two.  It is possible to have the best of both
+worlds.
+
+In this short paper I introduce a newly funded research
+project\footnote{This material is based upon work supported by the
+  National Science Foundation CRII CISE Research Initiation grant,
+  ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
+  Categories``, under Grant No. 1565557.}  investigating founding
+attack trees in monoidal categories, and through the
+Curry-Howard-Lambek correspondence deriving a new domain-specific
+functional programming language called Lina for Linear Threat
+Analysis.  We begin by defining the style of attack trees we will
+study here in Section~\ref{sec:attack_trees}, then we give a semantics
+of attack trees in a model of full intuitionistic linear logic in
+Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces},
+we discuss how the semantics may be further abstracted in
+Section~\ref{sec:abstract_semantics_of_attack_trees_in_monoidal_categories},
+and finally, we discuss the design of Lina in
+Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}.
 % section introduction (end)
 
 \section{Attack Trees}
@@ -107,6 +150,12 @@ The Curry-Howard-Lambek correspondence is a three way relationship:
 \label{sec:lina:_a_domain_specific_pl_for_threat_analysis}
 
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion_and_future_work}
+
+% section conclusion_and_future_work (end)
+
 
 \bibliographystyle{plain}
 \bibliography{ref}
