@@ -57,11 +57,141 @@
 
 \section{Introduction}
 \label{sec:introduction}
+\textbf{Attack trees} are a modeling tool, originally proposed by
+Bruce Schneier \cite{Schneier:1999}, which are used to assess the
+threat potential of a security critical system.  Attack trees have
+since been used to analyze the threat potential of many types of
+security critical systems, for example, cybersecurity of power grids
+\cite{Ten:2007}, wireless networks \cite{Reinhardt:2012}, and many
+others.  Attack trees consists of several goals, usually specified in
+English prose, for example, ``compromise safe'' or ``obtain
+administrative privileges'', where the root is the ultimate goal of
+the attack and each node coming off of the root is a refinement of the
+main goal into a subgoal.  Then each subgoal can be further refined.
+The leaves of an attack tree make up the set of base attacks.  Subgoals
+can be either disjunctively or conjunctively combined.
 
+%% Extensions Of ATREES:
+%%   - Attack nets
+%%   - Sequential conjunction
+\textbf{Extensions of attack trees.}  There have been a number of
+extensions of attack trees to include new operators on goals.  One
+such extension recasts attack trees into attack nets which have all of
+the benefits of attack trees with the additional benefit of being able
+to include the flaw hypothesis model for penetration testing
+\cite{McDermott:2001}.  A second extension adds sequential conjunction
+of attacks, that is, suppose $A_1$ and $A_2$ are attacks, then
+$A_1;A_2$ is the attack obtained by performing $A_1$, and then
+executing attack $A_2$ directly after $A_1$ completes
+\cite{Jhawar:2015}.
+
+\textbf{The need for a foundation.}  Attack trees for real-world
+security scenarios can grow to be quite complex.  The attack tree
+presented in \cite{Ten:2007} to access the security of power grids has
+twenty-nine nodes with sixty counter measures attached to the nodes
+throughout the tree.  The details of the tree spans several pages of
+appendix.  The attack tree developed for the border gateway protocol
+has over a hundred nodes \cite{Convey:2003}, and the details of the
+tree spans ten pages.  Manipulating such large trees without a formal
+semantics can be dangerous.
+
+%% Semantics of ATREES:
+%%   - Boolean logic
+%%   - Attack nets (2000)
+%%   - Multisets (2006)
+%%   - Series-parallel graphs (extension of multisets) (2015)
+\textbf{The formal semantics of attack trees.} The leading question
+the field is seeking to answer by giving a mathematical foundation to
+attack trees is ``what is an attack tree?''  There have been numerous
+attempts at answering this question.  For example, attack trees have
+been based on propositional logic and De Morgan Algebras
+\cite{Kordy:2014,Kordy:2012,Pietre-Cambacedes:2010}, multisets
+\cite{Mauw:2006}, Petri nets \cite{McDermott:2001}, tree automata
+\cite{Camtepe:2007}, and series parallel graphs
+\cite{Jhawar:2015}. \textbf{There is currently no known semantics of
+  attack trees based in category theory}.
+
+By far the most intuitive foundation of attack trees is propositional
+logic or De Morgan algebras, however, neither of these properly
+distinguish between attack trees with repeated subgoals.  If we
+consider each subgoal as a \textbf{resource} then the attack tree
+using a particular resource twice is different than an attack tree
+where it is used only once.  The multiset semantics of attack trees
+was developed precisely to provide a resource conscious foundation
+\cite{Mauw:2006}. The same can be said for the Petri nets semantics
+\cite{McDermott:2001}.  A second benefit of a semantics based in
+multisets, Petri nets, and even tree automata is that operators on
+goals in attack trees are associated with concurrency operators from
+process algebra.  That is, the goals of an attack tree should be
+thought of as being run concurrently -- it seems this connection to
+process algebra has been overlooked.  Furthermore, when moving to
+these alternate foundations \textbf{the intuitiveness and elegance of
+  the propositional logic semantics is lost}.  Lastly, existing work
+has focused on specifically what an attack tree is, and has not sought
+to understand what the theory of attack trees is.
+
+\textbf{Category Theory.}  Each of the various existing mathematical
+foundations attempt to answer the question ``what is an attack
+tree?'', but they are all seemingly very different mathematical
+structures.  Is there a unifying core foundation common to all of
+these existing foundations? A categorical foundation will answer this
+question in the positive. The powers of category theory -- an abstract
+branch of mathematics first proposed by Samuel Eilenberg and Saunders
+Mac Lane \cite{MacLane:1971} -- are its ability to abstract away
+unneeded details from a mathematical structure, and its ability to
+form relationships between seemingly unrelated mathematical
+structures.  For example, intuitionistic logic and the
+$\lambda$-calculus both correspond to cartesian closed categories, and
+hence, are different perspectives of the same theory
+\cite{Lambek:1980}.  A categorical foundation of attack trees will
+result in the most basic mathematical foundation of attack trees,
+furthermore, it will reveal a relationship between all of the existing
+mathematical foundations, and lastly, it will reconnect attack trees
+with logic, but also forge new connections with functional programming
+languages and formal verification through the Curry-Howard-Lambek
+correspondence.  This implies that by giving attack trees a semantics
+in category theory one obtains a more powerful semantic analysis and
+the ability to \textbf{derive a programming language that can not only
+  define attack trees, but also reason about them using formal
+  verification} (Section~\ref{sec:prop-lina}).  In addition, the
+various graphical languages used in category theory,
+\cite{Selinger:2009}, may lead to new graphical tools for threat
+analysis.
+
+\textbf{This Proposal.} I propose to found attack trees in linear
+logic rather than propositional logic by giving attack trees a
+semantics in symmetric monoidal categories.  A semantics in symmetric
+monoidal categories is a generalization over the previous forms of
+models of attack trees.  Multisets and Petri nets are examples of
+symmetric monoidal categories \cite{Brown:1991,Tzouvaras:1998}.
+Furthermore, symmetric monoidal categories are a categorical model of
+linear logic \cite{dePaiva:2014}, thus regaining the elegant
+connection between attack trees and logical formulas.  The connection
+to linear logic also opens the door to a connection between threat
+analysis using attack trees and process algebra such as Petri nets,
+but also Chu spaces \cite{Pratt:1999}, dialectica spaces
+\cite{dePaiva:2006b}, and session types
+\cite{Wadler:2012,Caires:2010}.  I and my trainees will fully develop
+the semantics of attack trees in symmetric monoidal categories and
+show that not only can attack trees be modeled by these types of
+categories, but so can a range of their extensions like attack trees
+with sequential conjunction.  We will also investigate new attack tree
+operators based on the connection to process algebra.  Then we will
+develop a new formal system called Lina for \underline{Lin}ear Threat
+\underline{A}nalysis (Section~\ref{sec:prop-lina}).  Lina will be a
+statically typed linear polymorphic functional domain-specific
+programming language designed to construct, manipulate, and prove
+properties of attack trees.  Lina will represent attack trees as
+linear types, and thus, programs between these types will be
+considered transformations of attack trees.  The semantics of Lina
+will also be in symmetric monoidal categories forming a tight
+correspondence with the semantics of attack trees.  This system will
+be the first threat analysis tool to support proving properties of
+attack trees, thus \textbf{connecting software verification to threat
+  analysis.}  Finally, new threat analysis tools can be built on top
+of Lina.
 % section introduction (end)
 
-
-\nocite{*}
 \bibliographystyle{plain}
 \bibliography{ref}
 
