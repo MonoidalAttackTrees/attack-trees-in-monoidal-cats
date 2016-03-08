@@ -1,0 +1,13 @@
+metavar term_var, b , w, x, y, z, v ::=
+indexvar index_var, i, j, k ::= 
+
+grammar
+
+% Object-level Formulas.
+atree, t :: 'ATree_' ::=
+  | b  :: :: Base
+  | t1 + t2 :: :: Parallel  
+  | t1 (+) t2 :: :: Choice
+  {{tex [[t1]] \sqcup [[t2]] }}
+  | t1 ; t2   :: :: SeqComp  
+  

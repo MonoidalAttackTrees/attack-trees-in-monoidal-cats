@@ -43,6 +43,9 @@
 \newcommand{\cur}[1]{\mathsf{cur}(#1)}
 \newcommand{\curi}[1]{\mathsf{cur}^{-1}(#1)}
 
+%% Ott
+\input{atrees-ott}
+
 \begin{document}
 
 \title{Proposing a New Foundation of Attack Trees in Monoidal Categories}
@@ -133,7 +136,57 @@ Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}.
 
 \section{Attack Trees}
 \label{sec:attack_trees}
+In this paper I only consider basic attack trees with sequential
+composition which are due to Jhawar et al. \cite{Jhawar:2015}, but one
+of our ultimate goals is to extend attack trees with more operators
+driven by are choice of semantics.  The syntax for attack trees is
+defined in the following definition.
+\begin{definition}
+  \label{def:atrees}
+  The following defines the syntax of \textbf{Attack Trees} given a set
+  of base attacks $b \in \mathsf{B}$:
+  \[
+  \begin{array}{lll}
+    t ::= [[b]] \mid [[t1 + t2]] \mid [[t1 (+) t2]] \mid [[t1;t2]]\\
+  \end{array}
+  \]
+  We denote parallel composition by $[[t1 + t2]]$, choice between
+  attacks $[[t1]]$ and $[[t2]]$ by $[[t1 (+) t2]]$, and finally
+  sequential composition of attacks by $[[t1;t2]]$.
+\end{definition}
+The syntax given in the previous definition differs from the syntax
+used by Jhawar et al. \cite{Jhawar:2015}.  First, I use infix binary
+operations, while they use prefix $n$-ary operations. However, we do
+not sacrifice any expressivity, because as we will see in the next
+section each operation is associative, and parallel composition and
+choice are symmetric.  Thus, we can embed Jhawar et al.'s definition
+of attack trees into the ones defined here.  The hard part of this
+embedding is realizing that the $n$-ary version of sequential
+composition can be modeled by the binary version, but if we have
+$\mathsf{SAND}(t_1,t_2,\ldots,t_n)$, then it is understood that $t_1$
+is executed, then $t_2$, and so on until $t_n$ is executed, but this
+is exactly the same as $t_1;t_2;\cdots;t_n$.
 
+The second major difference is that we denote parallel composition
+with an operator that implies we can think of it as a disjunction, but
+Jhawar et al. and others in the literature seem to use an operator
+that implies that we can think of it as a conjunction.  The semantics,
+however, tells us that it is really a disjunction.  The parallel
+operation defined on source sink graphs defined by Jhawar et
+al. \cite{Jhawar:2015} can be proven to be a coproduct -- see
+Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal} -- and
+coproducts categorically model disjunctions.  Furthermore, parallel
+composition is modeled by multiset union in the multiset semantics,
+but we can model this has a coproduct.  Lastly, the semantics we give
+in the section models parallel composition as a coproduct.  Thus, I
+claim that an operator that reflects this is for the better.
+
+The third, and final difference is that we denote the choice between
+executing attack $[[t1]]$ or attack $[[t2]]$, but not both by $[[t1
+    (+) t2]]$ instead of using a symbol that implies that it is a
+disjunction.  This fits very nicely with the semantics of Jhawar et
+al., where they collect the attacks that can be executed into a set.
+The semantics we given in the next section models choice directly.
 % section attack_trees (end)
 
 \section{Concrete Semantics of Attack Trees in Dialectica Spaces}
@@ -180,3 +233,4 @@ Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}.
 %%% mode: latex
 %%% TeX-master: t
 %%% End: 
+<

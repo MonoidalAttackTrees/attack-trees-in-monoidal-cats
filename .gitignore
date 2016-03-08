@@ -12,3 +12,5 @@ refs.bib
 *.agdai
 /dialectica-spaces/#lineales.agda#
 *.spl
+/drafts/GraMSec2016/atrees-ott.tex
+/drafts/GraMSec2016/main-output.tex
