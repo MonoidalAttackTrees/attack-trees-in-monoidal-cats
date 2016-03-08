@@ -17,7 +17,7 @@ pdf : main.pdf
 
 # Now this takes the full LaTex translation and compiles it using
 # pdflatex.
-main.pdf : main.tex Makefile ref.bib
+main.pdf : main.tex Makefile ref.bib appendix-SMC.tex
 	$(PDFLATEX) -jobname=main main.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -jobname=main main.tex

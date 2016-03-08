@@ -1,0 +1,144 @@
+This appendix provides the definitions of both categories in general,
+and, in particular, symmetric monoidal closed categories.  We begin
+with the definition of a category:
+\begin{definition}
+  \label{def:category}
+  A \textbf{category}, $\cat{C}$, consists of the following data:
+  \begin{itemize}
+  \item A set of objects $\cat{C}_0$, each denoted by $A$, $B$, $C$, etc.
+  \item A set of morphisms $\cat{C}_1$, each denoted by $f$, $g$, $h$, etc.
+  \item Two functions $\mathsf{src}$, the source of a morphism, and
+    $\mathsf{tar}$, the target of a morphism, from morphisms to
+    objects.  If $\mathsf{src}(f) = A$ and $\mathsf{tar}(f) = B$, then
+    we write $f : A \to B$.
+  \item Given two morphisms $f : A \to B$ and $g : B \to C$, then the
+    morphism $f;g : A \to C$, called the composition of $f$ and $g$,
+    must exist.
+  \item For every object $A \in \cat{C}_0$, the there must exist a
+    morphism $\id_A : A \to A$ called the identity morphism on $A$.
+
+  \item The following axioms must hold:
+    \begin{itemize}
+    \item (Identities) For any $f : A \to B$, $f;\id_B = f = \id_A;f$.
+    \item (Associativity) For any $f : A \to B$, $g : B \to C$, and $h
+      : C \to D$, $(f;g);h = f;(g;h)$.
+    \end{itemize}
+  \end{itemize}
+\end{definition}
+
+Categories are by definition very abstract, and it is due to this that
+makes them so applicable.  The usual example of a category is the
+category whose objects are all sets, and whose morphisms are
+set-theoretic functions.  Clearly, composition and identities exist,
+and satisfy the axioms of a category.  A second example is preordered
+sets, $(A , \leq)$, where the objects are elements of $A$ and a
+morphism $f : a \to b$ for elements $a, b \in A$ exists iff $a \leq
+b$. Reflexivity yields identities, and transitivity yields
+composition.  See the usual introductions for more examples \cite{?}.
+
+
+Symmetric monoidal categories pair categories with a commutative
+monoid like structure called the tensor product.  They are a
+categorical semantics of linear logic \cite{?}.
+\begin{definition}
+  \label{def:monoidal-category}
+  A \textbf{symmetric monoidal category (SMC)} is a category, $\cat{M}$,
+  with the following data:
+  \begin{itemize}
+  \item An object $I$ of $\cat{M}$,
+  \item A bi-functor $\otimes : \cat{M} \times \cat{M} \to \cat{M}$,
+  \item The following natural isomorphisms:
+    \[
+    \begin{array}{lll}
+      \lambda_A : I \otimes A \to A\\
+      \rho_A : A \otimes I \to A\\      
+      \alpha_{A,B,C} : (A \otimes B) \otimes C \to A \otimes (B \otimes C)\\
+    \end{array}
+    \]
+  \item A symmetry natural transformation:
+    \[
+    \beta_{A,B} : A \otimes B \to B \otimes A
+    \]
+  \item Subject to the following coherence diagrams:
+    \begin{mathpar}
+      \bfig
+      \vSquares|ammmmma|/->`->```->``<-/[
+        ((A \otimes B) \otimes C) \otimes D`
+        (A \otimes (B \otimes C)) \otimes D`
+        (A \otimes B) \otimes (C \otimes D)``
+        A \otimes (B \otimes (C \otimes D))`
+        A \otimes ((B \otimes C) \otimes D);
+        \alpha_{A,B,C} \otimes \id_D`
+        \alpha_{A \otimes B,C,D}```
+        \alpha_{A,B,C \otimes D}``
+        \id_A \otimes \alpha_{B,C,D}]      
+      
+      \morphism(1433,1000)|m|<0,-1000>[
+        (A \otimes (B \otimes C)) \otimes D`
+        A \otimes ((B \otimes C) \otimes D);
+        \alpha_{A,B \otimes C,D}]
+      \efig
+      \and
+      \bfig
+      \hSquares|aammmaa|/->`->`->``->`->`->/[
+        (A \otimes B) \otimes C`
+        A \otimes (B \otimes C)`
+        (B \otimes C) \otimes A`
+        (B \otimes A) \otimes C`
+        B \otimes (A \otimes C)`
+        B \otimes (C \otimes A);
+        \alpha_{A,B,C}`
+        \beta_{A,B \otimes C}`
+        \beta_{A,B} \otimes \id_C``
+        \alpha_{B,C,A}`
+        \alpha_{B,A,C}`
+        \id_B \otimes \beta_{A,C}]
+      \efig      
+    \end{mathpar}
+    \begin{mathpar}
+      \bfig
+      \Vtriangle[
+        (A \otimes I) \otimes B`
+        A \otimes (I \otimes B)`
+        A \otimes B;
+        \alpha_{A,I,B}`
+        \rho_{A}`
+        \lambda_{B}]
+      \efig
+      \and
+      \bfig
+      \btriangle[
+        A \otimes B`
+        B \otimes A`
+        A \otimes B;
+        \beta_{A,B}`
+        \id_{A \otimes B}`
+        \beta_{B,A}]
+      \efig
+      \and
+      \bfig
+      \Vtriangle[
+        I \otimes A`
+        A \otimes I`
+        A;
+        \beta_{I,A}`
+        \lambda_A`
+        \rho_A]
+      \efig
+    \end{mathpar}    
+  \end{itemize}
+\end{definition}
+
+
+%% \begin{definition}
+%%   \label{def:SMCC}
+%%   A \textbf{symmetric monoidal closed category (SMCC)} is a symmetric
+%%   monoidal category, $(\cat{M},I,\otimes)$, such that, for any object
+%%   $B$ of $\cat{M}$, the functor $- \otimes B : \cat{M} \to \cat{M}$
+%%   has a specified right adjoint.  Hence, for any objects $A$ and $C$
+%%   of $\cat{M}$ there is an object $A \limp B$ of $\cat{M}$ and a
+%%   natural bijection:
+%%   \[
+%%   \Hom{\cat{M}}{A \otimes B}{C} \cong \Hom{\cat{M}}{A}{B \limp C}
+%%   \]
+%% \end{definition}
