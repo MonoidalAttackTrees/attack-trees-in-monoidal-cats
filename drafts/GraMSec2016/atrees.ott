@@ -9,5 +9,10 @@ atree, t :: 'ATree_' ::=
   | t1 + t2 :: :: Parallel  
   | t1 (+) t2 :: :: Choice
   {{tex [[t1]] \sqcup [[t2]] }}
-  | t1 ; t2   :: :: SeqComp  
+  | t1 (x) t2 :: :: Ortho
+  {{tex [[t1]] \otimes [[t2]] }}  
+  | t1 ; t2   :: :: SeqComp
+  | ! t       :: :: OfCourse
+  {{tex \textcopyright [[t]] }}
+  | ( t ) :: S :: Parens
   

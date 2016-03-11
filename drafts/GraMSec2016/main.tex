@@ -2,7 +2,6 @@
 
 \usepackage{amssymb,amsmath}
 \usepackage{cmll}
-\usepackage{textcomp}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
 \usepackage{mathpartir}
@@ -42,6 +41,17 @@
 \newcommand{\inn}[0]{\,\mathsf{in}\,}
 \newcommand{\cur}[1]{\mathsf{cur}(#1)}
 \newcommand{\curi}[1]{\mathsf{cur}^{-1}(#1)}
+
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}}
 
 %% Ott
 \input{atrees-ott}
@@ -136,39 +146,41 @@ Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}.
 
 \section{Attack Trees}
 \label{sec:attack_trees}
-In this paper I only consider basic attack trees with sequential
+In this paper I consider an extension of attack trees with sequential
 composition which are due to Jhawar et al. \cite{Jhawar:2015}, but one
-of our ultimate goals is to extend attack trees with more operators
-driven by are choice of semantics.  The syntax for attack trees is
-defined in the following definition.
+of our ultimate goals is to extend attack trees with even more
+operators driven by are choice of semantics.  The syntax for attack
+trees is defined in the following definition.
 \begin{definition}
   \label{def:atrees}
   The following defines the syntax of \textbf{Attack Trees} given a set
   of base attacks $b \in \mathsf{B}$:
   \[
   \begin{array}{lll}
-    t ::= [[b]] \mid [[t1 + t2]] \mid [[t1 (+) t2]] \mid [[t1;t2]]\\
+    t ::= [[b]] \mid [[t1 + t2]] \mid [[t1 (+) t2]] \mid [[t1;t2]] \mid [[t1 (x) t2]] \mid [[! t ]]\\
   \end{array}
   \]
   We denote parallel composition by $[[t1 + t2]]$, choice between
-  attacks $[[t1]]$ and $[[t2]]$ by $[[t1 (+) t2]]$, and finally
-  sequential composition of attacks by $[[t1;t2]]$.
+  attacks $[[t1]]$ and $[[t2]]$ by $[[t1 (+) t2]]$, sequential
+  composition of attacks by $[[t1;t2]]$, a new operator called
+  orthocurrence by $[[t1 (x) t2]]$, and finally a new operator called
+  copy by $[[! t]]$.
 \end{definition}
 The syntax given in the previous definition differs from the syntax
 used by Jhawar et al. \cite{Jhawar:2015}.  First, I use infix binary
-operations, while they use prefix $n$-ary operations. However, we do
+operations, while they use prefix $n$-ary operations. However, it does
 not sacrifice any expressivity, because as we will see in the next
-section each operation is associative, and parallel composition and
-choice are symmetric.  Thus, we can embed Jhawar et al.'s definition
-of attack trees into the ones defined here.  The hard part of this
-embedding is realizing that the $n$-ary version of sequential
-composition can be modeled by the binary version, but if we have
-$\mathsf{SAND}(t_1,t_2,\ldots,t_n)$, then it is understood that $t_1$
-is executed, then $t_2$, and so on until $t_n$ is executed, but this
-is exactly the same as $t_1;t_2;\cdots;t_n$.
+section each operation is associative, and parallel composition,
+choice, and orthocurrence are symmetric.  Thus, we can embed Jhawar et
+al.'s definition of attack trees into the ones defined here.  The hard
+part of this embedding is realizing that the $n$-ary version of
+sequential composition can be modeled by the binary version, but if we
+have $\mathsf{SAND}(t_1,t_2,\ldots,t_n)$, then it is understood that
+$t_1$ is executed, then $t_2$, and so on until $t_n$ is executed, but
+this is exactly the same as $t_1;t_2;\cdots;t_n$.
 
-The second major difference is that we denote parallel composition
-with an operator that implies we can think of it as a disjunction, but
+The second major difference is that I denote parallel composition with
+an operator that implies we can think of it as a disjunction, but
 Jhawar et al. and others in the literature seem to use an operator
 that implies that we can think of it as a conjunction.  The semantics,
 however, tells us that it is really a disjunction.  The parallel
@@ -177,20 +189,144 @@ al. \cite{Jhawar:2015} can be proven to be a coproduct -- see
 Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal} -- and
 coproducts categorically model disjunctions.  Furthermore, parallel
 composition is modeled by multiset union in the multiset semantics,
-but we can model this has a coproduct.  Lastly, the semantics we give
-in the section models parallel composition as a coproduct.  Thus, I
+but we can model this as a coproduct.  Lastly, the semantics I give in
+the next section models parallel composition as a coproduct.  Thus, I
 claim that an operator that reflects this is for the better.
 
-The third, and final difference, is that we denote the choice between
-executing attack $[[t1]]$ or attack $[[t2]]$, but not both by $[[t1
-    (+) t2]]$ instead of using a symbol that implies that it is a
-disjunction.  This fits very nicely with the semantics of Jhawar et
-al., where they collect the attacks that can be executed into a set.
-The semantics we given in the next section models choice directly.
+The third difference is that I denote the choice between executing
+attack $[[t1]]$ or attack $[[t2]]$, but not both, by $[[t1 (+) t2]]$
+instead of using a symbol that implies that it is a disjunction.  This
+fits very nicely with the semantics of Jhawar et al., where they
+collect the attacks that can be executed into a set.  The semantics I
+given in the next section models choice directly.
+
+The forth, and final, difference is that we extend the syntax with two
+new operators called orthocurrence and copy.  The attack $[[t1 (x)
+    t2]]$ states that $[[t1]]$ interacts with the attack $[[t2]]$ in
+the sense that processes interact.  Modeling interacting attacks
+allows for the more refined modeling of security critical systems.
+For example, one could take over a workstation on a network and funnel
+malicious traffic through it onto the internal network.  Orthocurrence
+stems from process algebra, and for more examples, and a brief history
+of orthocurrence see \cite{Pratt:2001}.  In fact, this operator points
+out a theme to the project being described in this paper.  We view
+attack trees as describing concurrent interacting processes.  Thus, we
+can learn a lot from process algebra.
+
+Orthocurrence actually hints at an interesting extension of attack
+trees with interacting parties.  For example, it can be used to bring
+social engineering into the analysis where someone communicates
+malicious information or commands to a unsuspecting party.  That is,
+attack trees could be extended with nodes representing people or
+devices communicating information from/through one process to another.
+
+The attack $[[! t]]$ indicates that attack $[[t]]$ can be copied and
+contracted.  For example, $[[! (t (x) t)]]$ is equivalent to $[[!
+    t]]$.  Thus, the attack trees given here can treat attack trees as
+processes/resources that cannot be freely copied and deleted, but also
+as propositions that can be, but even further, these two perspectives
+can be mixed.  Semantically, $[[! t]]$ is equivalent to the of-course
+exponential from linear logic mentioned in the introduction.
 % section attack_trees (end)
 
 \section{Concrete Semantics of Attack Trees in Dialectica Spaces}
 \label{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}
+
+I now introduce a new semantics of attack trees that connects their
+study with two new perspectives that could highly impact future
+research in attack trees: intuitionistic linear logic and process
+calculi.  Note that every construction and proof given in this section
+with the exception of sequential composition has been formalized in
+the proof assistant Agda\footnote{The complete formalization can be
+  found at \url{https://github.com/heades/dialectica-spaces} which is
+  part of a general library for working with dialectica spaces in Agda
+  developed with Valeria de Paiva.}.  The semantics is based on the
+notion of a dialectica space:
+
+\begin{definition}
+  \label{def:dialectica-space}
+  A \textbf{dialectica space} is a triple $(A, Q, \delta)$ where $A$
+  and $Q$ are sets and $\delta : A \times Q \to \mathsf{2}$ is a
+  relation.
+\end{definition}
+Dialectica spaces can be seen as the intuitionistic cousin
+\cite{dePaiva:2006b} of Chu spaces \cite{Pratt:1999}.  The latter have
+be used extensively to study process algebra and as a model of
+classical linear logic, while dialectica spaces and their morphisms
+form a model of full intuitionistic linear logic \cite{?}. I will use
+the intuitions often used when explaining Chu spaces to explain
+dialectica spaces, but it should be known that these intuitions are
+due to Pratt and Gupta \cite{?}.  However, the dialectica space
+construction of choice and sequential composition is novel, but is
+equivalent to the constructions in Chu spaces \cite{?}, and so is the
+application of this semantics to attack trees.
+
+Intuitively, we can think of a dialectica space, $(A , Q, \delta)$, as
+a process where $A$ is the set of actions the process will execute,
+$Q$ is the set of states the process can enter, and for $a \in A$ and
+$q \in Q$, $\delta(a , q)$ indicates whether action $a$ can be
+executed in state $q$.  However, this process intuition will not be
+highly necessary for the task at hand which is showing that attack
+trees can be modeled using dialectica spaces.
+
+Dialectica spaces form the objects of a category called $\dial$.  This
+category has an abundance of structure.  The definition $\dial$
+requires the notion of a morphism between dialectica spaces.
+\begin{definition}
+  \label{def:dial-space-morphism}
+  A \textbf{dialectica-space morphism} between dialectica spaces
+  \\ $(A , Q, \alpha)$ and $(B , R , \beta)$ is a tuple $(f, F)$ where
+  $f : A \to B$ and $F : R \to Q$ such that the following weak
+  adjointness condition holds:
+  \begin{center}
+    for any $a \in A$ and $r \in R$, if $\alpha(a,F(r))$, then
+    $\beta(f(a), r)$. 
+  \end{center}
+\end{definition}
+Proving that we have a category takes a little bit of work, but all
+the details can be found in the formal development.  The category
+$\dial$ forms one of the earliest models of linear logic, and is the
+first model of intuitionistic linear logic that contains every linear
+operator. It is originally due to de Paiva \cite{?}. For more
+information on how it relates to linear logic see \cite{Eades:2016}.
+
+The interpretation of attack trees into dialectica spaces requires the
+construction of each operation on dialectica spaces:
+
+\begin{changemargin}{5pt}{5pt}\noindent
+\textbf{Parallel Composition.} Suppose $\cat{A} = (A , Q, \alpha)$ and
+$\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
+construct the dialectica space $\cat{A} + \cat{B} = (A + B, Q \times
+R, \alpha + \beta)$ where $A + B$ is the disjoint union of $A$ and
+$B$, and $\alpha + \beta : (A + B) \times (Q \times R) \to \mathsf{2}$
+is defined by $(\alpha + \beta)(i , x) = \alpha(i , x)$ if $i \in A$,
+but $(\alpha + \beta)(i , x) = \beta(i , x)$ if $i \in B$.  Thus, from
+a process perspective we can see that $\cat{A} + \cat{B}$ executes
+either an action of $\cat{A}$ or an action of $\cat{B}$, but also
+potentially both, however this requires $\cat{A} + \cat{B}$ be a
+coproduct.  It turns out that we can show that parallel composition is
+a coproduct, the details can be found in the formal development.
+Thus, it is associative and symmetric.
+\end{changemargin}
+
+\begin{changemargin}{5pt}{5pt}\noindent
+\textbf{Choice.} Suppose $\cat{A} = (A , Q, \alpha)$ and $\cat{B} = (B
+, R , \beta)$ are two dialectica spaces.  Then we can construct the
+dialectica space $\cat{A} \sqcup \cat{B} = (A + B, Q + R, \alpha
+\sqcup \beta)$ where $\alpha \sqcup \beta : (A + B) \times (Q + R) \to
+\mathsf{2}$ is defined by $(\alpha \sqcup \beta)(i , j) = \alpha(i ,
+j)$ if $i \in A$ and $j \in Q$, $(\alpha + \beta)(i , j) = \beta(i ,
+j)$ if $i \in B$ and $j \in R$, otherwise $(\alpha + \beta)(i , j) =
+0$.  Thus, from a process perspective we can see that $\cat{A} \sqcup
+\cat{B}$ executes either an action of $\cat{A}$ or an action of
+$\cat{B}$, but not both.  Since the actions and states of $\cat{A}
+\sqcup \cat{B}$ are disjoint unions it is pretty easy to show that
+choice forms a symmetric monoidal operator, and hence, is symmetric
+and associative, but it is not a coproduct, because it is not possible
+to define the corresponding injections.
+\end{changemargin}
+
+
 
 % section concrete_semantics_of_attack_trees_in_dialectica_spaces (end)
 
@@ -219,6 +355,11 @@ The semantics we given in the next section models choice directly.
 \input{appendix-SMC}
 % section symmetric_monoidal_categories (end)
 
+\section{Lineales}
+\label{sec:lineales}
+
+% section lineales (end)
+
 
 \section{Source Sink Graphs are Symmetric Monoidal}
 \label{sec:source_sink_graphs_are_symmetric_monoidal}
@@ -232,4 +373,4 @@ The semantics we given in the next section models choice directly.
 %%% mode: latex
 %%% TeX-master: t
 %%% End: 
-<
+
