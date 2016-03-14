@@ -8,6 +8,12 @@
 \usepackage{hyperref}
 \usepackage[barr]{xy}
 
+%% This renames Barr's \to to \mto.  This allows us to use \to for imp
+%% and \mto for a inline morphism.
+\let\mto\to
+\let\to\relax
+\newcommand{\to}{\rightarrow}
+
 % Commands that are useful for writing about type theory and programming language design.
 %% \newcommand{\case}[4]{\text{case}\ #1\ \text{of}\ #2\text{.}#3\text{,}#2\text{.}#4}
 \newcommand{\interp}[1]{\llbracket #1 \rrbracket}
@@ -73,12 +79,12 @@
 \label{sec:introduction}
 
 What do propositional logic, multisets, directed acyclic graphs,
-source sink graphs, Petri nets, and Markov processes all have in
-common?  They are all mathematical models of attack trees \cite{??},
-but even more than that, they can all be modeled in some form of a
-symmetric monoidal category\footnote{We provide a proof that the
-  category of source sink graphs is monoidal in
-  Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal}.}
+source sink graphs (or parallel-series pomsets), Petri nets, and
+Markov processes all have in common?  They are all mathematical models
+of attack trees \cite{??}, but even more than that, they can all be
+modeled in some form of a symmetric monoidal category\footnote{We
+  provide a proof that the category of source sink graphs is monoidal
+  in Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal}.}
 \cite{?} -- for the definition of a symmetric monoidal category see
 Appendix~\ref{sec:symmetric_monoidal_categories}.  Taking things a
 little bit further, monoidal categories have a tight correspondence
@@ -103,7 +109,11 @@ By modeling attack trees in monoidal categories we obtain a sound
 mathematical model, a logic for reasoning about attack trees, and the
 means of constructing a functional programming language for defining
 attack trees (as types), and constructing semantically valid
-transformations (as programs) of attack trees.
+transformations (as programs) of attack trees.  Keep in mind that as
+stated ``semantically valid transformations as programs'' is very
+broad, because this may turn out to be something other than morphisms
+between attack trees, e.g. it may turn out to be bi-simulation between
+processes instead.
 
 Linear logic was first proposed by Girard \cite{?} and was quickly
 realized to be a theory of resources.  In linear logic, every
@@ -114,7 +124,13 @@ fruitful in computer science.  It has lead to linear logic as being a
 logical foundation of concurrency \cite{?} where formulas may be
 considered as processes.  This perspective fits modeling attack trees
 perfectly, because they essentially correspond to concurrent
-processes.
+processes.  Connecting attack trees to processes has been done before
+where they have been modeled by event-based models of concurrency like
+Petri nets and partially-ordered multisets (pomsets) \cite{?}.  In
+fact, pomsets is a model in which events (the resources) can be
+executed exactly once \cite{?}, and thus, has a relationship with
+linear logic \cite{?}.  However, connecting linear logic as a theory
+of attack trees is novel.
 
 Girard's genius behind linear logic was that he isolated the
 structural rules -- weakening and contraction -- by treating them as
@@ -134,14 +150,15 @@ project\footnote{This material is based upon work supported by the
 attack trees in monoidal categories, and through the
 Curry-Howard-Lambek correspondence deriving a new domain-specific
 functional programming language called Lina for Linear Threat
-Analysis.  We begin by defining the style of attack trees we will
-study here in Section~\ref{sec:attack_trees}, then we give a semantics
-of attack trees in a model of full intuitionistic linear logic in
-Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces},
-we discuss how the semantics may be further abstracted in
-Section~\ref{sec:abstract_semantics_of_attack_trees_in_monoidal_categories},
-and finally, we discuss the design of Lina in
-Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}.
+Analysis.  I begin by defining an extension of the attack trees given
+in \cite{Jhawar:2015} in Section~\ref{sec:attack_trees}.  Then I
+introduce a new semantics of attack trees in dialectica spaces, which
+is also a model of full intuitionistic linear logic, in
+Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}.
+The final section,
+Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis},
+discusses Lina and some of the current problems the project seeks to
+answer.
 % section introduction (end)
 
 \section{Attack Trees}
@@ -165,6 +182,44 @@ trees is defined in the following definition.
   composition of attacks by $[[t1;t2]]$, a new operator called
   orthocurrence by $[[t1 (x) t2]]$, and finally a new operator called
   copy by $[[! t]]$.
+
+  \ \\
+  \noindent
+  The following rules define the attack tree reduction relation:
+  \begin{center}
+    \vspace{-25px}
+    \footnotesize
+    \begin{mathpar}
+      \inferrule* [right={\footnotesize assoc}] {
+        \,
+      }{[[(t1 op t2) op t3]] \redto [[t1 op (t2 op t3)]]}
+      \and
+      \inferrule* [right={\footnotesize sym}] {
+        \,
+      }{[[t1 opS t2]] \redto [[t2 opS t1]]}
+      \and
+      \inferrule* [right={\footnotesize choice}] {
+        \,
+      }{[[t (+) t]] \redto [[t]]}
+      \and
+      \inferrule* [right={\footnotesize copy}] {
+        \,
+      }{[[h(!t) (x) !t]] \redto [[!t]]}            
+      \and
+      \inferrule* [right={\footnotesize $\textsc{dist}_1$}] {
+        \,
+      }{[[(t1 (+)  t2) + t]] \redto [[(t1 + t) (+) (t2 + t)]]}
+      \and
+      \inferrule* [right={\footnotesize $\textsc{dist}_2$}] {
+        \,
+      }{[[(t1 (+)  t2) ; t]] \redto [[(t1 ; t) (+) (t2 ; t)]]}
+    \end{mathpar}
+  \end{center}
+  where $\mathsf{op} \in \{+, \otimes, ;, \sqcup\}$ and $\mathsf{op_S}
+  \in \{+, \otimes, \sqcup\}$.  The previous rules can be applied on
+  any well-formed subattack tree. The equivalence relation, denoted
+  $\equiv$, on attack trees is defined as the reflexive, symmetric,
+  and transitive closure of the reduction relation $\redto$.
 \end{definition}
 The syntax given in the previous definition differs from the syntax
 used by Jhawar et al. \cite{Jhawar:2015}.  First, I use infix binary
@@ -177,7 +232,7 @@ part of this embedding is realizing that the $n$-ary version of
 sequential composition can be modeled by the binary version, but if we
 have $\mathsf{SAND}(t_1,t_2,\ldots,t_n)$, then it is understood that
 $t_1$ is executed, then $t_2$, and so on until $t_n$ is executed, but
-this is exactly the same as $t_1;t_2;\cdots;t_n$.
+this is exactly the same as $t_1;t_2;\cdots;t_n$.  
 
 The second major difference is that I denote parallel composition with
 an operator that implies we can think of it as a disjunction, but
@@ -218,7 +273,11 @@ trees with interacting parties.  For example, it can be used to bring
 social engineering into the analysis where someone communicates
 malicious information or commands to a unsuspecting party.  That is,
 attack trees could be extended with nodes representing people or
-devices communicating information from/through one process to another.
+devices communicating information from/through one process to
+another. I conjecture that it should be possible to extend Jhawar et
+al.'s model of attack trees to include orthocurrence due to the
+relationship their model has with partially-ordered multisets which is
+where orthocurrence actually originated \cite{?}.
 
 The attack $[[! t]]$ indicates that attack $[[t]]$ can be copied and
 contracted.  For example, $[[! (t (x) t)]]$ is equivalent to $[[!
@@ -227,9 +286,14 @@ processes/resources that cannot be freely copied and deleted, but also
 as propositions that can be, but even further, these two perspectives
 can be mixed.  Semantically, $[[! t]]$ is equivalent to the of-course
 exponential from linear logic mentioned in the introduction.
+
+The reduction rules are a slightly extended version of equivalences
+given in Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.  The main
+difference is the $\textsc{Copy}$ rule which allows copies made by the
+copy operator to be contracted.
 % section attack_trees (end)
 
-\section{Concrete Semantics of Attack Trees in Dialectica Spaces}
+\section{Semantics of Attack Trees in Dialectica Spaces}
 \label{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}
 
 I now introduce a new semantics of attack trees that connects their
@@ -256,18 +320,16 @@ classical linear logic, while dialectica spaces and their morphisms
 form a model of full intuitionistic linear logic \cite{?}. I will use
 the intuitions often used when explaining Chu spaces to explain
 dialectica spaces, but it should be known that these intuitions are
-due to Pratt and Gupta \cite{?}.  However, the dialectica space
-construction of choice and sequential composition is novel, but is
-equivalent to the constructions in Chu spaces \cite{?}, and so is the
-application of this semantics to attack trees.
+due to Pratt and Gupta \cite{?}.  However, verifying that the Chu
+space construction of choice and sequential composition works in
+dialectica spaces is novel and so is the application of this semantics
+to attack trees.
 
 Intuitively, we can think of a dialectica space, $(A , Q, \delta)$, as
 a process where $A$ is the set of actions the process will execute,
 $Q$ is the set of states the process can enter, and for $a \in A$ and
 $q \in Q$, $\delta(a , q)$ indicates whether action $a$ can be
-executed in state $q$.  However, this process intuition will not be
-highly necessary for the task at hand which is showing that attack
-trees can be modeled using dialectica spaces.
+executed in state $q$.  
 
 Dialectica spaces form the objects of a category called $\dial$.  This
 category has an abundance of structure.  The definition $\dial$
@@ -278,10 +340,8 @@ requires the notion of a morphism between dialectica spaces.
   \\ $(A , Q, \alpha)$ and $(B , R , \beta)$ is a tuple $(f, F)$ where
   $f : A \to B$ and $F : R \to Q$ such that the following weak
   adjointness condition holds:
-  \begin{center}
     for any $a \in A$ and $r \in R$, if $\alpha(a,F(r))$, then
     $\beta(f(a), r)$. 
-  \end{center}
 \end{definition}
 Proving that we have a category takes a little bit of work, but all
 the details can be found in the formal development.  The category
@@ -290,10 +350,11 @@ first model of intuitionistic linear logic that contains every linear
 operator. It is originally due to de Paiva \cite{?}. For more
 information on how it relates to linear logic see \cite{Eades:2016}.
 
-The interpretation of attack trees into dialectica spaces requires the
-construction of each operation on dialectica spaces:
-
-\begin{changemargin}{5pt}{5pt}\noindent
+The interpretation of attack trees into dialectica spaces, each
+definition is equivalent to the construction on Chu spaces \cite{?},
+requires the construction of each operation on dialectica spaces:
+{\vspace{-10pt}\footnotesize\ \\
+\begin{changemargin}{3pt}{3pt}\noindent
 \textbf{Parallel Composition.} Suppose $\cat{A} = (A , Q, \alpha)$ and
 $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
 construct the dialectica space $\cat{A} + \cat{B} = (A + B, Q \times
@@ -309,7 +370,7 @@ a coproduct, the details can be found in the formal development.
 Thus, it is associative and symmetric.
 \end{changemargin}
 
-\begin{changemargin}{5pt}{5pt}\noindent
+\begin{changemargin}{3pt}{3pt}\noindent
 \textbf{Choice.} Suppose $\cat{A} = (A , Q, \alpha)$ and $\cat{B} = (B
 , R , \beta)$ are two dialectica spaces.  Then we can construct the
 dialectica space $\cat{A} \sqcup \cat{B} = (A + B, Q + R, \alpha
@@ -326,14 +387,76 @@ and associative, but it is not a coproduct, because it is not possible
 to define the corresponding injections.
 \end{changemargin}
 
+\begin{changemargin}{3pt}{3pt}\noindent
+\textbf{Sequential Composition.} Modeling sequential conjunction
+requires we extend the notion of dialectic space with the ability to
+determine which states of the space are initial and which are final,
+but this is straightforward.  Suppose $\cat{A} = (A , Q, \alpha)$ and
+$\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
+construct the dialectica space $\cat{A};\cat{B} = (A + B, Z,
+\alpha;\beta)$ where $Z = \{(q_1 , q_2) \in Q \times R \mid q_1 \text{
+  is final in } \cat{A} \text{ or } q_2 \text{ is initial in }
+\cat{B}\}$, and $\alpha;\beta : (A + B) \times Z \to \mathsf{2}$ is
+defined by $(\alpha \sqcup \beta)(i , (q , r)) = \alpha(i , q)$ if $i
+\in A$, $(\alpha;\beta)(i , (q , r)) = \beta(i , r)$ if $i \in B$.
+Thus, from a process perspective we can see that $\cat{A};\cat{B}$
+will first execute the actions of $\cat{A}$ and then once in a final
+state it will begin executing actions of $\cat{B}$.  It can be shown
+that sequential composition is a non-symmetric associative operation.
+\end{changemargin}
 
+\begin{changemargin}{3pt}{3pt}\noindent
+\textbf{Orthocurrence.} Suppose $\cat{A} = (A , Q, \alpha)$ and
+$\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
+construct the dialectica space $\cat{A} \otimes \cat{B} = (A \times B,
+(B \rightarrow Q) \times (A \rightarrow R), \alpha \otimes \beta)$
+where $B \to Q$ and $A \to R$ denote function spaces, and $\alpha
+\otimes \beta : (A \times B) \times ((B \rightarrow Q) \times (A
+\rightarrow R)) \to \mathsf{2}$ is defined by $(\alpha \otimes
+\beta)((a, b) , (f, g)) = \alpha(a , f(b)) \land \beta(b,g(a))$.  From
+a process perspective the actions of $\cat{A} \otimes \cat{B}$ are
+actions from $\cat{A}$ and actions of $\cat{B}$, but the states are
+are maps $(f , g)$ where $f : B \to Q$ and $g : A \to R$ from actions
+to states.  This is the point of interaction between the processes
+$\cat{A}$ and $\cat{B}$.  It is possible to show that orthocurrence is
+a symmetric monoidal bi-functor which is symmetric, associative, and
+has an identity, but for the details see the formal development.
+\end{changemargin}
 
+\begin{changemargin}{3pt}{3pt}\noindent
+\textbf{Copying.} Suppose $\cat{A} = (A , Q, \alpha)$ is a dialectica
+space. Then $\textcopyright\cat{A} = (A, A \to Q^*, \alpha^*)$ where
+$Q^*$ denotes the free monoid with carrier $Q$.  Copying defines a
+functor such that if we have a morphism $f : \cat{B} \to \cat{C}$,
+then we obtain a morphism $\textcopyright f : \textcopyright\cat{B}
+\to \textcopyright\cat{C}$.  Furthermore, $\textcopyright : \dial \to
+\dial$ defines a comonad on the category of dialectica spaces, and
+thus, we have dialectica morphisms $\varepsilon : \textcopyright A \to
+A$ and $\delta : \textcopyright A \to \textcopyright\textcopyright A$
+satisfying the usual diagrams.
+Therefore, we have an isomorphism
+$(\textcopyright\cat{A} \otimes \textcopyright\cat{A}) \cong \textcopyright\cat{A}$.  This implies that under
+$\textcopyright$ we escape to propositional logic. 
+\end{changemargin}
+} At this point it is straightforward to define an interpretation
+$\interp{[[t]]}$ of attack trees into $\dial$.  Soundness with respect
+to this model would correspond to if $[[t1]] \rightsquigarrow [[t2]]$,
+then $\interp{[[t1]]} \cong \interp{[[t2]]}$ where the latter takes
+place in $\dial$ for some suitable equivalence $\cong$ between
+objects.  Naturally, one might choose isomorphism, but this does not
+hold, because the reduction rules $\textsc{copy}$, $\textsc{dist}_1$,
+and $\textsc{dist}_2$ do not hold up to isomorphism of objects, but we
+conjecture if we take $\cong$ to be bi-simulation as defined for Chu
+spaces -- see p. 63 of Gupta \cite{?} -- then we obtain the proper
+equivalences.  These equivalences will need to be verified for
+dialectica spaces, but I do not see any barriers preventing this.
+
+This semantics can be seen as a generalization of some existing
+models.  Multisets, pomsets, and Petri nets can all be modeled by
+dialectica spaces \cite{?}.  However, there is a direct connection
+between dialectica spaces and linear logic which leads to a logical
+theory of attack trees.
 % section concrete_semantics_of_attack_trees_in_dialectica_spaces (end)
-
-\section{Abstract Semantics of Attack Trees in Monoidal Categories}
-\label{sec:abstract_semantics_of_attack_trees_in_monoidal_categories}
-
-% section abstract_semantics_of_attack_trees_in_monoidal_categories (end)
 
 \section{Lina: A Domain Specific PL for Threat Analysis}
 \label{sec:lina:_a_domain_specific_pl_for_threat_analysis}
@@ -354,12 +477,6 @@ to define the corresponding injections.
 \label{sec:symmetric_monoidal_categories}
 \input{appendix-SMC}
 % section symmetric_monoidal_categories (end)
-
-\section{Lineales}
-\label{sec:lineales}
-
-% section lineales (end)
-
 
 \section{Source Sink Graphs are Symmetric Monoidal}
 \label{sec:source_sink_graphs_are_symmetric_monoidal}

@@ -15,4 +15,10 @@ atree, t :: 'ATree_' ::=
   | ! t       :: :: OfCourse
   {{tex \textcopyright [[t]] }}
   | ( t ) :: S :: Parens
+  | h( t ) :: M :: HParens
+  {{tex [[t]] }}
+  | t1 op t2 :: M :: Op
+  {{tex [[t1]] \mathop{\mathsf{op} } [[t2]] }}
+  | t1 opS t2 :: M :: OpS
+  {{tex [[t1]] \mathop{\mathsf{op_S} } [[t2]] }}  
   
