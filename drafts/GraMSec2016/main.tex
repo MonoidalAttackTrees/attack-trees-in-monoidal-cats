@@ -461,11 +461,57 @@ theory of attack trees.
 \section{Lina: A Domain Specific PL for Threat Analysis}
 \label{sec:lina:_a_domain_specific_pl_for_threat_analysis}
 
+The second major part of this project is the development of a
+staticly-typed polymorphic domain-specific linear functional
+programming language for specifying and reasoning about attack trees
+called Lina for Linear Threat Analysis.  Lina will consist of a core
+language and a surface language.  The core language will include a
+decidable type checker using term annotations on types; note that type
+checking becomes undecidable in the presence of parametric
+polymorphism \cite{Wells:1999}.  Programming with annotations can be
+very cumbersome, and so the surface language will use local type
+inference \cite{Pierce:2000} to alleviate some of the burden from
+annotations.  However, the surface language will provide further
+conveniences in the form of automation, to be used with labeled attack
+trees, and graphical representations of attack trees based on the
+various graphical languages used in category theory
+\cite{Selinger:2009}.  Thus, the security specialist will not be
+required to program directly in Lina, but instead will only be
+required to use a graphical interface to construct attack trees and
+prove properties about them.
+
+There are two main questions that still must be answered in order for
+all this to work.  First, linear logic generally does not include
+operators like choice and sequential composition, and hence, in order
+to build Lina we must figure out how to add these operators to linear
+logic.  It should be enough to add a new non-commutative monoidal
+operator for sequential conjecture to linear logic along with a new
+symmetric monoidal operator for choice.  It seems the former has been
+done in classical linear logic \cite{?}, but it remains to be seen if
+it can be done in intuitionistic linear logic.
+
+Second, programs are seen as proofs/dialectica space morphisms, but we
+know that the morphisms of $\dial$ do not capture all of the structure
+of the attack trees, and hence, we must move to bi-simulation of
+dialectica spaces to obtain a sound model of attack trees.  So one
+important question we must answer is do all of isomorphisms between
+dialectica spaces in $\dial$ lift to equivalences using bi-simulation?
+If yes, then we may consider programs as bi-simulations, and hence,
+obtain the proper structure to soundly model attack trees.
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
-\section{Conclusion and Future Work}
-\label{sec:conclusion_and_future_work}
-
+\section{Conclusion}
+\label{sec:conclusion}
+The project described here is to first develop the semantics of attack
+trees (Section~\ref{sec:attack_trees}) in dialectica spaces
+(Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}),
+a model of full intuitionistic linear logic, and then exploiting --
+and extending -- the Curry-Howard-Lambek correspondence to develop a
+new functional programming language called Lina
+(Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}) to
+be used to develop a new tool to conduct threat analysis using attack
+trees.  This tool will include the ability to design and formally
+reason about attack trees using interactive theorem proving.
 % section conclusion_and_future_work (end)
 
 
