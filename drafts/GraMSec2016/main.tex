@@ -72,7 +72,16 @@
 \maketitle 
 
 \begin{abstract}
-  TODO
+  This short paper introduces a new project studying at the
+  intersection of threat analysis using attack trees and interactive
+  theorem proving using linear logic.  The project proposes a new
+  semantics of attack trees in dialectica spaces, a well-known model
+  of intuitionistic linear logic, which offers two new branching
+  operators to attack trees.  Then by exploiting -- and extending --
+  the Curry-Howard-Lambek correspondence seeks to develop a
+  domain-specific linear functional programming language called Lina
+  -- for Linear Threat Analysis -- for specifying and reasoning about
+  attack trees.
 \end{abstract}
 
 \section{Introduction}
@@ -81,10 +90,11 @@
 What do propositional logic, multisets, directed acyclic graphs,
 source sink graphs (or parallel-series pomsets), Petri nets, and
 Markov processes all have in common?  They are all mathematical models
-of attack trees -- see the references in \cite{Jhawar:2015} -- but
-even more than that, they can all be modeled in some form of a
-symmetric monoidal category\footnote{We provide a proof that the
-  category of source sink graphs is monoidal in
+of attack trees -- see the references in
+\cite{Kordy:2014a,Jhawar:2015} -- but even more than that, they can
+all be modeled in some form of a symmetric monoidal
+category\footnote{I provide a proof that the category of source sink
+  graphs is monoidal in
   Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal}.}
 \cite{Tzouvaras:1998,Brown:1991,Fiore:2013,FrancescoAlbasini2010} --
 for the definition of a symmetric monoidal category see
@@ -179,7 +189,7 @@ trees is defined in the following definition.
     t ::= [[b]] \mid [[t1 + t2]] \mid [[t1 (+) t2]] \mid [[t1;t2]] \mid [[t1 (x) t2]] \mid [[! t ]]\\
   \end{array}
   \]
-  We denote parallel composition by $[[t1 + t2]]$, choice between
+  I denote parallel composition by $[[t1 + t2]]$, choice between
   attacks by $[[t1 (+) t2]]$, sequential composition of attacks by
   $[[t1;t2]]$, and two new operators called orthocurrence, denoted
   $[[t1 (x) t2]]$, and copy, denoted $[[! t]]$.
@@ -230,8 +240,8 @@ used by Jhawar et al. \cite{Jhawar:2015}.  First, I use infix binary
 operations, while they use prefix $n$-ary operations. However, it does
 not sacrifice any expressivity, because each operation is associative,
 and parallel composition, choice, and orthocurrence are symmetric.
-Thus, we can embed Jhawar et al.'s definition of attack trees into the
-ones defined here.%% The hard
+Thus, Jhawar et al.'s definition of attack trees can be embedded into
+the ones defined here.%% The hard
 %% part of this embedding is realizing that the $n$-ary version of
 %% sequential composition can be modeled by the binary version, but if we
 %% have $\mathsf{SAND}(t_1,t_2,\ldots,t_n)$, then it is understood that
@@ -259,7 +269,7 @@ fits very nicely with the semantics of Jhawar et al., where they
 collect the attacks that can be executed into a set.  The semantics I
 given in the next section models choice directly.
 
-The forth, and final, difference is that we extend the syntax with two
+The forth, and final, difference is that I extend the syntax with two
 new operators called orthocurrence and copy.  The attack $[[t1 (x)
     t2]]$ states that $[[t1]]$ interacts with the attack $[[t2]]$ in
 the sense that processes interact.  Modeling interacting attacks
@@ -293,15 +303,16 @@ copy operator to be contracted.
 \label{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}
 
 I now introduce a new semantics of attack trees that connects their
-study with two new perspectives that could highly impact future
-research in attack trees: intuitionistic linear logic and process
-calculi.  Note that every construction and proof given in this section
-with the exception of sequential composition has been formalized in
-the proof assistant Agda\footnote{The complete formalization can be
-  found at \url{https://github.com/heades/dialectica-spaces} which is
-  part of a general library for working with dialectica spaces in Agda
-  developed with Valeria de Paiva.}.  The semantics is based on the
-notion of a dialectica space:
+study with a new perspective of attack trees that could highly impact
+future research in attack trees: intuitionistic linear logic, but it
+also strengthens their connection to process calculi.  Note this
+section, with the exception of sequential composition, has been
+formalized in the proof assistant Agda\footnote{The complete
+  formalization can be found at
+  \url{https://github.com/heades/dialectica-spaces} which is part of a
+  general library for working with dialectica spaces in Agda developed
+  with Valeria de Paiva.}.  The semantics is based on the notion of a
+dialectica space:
 
 \begin{definition}
   \label{def:dialectica-space}
@@ -309,31 +320,27 @@ notion of a dialectica space:
   and $Q$ are sets and $\delta : A \times Q \to \mathsf{2}$ is a
   relation.
 \end{definition}
+
 Dialectica spaces can be seen as the intuitionistic cousin
 \cite{dePaiva:2006b} of Chu spaces \cite{Pratt:1999}.  The latter have
 be used extensively to study process algebra and as a model of
 classical linear logic, while dialectica spaces and their morphisms
-form a model of full intuitionistic linear logic
-\cite{dePaiva:1987}. I will use the intuitions often used when
-explaining Chu spaces to explain dialectica spaces, but it should be
-known that these intuitions are due to Pratt and Gupta
-\cite{Gupta:1994}.  However, verifying that the Chu space construction
-of choice and sequential composition works in dialectica spaces is
-novel and so is the application of this semantics to attack trees.
+form one a categorical model of intuitionistic linear logic called
+$\dial$ (originally due to de Paiva \cite{dePaiva:1987}); I do not
+introduce dialectica space morphisms here, but the curious reader can
+find the definition in the formal development. I will use the
+intuitions often used when explaining Chu spaces to explain dialectica
+spaces, but it should be known that these intuitions are due to Pratt
+and Gupta \cite{Gupta:1994}.  However, verifying that the Chu space
+construction of choice and sequential composition works in dialectica
+spaces is novel and so is the application of this semantics to attack
+trees.
 
-Intuitively, we can think of a dialectica space, $(A , Q, \delta)$, as
-a process where $A$ is the set of actions the process will execute,
+Intuitively, a dialectica space, $(A , Q, \delta)$, can be thought of
+as a process where $A$ is the set of actions the process will execute,
 $Q$ is the set of states the process can enter, and for $a \in A$ and
 $q \in Q$, $\delta(a , q)$ indicates whether action $a$ can be
-executed in state $q$.  
-
-Dialectica spaces form the objects of a category called $\dial$ which
-forms one of the earliest models of linear logic -- originally due to
-de Paiva \cite{dePaiva:1987} -- and is the first model of
-intuitionistic linear logic that contains every linear operator.  The
-definition $\dial$ requires the notion of a morphism between
-dialectica spaces, but due to space we do not define it here; see the
-formal development for the definition.
+executed in state $q$.
 
 The interpretation of attack trees into dialectica spaces, each
 definition is equivalent to the construction on Chu spaces
@@ -344,23 +351,21 @@ dialectica spaces: {\vspace{-10pt}\footnotesize\ \\
 $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
 construct the (coproduct) dialectica space $\cat{A} + \cat{B} = (A +
 B, Q \times R, \alpha + \beta)$ where $A + B$ is the disjoint union of
-$A$ and $B$, and $\alpha + \beta : (A + B) \times (Q \times R) \to
-\mathsf{2}$ is defined by $(\alpha + \beta)(i , x) = \alpha(i , x)$ if
-$i \in A$, but $(\alpha + \beta)(i , x) = \beta(i , x)$ if $i \in B$.
-Thus, from a process perspective we can see that $\cat{A} + \cat{B}$
+$A$ and $B$, and $(\alpha + \beta)(i , x) = \alpha(i , x)$ if $i \in
+A$, but $(\alpha + \beta)(i , x) = \beta(i , x)$ if $i \in B$.  Thus,
+from a process perspective we can see that $\cat{A} + \cat{B}$
 executes either an action of $\cat{A}$ or an action of $\cat{B}$, but
-also potentially both.  
+also potentially both.
 \end{changemargin}
 
 \begin{changemargin}{2pt}{2pt}\noindent
 \textbf{Choice.} Suppose $\cat{A} = (A , Q, \alpha)$ and $\cat{B} = (B
 , R , \beta)$ are two dialectica spaces.  Then we can construct the
 dialectica space $\cat{A} \sqcup \cat{B} = (A + B, Q + R, \alpha
-\sqcup \beta)$ where $\alpha \sqcup \beta : (A + B) \times (Q + R) \to
-\mathsf{2}$ is defined by $(\alpha \sqcup \beta)(i , j) = \alpha(i ,
-j)$ if $i \in A$ and $j \in Q$, $(\alpha + \beta)(i , j) = \beta(i ,
-j)$ if $i \in B$ and $j \in R$, otherwise $(\alpha + \beta)(i , j) =
-0$.  Thus, from a process perspective we can see that $\cat{A} \sqcup
+\sqcup \beta)$ where $(\alpha \sqcup \beta)(i , j) = \alpha(i , j)$ if
+$i \in A$ and $j \in Q$, $(\alpha + \beta)(i , j) = \beta(i , j)$ if
+$i \in B$ and $j \in R$, otherwise $(\alpha + \beta)(i , j) = 0$.
+Thus, from a process perspective we can see that $\cat{A} \sqcup
 \cat{B}$ executes either an action of $\cat{A}$ or an action of
 $\cat{B}$, but not both.  Since the actions and states of $\cat{A}
 \sqcup \cat{B}$ are disjoint unions it is pretty easy to show that
@@ -369,21 +374,19 @@ because it is not possible to define the corresponding injections.
 \end{changemargin}
 
 \begin{changemargin}{2pt}{2pt}\noindent
-\textbf{Sequential Composition.} Modeling sequential conjunction
-requires we extend the notion of dialectic space with the ability to
-determine which states of the space are initial and which are final,
-but this is straightforward.  Suppose $\cat{A} = (A , Q, \alpha)$ and
-$\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
-construct the dialectica space $\cat{A};\cat{B} = (A + B, Z,
-\alpha;\beta)$ where $Z = \{(q_1 , q_2) \in Q \times R \mid q_1 \text{
-  is final in } \cat{A} \text{ or } q_2 \text{ is initial in }
-\cat{B}\}$, and $\alpha;\beta : (A + B) \times Z \to \mathsf{2}$ is
-defined by $(\alpha;\beta)(i , (q , r)) = \alpha(i , q)$ if $i
-\in A$, $(\alpha;\beta)(i , (q , r)) = \beta(i , r)$ if $i \in B$.
-Thus, from a process perspective we can see that $\cat{A};\cat{B}$
-will first execute the actions of $\cat{A}$ and then once in a final
-state it will begin executing actions of $\cat{B}$.  It can be shown
-that sequential composition is a non-symmetric associative operation.
+\textbf{Sequential Composition.} Suppose we extend dialectic space
+with the ability to determine which states of the space are initial
+and which are final.  Let $\cat{A} = (A , Q, \alpha)$ and $\cat{B} =
+(B , R , \beta)$ be two dialectica spaces.  Then we can construct the
+dialectica space $\cat{A};\cat{B} = (A + B, Z, \alpha;\beta)$ where $Z
+= \{(q_1 , q_2) \in Q \times R \mid q_1 \text{ is final in } \cat{A}
+\text{ or } q_2 \text{ is initial in } \cat{B}\}$, and
+$(\alpha;\beta)(i , (q , r)) = \alpha(i , q)$ if $i \in A$,
+$(\alpha;\beta)(i , (q , r)) = \beta(i , r)$ if $i \in B$.  Thus, from
+a process perspective we can see that $\cat{A};\cat{B}$ will first
+execute the actions of $\cat{A}$ and then once in a final state it
+will begin executing actions of $\cat{B}$.  It can be shown that
+sequential composition is a non-symmetric associative operation.
 \end{changemargin}
 
 \begin{changemargin}{2pt}{2pt}\noindent
@@ -391,33 +394,30 @@ that sequential composition is a non-symmetric associative operation.
 $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
 construct the dialectica space $\cat{A} \otimes \cat{B} = (A \times B,
 (B \rightarrow Q) \times (A \rightarrow R), \alpha \otimes \beta)$
-where $B \to Q$ and $A \to R$ denote function spaces, and $\alpha
-\otimes \beta : (A \times B) \times ((B \rightarrow Q) \times (A
-\rightarrow R)) \to \mathsf{2}$ is defined by $(\alpha \otimes
-\beta)((a, b) , (f, g)) = \alpha(a , f(b)) \land \beta(b,g(a))$.  From
-a process perspective the actions of $\cat{A} \otimes \cat{B}$ are
-actions from $\cat{A}$ and actions of $\cat{B}$, but the states are
-are pairs of maps $f : B \to Q$ and $g : A \to R$ from actions to
-states.  This is the point of interaction between the processes.  It
-is possible to show that orthocurrence is a symmetric monoidal
-bi-functor which is associative, and has an identity, but
-for the details see the formal development.
+where $B \to Q$ and $A \to R$ denote function spaces, and 
+$(\alpha \otimes \beta)((a, b) , (f, g)) = \alpha(a , f(b)) \land
+\beta(b,g(a))$.  From a process perspective the actions of $\cat{A}
+\otimes \cat{B}$ are actions from $\cat{A}$ and actions of $\cat{B}$,
+but the states are are pairs of maps $f : B \to Q$ and $g : A \to R$
+from actions to states.  This is the point of interaction between the
+processes.  It is possible to show that orthocurrence is a symmetric
+monoidal bi-functor which is associative, and has an identity, but for
+the details see the formal development.
 \end{changemargin}
 
 \begin{changemargin}{2pt}{2pt}\noindent
 \textbf{Copying.} Suppose $\cat{A} = (A , Q, \alpha)$ is a dialectica
 space. Then $\textcopyright\cat{A} = (A, A \to Q^*, \alpha^*)$ where
-$Q^*$ denotes the free monoid with carrier $Q$.  Copying defines a
-functor such that if we have a morphism $f : \cat{B} \to \cat{C}$,
-then we obtain a morphism $\textcopyright f : \textcopyright\cat{B}
-\to \textcopyright\cat{C}$.  Furthermore, $\textcopyright : \dial \to
-\dial$ defines a comonad on the category of dialectica spaces, and
-thus, we have dialectica morphisms $\varepsilon : \textcopyright A \to
-A$ and $\delta : \textcopyright A \to \textcopyright\textcopyright A$
-satisfying the usual diagrams.
-Therefore, we have an isomorphism
-$(\textcopyright\cat{A} \otimes \textcopyright\cat{A}) \cong \textcopyright\cat{A}$.  This implies that under
-$\textcopyright$ we escape to propositional logic. 
+$Q^*$ denotes the free monoid with carrier $Q$ and $\alpha^*$ is the
+free monoid extension of $\alpha$.  Copying defines a comonad
+$\textcopyright : \dial \to \dial$ on the category of dialectica
+spaces, and thus, we have dialectica morphisms $\varepsilon :
+\textcopyright A \to A$ and $\delta : \textcopyright A \to
+\textcopyright\textcopyright A$ satisfying the usual diagrams.
+Furthermore, it has enough structure to show the isomorphism
+$(\textcopyright\cat{A} \otimes \textcopyright\cat{A}) \cong
+\textcopyright\cat{A}$.  This implies that under $\textcopyright$ we
+escape to propositional logic.
 \end{changemargin}
 } At this point it is straightforward to define an interpretation
 $\interp{[[t]]}$ of attack trees into $\dial$.  Soundness with respect
@@ -426,16 +426,16 @@ then $\interp{[[t1]]} \cong \interp{[[t2]]}$ where the latter takes
 place in $\dial$ for some suitable equivalence $\cong$ between
 objects.  Naturally, one might choose isomorphism, but this does not
 hold, because the reduction rules $\textsc{copy}$, $\textsc{dist}_1$,
-and $\textsc{dist}_2$ do not hold up to isomorphism of objects, but we
+and $\textsc{dist}_2$ do not hold up to isomorphism of objects, but I
 conjecture if we take $\cong$ to be bi-simulation as defined for Chu
 spaces -- see p. 63 of Gupta \cite{Gupta:1994} -- then we obtain the
-proper equivalences.  
+proper equivalences.
 
 This semantics can be seen as a generalization of some existing
 models.  Multisets, pomsets, and Petri nets can all be modeled by
 dialectica spaces \cite{Brown:1991,Gupta:1994}.  However, there is a
 direct connection between dialectica spaces and linear logic which
-leads to a logical theory of attack trees.
+may lead to a logical theory of attack trees.
 % section concrete_semantics_of_attack_trees_in_dialectica_spaces (end)
 
 \section{Lina: A Domain Specific PL for Threat Analysis}
@@ -446,37 +446,38 @@ staticly-typed polymorphic domain-specific linear functional
 programming language for specifying and reasoning about attack trees
 called Lina for Linear Threat Analysis.  Lina will consist of a core
 language and a surface language.  The core language will include a
-decidable type checker using term annotations on types; note that type
-checking becomes undecidable in the presence of parametric
-polymorphism \cite{Wells:1999}.  Programming with annotations can be
-very cumbersome, and so the surface language will use local type
-inference \cite{Pierce:2000} to alleviate some of the burden from
-annotations.  However, the surface language will provide further
-conveniences in the form of automation, to be used with labeled attack
-trees, and graphical representations of attack trees based on the
-various graphical languages used in category theory
+decidable type checker using term annotations on types.  Programming
+with annotations can be very cumbersome, and so the surface language
+will use local type inference \cite{Pierce:2000} to alleviate some of
+the burden from annotations.  However, the surface language will
+provide further conveniences in the form of automation, to be used
+with labeled attack trees, and graphical representations of attack
+trees based on the various graphical languages used in category theory
 \cite{Selinger:2009}.  Thus, the security specialist will not be
-required to program directly in Lina, but instead will only be
-required to use a graphical interface to construct attack trees and
-prove properties about them.
+required to program directly in Lina, but instead will use a graphical
+interface to construct attack trees and prove properties about them.
 
 There are two main questions that still must be answered in order for
 all this to work.  First, linear logic generally does not include
 operators like choice and sequential composition, and hence, in order
 to build Lina we must figure out how to add these operators to linear
-logic.  It should be enough to add a new non-commutative monoidal
-operator for sequential conjecture to linear logic along with a new
-symmetric monoidal operator for choice.  It seems the former has been
-done in classical linear logic \cite{Retore:1997}, but it remains to
-be seen if it can be done in intuitionistic linear logic.
+logic. The answer to this questions requires an answer to \textbf{how
+  to add in addition to the commutative operators already in
+  intuitionistic linear logic a new non-commutative monoidal operator
+  for sequential conjunction?} This is a non-trivial addition. It
+seems the it has been done in classical linear logic
+\cite{Retore:1997}, but it remains to be seen if it can be done in
+intuitionistic linear logic.  I conjecture that choice should be
+straightforward to add as a new symmetric monoidal operator.
 
-Second, programs are seen as proofs/dialectica space morphisms, but we
-know that the morphisms of $\dial$ do not capture all of the structure
-of the attack trees, and hence, we must move to bi-simulation of
-dialectica spaces to obtain a sound model of attack trees.  So one
-important question we must answer is do all of isomorphisms between
-dialectica spaces in $\dial$ lift to equivalences using bi-simulation?
-If yes, then we may consider programs as bi-simulations, and hence,
+Second, generally in the Curry-Howard-Lambek correspondence programs
+are seen as proofs/dialectica space morphisms, but we know that the
+morphisms of $\dial$ do not capture all of the structure of the attack
+trees, and hence, we must move to bi-simulation of dialectica spaces
+to obtain a sound model of attack trees.  So one important question we
+must answer is \textbf{do all of isomorphisms between dialectica
+  spaces in $\dial$ lift to equivalences using bi-simulation?}  If
+yes, then we may consider programs as bi-simulations, and hence,
 obtain the proper structure to soundly model attack trees.
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
