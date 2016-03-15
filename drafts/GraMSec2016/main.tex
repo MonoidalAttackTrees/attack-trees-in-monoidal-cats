@@ -125,24 +125,23 @@ transformations (as programs) of attack trees.  Keep in mind that as
 stated ``semantically valid transformations as programs'' is very
 broad, because this may turn out to be something other than morphisms
 between attack trees, e.g. it may turn out to be bi-simulation between
-processes instead.
+processes instead.  
 
 Linear logic was first proposed by Girard \cite{Girard:1987} and was
 quickly realized to be a theory of resources.  In linear logic, every
 hypothesis must be used exactly once.  Thus, formulas like $A \otimes
 A$ and $A$ are not logically equivalent -- here $\otimes$ is linear
 conjunction.  This resource perspective of linear logic has been very
-fruitful in computer science.  It has lead to linear logic as being a
-logical foundation of concurrency where formulas may be considered as
-processes.  This perspective fits modeling attack trees perfectly,
-because they essentially correspond to concurrent processes.
-Connecting attack trees to processes has been done before where they
-have been modeled by event-based models of concurrency like Petri nets
-and partially-ordered multisets (pomsets)
+fruitful in computer science and lead to linear logic being a logical
+foundation of processes and concurrency where formulas may be
+considered as processes.  Treating attack trees as concurrent
+processes is not new; they have been modeled by event-based models of
+concurrency like Petri nets and partially-ordered multisets (pomsets)
 \cite{Jhawar:2015,Mauw:2006}.  In fact, pomsets is a model in which
 events (the resources) can be executed exactly once, and thus, has a
 relationship with linear logic \cite{Retore:1997}.  However,
-connecting linear logic as a theory of attack trees is novel.
+connecting linear logic as a theory of attack trees is novel, and
+strengthens this perspective.
 
 Girard's genius behind linear logic was that he isolated the
 structural rules -- weakening and contraction -- by treating them as
@@ -162,10 +161,11 @@ project\footnote{This material is based upon work supported by the
 attack trees in monoidal categories, and through the
 Curry-Howard-Lambek correspondence deriving a new domain-specific
 functional programming language called Lina for Linear Threat
-Analysis.  I begin by defining an extension of the attack trees given
-in \cite{Jhawar:2015} in Section~\ref{sec:attack_trees}.  Then I
-introduce a new semantics of attack trees in dialectica spaces, which
-is also a model of full intuitionistic linear logic, in
+Analysis.  I begin by defining an extension -- inspired by our
+semantics -- of the attack trees given in \cite{Jhawar:2015} in
+Section~\ref{sec:attack_trees}.  Then I introduce a new semantics of
+attack trees in dialectica spaces, which is also a model of full
+intuitionistic linear logic, in
 Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}.
 The final section,
 Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis},
