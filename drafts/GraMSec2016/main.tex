@@ -91,10 +91,9 @@ What do propositional logic, multisets, directed acyclic graphs,
 source sink graphs (or parallel-series pomsets), Petri nets, and
 Markov processes all have in common?  They are all mathematical models
 of attack trees -- see the references in
-\cite{Kordy:2014a,Jhawar:2015} -- but even more than that, they can
-all be modeled in some form of a symmetric monoidal
-category\footnote{I provide a proof that the category of source sink
-  graphs is monoidal in
+\cite{Kordy:2014a,Jhawar:2015} -- but also, they can all be modeled in
+some form of a symmetric monoidal category\footnote{I provide a proof
+  that the category of source sink graphs is monoidal in
   Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal}.}
 \cite{Tzouvaras:1998,Brown:1991,Fiore:2013,FrancescoAlbasini2010} --
 for the definition of a symmetric monoidal category see
@@ -110,6 +109,7 @@ linear logic.
 
 The Curry-Howard-Lambek correspondence is a three way relationship:
 \begin{center}
+  \footnotesize
   \setlength{\tabcolsep}{7pt}
   \begin{tabular}{ccccc}
     Categories & $\iff$ & Logic    & $\iff$   & Functional Programming\\
@@ -198,7 +198,7 @@ trees is defined in the following definition.
   \noindent
   The following rules define the attack tree reduction relation:
   \begin{center}
-    \vspace{-25px}
+    \vspace{-17px}
     \footnotesize
     \begin{math}
       \begin{array}{cccccccccccc}
@@ -288,10 +288,10 @@ orthocurrence actually originated.
 The attack $[[! t]]$ indicates that attack $[[t]]$ can be copied and
 contracted.  For example, $[[h(!t) (x) !t]]$ is equivalent to $[[!
     t]]$.  Thus, the attack trees given here can treat attack trees as
-processes/resources that cannot be freely copied and deleted, but also
-as propositions that can be, but even further, these two perspectives
-can be mixed.  Semantically, $[[! t]]$ is equivalent to the of-course
-exponential from linear logic mentioned in the introduction.
+processes/resources that cannot be freely copied and deleted, as
+propositions that can be, and as a mixture of the two.  Semantically,
+$[[! t]]$ is equivalent to the of-course exponential from linear logic
+mentioned in the introduction.
 
 The reduction rules are a slightly extended version of equivalences
 given in Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.  The main
@@ -378,9 +378,10 @@ because it is not possible to define the corresponding injections.
 with the ability to determine which states of the space are initial
 and which are final.  Let $\cat{A} = (A , Q, \alpha)$ and $\cat{B} =
 (B , R , \beta)$ be two dialectica spaces.  Then we can construct the
-dialectica space $\cat{A};\cat{B} = (A + B, Z, \alpha;\beta)$ where $Z
+dialectica space $\cat{A};\cat{B} = (A + B, Z, \alpha;\beta)$ where
+{\scriptsize $Z
 = \{(q_1 , q_2) \in Q \times R \mid q_1 \text{ is final in } \cat{A}
-\text{ or } q_2 \text{ is initial in } \cat{B}\}$, and
+\text{ or } q_2 \text{ is initial in } \cat{B}\}$}, and
 $(\alpha;\beta)(i , (q , r)) = \alpha(i , q)$ if $i \in A$,
 $(\alpha;\beta)(i , (q , r)) = \beta(i , r)$ if $i \in B$.  Thus, from
 a process perspective we can see that $\cat{A};\cat{B}$ will first
@@ -475,14 +476,15 @@ are seen as proofs/dialectica space morphisms, but we know that the
 morphisms of $\dial$ do not capture all of the structure of the attack
 trees, and hence, we must move to bi-simulation of dialectica spaces
 to obtain a sound model of attack trees.  So one important question we
-must answer is \textbf{do all of isomorphisms between dialectica
-  spaces in $\dial$ lift to equivalences using bi-simulation?}  If
-yes, then we may consider programs as bi-simulations, and hence,
-obtain the proper structure to soundly model attack trees.
+must answer is \textbf{do all isomorphisms between dialectica spaces
+  in $\dial$ lift to equivalences using bi-simulation?}  If yes, then
+we may consider programs as bi-simulations, and hence, obtain the
+proper structure to soundly model attack trees.
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
 \section{Conclusion}
 \label{sec:conclusion}
+
 The project described here is to first develop the semantics of attack
 trees (Section~\ref{sec:attack_trees}) in dialectica spaces
 (Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}),
