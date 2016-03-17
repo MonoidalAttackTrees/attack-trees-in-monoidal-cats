@@ -6,12 +6,14 @@ grammar
 % Object-level Formulas.
 atree, t :: 'ATree_' ::=
   | b  :: :: Base
-  | t1 + t2 :: :: Parallel  
+  | t1 + t2 :: :: Parallel
+  {{tex [[t1]] \odot [[t2]] }}
   | t1 (+) t2 :: :: Choice
   {{tex [[t1]] \sqcup [[t2]] }}
   | t1 (x) t2 :: :: Ortho
   {{tex [[t1]] \otimes [[t2]] }}  
   | t1 ; t2   :: :: SeqComp
+  {{tex [[t1]] \rhd [[t2]] }}
   | ! t       :: :: OfCourse
   {{tex \textcopyright [[t]] }}
   | ( t ) :: S :: Parens
