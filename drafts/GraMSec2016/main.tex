@@ -462,7 +462,25 @@ trees based on the various graphical languages used in category theory
 required to program directly in Lina, but instead will use a graphical
 interface to construct attack trees and prove properties about them.
 
-\cite{Retore:1997}
+Types in Lina will correspond to attack trees while programs
+correspond to semantically valid transformations of attack trees,
+thus, a question we must answer then is \textbf{how do we sufficiently
+  represent the model of attack trees in $\dial$ as a linear logic?}
+The problem is the fact that Lina will require both commutative
+monoidal operators and non-communicative monoidal
+operators. Supporting both types of operators within the same logic
+has been a long standing question.  A starting point might be with
+Reedy's LLMS which has already been shown to have a categorical model
+in $\dial$ by de Paiva \cite{dePaiva:2014a}.  A different path the
+project plans to develop is to start with a non-communicative linear
+logic and then split up the of-course exponential into three new
+exponential operators: one that adds symmetry, one that adds
+weakening, and one that adds contraction.  This would allow for the
+specification of multiple types of monoidal operators using the
+various exponentials.  Once a proper linear logic is laid out the next
+step will be to exploit the Curry-Howard-Lambek correspondence to
+obtain a linear functional programming language making up the core of
+Lina.
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
 \section{Conclusion}
@@ -471,9 +489,9 @@ interface to construct attack trees and prove properties about them.
 The project described here is to first develop the semantics of attack
 trees (Section~\ref{sec:attack_trees}) in dialectica spaces
 (Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}),
-a model of full intuitionistic linear logic, and then exploiting --
-and extending -- the Curry-Howard-Lambek correspondence to develop a
-new functional programming language called Lina
+a model of full intuitionistic linear logic, and then exploiting the
+Curry-Howard-Lambek correspondence to develop a new functional
+programming language called Lina
 (Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis}) to
 be used to develop a new tool to conduct threat analysis using attack
 trees.  This tool will include the ability to design and formally
