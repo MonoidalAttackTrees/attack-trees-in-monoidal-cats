@@ -207,18 +207,14 @@ trees is defined in the following definition.
           \,
         }{[[t1 opS t2]] \redto [[t2 opS t1]]}
         \\
-        \inferrule* [right={\scriptsize choice}] {
-          \,
-        }{[[t (+) t]] \redto [[t]]}
-        &
         \inferrule* [right={\scriptsize copy}] {
           \,
         }{[[h(!t) (x) !t]] \redto [[!t]]}            
-        \\
+        &
         \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
           \,
         }{[[(t1 (+)  t2) + t]] \redto [[(t1 + t) (+) (t2 + t)]]}
-        &
+        \\
         \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
           \,
         }{[[(t1 (+)  t2) ; t]] \redto [[(t1 ; t) (+) (t2 ; t)]]}
