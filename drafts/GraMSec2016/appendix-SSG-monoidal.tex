@@ -62,8 +62,9 @@ graph homomorphisms.  Furthermore, the following diagram must commute:
 
 Suppose $G_1 = (V_1 , E_1, s_1, z_1)$, $G_2 = (V_2 , E_2, s_2, z_2)$,
 and $G = (V , E, s, z)$ are source-sink graphs, and $f : G_1 \to G$
-and $g : G_2 \to G$ are source-sink graph morphisms.  Then we define
-the required co-product morphisms as follows:
+and $g : G_2 \to G$ are source-sink graph morphisms -- note that
+$f(s_1) = g(s_2) = s$ and $f(z_1) = g(z_2) = z$ by definition.  Then
+we define the required co-product morphisms as follows:
 \begin{center}
   \begin{tabular}{llllllllllllllllll}
     \begin{math}
@@ -95,13 +96,13 @@ the required co-product morphisms as follows:
   \end{math}
 \end{center}
 It is easy to see that these define graph homomorphisms.  All that is
-left to show is that the diagram from above commutes.  First,
+left to show is that the diagram from above commutes:
 \begin{center}
   \begin{tabular}{lll}
     \begin{math}
     \begin{array}{lll}
       (\mathsf{inj_1};\langle f , g \rangle)(s_1)
-      & = & \langle f , g \rangle)(\mathsf{inj_1}(s_1))\\
+      & = & \langle f , g \rangle(\mathsf{inj_1}(s_1))\\
       & = & g(s_2)\\     
       & = & s \\
       & = & f(s_1)\\
@@ -111,7 +112,7 @@ left to show is that the diagram from above commutes.  First,
     \begin{math}
     \begin{array}{lll}
       (\mathsf{inj_1};\langle f , g \rangle)(z_1)
-      & = & \langle f , g \rangle)(\mathsf{inj_1}(z_1))\\
+      & = & \langle f , g \rangle(\mathsf{inj_1}(z_1))\\
       & = & g(z_2)\\     
       & = & z\\
       & = & f(z_1)\\
@@ -124,7 +125,7 @@ Now for any $v \in V_1$ we have the following:
   \begin{math}
     \begin{array}{lll}
       (\mathsf{inj_1};\langle f , g \rangle)(v)
-      & = & \langle f , g \rangle)(\mathsf{inj_1}(v))\\
+      & = & \langle f , g \rangle(\mathsf{inj_1}(v))\\
       & = & f(v)\\
     \end{array}
   \end{math}
