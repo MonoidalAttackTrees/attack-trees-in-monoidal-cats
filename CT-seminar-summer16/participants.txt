@@ -4,21 +4,21 @@ Participants
 Undergraduates
 --------------
 
-Judson Tucker <JTUCKER8@augusta.edu>, CS, Augusta University
-Josiah Mullins <JMULLIN4@gru.edu>, Math, Augusta University
-Jesse Siebeck <JSIEBECK@augusta.edu>, CS, Augusta University
-Matthew Tennies <mteenies@augusta.edu>, CS, Augusta University
-Zane Corder <ZCORDER@gru.edu>, CS, Augusta University
-Michael Townsend <MITOWNSEND@gru.edu>, CS, Augusta University
-Ryan Mahoney <RMAHONEY@gru.edu>, CS, Augusta University
+Judson Tucker, CS, Augusta University
+Josiah Mullins, Math, Augusta University
+Jesse Siebeck, CS, Augusta University
+Matthew Tennies, CS, Augusta University
+Zane Corder, CS, Augusta University
+Michael Townsend, CS, Augusta University
+Ryan Mahoney, CS, Augusta University
 
 Graduate Students
 -----------------
 
-Ryan McCleeary <ryan-mccleeary@uiowa.edu>
+Ryan McCleeary, CS, University of Iowa
 
 Postdocs
 --------
 
-Burak Ekici <burak-ekici@uiowa.edu>
-Adrien Champion <adrien.champion@email.com>
+Burak Ekici, CS, University of Iowa
+Adrien Champion, CS, University of Iowa
