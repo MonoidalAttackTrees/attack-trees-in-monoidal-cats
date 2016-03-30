@@ -213,11 +213,11 @@ attack trees is defined in the following definition.
         &
         \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
           \,
-        }{[[(t1 (+)  t2) + t]] \redto [[(t1 + t) (+) (t2 + t)]]}
+        }{[[(t1 (+)  t2) + t3]] \redto [[(t1 + t3) (+) (t2 + t3)]]}
         \\
         \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
           \,
-        }{[[(t1 (+)  t2) ; t]] \redto [[(t1 ; t) (+) (t2 ; t)]]}
+        }{[[(t1 (+)  t2) ; t3]] \redto [[(t1 ; t3) (+) (t2 ; t3)]]}
       \end{array}
     \end{math}    
   \end{center}
@@ -330,8 +330,8 @@ executed in state $q$.
 
 The interpretation of attack trees into dialectica spaces requires the
 construction of each operation on dialectica spaces:
-{\vspace{-10pt}\footnotesize\ \\
-\begin{changemargin}{2pt}{2pt}\noindent
+{\vspace{-10pt}\ \\
+\begin{changemargin}{8pt}{8pt}\noindent
 \textbf{Parallel Composition.} Suppose $\cat{A} = (A , Q, \alpha)$ and
 $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
 construct -- due to de Paiva \cite{dePaiva:2014a} -- the dialectica
@@ -378,7 +378,7 @@ lazy conjunction defined for $\mathsf{3}$\footnote{See the formal
   development for the full definition:
   \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concrete-lineales.agda\#L648}}.
 This is a non-symmetric conjunctive operator, and thus, sequential
-composition is non-symmetric.  This implies that from a process
+composition is \\ non-symmetric.  This implies that from a process
 perspective $\cat{A} \rhd \cat{B}$ will first execute the actions of
 $\cat{A}$ and then execute actions of $\cat{B}$ in that order.
 Sequential composition is associative.
@@ -414,20 +414,37 @@ escape to propositional logic.
 \end{changemargin}
 } At this point it is straightforward to define an interpretation
 $\interp{[[t]]}$ of attack trees into $\dial$.  Soundness with respect
-to this model would correspond to if $[[t1]] \rightsquigarrow [[t2]]$,
-then $\interp{[[t1]]} \cong \interp{[[t2]]}$ where $\cong$ is
-isomorphism of objects.  The definition of choice is the definition
-given for Chu spaces \cite{Gupta:1994}, but Brown et al. use the
-coproduct defined for dialectica spaces to model choice in Petri nets.
-However, taking the coproduct for choice here does not lead to the
-isomorphisms $(\cat{A} \sqcup \cat{B}) \rhd \cat{C} \cong (\cat{A}
-\rhd \cat{C}) \sqcup (\cat{B} \rhd \cat{C})$ and $(\cat{A} \sqcup
-\cat{B}) \odot \cat{C} \cong (\cat{A} \odot \cat{C}) \sqcup (\cat{B}
-\odot \cat{C})$, thus, we will not be able to soundly model attack
-trees.  I have found that if choice is modeled using the definition
-from Chu spaces \cite{Gupta:1994} then we obtain these isomorphisms
-which is a novel result\footnote{For the proofs see the formal
-  development:
+to this model would correspond to the following theorem.
+
+\begin{theorem}[Soundness]
+  \label{thm:soundness}
+  If $[[t1]] \rightsquigarrow [[t2]]$, then $\interp{[[t1]]} \cong
+  \interp{[[t2]]}$ where $\cong$ is isomorphism of objects.
+\end{theorem}
+
+Those familiar with Chu spaces and their application to process
+algebra may be wondering how treating dialectica spaces as processes
+differs.  The starkest difference is that in this model process
+simulation is modeled by morphisms of the model, but this is not
+possible in Chu spaces.  In fact, to obtain the expected properties of
+processes a separate notion of bi-simulation had to be developed for
+Chu spaces \cite{Gupta:1994}.  However, I took great care to insure
+that the morphisms of our semantics capture the desired properties of
+process simulation, and hence, attack trees.
+
+The ability to treat morphisms as process simulation was not easy to
+achieve.  The definition of choice in the semantics presented here
+actually is the definition given for Chu spaces \cite{Gupta:1994}, but
+Brown et al. use the coproduct defined for dialectica spaces to model
+choice in Petri nets.  However, taking the coproduct for choice here
+does not lead to the isomorphisms $(\cat{A} \sqcup \cat{B}) \rhd
+\cat{C} \cong (\cat{A} \rhd \cat{C}) \sqcup (\cat{B} \rhd \cat{C})$
+and $(\cat{A} \sqcup \cat{B}) \odot \cat{C} \cong (\cat{A} \odot
+\cat{C}) \sqcup (\cat{B} \odot \cat{C})$, thus, we will not be able to
+soundly model attack trees.  I have found that if choice is modeled
+using the definition from Chu spaces \cite{Gupta:1994} then we obtain
+these isomorphisms which is a novel result\footnote{For the proofs see
+  the formal development:
   \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concurrency.agda\#L70}
   and
   \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concurrency.agda\#L150}}.
@@ -456,7 +473,8 @@ with labeled attack trees, and graphical representations of attack
 trees based on the various graphical languages used in category theory
 \cite{Selinger:2009}.  Thus, the security specialist will not be
 required to program directly in Lina, but instead will use a graphical
-interface to construct attack trees and prove properties about them.
+interface to construct attack trees and prove properties about them in
+a completely graphical nature.  
 
 Types in Lina will correspond to attack trees while programs
 correspond to semantically valid transformations of attack trees,
@@ -467,16 +485,50 @@ monoidal operators and non-communicative monoidal
 operators. Supporting both types of operators within the same logic
 has been a long standing question.  A starting point might be with
 Reedy's LLMS which has already been shown to have a categorical model
-in $\dial$ by de Paiva \cite{dePaiva:2014a}.  A different path the
-project plans to develop is to start with a non-communicative linear
-logic and then split up the of-course exponential into three new
-exponential operators: one that adds symmetry, one that adds
-weakening, and one that adds contraction.  This would allow for the
-specification of multiple types of monoidal operators using the
-various exponentials.  Once a proper linear logic is laid out the next
-step will be to exploit the Curry-Howard-Lambek correspondence to
-obtain a linear functional programming language making up the core of
-Lina.
+in $\dial$ by de Paiva \cite{dePaiva:2014a}.  In fact, the definition
+of non-interacting parallel composition given here is due to her
+model.  A different path the project plans to develop is to start with
+a non-communicative linear logic and then split up the of-course
+exponential into three new exponential operators: one that adds
+symmetry, one that adds weakening, and one that adds contraction.
+This would allow for the specification of multiple types of monoidal
+operators using the various exponentials.  Once a proper linear logic
+is laid out the next step will be to exploit the Curry-Howard-Lambek
+correspondence to obtain a linear functional programming language
+making up the core of Lina.
+
+I do not consider this project, in particularly Lina, to be at odds
+with existing work on using automated theorem proving to synthesize
+and analyze attack trees; see for example
+\cite{essay69399,Sheyner:2002:AGA:829514.830526,6957121,essay69402}.
+In fact, this project can benefit from automated generation of attack
+trees.  Lina's primary goal is to make reasoning about attack trees
+safer by having a tight correspondence with the semantics of attack
+trees, and thus, will allow and help with the creation of attack
+trees.  Lina will offer a manual way for one to create an attack tree,
+but by leveraging this existing work could allow for the generation of
+attack trees, but then could be used to restructure the tree and
+conduct further analysis in a semantically valid fashion.  In
+addition, Lina can be seen as an interactive theorem prover for attack
+trees, and so could be used as a proof checker \cite{Stump:2012} for
+proof producing SMT backed automated generation of attack trees, thus,
+potentially allowing for some of the analysis of attack trees in Lina
+to be automated.
+
+Another goal of this project is to make using Lina as close as
+possible to functional programming as usual to prevent a large
+overhead of using the language as well as the tool.  As a programming
+language simplicity is of the utmost importance, and I think with the
+semantics given here Lina will not require very advanced syntactic
+features.  This cannot be said for some of the existing work that is
+similar to Lina.  For example, Vigo et al. \cite{6957121} proposed the
+Quality Tree Generator which requires the user to program in a process
+calculus which is a non-trivial overhead. At the tool level the goal
+is to have a completely graphical environment for creating attack
+trees and reasoning about them by capitalizing on existing graphical
+reasoning tools from category theory.  Thus, at the tool level the
+user will not have to write any programs at all unless they want to
+extend the environment.
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
 \section{Conclusion}
@@ -499,6 +551,8 @@ reason about attack trees using interactive theorem proving.
 
 \appendix
 
+\section*{Appendix}
+\label{sec:appendix}
 \section{Symmetric Monoidal Categories}
 \label{sec:symmetric_monoidal_categories}
 \input{appendix-SMC}
@@ -508,6 +562,8 @@ reason about attack trees using interactive theorem proving.
 \label{sec:source_sink_graphs_are_symmetric_monoidal}
 \input{appendix-SSG-monoidal}
 % section source_sink_graphs_are_symmetric_monoidal (end)
+% section appendix (end)
+
 
 
 \end{document}
