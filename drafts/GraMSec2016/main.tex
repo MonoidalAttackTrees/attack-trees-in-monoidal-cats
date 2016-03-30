@@ -243,7 +243,7 @@ be embedded into the ones defined here.%% The hard
 
 The second major difference is that the typical parallel composition
 operator found in attack trees is modeled here by unsynchronized
-non-communicating parallel composition which happens to be symmetric
+non-communicating parallel composition which happens to be a symmetric
 tensor product, and not a disjunction.  This is contrary to the
 literature, for example, the parallel operation of Jhawar et
 al. defined on source sink graphs \cite{Jhawar:2015} can be proven to
@@ -293,10 +293,10 @@ copy operator to be contracted.
 
 I now introduce a new semantics of attack trees that connects their
 study with a new perspective of attack trees that could highly impact
-future research in attack trees: intuitionistic linear logic, but it
-also strengthens their connection to process calculi.  This section
-has been formalized in the proof assistant Agda\footnote{The complete
-  formalization can be found at
+future research: intuitionistic linear logic, but it also strengthens
+their connection to process calculi.  This section has been formalized
+in the proof assistant Agda\footnote{The complete formalization can be
+  found at
   \url{https://github.com/heades/dialectica-spaces/tree/GraMSec16}
   which is part of a general library for working with dialectica
   spaces in Agda developed with Valeria de Paiva.}.  The semantics is
@@ -497,23 +497,23 @@ is laid out the next step will be to exploit the Curry-Howard-Lambek
 correspondence to obtain a linear functional programming language
 making up the core of Lina.
 
-I do not consider this project, in particularly Lina, to be at odds
-with existing work on using automated theorem proving to synthesize
-and analyze attack trees; see for example
+I do not consider this project, particularly Lina, to be at odds with
+existing work on using automated theorem proving to synthesize and
+analyze attack trees; see for example
 \cite{essay69399,Sheyner:2002:AGA:829514.830526,6957121,essay69402}.
 In fact, this project can benefit from automated generation of attack
 trees.  Lina's primary goal is to make reasoning about attack trees
 safer by having a tight correspondence with the semantics of attack
 trees, and thus, will allow and help with the creation of attack
 trees.  Lina will offer a manual way for one to create an attack tree,
-but by leveraging this existing work could allow for the generation of
-attack trees, but then could be used to restructure the tree and
-conduct further analysis in a semantically valid fashion.  In
-addition, Lina can be seen as an interactive theorem prover for attack
-trees, and so could be used as a proof checker \cite{Stump:2012} for
-proof producing SMT backed automated generation of attack trees, thus,
-potentially allowing for some of the analysis of attack trees in Lina
-to be automated.
+but by leveraging this existing work could allow for their automatic
+generation, but then could be used to restructure the tree and conduct
+further analysis in a semantically valid fashion.  In addition, Lina
+can be seen as an interactive theorem prover for attack trees, and so
+could be used as a proof checker \cite{Stump:2012} for proof producing
+SMT backed automated generation of attack trees, thus, potentially
+allowing for some of the analysis of attack trees in Lina to be
+automated.
 
 Another goal of this project is to make using Lina as close as
 possible to functional programming as usual to prevent a large
