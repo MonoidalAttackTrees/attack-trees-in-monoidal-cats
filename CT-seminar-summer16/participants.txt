@@ -1,6 +1,8 @@
 Participants
 ------------
 
+Total: 11
+
 Undergraduates
 --------------
 
@@ -11,6 +13,7 @@ Matthew Tennies, CS, Augusta University
 Zane Corder, CS, Augusta University
 Michael Townsend, CS, Augusta University
 Ryan Mahoney, CS, Augusta University
+Michael Stocker, Math, Augusta University
 
 Graduate Students
 -----------------
