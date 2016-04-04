@@ -1,7 +1,7 @@
 Participants
 ------------
 
-Total: 11
+Total: 13
 
 Undergraduates
 --------------
@@ -14,6 +14,8 @@ Zane Corder, CS, Augusta University
 Michael Townsend, CS, Augusta University
 Ryan Mahoney, CS, Augusta University
 Michael Stocker, Math, Augusta University
+Tamara Stonebraker, Math, Augusta University
+Paul York, IT/CS, Augusta University
 
 Graduate Students
 -----------------
