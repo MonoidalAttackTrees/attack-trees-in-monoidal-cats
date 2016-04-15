@@ -1,7 +1,7 @@
 Participants
 ------------
 
-Total: 14
+Total: 15
 
 Undergraduates
 --------------
@@ -16,6 +16,7 @@ Ryan Mahoney, CS, Augusta University
 Michael Stocker, Math, Augusta University
 Tamara Stonebraker, Math, Augusta University
 Paul York, IT/CS, Augusta University
+Rahf Abdelhaq, Math, Augusta University
 
 Graduate Students
 -----------------
