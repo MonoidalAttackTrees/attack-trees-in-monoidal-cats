@@ -1,7 +1,7 @@
 Participants
 ------------
 
-Total: 15
+Total: 16
 
 Undergraduates
 --------------
@@ -23,6 +23,7 @@ Graduate Students
 
 Jiaming Jiang, CS, North Carolina State
 Ryan McCleeary, CS, University of Iowa
+Chad Reynolds, CS, University of Iowa
 
 Postdocs
 --------
