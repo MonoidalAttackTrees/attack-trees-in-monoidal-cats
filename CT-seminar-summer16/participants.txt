@@ -1,7 +1,7 @@
 Participants
 ------------
 
-Total: 16
+Total: 17
 
 Undergraduates
 --------------
@@ -17,6 +17,7 @@ Michael Stocker, Math, Augusta University
 Tamara Stonebraker, Math, Augusta University
 Paul York, IT/CS, Augusta University
 Rahf Abdelhaq, Math, Augusta University
+Liz Vos, CS, Augusta University
 
 Graduate Students
 -----------------
