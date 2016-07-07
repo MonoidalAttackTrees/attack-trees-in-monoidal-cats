@@ -1,0 +1,105 @@
+% -*- compile-command: "make" -*-
+
+metavar termvar, x ::=
+  {{ tex \mathit{[[termvar]]} }}  {{com  term variable  }}
+
+metavar typevar, X, Y, Z ::=      {{com type variable }}
+metavar expr, lexpr ::=           {{com place holders for labels and quantitative expressions }}
+metavar nums, integer, double ::= {{com integers and doubles }}
+indexvar index, k ::=
+
+grammar
+
+  quant, Q :: 'Q_' ::= {{com quantitative types }}
+    | Q -> Q' :: :: Arrow       % Can we automate higher-order functions?
+    | Bool    :: :: Bool
+    | Integer :: :: Integer
+    | Double  :: :: Doubles
+
+  qexpr, q :: 'QE_' ::= {{com quantitative expressions }}
+    | \ x : Q . q :: :: Fun
+    {{tex \lambda [[x]]:[[Q]].[[q]] }}
+    | q1 q2       :: :: App
+    | q1 + q2     :: :: Sum
+    | q1 - q2     :: :: Sub
+    | q1 * q2     :: :: Mul
+    | q1 / q2     :: :: Div
+    | true        :: :: True
+    | false       :: :: False
+    | integer     :: :: Integer
+    | double      :: :: Double
+
+  label, L :: 'L_' ::=
+    | String  :: :: Strings
+    | Integer :: :: Integers
+    | Double  :: :: Doubles
+
+  node, N, M :: 'N_' ::= {{ com nodes of the tree }}    
+    | node X : L , Q where b :: :: Node
+    {{tex \mathsf{node}\,[[X]] : [[L]] , [[Q]]\,\mathsf{where}\,[[b]] }}
+
+  nodeBody, b :: 'B_' ::=                  {{ com bodies of nodes }}
+    | label = lexpr , data = qexpr :: :: Body
+      {{tex \mathsf{label} = [[lexpr]], \mathsf{data} = [[qexpr]] }}
+
+  rootBody, r :: 'R_' ::=                  {{ com bodies of root nodes }}
+    | label = lexpr , struct = atreeStruct , comp = qexpr :: :: Body
+      {{tex \mathsf{label} = [[lexpr]],\mathsf{struct} = [[atreeStruct]] }}
+
+  atreeStruct, A, B, C, R, S, T :: 'AT_' ::=     {{com attack tree structure }}
+    | X                     :: :: NodeIdentifier {{com nodes of the tree }}
+    | A |_| B               :: :: Choice         {{com choice }}    
+    | A (x) B               :: :: IParallel      {{com interacting parallel composition }}
+    | A (.) B               :: :: NIParallel     {{com non-interacting parallel composition }}
+    | A ; B                 :: :: Sequencing     {{com sequencing }}
+
+  atree :: 'AT_' ::= {{com attack tree }}
+    | root X : L where r :: :: Root
+    {{tex \mathsf{root}\,[[X]] : [[L]]\,\mathsf{where}\,[[r]] }}  
+
+  cmdType :: 'CT_' ::= {{com command types }}
+    | choice :: :: Choice                       {{com choice }}    
+    {{tex \mathsf{choice} }}
+    | ipara  :: :: IParallel                    {{com interacting parallel composition }}
+    {{tex \mathsf{ipara} }}
+    | nipara :: :: NIParallel                   {{com non-interacting parallel composition }}
+    {{tex \mathsf{nipara} }}
+    | seq    :: :: Sequencing                   {{com sequencing }}
+    {{tex \mathsf{seq} }}
+
+  command :: 'CMD_' ::= {{com commands }}
+    | register C cost-function qexpr :: :: Register
+    {{tex \mathsf{register}\,[[C]]\,\mathsf{cost\text{-}function}\,[[qexpr]] }}
+
+  terminals :: 'terminals_' ::=
+    | Integer :: :: Integers
+    {{tex \mathsf{Integer} }}
+    | String :: :: Strings
+    {{tex \mathsf{String} }}
+    | Double :: :: Doubles
+    {{tex \mathsf{Double} }}
+    | Bool    :: :: Bool
+    {{tex \mathsf{Bool} }}
+    | (x)     :: :: Tensor
+    {{tex \otimes }}
+    | (.)     :: :: CircDot
+    {{tex \odot }}
+    | ;       :: :: Seq
+    {{tex \rhd }}
+    | |_|     :: :: SqCup
+    {{tex \sqcup }}
+    | ->      :: :: Arrow
+    {{tex \to }}
+    | true        :: :: True
+    {{tex \mathsf{true} }}
+    | false       :: :: False
+    {{tex \mathsf{false} }}
+    | '\n' :: :: Newline
+    
+  formula :: 'formula_' ::=
+    | judgement            ::   :: judgement
+    | formula1 .. formulak ::  :: dots
+    | not formula          ::   :: not
+    | ( formula )          :: S :: parens
+    | formula && formula'  ::   :: side
+    {{tex [[formula]] \quad [[formula']] }}
