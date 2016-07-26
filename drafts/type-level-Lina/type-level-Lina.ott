@@ -4,76 +4,79 @@ metavar termvar, x ::=
   {{ tex \mathit{[[termvar]]} }}  {{com  term variable  }}
 
 metavar typevar, X, Y, Z ::=      {{com type variable }}
+metavar string, s  ::= {{com strings }}
+metavar integer, i ::= {{com integers }}
+metavar double, d ::= {{com doubles }}
 metavar expr, lexpr ::=           {{com place holders for labels and quantitative expressions }}
-metavar nums, integer, double ::= {{com integers and doubles }}
-indexvar index, k ::=
+indexvar index, j ::=
 
 grammar
 
   quant, Q :: 'Q_' ::= {{com quantitative types }}
     | Q -> Q' :: :: Arrow       % Can we automate higher-order functions?
-    | Bool    :: :: Bool
-    | Integer :: :: Integer
     | Double  :: :: Doubles
+
+  numop, nop {{tex \mathsf{op} }} :: 'NOp_' ::= {{com numeric operations }}
+    | + :: :: Plus
+    | - :: :: Subtraction
+    | * :: :: Multiplication
+    | / :: :: Division
 
   qexpr, q :: 'QE_' ::= {{com quantitative expressions }}
-    | \ x : Q . q :: :: Fun
-    {{tex \lambda [[x]]:[[Q]].[[q]] }}
-    | q1 q2       :: :: App
-    | q1 + q2     :: :: Sum
-    | q1 - q2     :: :: Sub
-    | q1 * q2     :: :: Mul
-    | q1 / q2     :: :: Div
-    | true        :: :: True
-    | false       :: :: False
-    | integer     :: :: Integer
-    | double      :: :: Double
+    | x                 :: :: Var
+    | \ x . q           :: :: Fun
+    {{tex \lambda [[x]].[[q]] }}
+    | q1 q2             :: :: App
+    | q1 nop q2         :: :: NOp
+    | rec q0 of q1 | q2 :: :: Rec
+    | d                 :: :: Double
 
-  label, L :: 'L_' ::=
+  labelTy, L :: 'LT_' ::=
     | String  :: :: Strings
-    | Integer :: :: Integers
     | Double  :: :: Doubles
 
-  node, N, M :: 'N_' ::= {{ com nodes of the tree }}    
-    | node X : L , Q where b :: :: Node
-    {{tex \mathsf{node}\,[[X]] : [[L]] , [[Q]]\,\mathsf{where}\,[[b]] }}
+  label, l :: 'L_' ::=
+    | d :: :: Double  {{com all doubles  }}
+    | s :: :: String  {{com all strings  }}
 
-  nodeBody, b :: 'B_' ::=                  {{ com bodies of nodes }}
-    | label = lexpr , data = qexpr :: :: Body
-      {{tex \mathsf{label} = [[lexpr]], \mathsf{data} = [[qexpr]] }}
-
-  rootBody, r :: 'R_' ::=                  {{ com bodies of root nodes }}
-    | label = lexpr , struct = atreeStruct , comp = qexpr :: :: Body
-      {{tex \mathsf{label} = [[lexpr]],\mathsf{struct} = [[atreeStruct]] }}
-
-  atreeStruct, A, B, C, R, S, T :: 'AT_' ::=     {{com attack tree structure }}
+  atreeStruct, A, B, C, R, S, T :: 'ATS_' ::=     {{com attack tree structure }}
     | X                     :: :: NodeIdentifier {{com nodes of the tree }}
     | A |_| B               :: :: Choice         {{com choice }}    
     | A (x) B               :: :: IParallel      {{com interacting parallel composition }}
     | A (.) B               :: :: NIParallel     {{com non-interacting parallel composition }}
     | A ; B                 :: :: Sequencing     {{com sequencing }}
 
-  atree :: 'AT_' ::= {{com attack tree }}
-    | root X : L where r :: :: Root
-    {{tex \mathsf{root}\,[[X]] : [[L]]\,\mathsf{where}\,[[r]] }}  
+  kinds, k :: 'K_' ::= {{com kinds }}   
+   | AttackTree L Q :: :: AttackKind
+   {{tex \mathsf{AttackTree}\,[[L]]\,[[Q]] }}
+   | k1 -> k2       :: :: Arrow
 
-  cmdType :: 'CT_' ::= {{com command types }}
-    | choice :: :: Choice                       {{com choice }}    
-    {{tex \mathsf{choice} }}
-    | ipara  :: :: IParallel                    {{com interacting parallel composition }}
-    {{tex \mathsf{ipara} }}
-    | nipara :: :: NIParallel                   {{com non-interacting parallel composition }}
-    {{tex \mathsf{nipara} }}
-    | seq    :: :: Sequencing                   {{com sequencing }}
-    {{tex \mathsf{seq} }}
+  comb, c :: 'C_' ::= {{com attack tree combinators }}
+   | |_| :: :: Choice
+   | (x) :: :: IParallel
+   | (.) :: :: NIParallel
+   | ;   :: :: Sequencing
 
-  command :: 'CMD_' ::= {{com commands }}
-    | register C cost-function qexpr :: :: Register
-    {{tex \mathsf{register}\,[[C]]\,\mathsf{cost\text{-}function}\,[[qexpr]] }}
+  atree, t :: 'AT_' ::= {{com attack tree expressions }}
+   | x        :: :: Var
+   | \ x . t  :: :: Fun
+   {{tex \lambda [[x]] . [[t]] }}
+   | t1 t2    :: :: App
+   | leaf l q :: :: Leaf
+   {{tex \mathsf{leaf}\,[[l]]\,[[q]] }}
+   | c l q     :: :: Combinator
+
+  G {{tex \Gamma}} :: 'Ctx_' ::= {{com kinding context}}
+   | . :: :: Empty
+   | x : k   :: :: El
+   | G1 , G2 :: :: Ext
+
+  D {{tex \Delta}} :: 'QCtx_' ::= {{com quant context}}
+   | .       :: :: Empty
+   | x : Q   :: :: El
+   | D0 , D1 :: :: Ext
 
   terminals :: 'terminals_' ::=
-    | Integer :: :: Integers
-    {{tex \mathsf{Integer} }}
     | String :: :: Strings
     {{tex \mathsf{String} }}
     | Double :: :: Doubles
@@ -95,11 +98,79 @@ grammar
     | false       :: :: False
     {{tex \mathsf{false} }}
     | '\n' :: :: Newline
+    | . :: :: Dot
+    {{tex \cdot }}
+    | |- :: :: Vdash
+    {{tex \vdash }}
     
   formula :: 'formula_' ::=
     | judgement            ::   :: judgement
-    | formula1 .. formulak ::  :: dots
     | not formula          ::   :: not
     | ( formula )          :: S :: parens
+    | h( formula )         :: S :: hparens
+    {{tex [[formula]] }}
     | formula && formula'  ::   :: side
     {{tex [[formula]] \quad [[formula']] }}
+
+defns
+  Jkind :: '' ::=
+
+defn
+  |- l : L :: :: label :: L_
+by
+
+ ------------- :: Double
+ |- d : Double
+
+ ------------- :: String
+ |- s : String
+
+defn
+  D |- q : Q :: :: quan :: Q_
+by 
+
+  ---------------------- :: Var
+  D0, x : Q, D1 |- x : Q
+
+  --------------- :: Double
+  D |- d : Double
+
+  D, x : Q0 |- q : Q1
+  -------------------- :: Fun
+  D |- \x.q : Q0 -> Q1
+
+  D |- q1 : Q0 &&  D |- q0 : Q0 -> Q1
+  ----------------------------------- :: App
+  D |- q0 q1 : Q1
+
+  D |- q1 : Double  && D |- q2 : Double
+  ------------------------------------- :: NOp
+  D |- q1 nop q2 : Double
+
+  h(D |- q0 : Double && D |- q1 : Q) &&  D |- q2 : Q -> Q
+  ------------------------------------------------------- :: Rec
+  D |- rec q0 of q1 | q2 : Q
+  
+
+defn
+ G |- t : k :: :: kind :: K_
+by
+
+  ---------------------- :: Var
+  G0, x : k, G1 |- x : k
+
+  G, x : k0 |- t : k1
+  -------------------- :: Fun
+  G |- \x.t : k0 -> k1
+
+  G |- t1 : k0 && G |- t0 : k0 -> k1
+  ---------------------------------- :: App
+  G |- t0 t1 : k1
+
+  |- l : L    &&      . |- q : Q
+  ------------------------------ :: Leaf
+  G |- leaf l q : AttackTree L Q
+
+  |- l : L     &&    . |- q : Q -> Q -> Q
+  ----------------------------------------------------------------- :: Comb
+  G |- c l q : AttackTree L Q -> AttackTree L Q -> AttackTree L Q

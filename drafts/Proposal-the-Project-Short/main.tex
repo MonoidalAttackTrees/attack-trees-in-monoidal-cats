@@ -1,6 +1,6 @@
-\documentclass{llncs}
+\documentclass{sigplanconf}
 
-\usepackage{amssymb,amsmath}
+\usepackage{amssymb,amsmath,amsthm}
 \usepackage{cmll}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
@@ -59,30 +59,54 @@
   }%
   \item[]}{\end{list}}
 
+% Theorems
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{notn}[theorem]{Notation}
+\newtheorem{observation}[theorem]{Observation}
+
 %% Ott
 \input{atrees-ott}
 
 \begin{document}
 
-\title{Proposing a New Foundation of Attack Trees in Monoidal Categories}
+\conferenceinfo{PLAS '16}{October 24, 2016, Vienna, Austria}
+\copyrightyear{2016}
+\copyrightdata{}
+\copyrightdoi{}
+\titlebanner{}
 
-\author{Harley Eades III}
-\institute{Computer and Information Sciences, Augusta University, Augusta, GA, \email{heades@augusta.edu}}
+\title{Short Paper: Proposing a New Foundation of Attack Trees in Monoidal Categories}
+
+\authorinfo{Harley Eades III}{Computer and Information Sciences\\Augusta University\\Augusta, GA}{heades@augusta.edu}
 
 \maketitle 
 
 \begin{abstract}
-  This short paper introduces a new project studying at the
+  This short paper introduces a new research direction studying at the
   intersection of threat analysis using attack trees and interactive
-  theorem proving using linear logic.  The project proposes a new
-  semantics of attack trees in dialectica spaces, a well-known model
-  of intuitionistic linear logic, which offers two new branching
-  operators to attack trees.  Then by exploiting the
-  Curry-Howard-Lambek correspondence it seeks to develop a
-  domain-specific linear functional programming language called Lina
-  -- for Linear Threat Analysis -- for specifying and reasoning about
-  attack trees.
+  theorem proving using linear logic.  Currently, the project has
+  developed a new semantics of attack trees in dialectica spaces, a
+  well-known model of intuitionistic linear logic, which offers two
+  new branching operators to attack trees.  Then by exploiting the
+  Curry-Howard-Lambek correspondence the project seeks to develop a
+  new domain-specific linear functional programming language called
+  Lina -- for Linear Threat Analysis -- for specifying and reasoning
+  about attack trees.
 \end{abstract}
+
+\category{D.3.3}{Programming Languages}
+{Language Constructs and Features}
+[Control structures]
+\terms
+TODO
+\keywords
+TODO
 
 \section{Introduction}
 \label{sec:introduction}
@@ -107,21 +131,82 @@ logic.  I propose that attack trees -- in many different flavors -- be
 modeled as objects in monoidal categories, and hence, as formulas of
 linear logic.
 
-The Curry-Howard-Lambek correspondence is a three way relationship:
-\begin{center}
-  \footnotesize
-  \setlength{\tabcolsep}{7pt}
-  \begin{tabular}{ccccc}
-    Categories & $\iff$ & Logic    & $\iff$   & Functional Programming\\
-    Objects    & $\iff$ & Formulas & $\iff$   & Types    \\
-    Morphisms  & $\iff$ & Proofs   & $\iff$   & Programs 
-  \end{tabular}
-\end{center}
+Attack trees are a modeling tool, originally proposed by Bruce
+Schneier \cite{Schneier:1999}, which are used to assess the threat
+potential of a security critical system.  Attack trees have since been
+used to analyze the threat potential of many types of security
+critical systems, for example, cybersecurity of power grids
+\cite{Ten:2007}, wireless networks \cite{Reinhardt:2012}, and many
+others.  Attack trees consists of several goals, usually specified in
+English prose, for example, ``compromise safe'' or ``obtain
+administrative privileges'', where the root is the ultimate goal of
+the attack and each node coming off of the root is a refinement of the
+main goal into a subgoal.  Then each subgoal can be further refined.
+The leaves of an attack tree make up the set of base attacks.
+Subgoals can be either disjunctively or conjunctively combined.
+
+%% Extensions Of ATREES:
+%%   - Attack nets
+%%   - Sequential conjunction
+There have been a number of extensions of attack trees to include new
+operators on goals.  One such extension recasts attack trees into
+attack nets which have all of the benefits of attack trees with the
+additional benefit of being able to include the flaw hypothesis model
+for penetration testing \cite{McDermott:2001}.  A second extension
+adds sequential conjunction of attacks, that is, suppose $A_1$ and
+$A_2$ are attacks, then $A_1;A_2$ is the attack obtained by performing
+$A_1$, and then executing attack $A_2$ directly after $A_1$ completes
+\cite{Jhawar:2015}.
+
+Attack trees for real-world security scenarios can grow to be quite
+complex.  The attack tree presented in \cite{Ten:2007} to access the
+security of power grids has twenty-nine nodes with sixty counter
+measures attached to the nodes throughout the tree.  The details of
+the tree spans several pages of appendix.  The attack tree developed
+for the border gateway protocol has over a hundred nodes
+\cite{Convey:2003}, and the details of the tree spans ten pages.
+Manipulating such large trees without a formal semantics can be
+dangerous.
+
+%% Semantics of ATREES:
+%%   - Boolean logic
+%%   - Attack nets (2000)
+%%   - Multisets (2006)
+%%   - Series-parallel graphs (extension of multisets) (2015)
+One of the leading questions the field is seeking to answer is ``what
+is an attack tree?''  That is, what is a mathematical foundation of
+attack trees? There have been numerous attempts at answering this
+question.  For example, attack trees have been based on propositional
+logic and De Morgan Algebras
+\cite{Kordy:2014,Kordy:2012,Pietre-Cambacedes:2010}, multisets
+\cite{Mauw:2006}, Petri nets \cite{McDermott:2001}, tree automata
+\cite{Camtepe:2007}, and series parallel graphs
+\cite{Jhawar:2015}. \textbf{There is currently no known semantics of
+  attack trees based in category theory}.
+
+By far the most intuitive foundation of attack trees is propositional
+logic or De Morgan algebras, however, neither of these properly
+distinguish between attack trees with repeated subgoals.  If we
+consider each subgoal as a \textbf{resource} then the attack tree
+using a particular resource twice is different than an attack tree
+where it is used only once.  The multiset semantics of attack trees
+was developed precisely to provide a resource conscious foundation
+\cite{Mauw:2006}. The same can be said for the Petri nets semantics
+\cite{McDermott:2001}.  A second benefit of a semantics based in
+multisets, Petri nets, and even tree automata is that operators on
+goals in attack trees are associated with concurrency operators from
+process algebra.  That is, the goals of an attack tree should be
+thought of as being run concurrently.  Furthermore, when moving to
+these alternate foundations \textbf{the intuitiveness and elegance of
+  the propositional logic semantics is lost}.  Lastly, existing work
+has focused on specifically what an attack tree is, and has not sought
+to understand what the theory of attack trees is.
+
 By modeling attack trees in monoidal categories we obtain a sound
-mathematical model, a logic for reasoning about attack trees, and the
-means of constructing a functional programming language for defining
-attack trees (as types), and constructing semantically valid
-transformations (as programs) of attack trees.  
+mathematical model, a resource conscious logic for reasoning about
+attack trees, and the means of constructing a functional programming
+language for defining attack trees (as types), and constructing
+semantically valid transformations (as programs) of attack trees.
 
 Linear logic was first proposed by Girard \cite{Girard:1987} and was
 quickly realized to be a theory of resources.  In linear logic, every
@@ -157,11 +242,14 @@ project\footnote{This material is based upon work supported by the
 attack trees in monoidal categories, and through the
 Curry-Howard-Lambek correspondence deriving a new domain-specific
 functional programming language called Lina for Linear Threat
-Analysis.  I begin by defining an extension -- inspired by our
-semantics -- of the attack trees given in \cite{Jhawar:2015} in
-Section~\ref{sec:attack_trees}.  Then I introduce a new semantics of
-attack trees in dialectica spaces, which depends on a novel result on
-dialectica spaces, in
+Analysis.  Note that this paper introduces an ongoing research
+project, and thus, we do not currently have the complete story, but we
+feel that the community will find this project of interest, and the
+project would benefit from the feedback of the community.  I begin by
+defining an extension -- inspired by our semantics -- of the attack
+trees given in \cite{Jhawar:2015} in Section~\ref{sec:attack_trees}.
+Then I introduce a new semantics of attack trees in dialectica spaces,
+which depends on a novel result on dialectica spaces, in
 Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}.
 The final section,
 Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis},
@@ -195,23 +283,27 @@ attack trees is defined in the following definition.
   \noindent
   The following rules define the attack tree reduction relation:
   \begin{center}
-    \vspace{-17px}
+    \vspace{-14px}
     \footnotesize
     \begin{math}
-      \begin{array}{cccccccccccc}
+      \begin{array}{c}
+        \begin{array}{c}
         \inferrule* [right={\scriptsize assoc}] {
           \,
         }{[[(t1 op t2) op t3]] \redto [[t1 op (t2 op t3)]]}
-        &
+      \end{array}
+      \\
+      \begin{array}{cccccccccccc}               
         \inferrule* [right={\scriptsize sym}] {
           \,
         }{[[t1 opS t2]] \redto [[t2 opS t1]]}
-        \\
+        &
         \inferrule* [right={\scriptsize copy}] {
           \,
-        }{[[h(!t) (x) !t]] \redto [[!t]]}            
-        &
-        \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
+        }{[[h(!t) (x) !t]] \redto [[!t]]}                            
+      \end{array}
+      \\
+      \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
           \,
         }{[[(t1 (+)  t2) + t3]] \redto [[(t1 + t3) (+) (t2 + t3)]]}
         \\
@@ -297,7 +389,7 @@ future research: intuitionistic linear logic, but it also strengthens
 their connection to process calculi.  This section has been formalized
 in the proof assistant Agda\footnote{The complete formalization can be
   found at
-  \url{https://github.com/heades/dialectica-spaces/tree/GraMSec16}
+  \url{https://github.com/heades/dialectica-spaces/tree/PLAS16}
   which is part of a general library for working with dialectica
   spaces in Agda developed with Valeria de Paiva.}.  The semantics is
 based on the notion of a dialectica space:
@@ -340,7 +432,7 @@ space $\cat{A} \odot \cat{B} = (A \times B, Q \times R, \alpha \odot
 \otimes_3 \beta(b , r)$ and $\otimes_3$ is the symmetric tensor
 product definable on $\mathsf{3}$\footnote{See the formal development
   for the full definition:
-  \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concrete-lineales.agda\#L328}}.
+  \url{https://github.com/heades/dialectica-spaces/blob/PLAS16/concrete-lineales.agda\#L328}}.
 Thus, from a process perspective we can see that $\cat{A} \odot
 \cat{B}$ executes actions of $\cat{A}$ and actions of $\cat{B}$ in
 parallel.  Parallel composition is associative and symmetric.
@@ -376,7 +468,7 @@ space $\cat{A} \rhd \cat{B} = (A \times B, Q \times R, \alpha \rhd
 \mathop{\mathsf{land}} \beta(i , r)$, and $\mathop{\mathsf{land}}$ is
 lazy conjunction defined for $\mathsf{3}$\footnote{See the formal
   development for the full definition:
-  \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concrete-lineales.agda\#L648}}.
+  \url{https://github.com/heades/dialectica-spaces/blob/PLAS16/concrete-lineales.agda\#L648}}.
 This is a non-symmetric conjunctive operator, and thus, sequential
 composition is \\ non-symmetric.  This implies that from a process
 perspective $\cat{A} \rhd \cat{B}$ will first execute the actions of
@@ -445,9 +537,9 @@ soundly model attack trees.  I have found that if choice is modeled
 using the definition from Chu spaces \cite{Gupta:1994} then we obtain
 these isomorphisms which is a novel result\footnote{For the proofs see
   the formal development:
-  \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concurrency.agda\#L70}
+  \url{https://github.com/heades/dialectica-spaces/blob/PLAS16/concurrency.agda\#L70}
   and
-  \url{https://github.com/heades/dialectica-spaces/blob/GraMSec16/concurrency.agda\#L150}}.
+  \url{https://github.com/heades/dialectica-spaces/blob/PLAS16/concurrency.agda\#L150}}.
 
 This semantics can be seen as a generalization of some existing
 models.  Multisets, pomsets, and Petri nets can all be modeled by
@@ -547,7 +639,146 @@ reason about attack trees using interactive theorem proving.
 % section conclusion_and_future_work (end)
 
 
-\bibliographystyle{plain} \bibliography{ref}
+%% \bibliographystyle{plain} \bibliography{ref}
+
+\begin{thebibliography}{10}
+  \softraggedright
+  
+\bibitem[Barr(1991)Barr]{MSC:4439568}
+  Michael Barr.
+  \newblock *-autonomous categories and linear logic.
+  \newblock {\em Mathematical Structures in Computer Science}, 1:159--178, 7
+  1991.
+
+\bibitem[Brown(1991)Brown,Gurr,de Paiva]{Brown:1991}
+  Carolyn Brown, Doug Gurr, and Valeria de Paiva.
+  \newblock A linear specification language for petri nets.
+  \newblock {\em DAIMI Report Series}, 20(363), 1991.
+
+\bibitem[de Paiva(1989)de Paiva]{dePaiva:1987}
+  Valeria de~Paiva.
+  \newblock Dialectica categories.
+  \newblock In J.~Gray and A.~Scedrov, editors, {\em Categories in Computer
+    Science and Logic}, volume~92, pages 47--62. Amerian Mathemaitcal Society,
+  1989.
+
+\bibitem[de Paiva(2006)de Paiva]{dePaiva:2006b}
+  Valeria de~Paiva.
+  \newblock Dialectica and chu constructions: Cousins?
+  \newblock {\em Theory and Applications of Categories}, 17(7):127--152, 2006.
+
+\bibitem[de Paiva(2014)de Paiva]{dePaiva:2014a}
+  Valeria de~Paiva.
+  \newblock Linear logic model of state revisited.
+  \newblock {\em Logic Journal of IGPL}, 22(5):791--804, 2014.
+
+\bibitem[Fiore(2013)Fiore,Devesas~Campos]{Fiore:2013}
+  Marcelo Fiore and Marco Devesas~Campos.
+  \newblock {\em Computation, Logic, Games, and Quantum Foundations. The Many
+    Facets of Samson Abramsky: Essays Dedicated to Samson Abramsky on the
+    Occasion of His 60th Birthday}, chapter The Algebra of Directed Acyclic
+  Graphs, pages 37--51.
+  \newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 2013.
+
+\bibitem[Francesco~Albasini(2010)Francesco~Albasini,Sabadini,Walters]{FrancescoAlbasini2010}
+  Luisa Francesco~Albasini, Nicoletta Sabadini, and Robert F.~C. Walters.
+  \newblock The compositional construction of markov processes.
+  \newblock {\em Applied Categorical Structures}, 19(1):425--437, 2010.
+
+\bibitem[Girad(1987)Girard]{Girard:1987}
+  Jean-Yves Girard.
+  \newblock Linear logic.
+  \newblock {\em Theoretical Computer Science}, 50(1):1 -- 101, 1987.
+
+\bibitem[Gupta(1994)Gupta]{Gupta:1994}
+  Vineet Gupta.
+  \newblock {\em Chu Spaces: a Model of Concurrency}.
+  \newblock PhD thesis, Stanford University, 1994.
+
+\bibitem[Huistra(2016)Huistra]{essay69399}
+  D.J. {Huistra}.
+  \newblock Automated generation of attack trees by unfolding graph
+  transformation systems, March 2016.
+
+\bibitem[Jhawar(2015)Jhawar,Kordy,Mauw,Radomirovi{\"A}]{Jhawar:2015}
+  Ravi Jhawar, Barbara Kordy, Sjouke Mauw, Sa{\AA}{!'}a Radomirovi{\"A}, and
+  Rolando Trujillo-Rasua.
+  \newblock Attack trees with sequential conjunction.
+  \newblock In Hannes Federrath and Dieter Gollmann, editors, {\em ICT Systems
+    Security and Privacy Protection}, volume 455 of {\em IFIP Advances in
+    Information and Communication Technology}, pages 339--353. Springer
+  International Publishing, 2015.
+
+\bibitem[Kordy(2014)Kordy,Pi{\'e}tre-Cambac{\'e}d{\'e}s,Schweitzer]{Kordy:2014a}
+  Barbara Kordy, Ludovic Pi{\'e}tre-Cambac{\'e}d{\'e}s, and Patrick Schweitzer.
+  \newblock Dag-based attack and defense modeling: Don't miss the forest for the
+  attack trees.
+  \newblock {\em Computer Science Review}, 13{\^a}14:1 -- 38, 2014.
+
+\bibitem[Mauw(2006)Mauw,Oostdijk]{Mauw:2006}
+  Sjouke Mauw and Martijn Oostdijk.
+  \newblock Foundations of attack trees.
+  \newblock In DongHo Won and Seungjoo Kim, editors, {\em Information Security
+    and Cryptology - ICISC 2005}, volume 3935 of {\em Lecture Notes in Computer
+    Science}, pages 186--198. Springer Berlin Heidelberg, 2006.
+
+\bibitem[Pierce(2000)Pierce,Turner]{Pierce:2000}
+  Benjamin~C. Pierce and David~N. Turner.
+  \newblock Local type inference.
+  \newblock {\em ACM Trans. Program. Lang. Syst.}, 22(1):1--44, January 2000.
+
+\bibitem[Pratt(1999)Pratt]{Pratt:1999}
+  Vaughan Pratt.
+  \newblock Chu spaces.
+  \newblock Notes for the School on Category Theory and Applications University
+  of Cimbra, July 1999.
+
+\bibitem[Retore(1997)Retore]{Retore:1997}
+  Christian Retor{\'e}.
+  \newblock {\em Typed Lambda Calculi and Applications: Third International
+    Conference on Typed Lambda Calculi and Applications TLCA '97 Nancy, France,
+    April 2--4, 1997 Proceedings}, chapter Pomset logic: A non-commutative
+  extension of classical linear logic, pages 300--318.
+  \newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 1997.
+
+\bibitem[Selinger(2009)Selinger]{Selinger:2009}
+  Peter {Selinger}.
+  \newblock {A survey of graphical languages for monoidal categories}.
+  \newblock {\em ArXiv e-prints}, August 2009.
+
+\bibitem[Sheyner(2002)Sheyner,Haines,Jha,Lippmann,Wing]{Sheyner:2002:AGA:829514.830526}
+  Oleg Sheyner, Joshua Haines, Somesh Jha, Richard Lippmann, and Jeannette~M.
+  Wing.
+  \newblock Automated generation and analysis of attack graphs.
+  \newblock In {\em Proceedings of the 2002 IEEE Symposium on Security and
+    Privacy}, SP '02, pages 273--, Washington, DC, USA, 2002. IEEE Computer
+  Society.
+
+\bibitem[Stump(2012)Stump,Reynolds,Tinelli,Laugesen,Eades,Oliver,Zhang]{Stump:2012}
+  Aaron Stump, Andrew Reynolds, Cesare Tinelli, Austin Laugesen, Harley D.~Eades
+  III, Corey Oliver, and Ruoyu Zhang.
+  \newblock Lfsc for smt proofs: Work in progress.
+  \newblock In {\em Proceedings of the Second International Workshop on Proof
+    Exchange for Theorem Proving (PXTP 2012)}, 2012.
+
+\bibitem[Tzouvaras(1998)Tzouvaras]{Tzouvaras:1998}
+  A~Tzouvaras.
+  \newblock The linear logic of multisets.
+  \newblock {\em Logic Journal of IGPL}, 6(6):901--916, 1998.
+
+\bibitem[Vigo(2014)Vigo,Nielson,Nielson]{6957121}
+  R.~Vigo, F.~Nielson, and H.~R. Nielson.
+  \newblock Automated generation of attack trees.
+  \newblock In {\em Computer Security Foundations Symposium (CSF), 2014 IEEE
+    27th}, pages 337--350, July 2014.
+
+\bibitem[Wolters(2016)Wolters]{essay69402}
+  N.H. {Wolters}.
+  \newblock Analysis of attack trees with timed automata (transforming formalisms
+  through metamodeling), March 2016.
+
+\end{thebibliography}
+
 
 \appendix
 

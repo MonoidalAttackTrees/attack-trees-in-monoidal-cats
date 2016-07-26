@@ -23,7 +23,7 @@ main-output.tex : main.tex atrees.ott
 # pdflatex.
 main.pdf : main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile
 	$(PDFLATEX) -jobname=main main-output.tex
-	$(BIBTEX) main
+# $(BIBTEX) main
 	$(PDFLATEX) -jobname=main main-output.tex
 	$(PDFLATEX) -jobname=main main-output.tex
 
