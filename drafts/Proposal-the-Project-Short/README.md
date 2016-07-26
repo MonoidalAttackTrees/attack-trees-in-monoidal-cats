@@ -1,4 +1,5 @@
-Proposing a New Foundation of Attack Trees in Monoidal Categories
+Short Paper: Proposing a New Foundation of Attack Trees in Monoidal Categories
 -----------------------------------------------------------------
 
-Short paper for [ GraMSec 2016 ]( http://www.gramsec.uni.lu/index.php  ) introducing the project.
+Short paper for [ PLAS 2016 ]( https://plas2016.programming.systems/ )
+introducing the project.
