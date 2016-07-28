@@ -92,8 +92,8 @@
   intersection of threat analysis using attack trees and interactive
   theorem proving using linear logic.  Currently, the project has
   developed a new semantics of attack trees in dialectica spaces, a
-  well-known model of intuitionistic linear logic, which offers two
-  new branching operators to attack trees.  Then by exploiting the
+  well-known model of intuitionistic linear logic, which offers a new
+  branching operator to attack trees.  Then by exploiting the
   Curry-Howard-Lambek correspondence the project seeks to develop a
   new domain-specific linear functional programming language called
   Lina -- for Linear Threat Analysis -- for specifying and reasoning
@@ -224,16 +224,6 @@ relationship with linear logic \cite{Retore:1997}.  However,
 connecting linear logic as a theory of attack trees is novel, and
 strengthens this perspective.
 
-Girard's genius behind linear logic was that he isolated the
-structural rules -- weakening and contraction -- by treating them as
-an effect and putting them inside a comonad called the of-course
-exponential denoted $!A$.  In fact, $!A \otimes !A$ is logically
-equivalent to $!A$, and thus, by staying in the comonad we become
-propositional.  This implies that a model of attack trees in linear
-logic also provides a model of attack trees in propositional logic,
-and a combination of the two.  It is possible to have the best of both
-worlds.
-
 In this short paper I introduce a newly funded research
 project\footnote{This material is based upon work supported by the
   National Science Foundation CRII CISE Research Initiation grant,
@@ -270,18 +260,18 @@ attack trees is defined in the following definition.
   of base attacks $b \in \mathsf{B}$:
   \[
   \begin{array}{lll}
-    t ::= [[b]] \mid [[t1 + t2]] \mid [[t1 (+) t2]] \mid [[t1;t2]] \mid [[t1 (x) t2]] \mid [[! t ]]\\
+    t ::= [[b]] \mid [[t1 + t2]] \mid [[t1 (+) t2]] \mid [[t1;t2]] \mid [[t1 (x) t2]]\\
   \end{array}
   \]
   I denote unsynchronized non-communicating parallel composition of
   attacks by $[[t1 + t2]]$, choice between attacks by $[[t1 (+) t2]]$,
-  sequential composition of attacks by $[[t1;t2]]$, and two new
-  operators called unsynchronized interacting parallel composition,
-  denoted $[[t1 (x) t2]]$, and copy, denoted $[[! t]]$.
+  sequential composition of attacks by $[[t1;t2]]$, and a new
+  operator called unsynchronized interacting parallel composition
+  denoted $[[t1 (x) t2]]$.
 
   \ \\
   \noindent
-  The following rules define the attack tree reduction relation:
+  The following rules define the attack tree equivalence relation:
   \begin{center}
     \vspace{-14px}
     \footnotesize
@@ -290,35 +280,27 @@ attack trees is defined in the following definition.
         \begin{array}{c}
         \inferrule* [right={\scriptsize assoc}] {
           \,
-        }{[[(t1 op t2) op t3]] \redto [[t1 op (t2 op t3)]]}
+        }{[[(t1 op t2) op t3]] = [[t1 op (t2 op t3)]]}
       \end{array}
       \\
       \begin{array}{cccccccccccc}               
         \inferrule* [right={\scriptsize sym}] {
           \,
-        }{[[t1 opS t2]] \redto [[t2 opS t1]]}
-        &
-        \inferrule* [right={\scriptsize copy}] {
-          \,
-        }{[[h(!t) (x) !t]] \redto [[!t]]}                            
+        }{[[t1 opS t2]] = [[t2 opS t1]]}
       \end{array}
       \\
       \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
           \,
-        }{[[(t1 (+)  t2) + t3]] \redto [[(t1 + t3) (+) (t2 + t3)]]}
+        }{[[(t1 (+)  t2) + t3]] = [[(t1 + t3) (+) (t2 + t3)]]}
         \\
         \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
           \,
-        }{[[(t1 (+)  t2) ; t3]] \redto [[(t1 ; t3) (+) (t2 ; t3)]]}
+        }{[[(t1 (+)  t2) ; t3]] = [[(t1 ; t3) (+) (t2 ; t3)]]}
       \end{array}
     \end{math}    
   \end{center}
   where $\mathsf{op} \in \{\odot, \otimes, \rhd, \sqcup\}$ and $\mathsf{op_S}
-  \in \{\odot, \otimes, \sqcup\}$.  The previous rules can be applied on
-  any well-formed subattack tree, and can be straightforwardly
-  extended into an equivalence relation. %% The equivalence relation, denoted
-  %% $\equiv$, on attack trees is defined as the reflexive, symmetric,
-  %% and transitive closure of the reduction relation $\redto$.
+  \in \{\odot, \otimes, \sqcup\}$.  
 \end{definition}
 The syntax given in the previous definition differs from the syntax
 used by Jhawar et al. \cite{Jhawar:2015}.  First, I use infix binary
@@ -355,29 +337,19 @@ fits very nicely with the semantics of Jhawar et al., where they
 collect the attacks that can be executed into a set.  The semantics I
 give in the next section models choice directly.
 
-The fourth, and final, difference is that I extend the syntax with two
-new operators called unsynchronized communicating parallel composition
-and copy.  The attack $[[t1 (x) t2]]$ states that $[[t1]]$ interacts
-with the attack $[[t2]]$ in the sense that processes interact.
-Modeling interacting attacks allows for the more refined modeling of
-security critical systems, for example, it can be used to bring social
+The fourth, and final, difference is that I extend the syntax with a
+new operator called unsynchronized communicating parallel composition.
+The attack $[[t1 (x) t2]]$ states that $[[t1]]$ interacts with the
+attack $[[t2]]$ in the sense that processes interact.  Modeling
+interacting attacks allows for the more refined modeling of security
+critical systems, for example, it can be used to bring social
 engineering into the analysis where someone communicates malicious
 information or commands to a unsuspecting party.  As a second example,
 interacting parallel composition could be used to model interacting
 bot nets.
 
-The attack $[[! t]]$ indicates that attack $[[t]]$ can be copied and
-contracted.  For example, $[[h(!t) (x) !t]]$ is equivalent to $[[!
-    t]]$.  Thus, the attack trees given here can treat attack trees as
-processes/resources that cannot be freely copied and deleted, as
-propositions that can be, and as a mixture of the two.  Semantically,
-$[[! t]]$ is equivalent to the of-course exponential from linear logic
-mentioned in the introduction.
-
-The reduction rules are a slightly extended version of equivalences
-given in Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.  The main
-difference is the $\textsc{copy}$ rule which allows copies made by the
-copy operator to be contracted.
+Finally, the equivalence relation is essentially the equivalence given
+in Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.
 % section attack_trees (end)
 
 \section{Semantics of Attack Trees in Dialectica Spaces}
@@ -407,7 +379,7 @@ Dialectica spaces can be seen as the intuitionistic cousin
 be used extensively to study process algebra and as a model of
 classical linear logic, while dialectica spaces and their morphisms
 form a categorical model of intuitionistic linear logic called $\dial$
-(originally due to de Paiva \cite{dePaiva:1987}); I do not introduce
+(originally due to \cite{dePaiva:1987}); I do not introduce
 dialectica space morphisms here, but the curious reader can find the
 definition in the formal development. I will use the intuitions often
 used when explaining Chu spaces as processes to explain dialectica
@@ -422,8 +394,8 @@ executed in state $q$.
 
 The interpretation of attack trees into dialectica spaces requires the
 construction of each operation on dialectica spaces:
-{\vspace{-10pt}\ \\
-\begin{changemargin}{8pt}{8pt}\noindent
+{\vspace{-8pt}\ \\
+\begin{changemargin}{2pt}{2pt}\noindent
 \textbf{Parallel Composition.} Suppose $\cat{A} = (A , Q, \alpha)$ and
 $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
 construct -- due to de Paiva \cite{dePaiva:2014a} -- the dialectica
@@ -470,7 +442,7 @@ lazy conjunction defined for $\mathsf{3}$\footnote{See the formal
   development for the full definition:
   \url{https://github.com/heades/dialectica-spaces/blob/PLAS16/concrete-lineales.agda\#L648}}.
 This is a non-symmetric conjunctive operator, and thus, sequential
-composition is \\ non-symmetric.  This implies that from a process
+composition is non-symmetric.  This implies that from a process
 perspective $\cat{A} \rhd \cat{B}$ will first execute the actions of
 $\cat{A}$ and then execute actions of $\cat{B}$ in that order.
 Sequential composition is associative.
@@ -489,29 +461,14 @@ but the states are pairs of maps $f : B \to Q$ and $g : A \to R$ from
 actions to states.  This is the point of interaction between the
 processes.  This operator is symmetric and associative.
 \end{changemargin}
-
-\begin{changemargin}{2pt}{2pt}\noindent
-\textbf{Copying.} Suppose $\cat{A} = (A , Q, \alpha)$ is a dialectica
-space. Then $\textcopyright\cat{A} = (A, A \to Q^*, \alpha^*)$ where
-$Q^*$ denotes the free monoid with carrier $Q$ and $\alpha^*$ is the
-free monoid extension of $\alpha$.  Copying defines a comonad
-$\textcopyright : \dial \to \dial$ on the category of dialectica
-spaces, and thus, we have dialectica morphisms $\varepsilon :
-\textcopyright A \to A$ and $\delta : \textcopyright A \to
-\textcopyright\textcopyright A$ satisfying the usual diagrams.
-Furthermore, it has enough structure to show the isomorphism
-$(\textcopyright\cat{A} \otimes \textcopyright\cat{A}) \cong
-\textcopyright\cat{A}$.  This implies that under $\textcopyright$ we
-escape to propositional logic.
-\end{changemargin}
 } At this point it is straightforward to define an interpretation
 $\interp{[[t]]}$ of attack trees into $\dial$.  Soundness with respect
 to this model would correspond to the following theorem.
 
 \begin{theorem}[Soundness]
   \label{thm:soundness}
-  If $[[t1]] \rightsquigarrow [[t2]]$, then $\interp{[[t1]]} \cong
-  \interp{[[t2]]}$ where $\cong$ is isomorphism of objects.
+  If $[[t1]] \rightsquigarrow [[t2]]$, then $\interp{[[t1]]}$ is
+  isomorphic to $\interp{[[t2]]}$ in $\dial$.
 \end{theorem}
 
 Those familiar with Chu spaces and their application to process
