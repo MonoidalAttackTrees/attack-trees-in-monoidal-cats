@@ -509,43 +509,248 @@ may lead to a logical theory of attack trees.
 \label{sec:lina:_a_domain_specific_pl_for_threat_analysis}
 
 The second major part of this project is the development of a
-staticly-typed polymorphic domain-specific linear functional
-programming language for specifying and reasoning about attack trees
-called Lina for Linear Threat Analysis.  Lina will consist of a core
-language and a surface language.  The core language will include a
-decidable type checker using term annotations on types.  Programming
-with annotations can be very cumbersome, and so the surface language
-will use local type inference \cite{Pierce:2000} to alleviate some of
-the burden from annotations.  However, the surface language will
-provide further conveniences in the form of automation, to be used
-with labeled attack trees, and graphical representations of attack
-trees based on the various graphical languages used in category theory
-\cite{Selinger:2009}.  Thus, the security specialist will not be
-required to program directly in Lina, but instead will use a graphical
-interface to construct attack trees and prove properties about them in
-a completely graphical nature.  
+staticly-typed domain-specific linear functional programming language
+for specifying and reasoning about attack trees called Lina for Linear
+Threat Analysis.  Lina will consist of a core language and a surface
+language.  We view attack trees as consisting of two layers: a logic
+layer and a quantitative layer.  The former is described by the
+definition of attack trees in the previous section, but the latter is
+the layer added atop of the logical layer used when conducting
+analysis, for example, computing set of attacks with minimal cost.
+Thus, there are two types of proofs about attack trees.  Proofs about
+the logical layer will be checked using a linear type system, but
+proofs about the quantitative layer will be mostly numerical. In this
+section we largely concentrate on the logical layer which is the
+current focus of the project.
 
-Types in Lina will correspond to attack trees while programs
-correspond to semantically valid transformations of attack trees,
-thus, a question we must answer then is \textbf{how do we sufficiently
-  represent the model of attack trees in $\dial$ as a linear logic?}
-The problem is the fact that Lina will require both commutative
-monoidal operators and non-communicative monoidal
-operators. Supporting both types of operators within the same logic
-has been a long standing question.  A starting point might be with
-Reedy's LLMS which has already been shown to have a categorical model
-in $\dial$ by de Paiva \cite{dePaiva:2014a}.  In fact, the definition
-of non-interacting parallel composition given here is due to her
-model.  A different path the project plans to develop is to start with
-a non-communicative linear logic and then split up the of-course
-exponential into three new exponential operators: one that adds
-symmetry, one that adds weakening, and one that adds contraction.
-This would allow for the specification of multiple types of monoidal
-operators using the various exponentials.  Once a proper linear logic
-is laid out the next step will be to exploit the Curry-Howard-Lambek
-correspondence to obtain a linear functional programming language
-making up the core of Lina.
+Lina's core will consist of a language for defining attack trees, and
+this language will consist of the two layers, but one benefit of the
+layered view of attack trees is that the logical layer can be
+projected out, and hence, type checking may completely ignore the
+quantitative layer.  The following two sections describe both of these
+concepts.
 
+\subsection{Lina's Core: Defining Attack Trees}
+\label{subsec:linas_core_defining_attack_trees}
+
+% subsection linas_core_defining_attack_trees (end)
+
+\subsection{Lina's Core: A Linear Type System}
+\label{subsec:linas_core_linear_type_system}
+
+The current main focus of the project is the design and analysis of
+Lina's core type system.  However, there is a significant hurdle we
+must get through first.  Types in Lina will correspond to attack trees
+while programs correspond to semantically valid transformations of
+attack trees, thus, a question we must answer then is \textbf{how do
+  we sufficiently represent the model of attack trees in $\dial$ as a
+  linear logic?}  The problem is the fact that Lina will require both
+commutative (parallel composition and choice) and non-communicative
+monoidal operators (sequencing).
+
+Supporting both commutative and non-communicative operators within the
+same linear logic has been a long standing question.  A starting point
+might be with Reedy's LLMS which has already been shown to have a
+categorical model in $\dial$ by de Paiva \cite{dePaiva:2014a}.  In
+fact, the definition of non-interacting parallel composition given
+here is due to her model.  However, we have taken a new path which we
+also approach categorically, and then syntactically.
+
+We have obtained a great insight from our model in dialectica
+categories, but it is not obvious how to abstract it into a model we
+can easily extract a type system from.  So instead of working directly
+with the dialectica model we have found a more abstract model with the
+ability to have both a commutative tensor product and and
+non-communicative tensor product within the same model, but is more
+straightforwardly transformed into a type system.
+
+Girard's genius behind linear logic was that he isolated the
+structural rules -- weakening and contraction -- by treating them as
+an effect and putting them inside a comonad called the of-course
+exponential denoted $!A$.  In fact, $!A \otimes !A$ is logically
+equivalent to $!A$, and thus, by staying in the comonad we become
+non-linear.  However, in Girard's linear logic exchange was not
+isolated like weakening and contraction.  Thus, the tensor product was
+symmetric.
+
+To accommodate both a commutative and non-commutative tensor product
+we isolate exchange in the same way that Girard isolated weakening and
+contraction.  In this section I give a brief overview of how this is
+done.  We begin with the notion of a Lambek category.
+\begin{definition}
+  \label{def:Lambek-category}
+  A \textbf{Lambek category} is a monoidal category \\ $(\cat{C}, I,
+  \rhd, \alpha, \lambda, \rho)$ where $\rhd : \cat{C} \times \cat{C}
+  \mto \cat{C}$ is the non-commutative tensor product, and
+  $\alpha_{A,B,C} : (A \rhd B) \rhd C \mto A \rhd (B \rhd C)$,
+  $\lambda_A : I \rhd A \mto A$, and $\rho_A : A \rhd I \mto A$ are
+  all natural transformations subject to several coherence
+  diagrams\footnote{The coherence diagrams are equivalent to the ones
+    in the definition of a symmetric monoidal category modulo
+    symmetry; see the appendix for the complete definition of a
+    symmetry monoidal category.}.
+\end{definition}
+\noindent
+We call the previous category a Lambek category to pay homage to
+Joachim Lambek and his work on the Lambeck calculus \cite{Lambek}
+which is a non-commutative substructural logic that predates linear
+logic.  The traditional definition of a Lambek category also requires
+that the monoidal category be biclosed, but we do not concern
+ourselves here with closed categories.
+
+In our model exchange will be considered as an effect, and so we
+isolate it inside a comonad.  This will allow for the definition of a
+commutative tensor product.
+\begin{definition}
+  \label{def:exchange-comonad}
+  A \textbf{Lambek category with exchange} is a Lambek category
+  $(\cat{C}, I, \rhd, \alpha, \lambda, \rho)$ equipped with a monoidal
+  comonad $(e, \varepsilon, \delta)$ where $e : \cat{C} \mto \cat{C}$
+  is a monoidal endofunctor\footnote{For the full definition of a
+    monoidal functor see Definition~\ref{?} in Appendix~\ref{?}.}, and
+  $\varepsilon_A : eA \mto A$ and $\delta_A : eA \mto e^2A$ are
+  natural transformations.  In addition, there is a natural
+  transformation $\mathsf{ex}_{A,B} : e(A \rhd B) \mto eB \rhd
+  eA$. Each of these morphisms are subject to the several coherence
+  diagrams which we omit due to space.  Most importantly, the
+  following diagram must commute:
+  \[
+  \bfig
+    \square/->`=`->`/<1600,400>[
+      e(A\otimes B)`
+      eB\otimes eA`
+      e(A\otimes B)`
+      e(B\otimes A);
+      \mathsf{ex}_{A,B}``
+      q_{B,A}`]
+    \morphism(800,0)<-800,0>[
+      eA\otimes eB`
+      e(A\otimes B);
+      q_{A,B}]
+    \morphism(1600,0)<-800,0>[
+      e(B\otimes A)`
+      eA\otimes eB;
+      \mathsf{ex}_{B,A}]
+    \efig
+    \]
+  
+  
+  %% \begin{mathpar}
+  %%   \bfig
+  %%   \square<600,600>[
+  %%     eA`
+  %%     e^2A`
+  %%     e^2A`
+  %%     e^3A;
+  %%     \delta_A`
+  %%     \delta_A`
+  %%     e\delta_A`
+  %%     \delta_{eA}]
+  %%   \efig
+  %%   \and
+  %%   \bfig
+  %%   \Atrianglepair/=`->`=`<-`->/<600,600>[
+  %%     eA`
+  %%     eA`
+  %%     e^2 A`
+  %%     eA;`
+  %%     \delta_A``
+  %%     \varepsilon_{eA}`
+  %%     e\varepsilon_A]
+  %%   \efig
+  %%   \and
+  %%   \bfig
+  %%   \square|amab|/`->``->/<950,600>[
+  %%     eA \rhd eB``
+  %%     e^2A \rhd e^2B`
+  %%     e(eA \rhd eB);`
+  %%     \delta_A \rhd \delta_B``
+  %%     q_{eA,eB}]
+  %%   \square(950,0)|mmmb|/``->`->/<950,600>[`
+  %%     e(A \rhd B)`
+  %%     e(eA \rhd eB)`
+  %%     e^2(A \rhd B);``
+  %%     \delta_{A \rhd B}`
+  %%     eq_{A,B}]
+  %%   \morphism(0,600)<1900,0>[eA \rhd eB`e(A \rhd B);q_{A,B}]
+  %%   \efig
+  %%   \and
+  %%   \bfig
+  %%   \square<600,600>[
+  %%     I`
+  %%     eI`
+  %%     eI`
+  %%     e^2I;
+  %%     q_{I}`
+  %%     q_{I}`
+  %%     \delta_I`
+  %%     eq_{I}]
+  %%   \efig
+    %% \end{mathpar}
+    \noindent
+  The previous diagram can be seen as a form of invertibility for
+  $\mathsf{ex}_{A,B}$.
+\end{definition}
+The previous definition is largely based on how weakening and
+contraction are modeled by the of-course exponential, and how exchange
+operates in the coKleisli category of $(e, \varepsilon, \delta)$.  The
+coKleisli category contains as objects all of the objects of
+$\cat{C}$, but has as morphisms all the morphisms of $\cat{C}$ whose
+source is of the form $eA$ for some $A$.  The coKleisli category is
+best viewed as the world inside a comonad.  That is, it contains all
+of the structure of the ambient category, but also the additional
+effects the comonad provides.  Thus, the coKleisli category of the
+exchange comonad should be a symmetric monoidal category, and indeed
+it is.
+\begin{lemma}
+  \label{lemma:cokleisli_of_the_exchange_monad_is_symmetric}
+  Suppose $\cat{C}$ is a Lambek category with exchange.  Then the
+  coKleisli category of the exchange comonad is symmetric monoidal.
+\end{lemma}
+It is now should be more straightforward to construct a term
+assignment from this model.  The following rules define a preliminary
+definition of a natural deduction term assignment:
+\begin{mathpar}
+  \small
+  \ATreesdrulevar{}    \and
+  \ATreesdruleunitI{}  \and
+  \ATreesdruleunitE{}  \and
+  \ATreesdruletenI{}   \and
+  \ATreesdruletenE{}   \and
+  \ATreesdruleex{}   \and
+  \ATreesdruledereliction{}  \and
+  \ATreesdrulepromotion{}  
+\end{mathpar}
+The previous rules are based on the natural deduction formalization of
+intuitionistic linear logic due to \cite{Benton:1992}.
+
+We can interpret both sequential and interacting parallel composition
+as types.  That is, we can interpret $[[t1 ; t2]]$ as $[[T1 (x) T2]]$,
+and $[[t1 (x) t2]]$ as $[[e T1 (x) e T2]]$.  However, accommodating
+the other attack tree branching connectives in linear logic is left
+for future work.
+% subsection linas_core_linear_type_system (end)
+
+\subsection{Lina's Surface Language}
+\label{subsec:linas_surface_language}
+Another goal of this project is to make using Lina as close as
+possible to functional programming as usual to prevent a large
+overhead of using the language as well as the tool.  As a programming
+language simplicity is of the utmost importance, and I think with the
+semantics given here Lina will not require very advanced syntactic
+features.  This cannot be said for some of the existing work that is
+similar to Lina.  For example, Vigo et al. \cite{6957121} proposed the
+Quality Tree Generator which requires the user to program in a process
+calculus which is a non-trivial overhead. At the tool level the goal
+is to have a completely graphical environment for creating attack
+trees and reasoning about them by capitalizing on existing graphical
+reasoning tools from category theory.  Thus, at the tool level the
+user will not have to write any programs at all unless they want to
+extend the environment.
+% subsection linas_surface_language (end)
+
+\subsection{Automation}
+\label{subsec:automation}
 I do not consider this project, particularly Lina, to be at odds with
 existing work on using automated theorem proving to synthesize and
 analyze attack trees; see for example
@@ -563,24 +768,10 @@ could be used as a proof checker \cite{Stump:2012} for proof producing
 SMT backed automated generation of attack trees, thus, potentially
 allowing for some of the analysis of attack trees in Lina to be
 automated.
-
-Another goal of this project is to make using Lina as close as
-possible to functional programming as usual to prevent a large
-overhead of using the language as well as the tool.  As a programming
-language simplicity is of the utmost importance, and I think with the
-semantics given here Lina will not require very advanced syntactic
-features.  This cannot be said for some of the existing work that is
-similar to Lina.  For example, Vigo et al. \cite{6957121} proposed the
-Quality Tree Generator which requires the user to program in a process
-calculus which is a non-trivial overhead. At the tool level the goal
-is to have a completely graphical environment for creating attack
-trees and reasoning about them by capitalizing on existing graphical
-reasoning tools from category theory.  Thus, at the tool level the
-user will not have to write any programs at all unless they want to
-extend the environment.
+% subsection automation (end)
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
-\section{Conclusion}
+\section{Conclusion and Future Work}
 \label{sec:conclusion}
 
 The project described here is to first develop the semantics of attack
@@ -593,6 +784,12 @@ programming language called Lina
 be used to develop a new tool to conduct threat analysis using attack
 trees.  This tool will include the ability to design and formally
 reason about attack trees using interactive theorem proving.
+
+The core language will include a decidable type checker
+using term annotations on types.  Programming with annotations can be
+very cumbersome, and so the surface language will use local type
+inference \cite{Pierce:2000} to alleviate some of the burden from
+annotations.  
 % section conclusion_and_future_work (end)
 
 

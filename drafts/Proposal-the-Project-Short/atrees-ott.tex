@@ -28,6 +28,7 @@
 \newcommand{\ATreesmetavars}{
 \ATreesmetavartabular{
  $ \ATreesmv{term\_var} ,\, \ATreesmv{b} ,\, \ATreesmv{w} ,\, \ATreesmv{x} ,\, \ATreesmv{y} ,\, \ATreesmv{z} ,\, \ATreesmv{v} $ &  \\
+ $ \ATreesmv{vecs} ,\, \vec{w} ,\, \vec{x} ,\, \vec{y} ,\, \vec{z} $ &  \\
  $ \ATreesmv{index\_var} ,\, \ATreesmv{i} ,\, \ATreesmv{j} ,\, \ATreesmv{k} $ &  \\
 }}
 
@@ -44,28 +45,171 @@
 \ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \mathop{\mathsf{op} }  \ATreesnt{t_{{\mathrm{2}}}} } {\textsf{M}}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \mathop{\mathsf{op_S} }  \ATreesnt{t_{{\mathrm{2}}}} } {\textsf{M}}{}{}{}}
 
+\newcommand{\ATreestype}{
+\ATreesrulehead{\ATreesnt{type}  ,\ \ATreesnt{T}}{::=}{}\ATreesprodnewline
+\ATreesfirstprodline{|}{\mathsf{I}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{T_{{\mathrm{1}}}}  \rhd  \ATreesnt{T_{{\mathrm{2}}}}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{T_{{\mathrm{1}}}}  \otimes  \ATreesnt{T_{{\mathrm{2}}}}} {\textsf{M}}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{e} \, \ATreesnt{T}}{}{}{}{}}
+
+\newcommand{\ATreesterm}{
+\ATreesrulehead{\ATreesnt{term}  ,\ s}{::=}{}\ATreesprodnewline
+\ATreesfirstprodline{|}{\ATreesmv{x}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{unit}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{s_{{\mathrm{1}}}  \rhd  s_{{\mathrm{2}}}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{ex}\, \, s_{{\mathrm{1}}} \, \,\mathsf{with}\, \, \ATreesmv{y}  \ATreessym{,}  \ATreesmv{z} \, \,\mathsf{in}\, \, s_{{\mathrm{2}}}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreeskw{derelict} \, s}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{promote}\, \, s \, \,\mathsf{for}\, \, s' \, \,\mathsf{in}\, \, s''}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{s_{{\mathrm{1}}}  \otimes  s_{{\mathrm{2}}}} {\textsf{M}}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{let}\, \, \mathsf{unit} \, \ATreessym{=}  s \, \,\mathsf{in}\, \, s'}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{let}\, \, \ATreesmv{x}  \otimes  \ATreesmv{y}  \ATreessym{=}  s \, \,\mathsf{in}\, \, s'}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \overrightarrow{ s } } {\textsf{M}}{}{}{}}
+
+\newcommand{\ATreesctx}{
+\ATreesrulehead{\ATreesnt{ctx}  ,\ \Gamma}{::=}{}\ATreesprodnewline
+\ATreesfirstprodline{|}{\cdot}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesmv{x}  \ATreessym{:}  \ATreesnt{T}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesmv{x_{{\mathrm{1}}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,} \, ... \, \ATreessym{,}  \ATreesmv{x_{\ATreesmv{i}}}  \ATreessym{:}  \ATreesnt{T_{\ATreesmv{i}}}} {\textsf{M}}{}{}{}}
+
+\newcommand{\ATreesterminals}{
+\ATreesrulehead{\ATreesnt{terminals}}{::=}{}\ATreesprodnewline
+\ATreesfirstprodline{|}{ \mathsf{e} }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \cdot }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \vdash }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \rhd }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \otimes }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \mathsf{delrelict}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \mathsf{promote}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \mathsf{unit} }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \,\mathsf{in}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \mathsf{let}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \,\mathsf{with}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \,\mathsf{for}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \mathsf{ex}\, }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \mathsf{I} }{}{}{}{}}
+
 \newcommand{\ATreesformula}{
 \ATreesrulehead{\ATreesnt{formula}}{::=}{}\ATreesprodnewline
-\ATreesfirstprodline{|}{\ATreesnt{judgement}}{}{}{}{}}
+\ATreesfirstprodline{|}{\ATreesnt{judgement}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \ATreesnt{formula}  \quad  \ATreesnt{formula'} }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{formula_{{\mathrm{1}}}} \, ... \, \ATreesnt{formula_{\ATreesmv{i}}}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \overrightarrow{ \ATreesnt{formula} } } {\textsf{M}}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \ATreesnt{formula} }{}{}{}{}}
+
+\newcommand{\ATreesJtype}{
+\ATreesrulehead{\ATreesnt{Jtype}}{::=}{}\ATreesprodnewline
+\ATreesfirstprodline{|}{\Gamma  \vdash  s  \ATreessym{:}  \ATreesnt{T}}{}{}{}{}}
 
 \newcommand{\ATreesjudgement}{
-\ATreesrulehead{\ATreesnt{judgement}}{::=}{}}
+\ATreesrulehead{\ATreesnt{judgement}}{::=}{}\ATreesprodnewline
+\ATreesfirstprodline{|}{\ATreesnt{Jtype}}{}{}{}{}}
 
 \newcommand{\ATreesuserXXsyntax}{
 \ATreesrulehead{\ATreesnt{user\_syntax}}{::=}{}\ATreesprodnewline
 \ATreesfirstprodline{|}{\ATreesmv{term\_var}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesmv{vecs}}{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{\ATreesmv{index\_var}}{}{}{}{}\ATreesprodnewline
-\ATreesprodline{|}{\ATreesnt{atree}}{}{}{}{}}
+\ATreesprodline{|}{\ATreesnt{atree}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{type}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{term}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{ctx}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{terminals}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesnt{formula}}{}{}{}{}}
 
 \newcommand{\ATreesgrammar}{\ATreesgrammartabular{
 \ATreesatree\ATreesinterrule
+\ATreestype\ATreesinterrule
+\ATreesterm\ATreesinterrule
+\ATreesctx\ATreesinterrule
+\ATreesterminals\ATreesinterrule
 \ATreesformula\ATreesinterrule
+\ATreesJtype\ATreesinterrule
 \ATreesjudgement\ATreesinterrule
 \ATreesuserXXsyntax\ATreesafterlastrule
 }}
 
 % defnss
+% defns Jtype
+%% defn type
+\newcommand{\ATreesdrulevar}[1]{\ATreesdrule[#1]{%
+}{
+\ATreesmv{x}  \ATreessym{:}  \ATreesnt{T}  \vdash  \ATreesmv{x}  \ATreessym{:}  \ATreesnt{T}}{%
+{\ATreesdrulename{var}}{}%
+}}
+
+
+\newcommand{\ATreesdruleunitI}[1]{\ATreesdrule[#1]{%
+}{
+\cdot  \vdash  \mathsf{unit}  \ATreessym{:}  \mathsf{I}}{%
+{\ATreesdrulename{unitI}}{}%
+}}
+
+
+\newcommand{\ATreesdruleunitE}[1]{\ATreesdrule[#1]{%
+\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \mathsf{I}  \quad  \Gamma_{{\mathrm{1}}}  \vdash  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T} }%
+}{
+\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  \mathsf{let}\, \, \mathsf{unit} \, \ATreessym{=}  s_{{\mathrm{1}}} \, \,\mathsf{in}\, \, s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T}}{%
+{\ATreesdrulename{unitE}}{}%
+}}
+
+
+\newcommand{\ATreesdruletenI}[1]{\ATreesdrule[#1]{%
+\ATreespremise{ \Gamma_{{\mathrm{1}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \quad  \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{2}}}} }%
+}{
+\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \otimes  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \otimes  \ATreesnt{T_{{\mathrm{2}}}}}{%
+{\ATreesdrulename{tenI}}{}%
+}}
+
+
+\newcommand{\ATreesdruletenE}[1]{\ATreesdrule[#1]{%
+\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \otimes  \ATreesnt{T_{{\mathrm{2}}}}  \quad  \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \ATreesmv{x}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,}  \ATreesmv{y}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{2}}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{3}}}} }%
+}{
+\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  \mathsf{let}\, \, \ATreesmv{x}  \otimes  \ATreesmv{y}  \ATreessym{=}  s_{{\mathrm{1}}} \, \,\mathsf{in}\, \, s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{3}}}}}{%
+{\ATreesdrulename{tenE}}{}%
+}}
+
+
+\newcommand{\ATreesdruleex}[1]{\ATreesdrule[#1]{%
+\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \otimes  \mathsf{e} \, \ATreesnt{T_{{\mathrm{2}}}}  \quad  \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \ATreesmv{w}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{2}}}}  \ATreessym{,}  \ATreesmv{x}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  s  \ATreessym{:}  \ATreesnt{T} }%
+}{
+\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  \mathsf{ex}\, \, s_{{\mathrm{1}}} \, \,\mathsf{with}\, \, \ATreesmv{w}  \ATreessym{,}  \ATreesmv{x} \, \,\mathsf{in}\, \, s  \ATreessym{:}  \ATreesnt{T}}{%
+{\ATreesdrulename{ex}}{}%
+}}
+
+
+\newcommand{\ATreesdruledereliction}[1]{\ATreesdrule[#1]{%
+\ATreespremise{\Gamma  \vdash  s  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T}}%
+}{
+\Gamma  \vdash  \ATreeskw{derelict} \, s  \ATreessym{:}  \ATreesnt{T}}{%
+{\ATreesdrulename{dereliction}}{}%
+}}
+
+
+\newcommand{\ATreesdrulepromotion}[1]{\ATreesdrule[#1]{%
+\ATreespremise{   \overrightarrow{ \Gamma_{\ATreesmv{i}}  \vdash  s_{\ATreesmv{i}}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{\ATreesmv{i}}} }    \quad  \ATreesmv{x_{{\mathrm{1}}}}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,} \, ... \, \ATreessym{,}  \ATreesmv{x_{\ATreesmv{i}}}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{\ATreesmv{i}}}  \vdash  s  \ATreessym{:}  \ATreesnt{T} }%
+}{
+\Gamma  \vdash  \mathsf{promote}\, \,  \overrightarrow{ s }  \, \,\mathsf{for}\, \,  \overrightarrow{ \ATreesmv{x_{\ATreesmv{i}}} }  \, \,\mathsf{in}\, \, s  \ATreessym{:}  \ATreesnt{T}}{%
+{\ATreesdrulename{promotion}}{}%
+}}
+
+\newcommand{\ATreesdefntype}[1]{\begin{ATreesdefnblock}[#1]{$\Gamma  \vdash  s  \ATreessym{:}  \ATreesnt{T}$}{}
+\ATreesusedrule{\ATreesdrulevar{}}
+\ATreesusedrule{\ATreesdruleunitI{}}
+\ATreesusedrule{\ATreesdruleunitE{}}
+\ATreesusedrule{\ATreesdruletenI{}}
+\ATreesusedrule{\ATreesdruletenE{}}
+\ATreesusedrule{\ATreesdruleex{}}
+\ATreesusedrule{\ATreesdruledereliction{}}
+\ATreesusedrule{\ATreesdrulepromotion{}}
+\end{ATreesdefnblock}}
+
+
+\newcommand{\ATreesdefnsJtype}{
+\ATreesdefntype{}}
+
 \newcommand{\ATreesdefnss}{
+\ATreesdefnsJtype
 }
 
 \newcommand{\ATreesall}{\ATreesmetavars\\[0pt]
