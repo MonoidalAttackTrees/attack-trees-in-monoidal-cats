@@ -72,6 +72,7 @@
 
 %% Ott
 \input{atrees-ott}
+\input{type-level-Lina-ott}
 
 \begin{document}
 
@@ -83,7 +84,7 @@
 
 \title{Short Paper: Proposing a New Foundation of Attack Trees in Monoidal Categories}
 
-\authorinfo{Harley Eades III}{Computer and Information Sciences\\Augusta University\\Augusta, GA}{heades@augusta.edu}
+\authorinfo{Harley Eades III}{Computer Science\\Augusta University}{heades@augusta.edu}
 
 \maketitle 
 
@@ -130,6 +131,39 @@ logic and the morphisms correspond to proofs of valid sequents of the
 logic.  I propose that attack trees -- in many different flavors -- be
 modeled as objects in monoidal categories, and hence, as formulas of
 linear logic.
+
+Suppose we are the computer security team of a small hospital, and we
+need to asses the potential for an intruder to gain root access of the
+all important medical records Unix server.  So we build an attack tree
+to asses all of the potential ways one could gain root access to the
+server.  Such an attack tree might look something like the following:
+\[
+  \begin{array}{lll}
+    \sqcup\,\text{''Obtain Root Privileges''}\,220\\
+    \,\,\,\,\,\,\,(\sqcup\,\text{''Access System Console''}\,130\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\sqcup\,\text{''Enter Computer Center''}\,110\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Break In to Computer Center''}\,80)\\
+    (\mathsf{leaf}\,\text{''Unattended Guest''}\,30))\\
+    \end{array}\\
+    (\mathsf{leaf}\,\text{''Corrupt Operator''}\,20))\\
+    \end{array}\\
+    \,\,\,\,\,\,\,(\sqcup\,\text{''Obtain Root Password''}\,90\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    ([[;]]\,\text{''Guess Password''}\,55\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Obtain Password File''}\,15)\\
+    (\mathsf{leaf}\,\text{''Encounter Guessable Password''}\,40))\\
+    \end{array}\\
+    (\sqcup\,\text{''Look Over Sys. Admin. Shoulder''}\,35)\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Trojan Horse Root''}\,25)\\
+    (\mathsf{leaf}\,\text{''Corrupt Sys. Admin.''}\,10))\\
+    \end{array}    
+    \end{array}
+  \end{array}
+\]
 
 Attack trees are a modeling tool, originally proposed by Bruce
 Schneier \cite{Schneier:1999}, which are used to assess the threat
@@ -532,6 +566,8 @@ concepts.
 
 \subsection{Lina's Core: Defining Attack Trees}
 \label{subsec:linas_core_defining_attack_trees}
+
+\input{def-lang-output}
 
 % subsection linas_core_defining_attack_trees (end)
 

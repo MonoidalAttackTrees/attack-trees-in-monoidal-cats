@@ -1,0 +1,177 @@
+% -*- compile-command: "make" -*-
+
+metavar termvar, x, y ::=
+  {{ tex \mathit{[[termvar]]} }}  {{com  term variable  }}
+
+metavar typevar, X, Y, Z ::=      {{com type variable }}
+metavar string, s  ::= {{com strings }}
+metavar integer, i ::= {{com integers }}
+metavar double, d ::= {{com doubles }}
+metavar expr, lexpr ::=           {{com place holders for labels and quantitative expressions }}
+indexvar index, j ::=
+
+grammar
+
+  quant, Q :: 'Q_' ::= {{com quantitative types }}
+    | Q -> Q' :: :: Arrow       % Can we automate higher-order functions?
+    | Double  :: :: Doubles
+
+  numop, nop {{tex \mathsf{op} }} :: 'NOp_' ::= {{com numeric operations }}
+    | + :: :: Plus
+    | - :: :: Subtraction
+    | * :: :: Multiplication
+    | / :: :: Division
+
+  qexpr, q :: 'QE_' ::= {{com quantitative expressions }}
+    | x                 :: :: Var
+    | \ x . q           :: :: Fun
+    {{tex \lambda [[x]].[[q]] }}
+    | q1 q2             :: :: App
+    | q1 nop q2         :: :: NOp
+    | rec q0 of q1 | q2 :: :: Rec
+    {{tex \mathsf{rec}\,[[q0]]\,\mathsf{of}\,[[q1]],[[q2]] }} 
+    | d                 :: :: Double
+    | h( q )            :: M :: HParen
+    {{tex [[q]] }}
+    | ( q )             :: S :: Paren
+
+  labelTy, L :: 'LT_' ::=
+    | String  :: :: Strings
+    | Double  :: :: Doubles
+
+  label, l :: 'L_' ::=
+    | d :: :: Double  {{com all doubles  }}
+    | s :: :: String  {{com all strings  }}
+
+  atreeStruct, A, B, C, R, S, T :: 'ATS_' ::=     {{com attack tree structure }}
+    | X                     :: :: NodeIdentifier {{com nodes of the tree }}
+    | A |_| B               :: :: Choice         {{com choice }}    
+    | A (x) B               :: :: IParallel      {{com interacting parallel composition }}
+    | A (.) B               :: :: NIParallel     {{com non-interacting parallel composition }}
+    | A ; B                 :: :: Sequencing     {{com sequencing }}
+
+  kinds, k :: 'K_' ::= {{com kinds }}   
+   | AttackTree L Q :: :: AttackKind
+   {{tex \mathsf{AttackTree}\,[[L]]\,[[Q]] }}
+   | k1 -> k2       :: :: Arrow
+
+  comb, c :: 'C_' ::= {{com attack tree combinators }}
+    | (x)     :: :: IParallel
+    {{tex \otimes }}
+    | (.)     :: :: NIParallel
+    {{tex \odot }}
+    | ;       :: :: Seq
+    {{tex \rhd }}
+    | |_|     :: :: Choice
+    {{tex \sqcup }}
+    
+  atree, t :: 'AT_' ::= {{com attack tree expressions }}
+   | x        :: :: Var
+   | \ x . t  :: :: Fun
+   {{tex \lambda [[x]] . [[t]] }}
+   | t1 t2    :: :: App
+   | leaf l q :: :: Leaf
+   {{tex \mathsf{leaf}\,[[l]]\,[[q]] }}
+   | c l q     :: :: Combinator
+
+  G {{tex \Gamma}} :: 'Ctx_' ::= {{com kinding context}}
+   | . :: :: Empty
+   | x : k   :: :: El
+   | G1 , G2 :: :: Ext
+
+  D {{tex \Delta}} :: 'QCtx_' ::= {{com quant context}}
+   | .       :: :: Empty
+   | x : Q   :: :: El
+   | D0 , D1 :: :: Ext
+
+  terminals :: 'terminals_' ::=
+    | String :: :: Strings
+    {{tex \mathsf{String} }}
+    | Double :: :: Doubles
+    {{tex \mathsf{Double} }}
+    | Bool    :: :: Bool
+    {{tex \mathsf{Bool} }}
+    | ->      :: :: Arrow
+    {{tex \to }}
+    | true        :: :: True
+    {{tex \mathsf{true} }}
+    | false       :: :: False
+    {{tex \mathsf{false} }}
+    | '\n' :: :: Newline
+    | . :: :: Dot
+    {{tex \cdot }}
+    | |- :: :: Vdash
+    {{tex \vdash }}
+    
+  formula :: 'formula_' ::=
+    | judgement            ::   :: judgement
+    | not formula          ::   :: not
+    | ( formula )          :: S :: parens
+    | h( formula )         :: S :: hparens
+    {{tex [[formula]] }}
+    | formula && formula'  ::   :: side
+    {{tex [[formula]] \quad [[formula']] }}
+
+defns
+  Jkind :: '' ::=
+
+defn
+  |- l : L :: :: label :: L_
+by
+
+ ------------- :: Double
+ |- d : Double
+
+ ------------- :: String
+ |- s : String
+
+defn
+  D |- q : Q :: :: quan :: Q_
+by 
+
+  ---------------------- :: Var
+  D0, x : Q, D1 |- x : Q
+
+  --------------- :: Double
+  D |- d : Double
+
+  D, x : Q0 |- q : Q1
+  -------------------- :: Fun
+  D |- \x.q : Q0 -> Q1
+
+  D |- q1 : Q0 &&  D |- q0 : Q0 -> Q1
+  ----------------------------------- :: App
+  D |- q0 q1 : Q1
+
+  D |- q1 : Double  && D |- q2 : Double
+  ------------------------------------- :: NOp
+  D |- q1 nop q2 : Double
+
+  h(D |- q0 : Double && D |- q1 : Q) &&  D |- q2 : Q -> Q
+  ------------------------------------------------------- :: Rec
+  D |- rec q0 of q1 | q2 : Q
+  
+
+defn
+ G |- t : k :: :: kind :: K_
+by
+
+  ---------------------- :: Var
+  G0, x : k, G1 |- x : k
+
+  G, x : k0 |- t : k1
+  -------------------- :: Fun
+  G |- \x.t : k0 -> k1
+
+  G |- t1 : k0 && G |- t0 : k0 -> k1
+  ---------------------------------- :: App
+  G |- t0 t1 : k1
+
+  |- l : L    &&      . |- q : Q
+  ------------------------------ :: Leaf
+  G |- leaf l q : AttackTree L Q
+
+  G |- t1 : AttackTree L Q   &&   |- l : L 
+  G |- t2 : AttackTree L Q   && . |- q : Q -> Q -> Q  
+  -------------------------------------------------- :: Comb
+  G |- c l q t1 t2 : AttackTree L Q

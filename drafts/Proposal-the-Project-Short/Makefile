@@ -15,13 +15,17 @@ all: pdf
 
 pdf : main.pdf
 
+def-lang-output.tex : def-lang.tex type-level-Lina.ott
+	$(OTT) $(OTT_FLAGS) -i type-level-Lina.ott -o type-level-Lina-ott.tex -tex_name_prefix TLL \
+		-tex_filter def-lang.tex def-lang-output.tex
+
 main-output.tex : main.tex atrees.ott
 	$(OTT) $(OTT_FLAGS) -i atrees.ott -o atrees-ott.tex -tex_name_prefix ATrees \
 		-tex_filter main.tex main-output.tex
 
 # Now this takes the full LaTex translation and compiles it using
 # pdflatex.
-main.pdf : main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile
+main.pdf : def-lang-output.tex main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile
 	$(PDFLATEX) -jobname=main main-output.tex
 # $(BIBTEX) main
 	$(PDFLATEX) -jobname=main main-output.tex

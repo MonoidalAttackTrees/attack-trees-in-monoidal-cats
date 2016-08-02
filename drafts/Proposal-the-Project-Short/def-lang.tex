@@ -1,0 +1,103 @@
+Consider the attack tree for assessing the risk of becoming root on a
+Unix machine from above.  We can represent that tree as follows in the
+form of a functional program:
+\[
+  \begin{array}{lll}
+    [[|_|]]\,\text{''Obtain Root Privileges''}\,r\\
+    \,\,\,\,\,\,\,([[|_|]]\,\text{''Access System Console''}\,r\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    ([[|_|]]\,\text{''Enter Computer Center''}\,r\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Break In to Computer Center''}\,80)\\
+    (\mathsf{leaf}\,\text{''Unattended Guest''}\,30))\\
+    \end{array}\\
+    (\mathsf{leaf}\,\text{''Corrupt Operator''}\,20))\\
+    \end{array}\\
+    \,\,\,\,\,\,\,([[|_|]]\,\text{''Obtain Root Password''}\,r\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    ([[;]]\,\text{''Guess Password''}\,r\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Obtain Password File''}\,25)\\
+    (\mathsf{leaf}\,\text{''Encounter Guessable Password''}\,10))\\
+    \end{array}\\
+    ([[|_|]]\,\text{''Look Over Sys. Admin. Shoulder''}\,r)\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Trojan Horse Root''}\,15)\\
+    (\mathsf{leaf}\,\text{''Corrupt Sys. Admin.''}\,40))\\
+    \end{array}    
+    \end{array}
+  \end{array}
+\]
+where $r = [[(\x.\y.h(x + y))]]$.
+
+We can see from this example that we treat the nodes of the attack
+tree as combinators, either $[[leaf l q]]$ or $[[c l q]]$, where $c$
+is a branching node symbol, $[[l]]$ is a label, for example, a string,
+and $[[q]]$ is a quantitative expression.  The types of $[[l]]$ and
+$[[q]]$ depend on the type of the tree itself, for example, the type
+of the tree above is $[[AttackTree String Double]]$, and thus, labels
+are strings, and leafs are constant doubles, but the quantitative data
+on branching nodes has type $[[Double -> Double -> Double]]$. Thus,
+one novelty of Lina is that data at nodes can be higher order, but the
+data at branching nodes is always a binary function whose first
+argument is the data from the left tree, and the second argument is
+the data from the right tree. Hence, making it easier and more precise
+to compute costs across the tree.  In the example above we simply just
+sum the data, but one could expect more complex polynomials being
+useful for analysis.  Finally, branching nodes have two additional
+arguments, $[[t1]]$ and $[[t2]]$, which are the left and right trees.
+
+Throughout the remainder of this section we give a brief overview of
+the preliminary design of Lina's language for defining attack trees.
+The following defines the syntax ($[[d]]$ ranges over any double, and
+$[[s]]$ ranges over any string):
+\[
+\begin{array}{cll}
+  \text{(Quantitative Types)} & [[Q]] := \mathsf{Double} \mid [[Q -> Q]]\\
+  \text{(Numeric Operators)}  & [[nop]] := [[+]] \mid [[-]] \mid [[*]] \mid [[/]]\\
+  \text{(Quantitative Expressions)} & [[q]] := [[x]] \mid [[d]] \mid [[\x.q]] \mid [[q1 q2]] \mid\\
+  & \,\,\,\,\,\,\,\,\,\,\,\,\,[[q1 nop q2]] \mid [[rec q0 of q1 | q2]]\\
+  \text{(Label Types)} & [[L]] := \mathsf{String} \mid \mathsf{Double}\\
+  \text{(Labels)} & [[l]] := [[s]] \mid [[d]]\\
+  \text{(Kinds)} & [[k]] := [[AttackTree L Q]] \mid [[k1 -> k2]]\\
+  \text{(Attack Tree Combinators)} & [[c]] := \otimes \mid [[(.)]] \mid [[;]] \mid [[|_|]]\\
+  \text{(Attack Trees)} & [[t]] := [[x]] \mid [[\x.t]] \mid [[t1 t2]] \mid [[leaf l q]] \mid \\
+  & \,\,\,\,\,\,\,\,\,\,\,\,[[c l q]]
+\end{array}
+\]
+Typing for this language is straightforward, and to save space we do
+not give every rule.  The typing rules for the quantitative language
+corresponds to the simply typed $\lambda$-calculus with doubles,
+numeric operators, and a recursor in the spirit of G\"odel's system T,
+and thus, we omit their rules here, but denote the typing judgment by
+$[[D |- q : Q]]$, where $[[D]]$ is a typing context consisting of
+pairs $[[x : Q]]$; for the complete set of rules see Appendix~\ref{?}.
+Typing labels is trivial, and we denote the typing judgment by $[[|- l
+    : L]]$.  Finally, the following rules defines the kinding rules
+for attack trees:
+\begin{mathpar}
+  \small
+  \TLLdruleKXXVar{} \and
+  \TLLdruleKXXFun{} \and
+  \TLLdruleKXXApp{} \and
+  \TLLdruleKXXLeaf{} \and
+  \TLLdruleKXXComb{}
+\end{mathpar}
+Functions over attack trees will allow for the definition of attack
+tree schemas that one could use to build up a library of attack
+trees. At this point one could speak of evaluating attack trees which
+would correspond to normalizing the tree to its combinator form, but
+we could also speak about evaluating the data of the tree, but how
+this is done is left for future work.
+
+Lina's attack tree definition language technically lives at the type
+level.  We can see that the logical layer of each attack tree
+corresponds to a linear type.  When attack trees get large it makes
+sense to want to restructure the tree to gain new insights, but
+existing tools do not support this in such a way that one knows that
+the tree obtained after restructuring is semantically equivalent to
+the original tree.  Due to the Curry-Howard-Lambek correspondence Lina
+will come equipped with a linear type system that can be used to
+register semantically valid transformations of attack trees as
+programs between linear types, but there is a big hurdle that first
+must be crossed.
