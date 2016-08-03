@@ -57,42 +57,48 @@ monoid like structure called the tensor product.
     \[
     \beta_{A,B} : A \otimes B \to B \otimes A
     \]
-  \item Subject to the following coherence diagrams:
-    \begin{mathpar}
-      \bfig
-      \vSquares|ammmmma|/->`->```->``<-/[
-        ((A \otimes B) \otimes C) \otimes D`
-        (A \otimes (B \otimes C)) \otimes D`
-        (A \otimes B) \otimes (C \otimes D)``
-        A \otimes (B \otimes (C \otimes D))`
-        A \otimes ((B \otimes C) \otimes D);
-        \alpha_{A,B,C} \otimes \id_D`
-        \alpha_{A \otimes B,C,D}```
-        \alpha_{A,B,C \otimes D}``
-        \id_A \otimes \alpha_{B,C,D}]      
+  \item Subject to the following coherence diagrams:\\
+    \begin{math}
+      \begin{array}{l}
+        \bfig
+        \square|amma|/->`->``/<1200,500>[
+          ((A \otimes B) \otimes C) \otimes D`
+          (A \otimes (B \otimes C)) \otimes D`
+          (A \otimes B) \otimes (C \otimes D)`;
+          \alpha_{A,B,C} \otimes \id_D`
+          \alpha_{A \otimes B,C,D}g``]
+
+        \square(0,-500)|amma|/`->``<-/<1200,500>[
+          (A \otimes B) \otimes (C \otimes D)``
+          A \otimes (B \otimes (C \otimes D))`
+          A \otimes ((B \otimes C) \otimes D);`
+          \alpha_{A,B,C \otimes D}``
+          \id_A \otimes \alpha_{B,C,D}]       
       
-      \morphism(1433,1000)|m|<0,-1000>[
-        (A \otimes (B \otimes C)) \otimes D`
-        A \otimes ((B \otimes C) \otimes D);
-        \alpha_{A,B \otimes C,D}]
+      \morphism(1200,500)|m|<0,-1000>[
+         (A \otimes (B \otimes C)) \otimes D`
+         A \otimes ((B \otimes C) \otimes D);
+         \alpha_{A,B \otimes C,D}]
       \efig
-      \and
+      \\
       \bfig
-      \hSquares|aammmaa|/->`->`->``->`->`->/[
+      \vSquares|ammmmma|/->`->`->``->`->`->/[
         (A \otimes B) \otimes C`
-        A \otimes (B \otimes C)`
-        (B \otimes C) \otimes A`
         (B \otimes A) \otimes C`
+        A \otimes (B \otimes C)`
         B \otimes (A \otimes C)`
+        (B \otimes C) \otimes A`
         B \otimes (C \otimes A);
+        \beta_{A,B} \otimes \id_C`
         \alpha_{A,B,C}`
+        \alpha_{B,A,C}``
         \beta_{A,B \otimes C}`
-        \beta_{A,B} \otimes \id_C``
-        \alpha_{B,C,A}`
-        \alpha_{B,A,C}`
-        \id_B \otimes \beta_{A,C}]
-      \efig      
-    \end{mathpar}
+        \id_B \otimes \beta_{A,C}`
+        \alpha_{B,C,A}]
+      \efig\\      
+        \end{array}
+      \end{math}
+
     \begin{mathpar}
       \bfig
       \Vtriangle[
@@ -127,16 +133,58 @@ monoid like structure called the tensor product.
   \end{itemize}
 \end{definition}
 
-
-%% \begin{definition}
-%%   \label{def:SMCC}
-%%   A \textbf{symmetric monoidal closed category (SMCC)} is a symmetric
-%%   monoidal category, $(\cat{M},I,\otimes)$, such that, for any object
-%%   $B$ of $\cat{M}$, the functor $- \otimes B : \cat{M} \to \cat{M}$
-%%   has a specified right adjoint.  Hence, for any objects $A$ and $C$
-%%   of $\cat{M}$ there is an object $A \limp B$ of $\cat{M}$ and a
-%%   natural bijection:
-%%   \[
-%%   \Hom{\cat{M}}{A \otimes B}{C} \cong \Hom{\cat{M}}{A}{B \limp C}
-%%   \]
-%% \end{definition}
+Monoidal categories posses additional structure, and hence, ordinary
+functors are not enough, thus, the notion must also be extended.
+\begin{definition}
+  \label{def:MCFUN}
+  Suppose we are given two monoidal categories
+  $(\cat{M}_1,\top_1,\otimes_1,\alpha_1,\lambda_1,\rho_1)$ and
+  $(\cat{M}_2,\top_2,\otimes_2,\alpha_2,\lambda_2,\rho_2)$.  Then a
+  \textbf{monoidal functor} is a functor $F : \cat{M}_1 \mto
+  \cat{M}_2$, a map $m_{\top_1} : \top_2 \mto F\top_1$ and a natural transformation
+  $m_{A,B} : FA \otimes_2 FB \mto F(A \otimes_1 B)$ subject to the
+  following coherence conditions:
+  \begin{mathpar}
+    \footnotesize
+    \bfig
+    \vSquares|ammmmma|/->`->`->``->`->`->/[
+      (FA \otimes_2 FB) \otimes_2 FC`
+      FA \otimes_2 (FB \otimes_2 FC)`
+      F(A \otimes_1 B) \otimes_2 FC`
+      FA \otimes_2 F(B \otimes_1 C)`
+      F((A \otimes_1 B) \otimes_1 C)`
+      F(A \otimes_1 (B \otimes_1 C));
+      {\alpha_2}_{FA,FB,FC}`
+      m_{A,B} \otimes \id_{FC}`
+      \id_{FA} \otimes m_{B,C}``
+      m_{A \otimes_1 B,C}`
+      m_{A,B \otimes_1 C}`
+      F{\alpha_1}_{A,B,C}]
+    \efig
+    \end{mathpar}
+  \begin{mathpar}
+    \bfig
+    \square|amma|/->`->`<-`->/<1000,500>[
+      \top_2 \otimes_2 FA`
+      FA`
+      F\top_1 \otimes_2 FA`
+      F(\top_1 \otimes_1 A);
+      {\lambda_2}_{FA}`
+      m_{\top_1} \otimes \id_{FA}`
+      F{\lambda_1}_{A}`
+      m_{\top_1,A}]
+    \efig
+    \and
+    \bfig
+    \square|amma|/->`->`<-`->/<1000,500>[
+      FA \otimes_2 \top_2`
+      FA`
+      FA \otimes_2 F\top_1`
+      F(A \otimes_1 \top_1);
+      {\rho_2}_{FA}`
+      \id_{FA} \otimes m_{\top_1}`
+      F{\rho_1}_{A}`
+      m_{A,\top_1}]
+    \efig
+    \end{mathpar}
+\end{definition}

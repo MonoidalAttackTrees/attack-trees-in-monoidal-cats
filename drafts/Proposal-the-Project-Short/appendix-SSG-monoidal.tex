@@ -23,11 +23,13 @@ define sequential and non-communicating parallel composition of
 source-sink graphs where I denote disjoint union of sets by $+$ (p
 7. \cite{Jhawar:2015}):
 \begin{center}
+  \small
   \begin{math}
-    \begin{array}{rll}
-      \text{(Sequential Composition)} & G \rhd G'
-      = ((V \mathop{\backslash} \{z \}) + V', E^{[s'/z]} + E', s , z')\\
-      \text{(Parallel Composition)}   & G \odot G'
+    \begin{array}{lll}
+      \text{Sequential Composition}:\\
+      G \rhd G' = ((V \mathop{\backslash} \{z \}) + V', E^{[s'/z]} + E', s , z')\\\\
+      \text{Parallel Composition}:\\
+      G \odot G'
       = ((V \mathop{\backslash} \{s,z\}) + V', E^{[s'/s,z'/z]} + E', s' , z')\\
     \end{array}
   \end{math}
@@ -74,19 +76,16 @@ we define the required co-product morphisms as follows:
       \mathsf{inj_1}(z_1) = z_2\\
       \mathsf{inj_1}(v) = v \text{, otherwise}\\
     \end{array}
-    \end{math}
-    & \quad & \quad & \quad & \quad &\quad &\quad &\quad &\quad &\quad &\quad &
+    \end{math}\\
+    \\
     \begin{math}
     \begin{array}{lll}
       \mathsf{inj_2} : V_2 \to (V_1 \mathop{\backslash} \{s_1,z_1\}) + V_2\\
-      \mathsf{inj_2}(v) = v\\
-      \\
-      \\
+      \mathsf{inj_2}(v) = v\\      \\
     \end{array}
   \end{math}
   \end{tabular}
 
-  \vspace{10px}
   \begin{math}
     \begin{array}{lll}
       \langle f , g \rangle : (V_1 \mathop{\backslash} \{s_1,z_1\}) + V_2 \to V\\      
@@ -108,7 +107,7 @@ left to show is that the diagram from above commutes:
       & = & f(s_1)\\
     \end{array}
     \end{math}
-    & \quad & 
+    \\\\
     \begin{math}
     \begin{array}{lll}
       (\mathsf{inj_1};\langle f , g \rangle)(z_1)
