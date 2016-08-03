@@ -40,7 +40,7 @@ term, s {{tex s}} :: 'Term_' ::=
   | promote s for s' in s'' ::   :: Promote
   | s1 (x) s2               :: M :: Tensor
   | let unit = s in s'      ::   :: LetU
-  | let x (x) y = s in s'   ::   :: LetT
+  | let x ; y = s in s'     ::   :: LetT
   | vec s                   :: M :: Vec
   {{tex \overrightarrow{[[s]]} }}
 
@@ -109,13 +109,13 @@ by
 
   G1 |- s1 : T1 && G2 |- s2 : T2
   ------------------------------ :: tenI
-  G1,G2 |- s1 (x) s2 : T1 (x) T2
+  G1,G2 |- s1 ; s2 : T1 ; T2
 
-  G2 |- s1 : T1 (x) T2 && G1,x : T1,y : T2,G3 |- s2 : T3
+  G2 |- s1 : T1 ; T2 && G1,x : T1,y : T2,G3 |- s2 : T3
   ------------------------------------------------------ :: tenE
-  G1,G2,G3 |- let x (x) y = s1 in s2 : T3
+  G1,G2,G3 |- let x ; y = s1 in s2 : T3
 
-  G2 |- s1 : e T1 (x) e T2 && G1,w : e T2,x : e T1,G2 |- s : T
+  G2 |- s1 : e T1 ; e T2 && G1,w : e T2,x : e T1,G2 |- s : T
   ------------------------------------------------------------ :: ex
   G1,G2,G3 |- ex s1 with w , x in s : T
   

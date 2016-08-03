@@ -1,39 +1,13 @@
-Consider the attack tree for assessing the risk of becoming root on a
-Unix machine from above.  We can represent that tree as follows in the
-form of a functional program:
-\[
-  \begin{array}{lll}
-    [[|_|]]\,\text{''Obtain Root Privileges''}\,r\\
-    \,\,\,\,\,\,\,([[|_|]]\,\text{''Access System Console''}\,r\\
-    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    ([[|_|]]\,\text{''Enter Computer Center''}\,r\\
-    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    (\mathsf{leaf}\,\text{''Break In to Computer Center''}\,80)\\
-    (\mathsf{leaf}\,\text{''Unattended Guest''}\,30))\\
-    \end{array}\\
-    (\mathsf{leaf}\,\text{''Corrupt Operator''}\,20))\\
-    \end{array}\\
-    \,\,\,\,\,\,\,([[|_|]]\,\text{''Obtain Root Password''}\,r\\
-    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    ([[;]]\,\text{''Guess Password''}\,r\\
-    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    (\mathsf{leaf}\,\text{''Obtain Password File''}\,25)\\
-    (\mathsf{leaf}\,\text{''Encounter Guessable Password''}\,10))\\
-    \end{array}\\
-    ([[|_|]]\,\text{''Look Over Sys. Admin. Shoulder''}\,r)\\
-    \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    (\mathsf{leaf}\,\text{''Trojan Horse Root''}\,15)\\
-    (\mathsf{leaf}\,\text{''Corrupt Sys. Admin.''}\,40))\\
-    \end{array}    
-    \end{array}
-  \end{array}
-\]
-where $r = [[(\x.\y.h(x + y))]]$.
+The attack tree for assessing the risk of becoming root on a Unix
+machine from the introduction is actually written in Lina's definition
+language.  However, there is one simplification that was made.  The
+data on branching nodes actually are binary functions, but when those
+functions are constant we omit their arguments.
 
-We can see from this example that we treat the nodes of the attack
-tree as combinators, either $[[leaf l q]]$ or $[[c l q]]$, where $c$
-is a branching node symbol, $[[l]]$ is a label, for example, a string,
-and $[[q]]$ is a quantitative expression.  The types of $[[l]]$ and
+We can see from the example that we treat the nodes of the attack tree
+as combinators, either $[[leaf l q]]$ or $[[c l q]]$, where $c$ is a
+branching node symbol, $[[l]]$ is a label, for example, a string, and
+$[[q]]$ is a quantitative expression.  The types of $[[l]]$ and
 $[[q]]$ depend on the type of the tree itself, for example, the type
 of the tree above is $[[AttackTree String Double]]$, and thus, labels
 are strings, and leafs are constant doubles, but the quantitative data
@@ -42,9 +16,10 @@ one novelty of Lina is that data at nodes can be higher order, but the
 data at branching nodes is always a binary function whose first
 argument is the data from the left tree, and the second argument is
 the data from the right tree. Hence, making it easier and more precise
-to compute costs across the tree.  In the example above we simply just
-sum the data, but one could expect more complex polynomials being
-useful for analysis.  Finally, branching nodes have two additional
+to compute costs across the tree.  In the example above, we actually
+used the functions $\lambda x.\lambda y.x + y$ and $\lambda x.\lambda
+y.\mathsf{min}\,x\,y$ on the sequential composition and choice
+branching nodes.  Finally, branching nodes have two additional
 arguments, $[[t1]]$ and $[[t2]]$, which are the left and right trees.
 
 Throughout the remainder of this section we give a brief overview of
@@ -55,8 +30,9 @@ $[[s]]$ ranges over any string):
 \begin{array}{cll}
   \text{(Quantitative Types)} & [[Q]] := \mathsf{Double} \mid [[Q -> Q]]\\
   \text{(Numeric Operators)}  & [[nop]] := [[+]] \mid [[-]] \mid [[*]] \mid [[/]]\\
-  \text{(Quantitative Expressions)} & [[q]] := [[x]] \mid [[d]] \mid [[\x.q]] \mid [[q1 q2]] \mid\\
-  & \,\,\,\,\,\,\,\,\,\,\,\,\,[[q1 nop q2]] \mid [[rec q0 of q1 | q2]]\\
+  \text{(Quantitative Expressions)} & [[q]] := [[x]] \mid [[d]] \mid [[\x.q]] \mid [[q1 q2]] \mid \\
+  & \,\,\,\,\,\,\,\,\,\,\,\,\,[[q1 nop q2]] \mid [[min q1 q2]] \mid\\
+  & \,\,\,\,\,\,\,\,\,\,\,\,\,[[rec q0 of q1 | q2]]\\
   \text{(Label Types)} & [[L]] := \mathsf{String} \mid \mathsf{Double}\\
   \text{(Labels)} & [[l]] := [[s]] \mid [[d]]\\
   \text{(Kinds)} & [[k]] := [[AttackTree L Q]] \mid [[k1 -> k2]]\\

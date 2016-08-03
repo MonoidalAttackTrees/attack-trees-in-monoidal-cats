@@ -139,58 +139,70 @@ to asses all of the potential ways one could gain root access to the
 server.  Such an attack tree might look something like the following:
 \[
   \begin{array}{lll}
-    \sqcup\,\text{''Obtain Root Privileges''}\,220\\
-    \,\,\,\,\,\,\,(\sqcup\,\text{''Access System Console''}\,130\\
+    \sqcup\,\text{''Obtain Root Privileges''}\,10\\
+    \,\,\,\,\,\,\,(\sqcup\,\text{''Access System Console''}\,30\\
     \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    (\sqcup\,\text{''Enter Computer Center''}\,110\\
+    (\sqcup\,\text{''Enter Computer Center''}\,30\\
     \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
     (\mathsf{leaf}\,\text{''Break In to Computer Center''}\,80)\\
     (\mathsf{leaf}\,\text{''Unattended Guest''}\,30))\\
     \end{array}\\
-    (\mathsf{leaf}\,\text{''Corrupt Operator''}\,20))\\
+    (\mathsf{leaf}\,\text{''Corrupt Operator''}\,50))\\
     \end{array}\\
-    \,\,\,\,\,\,\,(\sqcup\,\text{''Obtain Root Password''}\,90\\
+    \,\,\,\,\,\,\,(\sqcup\,\text{''Obtain Root Password''}\,10\\
     \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    ([[;]]\,\text{''Guess Password''}\,55\\
+    (\sqcup\,\text{''Naive Approach''}\,40\\
     \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    (\mathsf{leaf}\,\text{''Obtain Password File''}\,15)\\
-    (\mathsf{leaf}\,\text{''Encounter Guessable Password''}\,40))\\
+    (\rhd\,\text{''Guess Password''}\,50\\
+    \,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
+    (\mathsf{leaf}\,\text{''Obtain Password File''}\,30)\\
+    (\mathsf{leaf}\,\text{''Encounter Guessable Password''}\,20))\\
     \end{array}\\
-    (\sqcup\,\text{''Look Over Sys. Admin. Shoulder''}\,35)\\
+    (\mathsf{leaf}\,\text{''Look Over Sys. Admin. Shoulder''}\,40))\\
+    \end{array}\\
+    (\sqcup\,\text{''Sophisticated Approach''}\,10\\
     \,\,\,\,\,\,\,\,\,\,\,\,\,\,\begin{array}{lll}
-    (\mathsf{leaf}\,\text{''Trojan Horse Root''}\,25)\\
-    (\mathsf{leaf}\,\text{''Corrupt Sys. Admin.''}\,10))\\
-    \end{array}    
+    (\mathsf{leaf}\,\text{''Trojan Horse Sys. Admin. Account''}\,10)\\
+    (\mathsf{leaf}\,\text{''Corrupt Sys. Admin.''}\,80))\\
+    \end{array}
     \end{array}
   \end{array}
 \]
+In the interest of saving space we present our attack trees in script
+form.  Each node is labeled with a goal of the attacker and a cost for
+executing such an attack. In the example above there are two types of
+branching nodes, those labeled with $\sqcup$ which stands for a choice
+between attacks, and those labeled with $\rhd$ which stands for
+sequential composition of attacks.  The above attack tree shows that
+the only reasonable attack for an intruder is to try and send a trojan
+horse to the system administrator with a cost of $10$.
 
-Attack trees are a modeling tool, originally proposed by Bruce
-Schneier \cite{Schneier:1999}, which are used to assess the threat
-potential of a security critical system.  Attack trees have since been
-used to analyze the threat potential of many types of security
-critical systems, for example, cybersecurity of power grids
-\cite{Ten:2007}, wireless networks \cite{Reinhardt:2012}, and many
-others.  Attack trees consists of several goals, usually specified in
-English prose, for example, ``compromise safe'' or ``obtain
-administrative privileges'', where the root is the ultimate goal of
-the attack and each node coming off of the root is a refinement of the
-main goal into a subgoal.  Then each subgoal can be further refined.
-The leaves of an attack tree make up the set of base attacks.
-Subgoals can be either disjunctively or conjunctively combined.
+The example above implies that attack trees are a modeling tool,
+originally proposed by Bruce Schneier \cite{Schneier:1999}, which are
+used to assess the threat potential of a security critical system.
+Attack trees have since been used to analyze the threat potential of
+many types of security critical systems, for example, cybersecurity of
+power grids \cite{Ten:2007}, wireless networks \cite{Reinhardt:2012},
+and many others.  Attack trees consists of several goals, usually
+specified in English prose, for example, ``compromise safe'' or
+``obtain administrative privileges'', where the root is the ultimate
+goal of the attack and each node coming off of the root is a
+refinement of the main goal into a subgoal.  Then each subgoal can be
+further refined.  The leaves of an attack tree make up the set of base
+attacks.  
 
 %% Extensions Of ATREES:
 %%   - Attack nets
 %%   - Sequential conjunction
-There have been a number of extensions of attack trees to include new
-operators on goals.  One such extension recasts attack trees into
-attack nets which have all of the benefits of attack trees with the
-additional benefit of being able to include the flaw hypothesis model
-for penetration testing \cite{McDermott:2001}.  A second extension
-adds sequential conjunction of attacks, that is, suppose $A_1$ and
-$A_2$ are attacks, then $A_1;A_2$ is the attack obtained by performing
-$A_1$, and then executing attack $A_2$ directly after $A_1$ completes
-\cite{Jhawar:2015}.
+%% There have been a number of extensions of attack trees to include new
+%% operators on goals.  One such extension recasts attack trees into
+%% attack nets which have all of the benefits of attack trees with the
+%% additional benefit of being able to include the flaw hypothesis model
+%% for penetration testing \cite{McDermott:2001}.  A second extension
+%% adds sequential conjunction of attacks, that is, suppose $A_1$ and
+%% $A_2$ are attacks, then $A_1;A_2$ is the attack obtained by performing
+%% $A_1$, and then executing attack $A_2$ directly after $A_1$ completes
+%% \cite{Jhawar:2015}.
 
 Attack trees for real-world security scenarios can grow to be quite
 complex.  The attack tree presented in \cite{Ten:2007} to access the
@@ -283,11 +295,11 @@ answer.
 
 \section{Attack Trees}
 \label{sec:attack_trees}
-In this paper I consider an extension of attack trees with sequential
-composition which are due to Jhawar et al. \cite{Jhawar:2015}, but one
-of the projects ultimate goals is to extend attack trees with even
-more operators driven by our choice of semantics.  The syntax for
-attack trees is defined in the following definition.
+Jhawar et al. \cite{Jhawar:2015} introduce attack trees with
+sequential composition, but here I consider an extension of their
+definition.  One of the projects ultimate goals is to extend attack
+trees with even more operators driven by our choice of semantics.  The
+syntax for attack trees is defined in the following definition.
 \begin{definition}
   \label{def:atrees}
   The following defines the syntax of \textbf{Attack Trees} given a set
@@ -426,9 +438,8 @@ $Q$ is the set of states the process can enter, and for $a \in A$ and
 $q \in Q$, $\delta(a , q)$ indicates whether action $a$ can be
 executed in state $q$.
 
-The interpretation of attack trees into dialectica spaces requires the
-construction of each operation on dialectica spaces:
-{\vspace{-8pt}\ \\
+The interpretation of attack trees into dialectica spaces is as
+follows: {\vspace{-8pt}\ \\
 \begin{changemargin}{2pt}{2pt}\noindent
 \textbf{Parallel Composition.} Suppose $\cat{A} = (A , Q, \alpha)$ and
 $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
@@ -455,14 +466,14 @@ Thus, from a process perspective we can see that $\cat{A} \sqcup
 \cat{B}$ executes either an action of $\cat{A}$ or an action of
 $\cat{B}$, but not both.  Choice is symmetric and associative, but it
 is not a coproduct, because it is not possible to define the
-corresponding injections.  Brown et. al. show that Petri nets can be
-modeled in dialectica spaces \cite{Brown:1991}, but they use the
-coproduct as choice.  The operator given here is actually the
-definition given for Chu spaces \cite{Gupta:1994}. If we were to use
-the coproduct, then we would not be able to prove that choice
-distributes over parallel composition nor over sequential
-composition. As far as I am aware, this is the first time this has
-been pointed out.
+corresponding injections.  %% Brown et. al. show that Petri nets can
+%% be modeled in dialectica spaces \cite{Brown:1991}, but they use the
+%% coproduct as choice.  The operator given here is actually the
+%% definition given for Chu spaces \cite{Gupta:1994}. If we were to
+%% use the coproduct, then we would not be able to prove that choice
+%% distributes over parallel composition nor over sequential
+%% composition. As far as I am aware, this is the first time this has
+%% been pointed out.
 \end{changemargin}
 
 \begin{changemargin}{2pt}{2pt}\noindent
@@ -546,23 +557,25 @@ The second major part of this project is the development of a
 staticly-typed domain-specific linear functional programming language
 for specifying and reasoning about attack trees called Lina for Linear
 Threat Analysis.  Lina will consist of a core language and a surface
-language.  We view attack trees as consisting of two layers: a logic
-layer and a quantitative layer.  The former is described by the
-definition of attack trees in the previous section, but the latter is
-the layer added atop of the logical layer used when conducting
-analysis, for example, computing set of attacks with minimal cost.
-Thus, there are two types of proofs about attack trees.  Proofs about
-the logical layer will be checked using a linear type system, but
-proofs about the quantitative layer will be mostly numerical. In this
-section we largely concentrate on the logical layer which is the
-current focus of the project.
+language.
+
+We view attack trees as consisting of two layers: a logic layer and a
+quantitative layer.  The former is described by the definition of
+attack trees in the previous section, but the latter is the layer
+added atop of the logical layer used when conducting analysis, for
+example, computing the set of attacks with minimal cost.  Thus, there
+are two types of proofs about attack trees.  Proofs about the logical
+layer will be checked using a linear type system, but proofs about the
+quantitative layer will be mostly numerical. In this section we
+largely concentrate on the logical layer which is the current focus of
+the project.
 
 Lina's core will consist of a language for defining attack trees, and
 this language will consist of the two layers, but one benefit of the
 layered view of attack trees is that the logical layer can be
-projected out, and hence, type checking may completely ignore the
-quantitative layer.  The following two sections describe both of these
-concepts.
+projected out, and hence, reasoning about the logical layer using a
+linear type system may completely ignore the quantitative layer.  The
+following two sections describe both of these concepts.
 
 \subsection{Lina's Core: Defining Attack Trees}
 \label{subsec:linas_core_defining_attack_trees}
@@ -575,14 +588,13 @@ concepts.
 \label{subsec:linas_core_linear_type_system}
 
 The current main focus of the project is the design and analysis of
-Lina's core type system.  However, there is a significant hurdle we
-must get through first.  Types in Lina will correspond to attack trees
-while programs correspond to semantically valid transformations of
-attack trees, thus, a question we must answer then is \textbf{how do
-  we sufficiently represent the model of attack trees in $\dial$ as a
-  linear logic?}  The problem is the fact that Lina will require both
-commutative (parallel composition and choice) and non-communicative
-monoidal operators (sequencing).
+Lina's core type system.  Types in Lina will correspond to attack
+trees while programs correspond to semantically valid transformations
+of attack trees, thus, a question we must answer then is \textbf{how
+  do we sufficiently represent the model of attack trees in $\dial$ as
+  a linear logic?}  The problem is the fact that Lina will require
+both commutative (parallel composition and choice) and
+non-communicative monoidal operators (sequencing).
 
 Supporting both commutative and non-communicative operators within the
 same linear logic has been a long standing question.  A starting point
@@ -592,27 +604,27 @@ fact, the definition of non-interacting parallel composition given
 here is due to her model.  However, we have taken a new path which we
 also approach categorically, and then syntactically.
 
-We have obtained a great insight from our model in dialectica
-categories, but it is not obvious how to abstract it into a model we
-can easily extract a type system from.  So instead of working directly
-with the dialectica model we have found a more abstract model with the
-ability to have both a commutative tensor product and and
-non-communicative tensor product within the same model, but is more
-straightforwardly transformed into a type system.
+%% We have obtained a great insight from our model in dialectica
+%% categories, but it is not obvious how to abstract it into a model we
+%% can easily extract a type system from.  So instead of working directly
+%% with the dialectica model we have found a more abstract model with the
+%% ability to have both a commutative tensor product and and
+%% non-communicative tensor product within the same model, but is more
+%% straightforwardly transformed into a type system.
 
-Girard's genius behind linear logic was that he isolated the
-structural rules -- weakening and contraction -- by treating them as
-an effect and putting them inside a comonad called the of-course
-exponential denoted $!A$.  In fact, $!A \otimes !A$ is logically
-equivalent to $!A$, and thus, by staying in the comonad we become
-non-linear.  However, in Girard's linear logic exchange was not
-isolated like weakening and contraction.  Thus, the tensor product was
-symmetric.
+%% Girard's genius behind linear logic was that he isolated the
+%% structural rules -- weakening and contraction -- by treating them as
+%% an effect and putting them inside a comonad called the of-course
+%% exponential denoted $!A$.  In fact, $!A \otimes !A$ is logically
+%% equivalent to $!A$, and thus, by staying in the comonad we become
+%% non-linear.  However, in Girard's linear logic exchange was not
+%% isolated like weakening and contraction.  Thus, the tensor product was
+%% symmetric.
 
 To accommodate both a commutative and non-commutative tensor product
 we isolate exchange in the same way that Girard isolated weakening and
-contraction.  In this section I give a brief overview of how this is
-done.  We begin with the notion of a Lambek category.
+contraction using a comonad.  In this section I give a brief overview
+of how this is done.  We begin with the notion of a Lambek category.
 \begin{definition}
   \label{def:Lambek-category}
   A \textbf{Lambek category} is a monoidal category \\ $(\cat{C}, I,
@@ -761,50 +773,47 @@ The previous rules are based on the natural deduction formalization of
 intuitionistic linear logic due to \cite{Benton:1992}.
 
 We can interpret both sequential and interacting parallel composition
-as types.  That is, we can interpret $[[t1 ; t2]]$ as $[[T1 (x) T2]]$,
-and $[[t1 (x) t2]]$ as $[[e T1 (x) e T2]]$.  However, accommodating
-the other attack tree branching connectives in linear logic is left
-for future work.
+as types.  That is, we can interpret $[[t1 ; t2]]$ as $[[T1 ; T2]]$,
+and $[[t1 (x) t2]]$ as $[[e T1 ; e T2]]$.  However, accommodating the
+other attack tree branching connectives in addition to these in linear
+logic is left for future work.
 % subsection linas_core_linear_type_system (end)
 
 \subsection{Lina's Surface Language}
 \label{subsec:linas_surface_language}
-Another goal of this project is to make using Lina as close as
-possible to functional programming as usual to prevent a large
-overhead of using the language as well as the tool.  As a programming
-language simplicity is of the utmost importance, and I think with the
-semantics given here Lina will not require very advanced syntactic
-features.  This cannot be said for some of the existing work that is
-similar to Lina.  For example, Vigo et al. \cite{6957121} proposed the
-Quality Tree Generator which requires the user to program in a process
-calculus which is a non-trivial overhead. At the tool level the goal
-is to have a completely graphical environment for creating attack
-trees and reasoning about them by capitalizing on existing graphical
-reasoning tools from category theory.  Thus, at the tool level the
-user will not have to write any programs at all unless they want to
-extend the environment.
-% subsection linas_surface_language (end)
+%% Another goal of this project is to make using Lina as close as
+%% possible to functional programming as usual to prevent a large
+%% overhead of using the language as well as the tool.  As a programming
+%% language simplicity is of the utmost importance, and I think with the
+%% semantics given here Lina will not require very advanced syntactic
+%% features.  This cannot be said for some of the existing work that is
+%% similar to Lina.  For example, Vigo et al. \cite{6957121} proposed the
+%% Quality Tree Generator which requires the user to program in a process
+%% calculus which is a non-trivial overhead. At the tool level the goal
+%% is to have a completely graphical environment for creating attack
+%% trees and reasoning about them by capitalizing on existing graphical
+%% reasoning tools from category theory.  Thus, at the tool level the
+%% user will not have to write any programs at all unless they want to
+%% extend the environment.
 
-\subsection{Automation}
-\label{subsec:automation}
-I do not consider this project, particularly Lina, to be at odds with
-existing work on using automated theorem proving to synthesize and
-analyze attack trees; see for example
-\cite{essay69399,Sheyner:2002:AGA:829514.830526,6957121,essay69402}.
-In fact, this project can benefit from automated generation of attack
-trees.  Lina's primary goal is to make reasoning about attack trees
-safer by having a tight correspondence with the semantics of attack
-trees, and thus, will allow and help with the creation of attack
-trees.  Lina will offer a manual way for one to create an attack tree,
-but by leveraging this existing work could allow for their automatic
-generation, but then could be used to restructure the tree and conduct
-further analysis in a semantically valid fashion.  In addition, Lina
-can be seen as an interactive theorem prover for attack trees, and so
-could be used as a proof checker \cite{Stump:2012} for proof producing
-SMT backed automated generation of attack trees, thus, potentially
-allowing for some of the analysis of attack trees in Lina to be
-automated.
-% subsection automation (end)
+%% I do not consider this project, particularly Lina, to be at odds with
+%% existing work on using automated theorem proving to synthesize and
+%% analyze attack trees; see for example
+%% \cite{essay69399,Sheyner:2002:AGA:829514.830526,6957121,essay69402}.
+%% In fact, this project can benefit from automated generation of attack
+%% trees.  Lina's primary goal is to make reasoning about attack trees
+%% safer by having a tight correspondence with the semantics of attack
+%% trees, and thus, will allow and help with the creation of attack
+%% trees.  Lina will offer a manual way for one to create an attack tree,
+%% but by leveraging this existing work could allow for their automatic
+%% generation, but then could be used to restructure the tree and conduct
+%% further analysis in a semantically valid fashion.  In addition, Lina
+%% can be seen as an interactive theorem prover for attack trees, and so
+%% could be used as a proof checker \cite{Stump:2012} for proof producing
+%% SMT backed automated generation of attack trees, thus, potentially
+%% allowing for some of the analysis of attack trees in Lina to be
+%% automated.
+% subsection linas_surface_language (end)
 % section lina:_a_domain_specific_pl_for_threat_analysis (end)
 
 \section{Conclusion and Future Work}

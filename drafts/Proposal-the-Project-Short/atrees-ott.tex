@@ -62,7 +62,7 @@
 \ATreesprodline{|}{\mathsf{promote}\, \, s \, \,\mathsf{for}\, \, s' \, \,\mathsf{in}\, \, s''}{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{s_{{\mathrm{1}}}  \otimes  s_{{\mathrm{2}}}} {\textsf{M}}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{\mathsf{let}\, \, \mathsf{unit} \, \ATreessym{=}  s \, \,\mathsf{in}\, \, s'}{}{}{}{}\ATreesprodnewline
-\ATreesprodline{|}{\mathsf{let}\, \, \ATreesmv{x}  \otimes  \ATreesmv{y}  \ATreessym{=}  s \, \,\mathsf{in}\, \, s'}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\mathsf{let}\, \, \ATreesmv{x}  \rhd  \ATreesmv{y}  \ATreessym{=}  s \, \,\mathsf{in}\, \, s'}{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \overrightarrow{ s } } {\textsf{M}}{}{}{}}
 
 \newcommand{\ATreesctx}{
@@ -157,21 +157,21 @@
 \newcommand{\ATreesdruletenI}[1]{\ATreesdrule[#1]{%
 \ATreespremise{ \Gamma_{{\mathrm{1}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \quad  \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{2}}}} }%
 }{
-\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \otimes  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \otimes  \ATreesnt{T_{{\mathrm{2}}}}}{%
+\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \rhd  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \rhd  \ATreesnt{T_{{\mathrm{2}}}}}{%
 {\ATreesdrulename{tenI}}{}%
 }}
 
 
 \newcommand{\ATreesdruletenE}[1]{\ATreesdrule[#1]{%
-\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \otimes  \ATreesnt{T_{{\mathrm{2}}}}  \quad  \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \ATreesmv{x}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,}  \ATreesmv{y}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{2}}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{3}}}} }%
+\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \rhd  \ATreesnt{T_{{\mathrm{2}}}}  \quad  \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \ATreesmv{x}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,}  \ATreesmv{y}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{2}}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{3}}}} }%
 }{
-\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  \mathsf{let}\, \, \ATreesmv{x}  \otimes  \ATreesmv{y}  \ATreessym{=}  s_{{\mathrm{1}}} \, \,\mathsf{in}\, \, s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{3}}}}}{%
+\Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  \mathsf{let}\, \, \ATreesmv{x}  \rhd  \ATreesmv{y}  \ATreessym{=}  s_{{\mathrm{1}}} \, \,\mathsf{in}\, \, s_{{\mathrm{2}}}  \ATreessym{:}  \ATreesnt{T_{{\mathrm{3}}}}}{%
 {\ATreesdrulename{tenE}}{}%
 }}
 
 
 \newcommand{\ATreesdruleex}[1]{\ATreesdrule[#1]{%
-\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \otimes  \mathsf{e} \, \ATreesnt{T_{{\mathrm{2}}}}  \quad  \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \ATreesmv{w}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{2}}}}  \ATreessym{,}  \ATreesmv{x}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  s  \ATreessym{:}  \ATreesnt{T} }%
+\ATreespremise{ \Gamma_{{\mathrm{2}}}  \vdash  s_{{\mathrm{1}}}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \rhd  \mathsf{e} \, \ATreesnt{T_{{\mathrm{2}}}}  \quad  \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \ATreesmv{w}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{2}}}}  \ATreessym{,}  \ATreesmv{x}  \ATreessym{:}  \mathsf{e} \, \ATreesnt{T_{{\mathrm{1}}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \vdash  s  \ATreessym{:}  \ATreesnt{T} }%
 }{
 \Gamma_{{\mathrm{1}}}  \ATreessym{,}  \Gamma_{{\mathrm{2}}}  \ATreessym{,}  \Gamma_{{\mathrm{3}}}  \vdash  \mathsf{ex}\, \, s_{{\mathrm{1}}} \, \,\mathsf{with}\, \, \ATreesmv{w}  \ATreessym{,}  \ATreesmv{x} \, \,\mathsf{in}\, \, s  \ATreessym{:}  \ATreesnt{T}}{%
 {\ATreesdrulename{ex}}{}%

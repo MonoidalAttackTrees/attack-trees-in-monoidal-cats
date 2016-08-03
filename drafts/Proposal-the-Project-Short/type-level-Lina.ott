@@ -31,6 +31,8 @@ grammar
     | rec q0 of q1 | q2 :: :: Rec
     {{tex \mathsf{rec}\,[[q0]]\,\mathsf{of}\,[[q1]],[[q2]] }} 
     | d                 :: :: Double
+    | min q1 q2         :: :: Min
+    {{tex \mathsf{min}\,[[q1]]\,[[q2]] }}
     | h( q )            :: M :: HParen
     {{tex [[q]] }}
     | ( q )             :: S :: Paren
