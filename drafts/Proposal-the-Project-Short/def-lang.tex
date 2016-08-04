@@ -4,10 +4,10 @@ language.  However, there is one simplification that was made.  The
 data on branching nodes actually are binary functions, but when those
 functions are constant we omit their arguments.
 
-We can see from the example that we treat the nodes of the attack tree
-as combinators, either $[[leaf l q]]$ or $[[c l q]]$, where $c$ is a
-branching node symbol, $[[l]]$ is a label, for example, a string, and
-$[[q]]$ is a quantitative expression.  The types of $[[l]]$ and
+We can see from the example that Lina treats the nodes of the attack
+tree as combinators, either $[[leaf l q]]$ or $[[c l q]]$, where $c$
+is a branching node symbol, $[[l]]$ is a label, for example, a string,
+and $[[q]]$ is a quantitative expression.  The types of $[[l]]$ and
 $[[q]]$ depend on the type of the tree itself, for example, the type
 of the tree above is $[[AttackTree String Double]]$, and thus, labels
 are strings, and leafs are constant doubles, but the quantitative data
@@ -19,10 +19,10 @@ the data from the right tree. Hence, making it easier and more precise
 to compute costs across the tree.  In the example above, we actually
 used the functions $\lambda x.\lambda y.x + y$ and $\lambda x.\lambda
 y.\mathsf{min}\,x\,y$ on the sequential composition and choice
-branching nodes.  Finally, branching nodes have two additional
+branching nodes respectively.  Finally, branching nodes have two additional
 arguments, $[[t1]]$ and $[[t2]]$, which are the left and right trees.
 
-Throughout the remainder of this section we give a brief overview of
+Throughout the remainder of this section I give a brief overview of
 the preliminary design of Lina's language for defining attack trees.
 The following defines the syntax ($[[d]]$ ranges over any double, and
 $[[s]]$ ranges over any string):\\\\
@@ -44,12 +44,12 @@ $[[s]]$ ranges over any string):\\\\
 save space we do not give every rule.  The typing rules for the
 quantitative language corresponds to the simply typed
 $\lambda$-calculus with doubles, numeric operators, and a recursor in
-the spirit of G\"odel's system T, and thus, we omit their rules here,
+the spirit of G\"odel's system T, and thus, I omit the rules here,
 but denote the typing judgment by $[[D |- q : Q]]$, where $[[D]]$ is a
 typing context consisting of pairs $[[x : Q]]$; for the complete set
 of rules see
 Appendix~\ref{sec:lina's_attack_tree_definition_language}.  Typing
-labels is trivial, and we denote the typing judgment by $[[|- l :
+labels is trivial, and the typing judgment is denoted by $[[|- l :
     L]]$.  Finally, the following rules defines the kinding rules for
 attack trees:
 \begin{mathpar}

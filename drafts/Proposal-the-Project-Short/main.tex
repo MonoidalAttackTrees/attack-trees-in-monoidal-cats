@@ -101,17 +101,17 @@
   about attack trees.
 \end{abstract}
 
-\category{F.3.2}{Semantics of Programming Languages}         
-         {Denotational semantics}
-\category{D.3.3}{Programming Languages}
-         {Formal Definitions and Theory}
-         [Semantics, Syntax]
-\terms
-Languages, Security, Threat Analysis, Theory, Verification
-\keywords
-Attack Trees, Threat Analysis, Functional Programming, Intuitionistic
-Linear Logic, Curry-Howard-Lambek Correspondence, Categorical Model,
-Dialectica Categories, Lambek Category, Non-commutative linear logic
+%% \category{F.3.2}{Semantics of Programming Languages}         
+%%          {Denotational semantics}
+%% \category{D.3.3}{Programming Languages}
+%%          {Formal Definitions and Theory}
+%%          [Semantics, Syntax]
+%% \terms
+%% Languages, Security, Threat Analysis, Theory, Verification
+%% \keywords
+%% Attack Trees, Threat Analysis, Functional Programming, Intuitionistic
+%% Linear Logic, Curry-Howard-Lambek Correspondence, Categorical Model,
+%% Dialectica Categories, Lambek Category, Non-commutative linear logic
 
 \section{Introduction}
 \label{sec:introduction}
@@ -142,6 +142,7 @@ all important medical records Unix server.  So we build an attack tree
 to assess all of the potential ways one could gain root access to the
 server.  Such an attack tree might look something like the following:
 \[
+\small
   \begin{array}{lll}
     \sqcup\,\text{''Obtain Root Privileges''}\,10\\
     \,\,\,\,\,\,\,(\sqcup\,\text{''Access System Console''}\,30\\
@@ -299,11 +300,11 @@ answer.
 
 \section{Attack Trees}
 \label{sec:attack_trees}
-Jhawar et al. \cite{Jhawar:2015} introduce attack trees with
-sequential composition, but here I consider an extension of their
-definition.  One of the projects ultimate goals is to extend attack
-trees with even more operators driven by our choice of semantics.  The
-syntax for attack trees is defined in the following definition.
+\cite{Jhawar:2015} introduce attack trees with sequential composition,
+but here I consider an extension of their definition.  One of the
+projects ultimate goals is to extend attack trees with even more
+operators driven by our choice of semantics.  The syntax for attack
+trees is defined in the following definition.
 \begin{definition}
   \label{def:atrees}
   The following defines the syntax of \textbf{Attack Trees} given a set
@@ -563,16 +564,16 @@ for specifying and reasoning about attack trees called Lina for Linear
 Threat Analysis.  Lina will consist of a core language and a surface
 language.
 
-We view attack trees as consisting of two layers: a logic layer and a
-quantitative layer.  The former is described by the definition of
-attack trees in the previous section, but the latter is the layer
-added atop of the logical layer used when conducting analysis, for
-example, computing the set of attacks with minimal cost.  Thus, there
-are two types of proofs about attack trees.  Proofs about the logical
-layer will be checked using a linear type system, but proofs about the
-quantitative layer will be mostly numerical. In this section we
-largely concentrate on the logical layer which is the current focus of
-the project.
+The project views attack trees as consisting of two layers: a logic
+layer and a quantitative layer.  The former is described by the
+definition of attack trees in the previous section, but the latter is
+the layer added atop of the logical layer used when conducting
+analysis, for example, computing the set of attacks with minimal cost.
+Thus, there are two types of proofs about attack trees.  Proofs about
+the logical layer will be checked using a linear type system, but
+proofs about the quantitative layer will be mostly numerical. In this
+section I largely concentrate on the logical layer which is the
+current focus of the project.
 
 Lina's core will consist of a language for defining attack trees, and
 this language will consist of the two layers, but one benefit of the
@@ -628,7 +629,7 @@ also approach categorically, and then syntactically.
 To accommodate both a commutative and non-commutative tensor product
 we isolate exchange in the same way that Girard isolated weakening and
 contraction using a comonad.  In this section I give a brief overview
-of how this is done.  We begin with the notion of a Lambek category.
+of how this is done.  I begin with the notion of a Lambek category.
 \begin{definition}
   \label{def:Lambek-category}
   A \textbf{Lambek category} is a monoidal category \\ $(\cat{C}, I,
@@ -640,7 +641,7 @@ of how this is done.  We begin with the notion of a Lambek category.
   diagrams\footnote{The coherence diagrams are equivalent to the ones
     in the definition of a symmetric monoidal category modulo
     symmetry; see the appendix for the complete definition of a
-    symmetry monoidal category.}.
+    symmetric monoidal category.}.
 \end{definition}
 \noindent
 We call the previous category a Lambek category to pay homage to
@@ -665,7 +666,7 @@ commutative tensor product.
   natural transformations.  In addition, there is a natural
   transformation $\mathsf{ex}_{A,B} : e(A \rhd B) \mto eB \rhd
   eA$. Each of these morphisms are subject to the several coherence
-  diagrams which we omit due to space.  Most importantly, the
+  diagrams which I omit due to space.  Most importantly, the
   following diagram must commute:
   \[
   \bfig
@@ -811,6 +812,10 @@ interface with Lina.  Furthermore, there has been recent work
 exploring automatically constructing attack trees from a specification
 which the project plans to investigate interfacing with Lina, because
 once you have the tree one may want to analyze it themselves.
+Furthermore, these automated approaches use sophisticated graph
+rewriting algorithms, it might be possible to reframe this work in
+terms of linear logic and potentially find new ways to automatically
+construct attack trees using automated theorem proving.
 
 %% Another goal of this project is to make using Lina as close as
 %% possible to functional programming as usual to prevent a large
@@ -878,7 +883,7 @@ both categorically and syntactically.  In addition, Lina's core design
 needs to be further developed and case studies need to be conducted to
 assess its effectiveness, and to understand where automation will be
 most useful.  Finally, Lina's surface language and accompanying IDE
-still need to be designed and developed.
+still needs to be designed and developed.
 % section conclusion_and_future_work (end)
 
 
