@@ -1,0 +1,18 @@
+Attack trees are perhaps the most widely used graphical model for
+conducting threat analysis of security critical systems.  Despite
+their practical adoption there is still one basic question that
+remains to be answered, what is an attack tree?  Many have put forth
+an answer, and hence there are a number of models for attack trees,
+but is there some common structure that can unify the various models?
+In this talk, I will introduce a new research project whose goal is to
+find this unifying framework by exploiting the powerful three
+perspectives of computation, thus this project can be viewed as being
+at the intersection of threat analysis using attack trees and
+interactive theorem proving.  I will argue that the unifying structure
+of all the various models of attack trees is the structure of a
+monoidal category, and hence the correct logic for reasoning about
+attack trees is linear logic.  Finally, by exploiting the three
+perspectives of computation the project seeks to develop a new
+domain-specific linear functional programming language called Lina –
+for Linear Threat Analysis – for specifying and reasoning about attack
+trees.

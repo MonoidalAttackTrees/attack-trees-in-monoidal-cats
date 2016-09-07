@@ -1,6 +1,6 @@
-\documentclass{sigplanconf}
+\documentclass{llncs}
 
-\usepackage{amssymb,amsmath,amsthm}
+\usepackage{amssymb,amsmath}
 \usepackage{cmll}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
@@ -59,16 +59,16 @@
   }%
   \item[]}{\end{list}}
 
-% Theorems
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{fact}[theorem]{Fact}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{remark}[theorem]{Remark}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{notn}[theorem]{Notation}
-\newtheorem{observation}[theorem]{Observation}
+%% % Theorems
+%% \newtheorem{theorem}{Theorem}
+%% \newtheorem{lemma}[theorem]{Lemma}
+%% \newtheorem{fact}[theorem]{Fact}
+%% \newtheorem{corollary}[theorem]{Corollary}
+%% \newtheorem{definition}[theorem]{Definition}
+%% \newtheorem{remark}[theorem]{Remark}
+%% \newtheorem{proposition}[theorem]{Proposition}
+%% \newtheorem{notn}[theorem]{Notation}
+%% \newtheorem{observation}[theorem]{Observation}
 
 %% Ott
 \input{atrees-ott}
@@ -76,20 +76,21 @@
 
 \begin{document}
 
-\conferenceinfo{PLAS '16}{October 24, 2016, Vienna, Austria}
-\copyrightyear{2016}
-\copyrightdata{}
-\copyrightdoi{}
-\titlebanner{}
+%% \conferenceinfo{PLAS '16}{October 24, 2016, Vienna, Austria}
+%% \copyrightyear{2016}
+%% \copyrightdata{}
+%% \copyrightdoi{}
+%% \titlebanner{}
 
-\title{Short Paper: Proposing a New Foundation of Attack Trees in Monoidal Categories}
+\title{Proposing a New Foundation of Attack Trees in Monoidal Categories}
 
-\authorinfo{Harley Eades III}{Computer Science\\Augusta University}{heades@augusta.edu}
+\author{Harley Eades III}
+\institute{Computer Science\\Augusta University \\ \href{mailto:heades@augusta.edu}{heades@augusta.edu}}
 
 \maketitle 
 
 \begin{abstract}
-  This short paper introduces a new research direction studying at the
+  This paper introduces a new research direction studying at the
   intersection of threat analysis using attack trees and interactive
   theorem proving using linear logic.  Currently, the project has
   developed a new semantics of attack trees in dialectica spaces, a
@@ -188,13 +189,13 @@ used to assess the threat potential of a security critical system.
 Attack trees have since been used to analyze the threat potential of
 many types of security critical systems, for example, cybersecurity of
 power grids \cite{Ten:2007}, wireless networks \cite{Reinhardt:2012},
-and many others.  Attack trees consists of several goals, usually
+and many others.  Attack trees consist of several goals, usually
 specified in English prose, for example, ``compromise safe'' or
 ``obtain administrative privileges'', where the root is the ultimate
 goal of the attack and each node coming off of the root is a
 refinement of the main goal into a subgoal.  Then each subgoal can be
 further refined.  The leaves of an attack tree make up the set of base
-attacks.  
+attacks.
 
 %% Extensions Of ATREES:
 %%   - Attack nets
@@ -247,11 +248,11 @@ was developed precisely to provide a resource conscious foundation
 multisets, Petri nets, and even tree automata is that operators on
 goals in attack trees are associated with concurrency operators from
 process algebra.  That is, the goals of an attack tree should be
-thought of as being run concurrently.  Furthermore, when moving to
-these alternate foundations \textbf{the intuitiveness and elegance of
-  the propositional logic semantics is lost}.  Lastly, existing work
-has focused on specifically what an attack tree is, and has not sought
-to understand what the theory of attack trees is.
+thought of as being run concurrently.  Furthermore, these alternate
+models lack \textbf{the intuitiveness and elegance of the
+  propositional logic semantics}.  Lastly, existing work has focused
+on specifically what an attack tree is, and has not sought to
+understand what the theory of attack trees is.
 
 By modeling attack trees in monoidal categories we obtain a sound
 mathematical model, a resource conscious logic for reasoning about
@@ -290,7 +291,7 @@ project would benefit from the feedback of the community.  I begin by
 defining an extension -- inspired by our semantics -- of the attack
 trees given in \cite{Jhawar:2015} in Section~\ref{sec:attack_trees}.
 Then I introduce a new semantics of attack trees in dialectica spaces,
-which depends on a novel result on dialectica spaces, in
+which depends on a novel result in
 Section~\ref{sec:concrete_semantics_of_attack_trees_in_dialectica_spaces}.
 The final section,
 Section~\ref{sec:lina:_a_domain_specific_pl_for_threat_analysis},
@@ -300,11 +301,14 @@ answer.
 
 \section{Attack Trees}
 \label{sec:attack_trees}
-\cite{Jhawar:2015} introduce attack trees with sequential composition,
-but here I consider an extension of their definition.  One of the
-projects ultimate goals is to extend attack trees with even more
-operators driven by our choice of semantics.  The syntax for attack
-trees is defined in the following definition.
+In this section I introduce an extension to attack trees with
+sequential composition first proposed by Jhawar et
+al. \cite{Jhawar:2015}.  One of the projects ultimate goals is to
+extend attack trees with even more operators driven by our choice of
+semantics.  The syntax for attack trees is defined in the following
+definition.  Note that in this paper we only consider the logical
+aspects of attack trees and leave reasoning about the quantitative
+aspects to future work.
 \begin{definition}
   \label{def:atrees}
   The following defines the syntax of \textbf{Attack Trees} given a set
@@ -327,39 +331,42 @@ trees is defined in the following definition.
     \vspace{-14px}
     \footnotesize
     \begin{math}
-      \begin{array}{c}
+      \begin{array}{cccccccc}
         \begin{array}{c}
         \inferrule* [right={\scriptsize assoc}] {
           \,
         }{[[(t1 op t2) op t3]] = [[t1 op (t2 op t3)]]}
-      \end{array}
-      \\
-      \begin{array}{cccccccccccc}               
+        \\
         \inferrule* [right={\scriptsize sym}] {
           \,
         }{[[t1 opS t2]] = [[t2 opS t1]]}
       \end{array}
-      \\
-      \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
+        & \quad &
+        \begin{array}{lll}
+          \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
           \,
         }{[[(t1 (+)  t2) + t3]] = [[(t1 + t3) (+) (t2 + t3)]]}
         \\
         \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
           \,
         }{[[(t1 (+)  t2) ; t3]] = [[(t1 ; t3) (+) (t2 ; t3)]]}
+        \end{array}
       \end{array}
     \end{math}    
   \end{center}
   where $\mathsf{op} \in \{\odot, \otimes, \rhd, \sqcup\}$ and $\mathsf{op_S}
   \in \{\odot, \otimes, \sqcup\}$.  
 \end{definition}
-The syntax given in the previous definition differs from the syntax
-used by Jhawar et al. \cite{Jhawar:2015}.  First, I use infix binary
-operations, while they use prefix $n$-ary operations. However, it does
-not sacrifice any expressivity, because each operation is associative,
-and parallel composition, choice, and interacting parallel composition
-are symmetric.  Thus, Jhawar et al.'s definition of attack trees can
-be embedded into the ones defined here.%% The hard
+The set base attacks are the leafs of the attack tree.  Then each
+operator composes attacks together depending on the intended meaning
+of the attack. The syntax given in the previous definition differs
+from the syntax used by Jhawar et al. \cite{Jhawar:2015}.  First, I
+use infix binary operations, while they use prefix $n$-ary
+operations. However, it does not sacrifice any expressivity, because
+each operation is associative, and parallel composition, choice, and
+interacting parallel composition are symmetric.  Thus, Jhawar et al.'s
+definition of attack trees can be embedded into the ones defined
+here.%% The hard
 %% part of this embedding is realizing that the $n$-ary version of
 %% sequential composition can be modeled by the binary version, but if we
 %% have $\mathsf{SAND}(t_1,t_2,\ldots,t_n)$, then it is understood that
@@ -368,7 +375,7 @@ be embedded into the ones defined here.%% The hard
 
 The second major difference is that the typical parallel composition
 operator found in attack trees is modeled here by unsynchronized
-non-communicating parallel composition which happens to be a symmetric
+non-communicating parallel composition.  This operator is a symmetric
 tensor product, and not a disjunction.  This is contrary to the
 literature, for example, the parallel operation of Jhawar et
 al. defined on source sink graphs \cite{Jhawar:2015} can be proven to
@@ -379,7 +386,7 @@ composition is modeled by multiset union in the multiset semantics,
 but we can model this as a coproduct.  However, in the semantics given
 in the next section if we took parallel composition to be a coproduct,
 then the required isomorphisms necessary to model attack trees would
-not exist.
+not hold.
 
 The third difference is that I denote the choice between executing
 attack $[[t1]]$ or attack $[[t2]]$, but not both, by $[[t1 (+) t2]]$
@@ -388,19 +395,23 @@ fits very nicely with the semantics of Jhawar et al., where they
 collect the attacks that can be executed into a set.  The semantics I
 give in the next section models choice directly.
 
-The fourth, and final, difference is that I extend the syntax with a
-new operator called unsynchronized communicating parallel composition.
-The attack $[[t1 (x) t2]]$ states that $[[t1]]$ interacts with the
-attack $[[t2]]$ in the sense that processes interact.  Modeling
-interacting attacks allows for the more refined modeling of security
-critical systems, for example, it can be used to bring social
-engineering into the analysis where someone communicates malicious
-information or commands to a unsuspecting party.  As a second example,
-interacting parallel composition could be used to model interacting
-bot nets.
+The fourth difference is that I extend the syntax with a new operator
+called unsynchronized communicating parallel composition.  The attack
+$[[t1 (x) t2]]$ states that $[[t1]]$ interacts with the attack
+$[[t2]]$ in the sense that processes interact.  Modeling interacting
+attacks allows for the more refined modeling of security critical
+systems, for example, it can be used to bring social engineering into
+the analysis where someone communicates malicious information or
+commands to a unsuspecting party.  As a second example, interacting
+parallel composition could be used to model interacting bot nets.
 
 Finally, the equivalence relation is essentially the equivalence given
-in Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.
+in Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.  Conducting an
+analysis of the threat potential of a complex system might yield an
+attack tree that must be rearranged to be understood, but this
+rearrangement should not compromise the meaning of the tree.  The
+attack tree equivalence relation defines the valid transformations
+that one can do to a tree without compromising its meaning.
 % section attack_trees (end)
 
 \section{Semantics of Attack Trees in Dialectica Spaces}
@@ -465,8 +476,8 @@ parallel.  Parallel composition is associative and symmetric.
 , R , \beta)$ are two dialectica spaces.  Then we can construct the
 dialectica space $\cat{A} \sqcup \cat{B} = (A + B, Q + R, \alpha
 \sqcup \beta)$ where $(\alpha \sqcup \beta)(i , j) = \alpha(i , j)$ if
-$i \in A$ and $j \in Q$, $(\alpha + \beta)(i , j) = \beta(i , j)$ if
-$i \in B$ and $j \in R$, otherwise $(\alpha + \beta)(i , j) = 0$.
+$i \in A$ and $j \in Q$, $(\alpha \sqcup \beta)(i , j) = \beta(i , j)$ if
+$i \in B$ and $j \in R$, otherwise $(\alpha \sqcup \beta)(i , j) = 0$.
 Thus, from a process perspective we can see that $\cat{A} \sqcup
 \cat{B}$ executes either an action of $\cat{A}$ or an action of
 $\cat{B}$, but not both.  Choice is symmetric and associative, but it
@@ -483,7 +494,7 @@ corresponding injections.  %% Brown et. al. show that Petri nets can
 
 \begin{changemargin}{2pt}{2pt}\noindent
 \textbf{Sequential Composition.} Suppose $\cat{A} = (A , Q, \alpha)$
-and $\cat{B} = (B , R , \beta)$ be two dialectica spaces.  Then we can
+and $\cat{B} = (B , R , \beta)$ are two dialectica spaces.  Then we can
 construct -- due to de Paiva \cite{dePaiva:2014a} -- the dialectica
 space $\cat{A} \rhd \cat{B} = (A \times B, Q \times R, \alpha \rhd
 \beta)$ where $(\alpha \rhd \beta)((a,b) , (q , r)) = \alpha(a , q)
@@ -492,7 +503,7 @@ lazy conjunction defined for $\mathsf{3}$\footnote{See the formal
   development for the full definition:
   \url{https://github.com/heades/dialectica-spaces/blob/PLAS16/concrete-lineales.agda\#L648}}.
 This is a non-symmetric conjunctive operator, and thus, sequential
-composition is non-symmetric.  This implies that from a process
+composition is \\non-symmetric.  This implies that from a process
 perspective $\cat{A} \rhd \cat{B}$ will first execute the actions of
 $\cat{A}$ and then execute actions of $\cat{B}$ in that order.
 Sequential composition is associative.
@@ -517,8 +528,7 @@ to this model would correspond to the following theorem.
 
 \begin{theorem}[Soundness]
   \label{thm:soundness}
-  If $[[t1]] \rightsquigarrow [[t2]]$, then $\interp{[[t1]]}$ is
-  isomorphic to $\interp{[[t2]]}$ in $\dial$.
+  If $[[t1]] = [[t2]]$, then $\interp{[[t1]]} \cong \interp{[[t2]]}$ in $\dial$.
 \end{theorem}
 
 Those familiar with Chu spaces and their application to process
@@ -567,13 +577,13 @@ language.
 The project views attack trees as consisting of two layers: a logic
 layer and a quantitative layer.  The former is described by the
 definition of attack trees in the previous section, but the latter is
-the layer added atop of the logical layer used when conducting
-analysis, for example, computing the set of attacks with minimal cost.
-Thus, there are two types of proofs about attack trees.  Proofs about
-the logical layer will be checked using a linear type system, but
-proofs about the quantitative layer will be mostly numerical. In this
-section I largely concentrate on the logical layer which is the
-current focus of the project.
+the layer added on top of the logical layer, which is used when
+conducting threat analysis, for example, computing the set of attacks
+with minimal cost.  Thus, there are two types of proofs about attack
+trees.  Proofs about the logical layer will be checked using a linear
+type system, but proofs about the quantitative layer will be mostly
+numerical. In this section I largely concentrate on the logical layer
+which is the current focus of the project.
 
 Lina's core will consist of a language for defining attack trees, and
 this language will consist of the two layers, but one benefit of the
@@ -656,114 +666,47 @@ isolate it inside a comonad.  This will allow for the definition of a
 commutative tensor product.
 \begin{definition}
   \label{def:exchange-comonad}
-  A \textbf{Lambek category with exchange} is a Lambek category
+  A \textbf{Lambek category with exchange} is a Lambek category\\
   $(\cat{C}, I, \rhd, \alpha, \lambda, \rho)$ equipped with a monoidal
   comonad $(e, \varepsilon, \delta)$ where $e : \cat{C} \mto \cat{C}$
   is a monoidal endofunctor\footnote{For the full definition of a
     monoidal functor see Definition~\ref{def:MCFUN} in
     Appendix~\ref{sec:symmetric_monoidal_categories}.}, and
   $\varepsilon_A : eA \mto A$ and $\delta_A : eA \mto e^2A$ are
-  natural transformations.  In addition, there is a natural
-  transformation $\mathsf{ex}_{A,B} : e(A \rhd B) \mto eB \rhd
+  monoidal natural transformations.  In addition, there is a monoidal natural
+  transformation $\mathsf{ex}_{A,B} : eA \rhd eB \mto eB \rhd
   eA$. Each of these morphisms are subject to the several coherence
   diagrams which I omit due to space.  Most importantly, the
   following diagram must commute:
   \[
   \bfig
-    \square/->`=`->`/<1600,400>[
-      e(A\otimes B)`
-      eB\otimes eA`
-      e(A\otimes B)`
-      e(B\otimes A);
-      \mathsf{ex}_{A,B}``
-      q_{B,A}`]
-    \morphism(800,0)<-800,0>[
-      eA\otimes eB`
-      e(A\otimes B);
-      q_{A,B}]
-    \morphism(1600,0)<-800,0>[
-      e(B\otimes A)`
-      eA\otimes eB;
-      \mathsf{ex}_{B,A}]
-    \efig
-    \]
-  
-  
-  %% \begin{mathpar}
-  %%   \bfig
-  %%   \square<600,600>[
-  %%     eA`
-  %%     e^2A`
-  %%     e^2A`
-  %%     e^3A;
-  %%     \delta_A`
-  %%     \delta_A`
-  %%     e\delta_A`
-  %%     \delta_{eA}]
-  %%   \efig
-  %%   \and
-  %%   \bfig
-  %%   \Atrianglepair/=`->`=`<-`->/<600,600>[
-  %%     eA`
-  %%     eA`
-  %%     e^2 A`
-  %%     eA;`
-  %%     \delta_A``
-  %%     \varepsilon_{eA}`
-  %%     e\varepsilon_A]
-  %%   \efig
-  %%   \and
-  %%   \bfig
-  %%   \square|amab|/`->``->/<950,600>[
-  %%     eA \rhd eB``
-  %%     e^2A \rhd e^2B`
-  %%     e(eA \rhd eB);`
-  %%     \delta_A \rhd \delta_B``
-  %%     q_{eA,eB}]
-  %%   \square(950,0)|mmmb|/``->`->/<950,600>[`
-  %%     e(A \rhd B)`
-  %%     e(eA \rhd eB)`
-  %%     e^2(A \rhd B);``
-  %%     \delta_{A \rhd B}`
-  %%     eq_{A,B}]
-  %%   \morphism(0,600)<1900,0>[eA \rhd eB`e(A \rhd B);q_{A,B}]
-  %%   \efig
-  %%   \and
-  %%   \bfig
-  %%   \square<600,600>[
-  %%     I`
-  %%     eI`
-  %%     eI`
-  %%     e^2I;
-  %%     q_{I}`
-  %%     q_{I}`
-  %%     \delta_I`
-  %%     eq_{I}]
-  %%   \efig
-    %% \end{mathpar}
-    \noindent
-  The previous diagram can be seen as a form of invertibility for
-  $\mathsf{ex}_{A,B}$.
+  \qtriangle|amm|/->`=`->/<1000,500>[
+    eA \otimes eB`
+    eB \otimes eA`
+    eA \otimes eB;
+    \mathsf{ex}_{A,B}``
+    \mathsf{ex}_{B,A}]
+  \efig
+  \]  
+  \noindent
+  The previous diagram can is invertibility for $\mathsf{ex}_{A,B}$.
+  There are a few other coherence diagrams that must hold to insure
+  that the Eilenberg-Moore category is symmetric, but we omit these for
+  space.
 \end{definition}
 The previous definition is largely based on how weakening and
-contraction are modeled by the of-course exponential, and how exchange
-operates in the coKleisli category of $(e, \varepsilon, \delta)$.  The
-coKleisli category contains as objects all of the objects of
-$\cat{C}$, but has as morphisms all the morphisms of $\cat{C}$ whose
-source is of the form $eA$ for some $A$.  The coKleisli category is
-best viewed as the world inside a comonad.  That is, it contains all
-of the structure of the ambient category, but also the additional
-effects the comonad provides.  Thus, the coKleisli category of the
-exchange comonad should be a symmetric monoidal category, and indeed
-it is.
+contraction are modeled by the of-course exponential.  To be sure that
+exchange is defined correctly it should be the case that the
+Eilenberg-Moore category becomes symmetric monoidal.  Thus, when working inside the comonad we are working in a symmetric monoidal category. 
 \begin{lemma}
   \label{lemma:cokleisli_of_the_exchange_monad_is_symmetric}
   Suppose $\cat{C}$ is a Lambek category with exchange.  Then the
-  coKleisli category of the exchange comonad is symmetric monoidal.
+  Eilenberg-Moore category of the exchange comonad is symmetric
+  monoidal.
 \end{lemma}
-It is now should be more straightforward to construct a term
-assignment from this model.  The following rules define a preliminary
-definition of a natural deduction term assignment:
+It is now more straightforward to construct a term assignment from
+this model.  The following define a preliminary definition of a
+natural deduction term assignment:
 \begin{mathpar}
   \small
   \ATreesdrulevar{}    \and
@@ -776,7 +719,9 @@ definition of a natural deduction term assignment:
   \ATreesdrulepromotion{}  
 \end{mathpar}
 The previous rules are based on the natural deduction formalization of
-intuitionistic linear logic due to \cite{Benton:1992}.
+intuitionistic linear logic due to \cite{Benton:1992}.  In future work
+we hope to shift to a term assignment based on Barber's
+\cite{Barber:1997} dual context formalization.
 
 We can interpret both sequential and interacting parallel composition
 as types.  That is, we can interpret $[[t1 ; t2]]$ as $[[T1 ; T2]]$,
@@ -886,213 +831,212 @@ most useful.  Finally, Lina's surface language and accompanying IDE
 still needs to be designed and developed.
 % section conclusion_and_future_work (end)
 
+\bibliographystyle{plain}
+\bibliography{ref}
 
-%% \bibliographystyle{plain} \bibliography{ref}
 
-\begin{thebibliography}{10}
-  \softraggedright
+%% \begin{thebibliography}{10}
+%% \bibitem[Barr(1991)Barr]{MSC:4439568}
+%% Michael Barr.
+%% \newblock *-autonomous categories and linear logic.
+%% \newblock {\em Mathematical Structures in Computer Science}, 1:159--178, 7
+%%   1991.
 
-\bibitem[Barr(1991)Barr]{MSC:4439568}
-Michael Barr.
-\newblock *-autonomous categories and linear logic.
-\newblock {\em Mathematical Structures in Computer Science}, 1:159--178, 7
-  1991.
-
-\bibitem[Benton et al.(1992)Benton, Bierman, de Paiva, Hyland]{Benton:1992}
-Nick Benton, Gavin Bierman, Valeria de~Paiva, and Martin Hyland.
-\newblock Term assignment for intuitionistic linear logic (preliminary report).
-\newblock Technical report, University of Cambridge, August 1992.  
+%% \bibitem[Benton et al.(1992)Benton, Bierman, de Paiva, Hyland]{Benton:1992}
+%% Nick Benton, Gavin Bierman, Valeria de~Paiva, and Martin Hyland.
+%% \newblock Term assignment for intuitionistic linear logic (preliminary report).
+%% \newblock Technical report, University of Cambridge, August 1992.  
   
-\bibitem[Brown et~al.(1991)Brown, Gurr, de Paiva]{Brown:1991}
-Carolyn Brown, Doug Gurr, and Valeria de Paiva.
-\newblock A linear specification language for petri nets.
-\newblock {\em DAIMI Report Series}, 20(363), 1991.
+%% \bibitem[Brown et~al.(1991)Brown, Gurr, de Paiva]{Brown:1991}
+%% Carolyn Brown, Doug Gurr, and Valeria de Paiva.
+%% \newblock A linear specification language for petri nets.
+%% \newblock {\em DAIMI Report Series}, 20(363), 1991.
 
-\bibitem[Camtepe and Yener(2007)Camtepe, Yener]{Camtepe:2007}
-S.A. Camtepe and B.~Yener.
-\newblock Modeling and detection of complex attacks.
-\newblock In {\em Security and Privacy in Communications Networks and the
-  Workshops, 2007. SecureComm 2007. Third International Conference on}, pages
-  234--243, Sept 2007.
+%% \bibitem[Camtepe and Yener(2007)Camtepe, Yener]{Camtepe:2007}
+%% S.A. Camtepe and B.~Yener.
+%% \newblock Modeling and detection of complex attacks.
+%% \newblock In {\em Security and Privacy in Communications Networks and the
+%%   Workshops, 2007. SecureComm 2007. Third International Conference on}, pages
+%%   234--243, Sept 2007.
 
-\bibitem[Convery et~al.(2003)Convery, Cook, Franz]{Convey:2003}
-S.~Convery, D.~Cook, and M.~Franz.
-\newblock An attack tree for the border gateway protocol.
-\newblock 2003.
-\newblock \url{https://tools.ietf.org/html/draft-ietf-rpsec-bgpattack-00}.
+%% \bibitem[Convery et~al.(2003)Convery, Cook, Franz]{Convey:2003}
+%% S.~Convery, D.~Cook, and M.~Franz.
+%% \newblock An attack tree for the border gateway protocol.
+%% \newblock 2003.
+%% \newblock \url{https://tools.ietf.org/html/draft-ietf-rpsec-bgpattack-00}.
 
-\bibitem[de Paiva(1987)de Paiva]{dePaiva:1987}
-Valeria de~Paiva.
-\newblock Dialectica categories.
-\newblock In J.~Gray and A.~Scedrov, editors, {\em Categories in Computer
-  Science and Logic}, volume~92, pages 47--62. Amerian Mathemaitcal Society,
-  1989.
+%% \bibitem[de Paiva(1987)de Paiva]{dePaiva:1987}
+%% Valeria de~Paiva.
+%% \newblock Dialectica categories.
+%% \newblock In J.~Gray and A.~Scedrov, editors, {\em Categories in Computer
+%%   Science and Logic}, volume~92, pages 47--62. Amerian Mathemaitcal Society,
+%%   1989.
 
-\bibitem[de Paiva(2006)de Paiva]{dePaiva:2006b}
-Valeria de~Paiva.
-\newblock Dialectica and chu constructions: Cousins?
-\newblock {\em Theory and Applications of Categories}, 17(7):127--152, 2006.
+%% \bibitem[de Paiva(2006)de Paiva]{dePaiva:2006b}
+%% Valeria de~Paiva.
+%% \newblock Dialectica and chu constructions: Cousins?
+%% \newblock {\em Theory and Applications of Categories}, 17(7):127--152, 2006.
 
-\bibitem[de Paiva(2014)de Paiva]{dePaiva:2014a}
-Valeria de~Paiva.
-\newblock Linear logic model of state revisited.
-\newblock {\em Logic Journal of IGPL}, 22(5):791--804, 2014.
+%% \bibitem[de Paiva(2014)de Paiva]{dePaiva:2014a}
+%% Valeria de~Paiva.
+%% \newblock Linear logic model of state revisited.
+%% \newblock {\em Logic Journal of IGPL}, 22(5):791--804, 2014.
 
-\bibitem[Fiore and Campos(2013)Fiore, Campos]{Fiore:2013}
-Marcelo Fiore and Marco Devesas~Campos.
-\newblock {\em Computation, Logic, Games, and Quantum Foundations. The Many
-  Facets of Samson Abramsky: Essays Dedicated to Samson Abramsky on the
-  Occasion of His 60th Birthday}, chapter The Algebra of Directed Acyclic
-  Graphs, pages 37--51.
-\newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 2013.
+%% \bibitem[Fiore and Campos(2013)Fiore, Campos]{Fiore:2013}
+%% Marcelo Fiore and Marco Devesas~Campos.
+%% \newblock {\em Computation, Logic, Games, and Quantum Foundations. The Many
+%%   Facets of Samson Abramsky: Essays Dedicated to Samson Abramsky on the
+%%   Occasion of His 60th Birthday}, chapter The Algebra of Directed Acyclic
+%%   Graphs, pages 37--51.
+%% \newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 2013.
 
-\bibitem[Albasini et al.(2010)Albasini, Sabadini, Walters]{FrancescoAlbasini2010}
-Luisa Francesco~Albasini, Nicoletta Sabadini, and Robert F.~C. Walters.
-\newblock The compositional construction of markov processes.
-\newblock {\em Applied Categorical Structures}, 19(1):425--437, 2010.
+%% \bibitem[Albasini et al.(2010)Albasini, Sabadini, Walters]{FrancescoAlbasini2010}
+%% Luisa Francesco~Albasini, Nicoletta Sabadini, and Robert F.~C. Walters.
+%% \newblock The compositional construction of markov processes.
+%% \newblock {\em Applied Categorical Structures}, 19(1):425--437, 2010.
 
-\bibitem[Girard(1987)Girard]{Girard:1987}
-Jean-Yves Girard.
-\newblock Linear logic.
-\newblock {\em Theoretical Computer Science}, 50(1):1 -- 101, 1987.
+%% \bibitem[Girard(1987)Girard]{Girard:1987}
+%% Jean-Yves Girard.
+%% \newblock Linear logic.
+%% \newblock {\em Theoretical Computer Science}, 50(1):1 -- 101, 1987.
 
-\bibitem[Gupta(1994)Gupta]{Gupta:1994}
-Vineet Gupta.
-\newblock {\em Chu Spaces: a Model of Concurrency}.
-\newblock PhD thesis, Stanford University, 1994.
+%% \bibitem[Gupta(1994)Gupta]{Gupta:1994}
+%% Vineet Gupta.
+%% \newblock {\em Chu Spaces: a Model of Concurrency}.
+%% \newblock PhD thesis, Stanford University, 1994.
 
-\bibitem[Huistra(2016)Huistra]{essay69399}
-D.J. {Huistra}.
-\newblock Automated generation of attack trees by unfolding graph
-  transformation systems, Online: \url{http://essay.utwente.nl/69399/}, March 2016.
+%% \bibitem[Huistra(2016)Huistra]{essay69399}
+%% D.J. {Huistra}.
+%% \newblock Automated generation of attack trees by unfolding graph
+%%   transformation systems, Online: \url{http://essay.utwente.nl/69399/}, March 2016.
 
-\bibitem[Jhawar et al.(2015)Jhawar, Kordy, Mauw, Radomirovi{\"A}, Trujillo-Rasua]{Jhawar:2015}
-Ravi Jhawar, Barbara Kordy, Sjouke Mauw, Sa{\AA}{!'}a Radomirovi{\"A}, and
-  Rolando Trujillo-Rasua.
-\newblock Attack trees with sequential conjunction.
-\newblock In Hannes Federrath and Dieter Gollmann, editors, {\em ICT Systems
-  Security and Privacy Protection}, volume 455 of {\em IFIP Advances in
-  Information and Communication Technology}, pages 339--353. Springer
-  International Publishing, 2015.
+%% \bibitem[Jhawar et al.(2015)Jhawar, Kordy, Mauw, Radomirovi{\"A}, Trujillo-Rasua]{Jhawar:2015}
+%% Ravi Jhawar, Barbara Kordy, Sjouke Mauw, Sa{\AA}{!'}a Radomirovi{\"A}, and
+%%   Rolando Trujillo-Rasua.
+%% \newblock Attack trees with sequential conjunction.
+%% \newblock In Hannes Federrath and Dieter Gollmann, editors, {\em ICT Systems
+%%   Security and Privacy Protection}, volume 455 of {\em IFIP Advances in
+%%   Information and Communication Technology}, pages 339--353. Springer
+%%   International Publishing, 2015.
 
-\bibitem[Kordy et al.(2014)Kordy,Pi{\'e}tre-Cambac{\'e}d{\'e}s,Schweitzer]{Kordy:2014a}
-Barbara Kordy, Ludovic Pi{\'e}tre-Cambac{\'e}d{\'e}s, and Patrick Schweitzer.
-\newblock Dag-based attack and defense modeling: Don't miss the forest for the
-  attack trees.
-\newblock {\em Computer Science Review}, 13{\^a}14:1 -- 38, 2014.
+%% \bibitem[Kordy et al.(2014)Kordy,Pi{\'e}tre-Cambac{\'e}d{\'e}s,Schweitzer]{Kordy:2014a}
+%% Barbara Kordy, Ludovic Pi{\'e}tre-Cambac{\'e}d{\'e}s, and Patrick Schweitzer.
+%% \newblock Dag-based attack and defense modeling: Don't miss the forest for the
+%%   attack trees.
+%% \newblock {\em Computer Science Review}, 13{\^a}14:1 -- 38, 2014.
 
-\bibitem[Kordy et al(2012)Kordy, Pouly, Schweitzer]{Kordy:2012}
-Barbara Kordy, Marc Pouly, and Patrick Schweitzer.
-\newblock Computational aspects of attack--defense trees.
-\newblock In Pascal Bouvry, Mieczys{\l}awA. K{\l}opotek, Franck Lepr{\'e}vost,
-  Ma{\l}gorzata Marciniak, Agnieszka Mykowiecka, and Henryk Rybi{\'n}ski,
-  editors, {\em Security and Intelligent Information Systems}, volume 7053 of
-  {\em Lecture Notes in Computer Science}, pages 103--116. Springer Berlin
-  Heidelberg, 2012.
+%% \bibitem[Kordy et al(2012)Kordy, Pouly, Schweitzer]{Kordy:2012}
+%% Barbara Kordy, Marc Pouly, and Patrick Schweitzer.
+%% \newblock Computational aspects of attack--defense trees.
+%% \newblock In Pascal Bouvry, Mieczys{\l}awA. K{\l}opotek, Franck Lepr{\'e}vost,
+%%   Ma{\l}gorzata Marciniak, Agnieszka Mykowiecka, and Henryk Rybi{\'n}ski,
+%%   editors, {\em Security and Intelligent Information Systems}, volume 7053 of
+%%   {\em Lecture Notes in Computer Science}, pages 103--116. Springer Berlin
+%%   Heidelberg, 2012.
 
-\bibitem[Kordy et al.(2014)Kordy, Pouly, Schweitzer]{Kordy:2014}
-Barbara Kordy, Marc Pouly, and Patrick Schweitzer.
-\newblock A probabilistic framework for security scenarios with dependent
-  actions.
-\newblock In Elvira Albert and Emil Sekerinski, editors, {\em Integrated Formal
-  Methods}, volume 8739 of {\em Lecture Notes in Computer Science}, pages
-  256--271. Springer International Publishing, 2014.
+%% \bibitem[Kordy et al.(2014)Kordy, Pouly, Schweitzer]{Kordy:2014}
+%% Barbara Kordy, Marc Pouly, and Patrick Schweitzer.
+%% \newblock A probabilistic framework for security scenarios with dependent
+%%   actions.
+%% \newblock In Elvira Albert and Emil Sekerinski, editors, {\em Integrated Formal
+%%   Methods}, volume 8739 of {\em Lecture Notes in Computer Science}, pages
+%%   256--271. Springer International Publishing, 2014.
 
-\bibitem[Lambek(1958)Lambek]{Lambek1958}
-Joachim Lambek.
-\newblock The mathematics of sentence structure.
-\newblock {\em American Mathematical Monthly}, pages 154--170, 1958.  
+%% \bibitem[Lambek(1958)Lambek]{Lambek1958}
+%% Joachim Lambek.
+%% \newblock The mathematics of sentence structure.
+%% \newblock {\em American Mathematical Monthly}, pages 154--170, 1958.  
   
-\bibitem[Mauw and Oostdijk(2006)Mauw and Oostdijk]{Mauw:2006}
-Sjouke Mauw and Martijn Oostdijk.
-\newblock Foundations of attack trees.
-\newblock In DongHo Won and Seungjoo Kim, editors, {\em Information Security
-  and Cryptology - ICISC 2005}, volume 3935 of {\em Lecture Notes in Computer
-  Science}, pages 186--198. Springer Berlin Heidelberg, 2006.
+%% \bibitem[Mauw and Oostdijk(2006)Mauw and Oostdijk]{Mauw:2006}
+%% Sjouke Mauw and Martijn Oostdijk.
+%% \newblock Foundations of attack trees.
+%% \newblock In DongHo Won and Seungjoo Kim, editors, {\em Information Security
+%%   and Cryptology - ICISC 2005}, volume 3935 of {\em Lecture Notes in Computer
+%%   Science}, pages 186--198. Springer Berlin Heidelberg, 2006.
 
-\bibitem[McDermott(2001)McDermott]{McDermott:2001}
-J.~P. McDermott.
-\newblock Attack net penetration testing.
-\newblock In {\em Proceedings of the 2000 Workshop on New Security Paradigms},
-  NSPW '00, pages 15--21, New York, NY, USA, 2000. ACM.
+%% \bibitem[McDermott(2001)McDermott]{McDermott:2001}
+%% J.~P. McDermott.
+%% \newblock Attack net penetration testing.
+%% \newblock In {\em Proceedings of the 2000 Workshop on New Security Paradigms},
+%%   NSPW '00, pages 15--21, New York, NY, USA, 2000. ACM.
 
-\bibitem[Pierce and Turner(2000)Pierce, Turner]{Pierce:2000}
-Benjamin~C. Pierce and David~N. Turner.
-\newblock Local type inference.
-\newblock {\em ACM Trans. Program. Lang. Syst.}, 22(1):1--44, January 2000.
+%% \bibitem[Pierce and Turner(2000)Pierce, Turner]{Pierce:2000}
+%% Benjamin~C. Pierce and David~N. Turner.
+%% \newblock Local type inference.
+%% \newblock {\em ACM Trans. Program. Lang. Syst.}, 22(1):1--44, January 2000.
 
-\bibitem[Pi{\`e}tre-Cambac{\'e}d{\`e}s and
-  Bouissou(2010)Pi{\`e}tre-Cambac{\'e}d{\`e}s, Bouissou]{Pietre-Cambacedes:2010}
-L.~Pi{\`e}tre-Cambac{\'e}d{\`e}s and M.~Bouissou.
-\newblock Beyond attack trees: Dynamic security modeling with boolean logic
-  driven markov processes (bdmp).
-\newblock In {\em Dependable Computing Conference (EDCC), 2010 European}, pages
-  199--208, April 2010.
+%% \bibitem[Pi{\`e}tre-Cambac{\'e}d{\`e}s and
+%%   Bouissou(2010)Pi{\`e}tre-Cambac{\'e}d{\`e}s, Bouissou]{Pietre-Cambacedes:2010}
+%% L.~Pi{\`e}tre-Cambac{\'e}d{\`e}s and M.~Bouissou.
+%% \newblock Beyond attack trees: Dynamic security modeling with boolean logic
+%%   driven markov processes (bdmp).
+%% \newblock In {\em Dependable Computing Conference (EDCC), 2010 European}, pages
+%%   199--208, April 2010.
 
-\bibitem[Pratt(1999)Pratt]{Pratt:1999}
-Vaughan Pratt.
-\newblock Chu spaces.
-\newblock Notes for the School on Category Theory and Applications University
-  of Cimbra, July 1999.
+%% \bibitem[Pratt(1999)Pratt]{Pratt:1999}
+%% Vaughan Pratt.
+%% \newblock Chu spaces.
+%% \newblock Notes for the School on Category Theory and Applications University
+%%   of Cimbra, July 1999.
 
-\bibitem[Reinhardt et al.(2012)Reinhardt, Seither, Konig, Steinmetz, Hollick]{Reinhardt:2012}
-A.~Reinhardt, D.~Seither, A.~Konig, R.~Steinmetz, and M.~Hollick.
-\newblock Protecting ieee 802.11s wireless mesh networks against insider
-  attacks.
-\newblock In {\em Local Computer Networks (LCN), 2012 IEEE 37th Conference on},
-  pages 224--227, Oct 2012.
+%% \bibitem[Reinhardt et al.(2012)Reinhardt, Seither, Konig, Steinmetz, Hollick]{Reinhardt:2012}
+%% A.~Reinhardt, D.~Seither, A.~Konig, R.~Steinmetz, and M.~Hollick.
+%% \newblock Protecting ieee 802.11s wireless mesh networks against insider
+%%   attacks.
+%% \newblock In {\em Local Computer Networks (LCN), 2012 IEEE 37th Conference on},
+%%   pages 224--227, Oct 2012.
 
-\bibitem[Retor{\'e}(1997)Retor{\'e}]{Retore:1997}
-Christian Retor{\'e}.
-\newblock {\em Typed Lambda Calculi and Applications: Third International
-  Conference on Typed Lambda Calculi and Applications TLCA '97 Nancy, France,
-  April 2--4, 1997 Proceedings}, chapter Pomset logic: A non-commutative
-  extension of classical linear logic, pages 300--318.
-\newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 1997.
+%% \bibitem[Retor{\'e}(1997)Retor{\'e}]{Retore:1997}
+%% Christian Retor{\'e}.
+%% \newblock {\em Typed Lambda Calculi and Applications: Third International
+%%   Conference on Typed Lambda Calculi and Applications TLCA '97 Nancy, France,
+%%   April 2--4, 1997 Proceedings}, chapter Pomset logic: A non-commutative
+%%   extension of classical linear logic, pages 300--318.
+%% \newblock Springer Berlin Heidelberg, Berlin, Heidelberg, 1997.
 
-\bibitem[Schneier(1999)Schneier]{Schneier:1999}
-Bruce Schneier.
-\newblock Attack trees: Modeling security threats.
-\newblock {\em Dr. Dobb's journal}, December 1999.
+%% \bibitem[Schneier(1999)Schneier]{Schneier:1999}
+%% Bruce Schneier.
+%% \newblock Attack trees: Modeling security threats.
+%% \newblock {\em Dr. Dobb's journal}, December 1999.
 
-\bibitem[Selinger(2009)Selinger]{Selinger:2009}
-Peter {Selinger}.
-\newblock {A survey of graphical languages for monoidal categories}.
-\newblock {\em ArXiv e-prints}, August 2009.
+%% \bibitem[Selinger(2009)Selinger]{Selinger:2009}
+%% Peter {Selinger}.
+%% \newblock {A survey of graphical languages for monoidal categories}.
+%% \newblock {\em ArXiv e-prints}, August 2009.
 
-\bibitem[Sheyner et al.(2002)Sheyner, Haines, Jha, Lippmann, Wing]{Sheyner:2002:AGA:829514.830526}
-Oleg Sheyner, Joshua Haines, Somesh Jha, Richard Lippmann, and Jeannette~M.
-  Wing.
-\newblock Automated generation and analysis of attack graphs.
-\newblock In {\em Proceedings of the 2002 IEEE Symposium on Security and
-  Privacy}, SP '02, pages 273--, Washington, DC, USA, 2002. IEEE Computer
-  Society.
+%% \bibitem[Sheyner et al.(2002)Sheyner, Haines, Jha, Lippmann, Wing]{Sheyner:2002:AGA:829514.830526}
+%% Oleg Sheyner, Joshua Haines, Somesh Jha, Richard Lippmann, and Jeannette~M.
+%%   Wing.
+%% \newblock Automated generation and analysis of attack graphs.
+%% \newblock In {\em Proceedings of the 2002 IEEE Symposium on Security and
+%%   Privacy}, SP '02, pages 273--, Washington, DC, USA, 2002. IEEE Computer
+%%   Society.
 
-\bibitem[Ten et al.(2007)Ten, Liu, Govindarasu]{Ten:2007}
-Chee-Wooi Ten, Chen-Ching Liu, and Manimaran Govindarasu.
-\newblock Vulnerability assessment of cybersecurity for scada systems using
-  attack trees.
-\newblock In {\em Power Engineering Society General Meeting, 2007. IEEE}, pages
-  1--8, June 2007.
+%% \bibitem[Ten et al.(2007)Ten, Liu, Govindarasu]{Ten:2007}
+%% Chee-Wooi Ten, Chen-Ching Liu, and Manimaran Govindarasu.
+%% \newblock Vulnerability assessment of cybersecurity for scada systems using
+%%   attack trees.
+%% \newblock In {\em Power Engineering Society General Meeting, 2007. IEEE}, pages
+%%   1--8, June 2007.
 
-\bibitem[Tzouvaras(1998)Tzouvaras]{Tzouvaras:1998}
-A~Tzouvaras.
-\newblock The linear logic of multisets.
-\newblock {\em Logic Journal of IGPL}, 6(6):901--916, 1998.
+%% \bibitem[Tzouvaras(1998)Tzouvaras]{Tzouvaras:1998}
+%% A~Tzouvaras.
+%% \newblock The linear logic of multisets.
+%% \newblock {\em Logic Journal of IGPL}, 6(6):901--916, 1998.
 
-\bibitem[Vigo et al.(2014)Vigo, Nielson, Nielson]{6957121}
-R.~Vigo, F.~Nielson, and H.~R. Nielson.
-\newblock Automated generation of attack trees.
-\newblock In {\em Computer Security Foundations Symposium (CSF), 2014 IEEE
-  27th}, pages 337--350, July 2014.
+%% \bibitem[Vigo et al.(2014)Vigo, Nielson, Nielson]{6957121}
+%% R.~Vigo, F.~Nielson, and H.~R. Nielson.
+%% \newblock Automated generation of attack trees.
+%% \newblock In {\em Computer Security Foundations Symposium (CSF), 2014 IEEE
+%%   27th}, pages 337--350, July 2014.
 
-\bibitem[Wolters(2016)Wolters]{essay69402}
-N.H. {Wolters}.
-\newblock Analysis of attack trees with timed automata (transforming formalisms
-  through metamodeling), Online: \url{http://essay.utwente.nl/69402/},
-  March 2016.  
+%% \bibitem[Wolters(2016)Wolters]{essay69402}
+%% N.H. {Wolters}.
+%% \newblock Analysis of attack trees with timed automata (transforming formalisms
+%%   through metamodeling), Online: \url{http://essay.utwente.nl/69402/},
+%%   March 2016.  
   
-\end{thebibliography}
+%% \end{thebibliography}
 
 
 \appendix
