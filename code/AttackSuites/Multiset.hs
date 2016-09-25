@@ -156,5 +156,5 @@ mmap f (MS (x:m,c)) = MS (f x:m',c'')
 -- Constrained-monad problem, we need Eq a and Eq b for bind.
 -- 
 -- instance Monad Multiset where
---     m >>= f = m `bind` f
---     return = single
+--     m >>= f = m *>>= f
+--     return x = x *-> empty
