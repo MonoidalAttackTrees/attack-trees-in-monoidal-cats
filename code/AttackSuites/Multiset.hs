@@ -1,11 +1,14 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE KindSignatures       #-}
+{-# LANGUAGE GADTs                #-}
+{-# LANGUAGE InstanceSigs         #-}
 module Multiset where
 
 import Test.QuickCheck
 
 newtype Multiset a = MS ([a], a -> Integer)
-
+    
 empty :: Multiset a
 empty = MS ([], \_ -> 0)
 
@@ -69,6 +72,13 @@ infix 1 *=
              -> Multiset a
              -> Bool
 m1 *= m2 = (m1 *<= m2) && (m2 *<= m1)
+
+instance Eq a => Eq (Multiset a) where
+  (==) :: Multiset a -> Multiset a -> Bool
+  m1 == m2 = m1 *= m2
+
+  (/=) :: Multiset a -> Multiset a -> Bool
+  m1 /= m2 = not (m1 *= m2)
 
 infix 2 *<
 (*<) :: Eq a => Multiset a
@@ -146,15 +156,47 @@ mmap f (MS (x:m,c)) = MS (f x:m',c'')
    c'' e | e == f x = c x
          | otherwise = c' e
 
-(*>>=) :: (Eq a, Eq b) => Multiset a
-                       -> (a -> Multiset b)
-                       -> Multiset b
+(*>>=) :: Eq b => Multiset a
+               -> (a -> Multiset b)
+               -> Multiset b
 (MS (m,c)) *>>= f = foldr (|+|) empty m'
  where
    m' = map f m
 
--- Constrained-monad problem, we need Eq a and Eq b for bind.
--- 
--- instance Monad Multiset where
---     m >>= f = m *>>= f
---     return x = x *-> empty
+data MSetM :: * -> * where
+  Return :: a -> MSetM a
+  Bind :: Multiset a -> (a -> MSetM b) -> MSetM b
+
+instance Functor MSetM where
+    fmap :: (a -> b) -> MSetM a -> MSetM b
+    fmap f (Return x) = Return (f x)
+    fmap f (m `Bind` g) = m `Bind` (\x -> fmap f (g x))
+
+instance Applicative MSetM where
+    pure :: a -> MSetM a
+    pure = Return
+
+    (<*>) :: MSetM (a -> b) -> MSetM a -> MSetM b
+    (Return f) <*> (Return y) = Return $ f y
+    t@(Return f) <*> (m `Bind` g) = m `Bind` (\x -> t <*> g x)
+    (t `Bind` f) <*> m = t `Bind` (\y -> (f y) <*> m)
+
+instance Monad MSetM where
+    return :: a -> MSetM a
+    return = Return
+
+    (>>=) :: MSetM a -> (a -> MSetM b) -> MSetM b
+    (Return x) >>= f = f x
+    (m `Bind` g) >>= f = m `Bind` (\x -> g x >>= f)
+
+lift_mset :: Multiset a -> MSetM a
+lift_mset m = m `Bind` Return
+
+lower_mset :: Eq a => MSetM a -> Multiset a
+lower_mset (Return x) = x *-> empty
+lower_mset (m `Bind` f) = m *>>= (lower_mset.f)
+
+test :: MSetM (Multiset Integer)
+test = do
+  n1 <- lift_mset $ (1 *-> 1 *-> 2 *-> 3 *-> 2 *-> 3 *-> empty) *-> empty
+  return $ n1
