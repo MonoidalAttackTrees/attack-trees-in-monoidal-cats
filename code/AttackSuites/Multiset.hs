@@ -11,44 +11,7 @@ newtype Multiset a = MS ([a], a -> Integer)
     
 empty :: Multiset a
 empty = MS ([], \_ -> 0)
-
-to_list :: Multiset a -> [a]
-to_list (MS (m , _)) = m
-
-to_alist :: Multiset a -> [(a, Integer)]
-to_alist (MS (m,c)) = foldr (\x r -> (x,c x):r) [] m
-
-from_alist :: Eq a => [(a,Integer)] -> Multiset a
-from_alist = foldr el empty
- where
-   el (e,n) r = MS (e:m',c')
-    where
-      MS (m',c) = r
-      c' e' | e' == e = n
-            | otherwise = c e'
-
-is_consistent_alist :: Eq a => [(a,Integer)] -> Bool
-is_consistent_alist = is_consistent_alist' []
- where
-   is_consistent_alist' :: Eq a => [a]
-                                -> [(a,Integer)]
-                                -> Bool
-   is_consistent_alist' acc [] = True
-   is_consistent_alist' acc ((x,n):a) | x `elem` acc || n < 1 = False
-                                      | otherwise = is_consistent_alist' (x:acc) a
-
-is_consistent_mset :: Eq a => Multiset a
-                           -> Bool
-is_consistent_mset = is_consistent_alist.to_alist
-
-to_from_alist_prop :: [(Char,Integer)] -> Property
-to_from_alist_prop m =
-    (is_consistent_alist m) ==> ((to_alist.from_alist $ m) == m)
                 
-instance {-# OVERLAPPING #-}
-    (Show a) => Show (Multiset a) where
-    showsPrec d m = showList.to_alist $ m
-
 infixr 1  *->
 (*->) :: Eq a => a
               -> Multiset a
@@ -72,13 +35,6 @@ infix 1 *=
              -> Multiset a
              -> Bool
 m1 *= m2 = (m1 *<= m2) && (m2 *<= m1)
-
-instance Eq a => Eq (Multiset a) where
-  (==) :: Multiset a -> Multiset a -> Bool
-  m1 == m2 = m1 *= m2
-
-  (/=) :: Multiset a -> Multiset a -> Bool
-  m1 /= m2 = not (m1 *= m2)
 
 infix 2 *<
 (*<) :: Eq a => Multiset a
@@ -148,6 +104,27 @@ intersection_prop a1 a2 = (con1 && con2) ==> ((i *<= m1) && (i *<= m2))
     m2 = from_alist a2
     i = m1 |^| m2
 
+infix 3 |-|
+(|-|) :: Eq a => Multiset a
+              -> Multiset a
+              -> Multiset a
+(MS ([],c1)) |-| (MS (m2,c2)) = empty
+(MS (x:m1,c1)) |-| t@(MS (m2,c2)) | c'' x == 0 = (MS (m1,c1)) |-| t
+                                  | otherwise  = MS (x:m',c'')
+ where
+   MS (m',c') = (MS (m1,c1)) |-| t
+   c'' e | e == x = max 0 ((c1 e) - (c2 e))
+         | otherwise = c' e
+
+infix 3 |*|
+(|*|) :: Eq a => Multiset a
+              -> Multiset a
+              -> Multiset (a,a)
+(MS (m1,c1)) |*| (MS (m2,c2)) = MS (m,c)
+ where
+   m = [(x,y) | x <- m1,y <- m2]
+   c (x,y) = (c1 x) * (c2 y)
+
 mmap :: (Eq a, Eq b) => (a -> b) -> Multiset a -> Multiset b
 mmap f (MS ([],c)) = empty
 mmap f (MS (x:m,c)) = MS (f x:m',c'')
@@ -155,7 +132,64 @@ mmap f (MS (x:m,c)) = MS (f x:m',c'')
    MS (m', c') = mmap f (MS (m,c))
    c'' e | e == f x = c x
          | otherwise = c' e
+-----------------------------------------------
+-- Show Instance                             --
+-----------------------------------------------
+to_list :: Multiset a -> [a]
+to_list (MS (m , _)) = m
 
+from_list :: Eq a => [a] -> Multiset a
+from_list [] = empty
+from_list (x:xs) = x *-> from_list xs
+
+to_alist :: Multiset a -> [(a, Integer)]
+to_alist (MS (m,c)) = foldr (\x r -> (x,c x):r) [] m
+
+from_alist :: Eq a => [(a,Integer)] -> Multiset a
+from_alist = foldr el empty
+ where
+   el (e,n) r = MS (e:m',c')
+    where
+      MS (m',c) = r
+      c' e' | e' == e = n
+            | otherwise = c e'
+
+is_consistent_alist :: Eq a => [(a,Integer)] -> Bool
+is_consistent_alist = is_consistent_alist' []
+ where
+   is_consistent_alist' :: Eq a => [a]
+                                -> [(a,Integer)]
+                                -> Bool
+   is_consistent_alist' acc [] = True
+   is_consistent_alist' acc ((x,n):a) | x `elem` acc || n < 1 = False
+                                      | otherwise = is_consistent_alist' (x:acc) a
+
+is_consistent_mset :: Eq a => Multiset a
+                           -> Bool
+is_consistent_mset = is_consistent_alist.to_alist
+
+to_from_alist_prop :: [(Char,Integer)] -> Property
+to_from_alist_prop m =
+    (is_consistent_alist m) ==> ((to_alist.from_alist $ m) == m)
+
+instance {-# OVERLAPPING #-}
+    (Show a) => Show (Multiset a) where
+    showsPrec d m = showList.to_alist $ m
+
+-----------------------------------------------
+-- Eq Instance                               --
+-----------------------------------------------
+
+instance Eq a => Eq (Multiset a) where
+  (==) :: Multiset a -> Multiset a -> Bool
+  m1 == m2 = m1 *= m2
+
+  (/=) :: Multiset a -> Multiset a -> Bool
+  m1 /= m2 = not (m1 *= m2)
+
+-----------------------------------------------
+-- The multiset monad MSetM                  --
+-----------------------------------------------
 (*>>=) :: Eq b => Multiset a
                -> (a -> Multiset b)
                -> Multiset b
@@ -196,7 +230,41 @@ lower_mset :: Eq a => MSetM a -> Multiset a
 lower_mset (Return x) = x *-> empty
 lower_mset (m `Bind` f) = m *>>= (lower_mset.f)
 
-test :: MSetM (Multiset Integer)
-test = do
-  n1 <- lift_mset $ (1 *-> 1 *-> 2 *-> 3 *-> 2 *-> 3 *-> empty) *-> empty
-  return $ n1
+set_union :: Eq a => Multiset a
+                  -> Multiset a
+                  -> Multiset a
+set_union m1 m2 = lower_mset $ set_union' m1 m2
+ where
+   set_union' :: Eq a => Multiset a
+                      -> Multiset a
+                      -> MSetM a
+   set_union' m1 m2 = do
+     x <- lift_mset m1
+     lift_mset $ x *-> m2
+
+set_intersection :: Eq a => Multiset a
+                         -> Multiset a
+                         -> Multiset a
+set_intersection m1 m2 = lower_mset $ set_intersection' m1 m2
+ where
+   set_intersection' :: Eq a => Multiset a
+                             -> Multiset a
+                             -> MSetM a
+   set_intersection' m1 (MS (m2,c2)) = do
+     x <- lift_mset m1
+     if x `elem` m2
+     then return x
+     else lift_mset $ empty
+
+set_product :: (Eq a, Eq b) => Multiset a
+                            -> Multiset b
+                            -> Multiset (a,b)
+set_product m1 m2 = lower_mset $ set_product' m1 m2
+ where
+   set_product' :: (Eq a, Eq b) => Multiset a
+                                -> Multiset b
+                                -> MSetM (a,b)
+   set_product' m1 m2 = do
+     x <- lift_mset m1
+     y <- lift_mset m2
+     return (x, y)
