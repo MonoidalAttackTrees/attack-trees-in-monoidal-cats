@@ -7,11 +7,19 @@ module Multiset where
 
 import Test.QuickCheck
 
+import Prelude hiding (elem)
+import qualified Data.List as L
+
 newtype Multiset a = MS ([a], a -> Integer)
     
 empty :: Multiset a
 empty = MS ([], \_ -> 0)
-                
+
+elem :: Eq a => a
+             -> Multiset a
+             -> Bool
+x `elem` (MS (m,c)) = c x > 0 
+
 infixr 1  *->
 (*->) :: Eq a => a
               -> Multiset a
@@ -28,7 +36,7 @@ infix 2 *<=
               -> Bool
 (MS (m1, c1)) *<= (MS (m2, c2)) = foldr s True m1
  where
-   s = \x r -> (x `elem` m2) && ((c1 x) <= (c2 x)) && r
+   s = \x r -> (x `L.elem` m2) && ((c1 x) <= (c2 x)) && r
 
 infix 1 *=
 (*=) :: Eq a => Multiset a
@@ -48,7 +56,7 @@ non_dup_app :: Eq a => [a]
 non_dup_app l1 [] = l1
 non_dup_app l1 l2 = foldl aux l2 l1
  where
-   aux acc x | x `elem` acc = acc
+   aux acc x | x `L.elem` acc = acc
              | otherwise = x:acc
 
 infix 3 |+|
@@ -57,8 +65,8 @@ infix 3 |+|
               -> Multiset a
 (MS (m1, c1)) |+| (MS (m2, c2)) = MS (m1 `non_dup_app` m2, c1 `append` c2)
  where
-   append c1 c2 x | x `elem` m1 && not (x `elem` m2) = c1 x
-                  | x `elem` m2 && not (x `elem` m1) = c2 x
+   append c1 c2 x | x `L.elem` m1 && not (x `L.elem` m2) = c1 x
+                  | x `L.elem` m2 && not (x `L.elem` m1) = c2 x
                   | otherwise = max (c1 x) (c2 x)
 
 union_prop :: [(Char,Integer)] -> [(Char,Integer)] -> Property
@@ -85,7 +93,7 @@ infix 3 |^|
 (|^|) :: Eq a => Multiset a
               -> Multiset a
               -> Multiset a
-(MS (x:m1,c1)) |^| (MS (m2,c2)) | x `elem` m2 = MS (x:m,c')
+(MS (x:m1,c1)) |^| (MS (m2,c2)) | x `L.elem` m2 = MS (x:m,c')
                                 | otherwise = (MS (m1,c1)) |^| (MS (m2,c2))
  where
    MS (m,c) = (MS (m1,c1)) |^| (MS (m2,c2))
@@ -118,20 +126,21 @@ infix 3 |-|
 
 infix 3 |*|
 (|*|) :: Eq a => Multiset a
-              -> Multiset a
-              -> Multiset (a,a)
+              -> Multiset b
+              -> Multiset (a,b)
 (MS (m1,c1)) |*| (MS (m2,c2)) = MS (m,c)
  where
    m = [(x,y) | x <- m1,y <- m2]
    c (x,y) = (c1 x) * (c2 y)
 
-mmap :: (Eq a, Eq b) => (a -> b) -> Multiset a -> Multiset b
+mmap :: (Eq a,Eq b) => (a -> b) -> Multiset a -> Multiset b
 mmap f (MS ([],c)) = empty
 mmap f (MS (x:m,c)) = MS (f x:m',c'')
  where
    MS (m', c') = mmap f (MS (m,c))
    c'' e | e == f x = c x
          | otherwise = c' e
+
 -----------------------------------------------
 -- Show Instance                             --
 -----------------------------------------------
@@ -161,7 +170,7 @@ is_consistent_alist = is_consistent_alist' []
                                 -> [(a,Integer)]
                                 -> Bool
    is_consistent_alist' acc [] = True
-   is_consistent_alist' acc ((x,n):a) | x `elem` acc || n < 1 = False
+   is_consistent_alist' acc ((x,n):a) | x `L.elem` acc || n < 1 = False
                                       | otherwise = is_consistent_alist' (x:acc) a
 
 is_consistent_mset :: Eq a => Multiset a
@@ -230,6 +239,14 @@ lower_mset :: Eq a => MSetM a -> Multiset a
 lower_mset (Return x) = x *-> empty
 lower_mset (m `Bind` f) = m *>>= (lower_mset.f)
 
+-----------------------------------------------
+-- Sets from multisets                       --
+-----------------------------------------------
+type Set a = Multiset a
+
+empty_set :: MSetM a
+empty_set = lift_mset empty
+
 set_union :: Eq a => Multiset a
                   -> Multiset a
                   -> Multiset a
@@ -250,11 +267,11 @@ set_intersection m1 m2 = lower_mset $ set_intersection' m1 m2
    set_intersection' :: Eq a => Multiset a
                              -> Multiset a
                              -> MSetM a
-   set_intersection' m1 (MS (m2,c2)) = do
+   set_intersection' m1 m2 = do
      x <- lift_mset m1
      if x `elem` m2
      then return x
-     else lift_mset $ empty
+     else empty_set
 
 set_product :: (Eq a, Eq b) => Multiset a
                             -> Multiset b
@@ -268,3 +285,17 @@ set_product m1 m2 = lower_mset $ set_product' m1 m2
      x <- lift_mset m1
      y <- lift_mset m2
      return (x, y)
+
+set_difference :: Eq a => Multiset a
+                       -> Multiset a
+                       -> Multiset a
+set_difference m1 m2 = lower_mset $ set_difference' m1 m2
+ where
+   set_difference' :: Eq a => Multiset a
+                           -> Multiset a
+                           -> MSetM a
+   set_difference' m1 m2 = do
+     x <- lift_mset m1
+     if x `elem` m2
+     then empty_set
+     else return x
