@@ -145,7 +145,9 @@ mmap f (MS (x:m,c)) = MS (f x:m',c'')
 -- Show Instance                             --
 -----------------------------------------------
 to_list :: Multiset a -> [a]
-to_list (MS (m , _)) = m
+to_list (MS (m , c)) = do
+  x <- m
+  replicate (fromInteger (c x)) x
 
 from_list :: Eq a => [a] -> Multiset a
 from_list [] = empty
@@ -235,9 +237,32 @@ instance Monad MSetM where
 lift_mset :: Multiset a -> MSetM a
 lift_mset m = m `Bind` Return
 
+get :: Multiset a -> MSetM a
+get = lift_mset
+
+from_mset :: Multiset a -> MSetM a
+from_mset = lift_mset
+
+build_set :: Eq a => MSetM a -> Multiset a
+build_set (Return x) = x *-> empty
+build_set (m `Bind` f) = m *>>= (build_set.f)
+
 lower_mset :: Eq a => MSetM a -> Multiset a
-lower_mset (Return x) = x *-> empty
-lower_mset (m `Bind` f) = m *>>= (lower_mset.f)
+lower_mset = build_set
+
+insert :: a -> MSetM a
+insert x = return x
+
+continue :: MSetM a
+continue = from_mset empty
+
+-- Set comprehensions
+
+-- set_com
+--   e1 <- s1
+--   e2 <- s2
+--   ...
+--   return e
 
 -----------------------------------------------
 -- Sets from multisets                       --
@@ -245,57 +270,37 @@ lower_mset (m `Bind` f) = m *>>= (lower_mset.f)
 type Set a = Multiset a
 
 empty_set :: MSetM a
-empty_set = lift_mset empty
+empty_set = continue
 
-set_union :: Eq a => Multiset a
-                  -> Multiset a
-                  -> Multiset a
-set_union m1 m2 = lower_mset $ set_union' m1 m2
- where
-   set_union' :: Eq a => Multiset a
-                      -> Multiset a
-                      -> MSetM a
-   set_union' m1 m2 = do
-     x <- lift_mset m1
-     lift_mset $ x *-> m2
+set_union :: Eq a => Set a
+                  -> Set a
+                  -> Set a
+set_union m1 m2 = build_set $ do
+     x <- get m1
+     from_mset $ x *-> m2
 
-set_intersection :: Eq a => Multiset a
-                         -> Multiset a
-                         -> Multiset a
-set_intersection m1 m2 = lower_mset $ set_intersection' m1 m2
- where
-   set_intersection' :: Eq a => Multiset a
-                             -> Multiset a
-                             -> MSetM a
-   set_intersection' m1 m2 = do
-     x <- lift_mset m1
+set_intersection :: Eq a => Set a
+                         -> Set a
+                         -> Set a
+set_intersection m1 m2 = build_set $ do
+     x <- get m1
      if x `elem` m2
-     then return x
-     else empty_set
+     then insert x
+     else continue
 
-set_product :: (Eq a, Eq b) => Multiset a
-                            -> Multiset b
-                            -> Multiset (a,b)
-set_product m1 m2 = lower_mset $ set_product' m1 m2
- where
-   set_product' :: (Eq a, Eq b) => Multiset a
-                                -> Multiset b
-                                -> MSetM (a,b)
-   set_product' m1 m2 = do
-     x <- lift_mset m1
-     y <- lift_mset m2
-     return (x, y)
+set_product :: (Eq a, Eq b) => Set a
+                            -> Set b
+                            -> Set (a,b)
+set_product m1 m2 = build_set $ do
+     x <- get m1
+     y <- get m2
+     insert (x, y)
 
-set_difference :: Eq a => Multiset a
-                       -> Multiset a
-                       -> Multiset a
-set_difference m1 m2 = lower_mset $ set_difference' m1 m2
- where
-   set_difference' :: Eq a => Multiset a
-                           -> Multiset a
-                           -> MSetM a
-   set_difference' m1 m2 = do
-     x <- lift_mset m1
+set_difference :: Eq a => Set a
+                       -> Set a
+                       -> Set a
+set_difference m1 m2 = build_set $ do
+     x <- get m1
      if x `elem` m2
-     then empty_set
-     else return x
+     then continue
+     else insert x

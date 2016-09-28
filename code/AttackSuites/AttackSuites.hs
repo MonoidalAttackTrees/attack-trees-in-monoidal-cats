@@ -1,3 +1,4 @@
+{-# LANGUAGE ViewPatterns #-}
 module AttackSuites where
 
 import Prelude hiding (elem,(<*>))
@@ -7,54 +8,52 @@ import Multiset
 
 type Attack a = Multiset a
 
-type AttackSuite a = Set (Attack a)
-type AttackSuiteM a = MSetM (Attack a)
+type AttackSuite l  = Set (l, Attack l)
 
-(<*>) :: Eq a => AttackSuite a
-              -> AttackSuite a
-              -> AttackSuite a
-n <*> m = lower_mset $ tensor n m
+as_tensor :: Eq a => a
+         -> AttackSuite a
+         -> AttackSuite a
+         -> AttackSuite a
+as_tensor l n m = build_set $ do
+     (l1,atk1) <- get n
+     (l2,atk2) <- get m 
+     insert (l, atk1 |+| atk2)
+
+data AndAttack l = And l [AndAttack l]
+ deriving (Eq, Show)
+
+data AttackTree l = Or l [AndAttack l]
+ deriving (Eq, Show)
+
+base_attack :: l -> AndAttack l
+base_attack l = And l []
+
+atree_ex1 :: AttackTree Int
+atree_ex1 = Or 1 [And 2 [base_attack 3, base_attack 4],
+                  And 5 [base_attack 6, base_attack 7]]
+
+atree_ex2 :: AttackTree Int
+atree_ex2 = Or 1 [base_attack 1, base_attack 2, base_attack 3]
+
+atree_ex3 :: AttackTree Int
+atree_ex3 = Or 1 [And 2 [And 3 [base_attack 4, base_attack 5],
+                         And 6 [base_attack 5],
+                         base_attack 8],
+                  base_attack 9]
+
+interp_and :: Eq n => AndAttack n -> AttackSuite n
+interp_and (And l []) = build_set $ insert (l, l *-> empty)
+interp_and (And l as) = foldr1 (as_tensor l) suites
  where
-   tensor :: Eq a => AttackSuite a
-                  -> AttackSuite a
-                  -> AttackSuiteM a
-   tensor n m = do
-     atk1 <- lift_mset n
-     atk2 <- lift_mset m 
-     return $ atk1 |+| atk2
+   suites = map interp_and as
 
-data AttackTree l q = Base l q
-                    | And  l (q -> q -> q) (AttackTree l q) (AttackTree l q)
-                    | Or   l (q -> q -> q) (AttackTree l q) (AttackTree l q)
+interp :: Eq n => AttackTree n -> AttackSuite n
+interp (Or l as) = foldr set_union empty suites
+ where
+   suites = map interp_and as
 
--- interp :: Eq n => AttackTree n -> AttackSuite n
--- interp = lower_mset.interp'
---  where
---    interp' :: Eq n => AttackTree n -> AttackSuiteM n
---    interp' (Base n) = return $ n *-> empty
---    interp' (And l r) = lift_mset $ l' <*> r'
---     where
---       l' = lower_mset $ interp' l
---       r' = lower_mset $ interp' r  
---    interp' (Or l r) = lift_mset $ l' `set_union` r'
---     where
---       l' = lower_mset $ interp' l
---       r' = lower_mset $ interp' r
+exterp_and :: Eq l => Attack l -> AttackTree l
+exterp_and (to_list -> as) = undefined
 
--- exterp :: Eq n => AttackSuite n -> AttackTree n
--- exterp as = 
---   let t = [L.foldr1 And $ map Base $ to_list atk | atk <- asl]
---    in foldr1 Or t
---  where
---    asl = to_list as 
-
--- atree_ex1 :: AttackSuite String
--- atree_ex1 = atk1 *-> atk2 *-> atk3 *-> empty
---  where
---    atk1 :: Attack String
---    atk1 = from_list $ ["steal key", "open door"]
---    atk2 :: Attack String
---    atk2 = from_list $ ["force lock", "open door"]
---    atk3 :: Attack String
---    atk3 = from_list $ ["pick lock", "open door"]
-
+exterp :: Eq l => l -> AttackSuite l -> AttackTree l
+exterp l (to_list -> as) = undefined
