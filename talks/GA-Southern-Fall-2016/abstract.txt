@@ -1,0 +1,11 @@
+What do category theory, logic, and typed functional programming
+languages all have in common?  They are all isomorphic.  This is known
+as the three prepsectives of computation, the Curry-Howard-Lambek
+isomorphism, or the propositions-as-types proofs-as-programs
+correspondence.  This is one of the most beautiful and surprising
+results of computer science.  It has lead to the advent of the modern
+functional programming language, interactive theory proving, and so
+much more.  In this talk I will introduce this result, and discuss
+exactly what the implications of it are.  If time allows I will
+conclude this talk with my most recent project to extend this
+correspondence to threat analysis in computer security.
