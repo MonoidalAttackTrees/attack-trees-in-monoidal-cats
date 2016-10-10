@@ -1,4 +1,3 @@
-{-# LANGUAGE ViewPatterns #-}
 module AttackSuites where
 
 import Prelude hiding (elem,(<*>))
@@ -8,53 +7,68 @@ import Multiset
 
 type Attack a = Multiset a
 
-type AttackSuite l  = Set (l, Attack l)
+type AttackSuite l = Set (Attack l)
 
-as_tensor :: Eq a => a
-         -> AttackSuite a
-         -> AttackSuite a
-         -> AttackSuite a
-as_tensor l n m = build_set $ do
-     (l1,atk1) <- get n
-     (l2,atk2) <- get m 
-     insert (l, atk1 |+| atk2)
+as_tensor :: Eq a => AttackSuite a
+                  -> AttackSuite a
+                  -> AttackSuite a
+as_tensor n m = build_set $ do
+     atk1 <- get n
+     atk2 <- get m 
+     insert $ atk1 |+| atk2
 
 -- Attack Trees in Disjunctive Normal Form (DNF):
-data DNFATree l = Or l [AndAttack l]
+
+data CATree l = BC l | And (CATree l) (CATree l)
  deriving (Eq, Show)
 
-data AndAttack l = And l [AndAttack l]
+data DATree l = BD l | Or (Either (DATree l) (CATree l))
+                            (Either (DATree l) (CATree l))
  deriving (Eq, Show)
 
-base_attack :: l -> AndAttack l
-base_attack l = And l []
+type AttackTree l = Either (CATree l) (DATree l)
 
-atree_ex1 :: DNFATree Int
-atree_ex1 = Or 1 [And 2 [base_attack 3, base_attack 4],
-                  And 5 [base_attack 6, base_attack 7]]
+interp_and :: Eq n => CATree n -> Attack n
+interp_and (BC l) = l *-> empty
+interp_and (And t1 t2) = (interp_and t1) |+| (interp_and t2)                 
 
-atree_ex2 :: DNFATree Int
-atree_ex2 = Or 1 [base_attack 1, base_attack 2, base_attack 3]
-
-atree_ex3 :: DNFATree Int
-atree_ex3 = Or 1 [And 2 [And 3 [base_attack 4, base_attack 5],
-                         And 6 [base_attack 5],
-                         base_attack 8],
-                  base_attack 9]
-
-interp_and :: Eq n => AndAttack n -> AttackSuite n
-interp_and (And l []) = build_set $ insert (l, l *-> empty)
-interp_and (And l as) = foldr1 (as_tensor l) suites
+interp_disj :: Eq l => DATree l -> AttackSuite l
+interp_disj (BD l) = build_set $ insert empty
+interp_disj (Or (Left t1)  (Left t2))  = a1 `as_tensor` a2
  where
-   suites = map interp_and as
-
-interp :: Eq n => DNFATree n -> AttackSuite n
-interp (Or l as) = foldr set_union empty suites
+   a1 = interp_disj t1
+   a2 = interp_disj t2
+interp_disj (Or (Left t1) (Right t2))  = a2 *-> a1
  where
-   suites = map interp_and as
+   a1 = interp_disj t1
+   a2 = interp_and t2
+interp_disj (Or (Right t1) (Left t2))  = a1 *-> a2
+ where
+   a2 = interp_disj t2
+   a1 = interp_and t1
+interp_disj (Or (Right t1) (Right t2)) = build_set.insert $ a1 |+| a2
+ where
+   a1 = interp_and t1
+   a2 = interp_and t2
 
-exterp_and :: Eq l => Attack l -> DNFATree l
-exterp_and (to_list -> as) = undefined
+interp :: Eq l => AttackTree l -> AttackSuite l
+interp (Left t) = i *-> empty
+ where
+   i = interp_and t
+interp (Right t) = interp_disj t
+        
+-- Note that the model forces the tree to be right associated.
+exterp_and :: Eq l => Attack l -> CATree l
+exterp_and (MS ([l],c)) = BC l
+exterp_and (MS ((l:ls),c)) = And (BC l) t
+ where
+   t = exterp_and (MS (ls,c))
 
-exterp :: Eq l => l -> AttackSuite l -> DNFATree l
-exterp l (to_list -> as) = undefined
+exterp :: Eq l => AttackSuite l -> AttackTree l
+exterp (MS ([t],c)) = Left $ exterp_and t
+exterp (MS ((t:ts),c)) = Right (Or (Right s) r)
+ where
+   s = exterp_and t
+   r = case exterp (MS (ts,c)) of
+         Left x -> Right x
+         Right x -> Left x
