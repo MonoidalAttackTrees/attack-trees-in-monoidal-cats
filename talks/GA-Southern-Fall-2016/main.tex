@@ -1,0 +1,450 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{mathpartir}
+\usepackage{cmll}
+\usepackage{fullpage}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{relsize}
+
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{definition*}{Definition}
+\newtheorem{definition}{Definition}
+
+\let\ssquare\square
+\let\square\relax
+\usepackage[barr]{xy}
+
+\let\mto\to
+\let\to\relax
+\newcommand{\to}{\rightarrow}
+
+\newcommand{\seq}[0]{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\rhd}}}}}}}
+\newcommand{\lseq}[0]{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\lhd}}}}}}}
+\newcommand{\cor}[0]{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\mathlarger{\sqcup}}}}}}}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\e}[1]{\mathsf{ex}_{#1}}
+\newcommand{\limp}[0]{\multimap}
+\newcommand{\id}[0]{\mathsf{id}}
+%
+%
+
+%
+
+%
+
+\begin{document}
+
+\[
+\begin{array}{ccccccccc}
+  \begin{array}{ccccc}
+    $$\mprset{flushleft}
+    \inferrule* [right=$\mathnormal{ax}$] {
+      \,
+    }{\Gamma, A \vdash A}
+  & \quad &
+    $$\mprset{flushleft}
+  \inferrule* [right=$1_{\mathnormal{i}}$] {
+    \,
+  }{\Gamma \vdash 1}
+\end{array}\\\\\\
+\begin{array}{ccccccc}
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{i}}$] {
+    \Gamma \vdash A
+    \\
+    \Gamma \vdash B
+  }{\Gamma \vdash A \times B}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+    \Gamma \vdash A \times B
+  }{\Gamma \vdash A}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{e}_2}$] {
+    \Gamma \vdash A \times B
+  }{\Gamma \vdash B}
+\end{array}\\\\\\
+\begin{array}{ccccc}
+  $$\mprset{flushleft}
+\inferrule* [right=$\to_{\mathnormal{i}}$] {
+  \Gamma, A \vdash B
+}{\Gamma \vdash A \to B}
+& \quad &
+$$\mprset{flushleft}
+\inferrule* [right=$\to_{\mathnormal{e}}$] {
+  \Gamma \vdash A \to B
+  \\
+  \Gamma \vdash A
+}{\Gamma \vdash B}
+\end{array}
+\end{array}
+\]
+
+\begin{center}
+  \begin{math}
+    \begin{array}{cccccc}
+      $$\mprset{flushleft}
+      \inferrule* [right=$\times_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+        \inferrule* [right=$\mathnormal{ax}$] {
+          \,
+        }{A \vdash A}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=$1_\mathnormal{i}$] {
+          \,
+        }{A \vdash 1}
+      }{A \vdash A \times 1}
+      & \quad &
+      $$\mprset{flushleft}
+      \inferrule* [right=$\times_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+        \inferrule* [right=$\mathnormal{ax}$] {
+          \,
+        }{A \times 1 \vdash A \times 1}
+      }{A \times 1 \vdash A}
+    \end{array}    
+  \end{math}
+  \begin{math}
+    \begin{array}{lll}
+      $$\mprset{flushleft}
+      \inferrule* [right=$\times_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+        \inferrule* [right=$\times_{\mathnormal{e}_2}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{A \times B \vdash A \times B}
+        }{A \times B \vdash B}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{A \times B \vdash A \times B}
+        }{A \times B \vdash A}
+      }{A \times B \vdash B \times A}
+    \end{array}
+  \end{math}
+\end{center}
+
+
+\begin{center}
+  \begin{math}    
+    $$\mprset{flushleft}
+    \inferrule* [right=$\to_{\mathnormal{i}}$] {
+      $$\mprset{flushleft}
+      \inferrule* [right=$\to_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+        \inferrule* [right=$\to_{\mathnormal{e}}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{(A \times B) \to C \vdash (A \times B) \to C}
+          \\
+          $$\mprset{flushleft}
+          \inferrule* [right=$\times_{\mathnormal{i}}$] {
+            $$\mprset{flushleft}
+            \inferrule* [right=$\mathnormal{ax}$] {
+              \,
+            }{A, B \vdash A}
+            \\
+            $$\mprset{flushleft}
+            \inferrule* [right=$\mathnormal{ax}$] {
+              \,
+            }{A, B \vdash B}
+          }{A, B \vdash A \times B}
+        }{(A \times B) \to C, A, B \vdash C}
+      }{(A \times B) \to C, A \vdash B \to C}
+    }{(A \times B) \to C \vdash A \to (B \to C)}
+  \end{math}
+\end{center}
+
+\[
+\begin{array}{lll}
+  t ::= x \mid \mathsf{unit} \mid (t_1,t_2) \mid \lambda x.t \mid t_1\,t_2
+\end{array}
+\]
+
+\[
+\begin{array}{ccccccccc}
+  \begin{array}{ccccc}
+  $$\mprset{flushleft}
+  \inferrule* [right=$\mathnormal{ax}$] {
+    \,
+  }{\Gamma, x : A \vdash x : A}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=$1_{\mathnormal{i}}$] {
+    \,
+  }{\Gamma \vdash \mathsf{unit} : 1}
+\end{array}\\\\\\
+\begin{array}{ccccccc}
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{i}}$] {
+    \Gamma \vdash t_1 : A
+    \\
+    \Gamma \vdash t_2 : B
+  }{\Gamma \vdash (t_1,t_2) : A \times B}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+    \Gamma \vdash t : A \times B
+  }{\Gamma \vdash \mathsf{fst}\,t : A}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{e}_2}$] {
+    \Gamma \vdash t : A \times B
+  }{\Gamma \vdash \mathsf{snd}\,t : B}
+\end{array}\\\\\\
+\begin{array}{ccccc}
+  $$\mprset{flushleft}
+\inferrule* [right=$\to_{\mathnormal{i}}$] {
+  \Gamma, x : A \vdash t : B
+}{\Gamma \vdash \lambda x.t : A \to B}
+& \quad &
+$$\mprset{flushleft}
+\inferrule* [right=$\to_{\mathnormal{e}}$] {
+  \Gamma \vdash t_1 : A \to B
+  \\
+  \Gamma \vdash t_2 : A
+}{\Gamma \vdash t_1\,t_2 : B}
+\end{array}
+\end{array}
+\]
+
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      $$\mprset{flushleft}
+      \inferrule* [right=$\to_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+      \inferrule* [right=$\times_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+        \inferrule* [right=$\times_{\mathnormal{e}_2}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{z : A \times B \vdash z : A \times B}
+        }{z : A \times B \vdash \mathsf{snd}\,z : B}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{w : A \times B \vdash w : A \times B}
+        }{w : A \times B \vdash \mathsf{fst}\,w : A}
+      }{w : A \times B \vdash (\mathsf{snd}\,w,\mathsf{fst}\,w) : B \times A}
+      }{\cdot \vdash \lambda w.(\mathsf{snd}\,w,\mathsf{fst}\,w) : (A \times B) \to (B \times A)}
+    \end{array}
+  \end{math}
+\end{center}
+
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      $$\mprset{flushleft}
+      \inferrule* [right=$\to_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+      \inferrule* [right=$\times_{\mathnormal{i}}$] {
+        $$\mprset{flushleft}
+        \inferrule* [right=$\times_{\mathnormal{e}_2}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{A \times B \vdash A \times B}
+        }{A \times B \vdash B}
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+          $$\mprset{flushleft}
+          \inferrule* [right=$\mathnormal{ax}$] {
+            \,
+          }{A \times B \vdash A \times B}
+        }{A \times B \vdash A}
+      }{A \times B \vdash B \times A}
+      }{\cdot \vdash (A \times B) \to (B \times A)}
+    \end{array}
+  \end{math}
+\end{center}
+
+\noindent
+A \textbf{category}, $\mathcal{C}$, consists of a collection of objects $A,\ldots,Z \in \mathsf{Obj}(\mathcal{C})$ and \\
+a collection of morphisms $f,\ldots,z \in \mathsf{Mor}(\mathcal{C})$ such that the
+following hold:
+\begin{itemize}
+\item [i.] There are two functions $\mathsf{src} : \mathsf{Mor} \to
+  \mathsf{Obj}$ and $\mathsf{tar} : \mathsf{Mor} \to \mathsf{Obj}$,\\
+  such that, we write $f : A \mto B$ if $\mathsf{src}(f) = A$ and
+  $\mathsf{tar}(f) = B$
+\item[ii.] For any $A \in \mathsf{Obj}(\mathcal{C})$, there is a
+  morphism $\mathsf{id}_A : A \mto A$.
+\item[iii.] Given any two morphisms $f : A \mto B$ and $g : B \mto C$\\
+  there must be a morphism $f;g : A \mto C$.  In addition,
+  \begin{itemize}
+  \item[a.] $f;\id_B = \id_A;f = f : A \mto B$
+  \item[b.] $f;(g;h) = (f;g);h$ for $f : A \mto B$, $g : B \mto C$, \\
+    and $h : C \mto D$
+  \end{itemize}
+\item[]
+\end{itemize}
+
+
+\noindent
+A \textbf{cartesian closed category} is a category $\cat{C}$ with the
+following additional data:
+\begin{itemize}
+\item[i.] There is a special object $1 \in \mathsf{Obj}(\cat{C})$ such
+  that for any $A \in \mathsf{Obj}(\cat{C})$,\\
+  there is a unique morphism $i : A \mto 1$.
+\item[ii.] For any $A,B \in \mathsf{Obj}(\cat{C})$, there is an object
+  $A \times B \in \mathsf{Obj}(\cat{C})$.  In addition,
+  \begin{itemize}
+  \item[a.] $\pi_1 : A \times B \mto A$
+  \item[b.] $\pi_2 : A \times B \mto B$
+  \item[c.] $\langle f , g \rangle : A \mto B \times C$ for any $f : A \mto B$ and $g : A \mto C$
+  \end{itemize}
+\item[iii.] For any $A,B \in \mathsf{Obj}(\cat{C})$, there is an object
+  $A \to B \in \mathsf{Obj}(\cat{C})$.  In addition,
+  \begin{itemize}
+  \item[a.] $f^* : G \mto A \to B$ for any $f : G \times A \mto B$
+  \item[b.] $\mathsf{app}_{A,B} : (A \to B) \times A \mto B$
+  \end{itemize}
+\end{itemize}
+
+
+\[
+  A ::= 1 \mid A \times B \mid A \to B
+  \]
+
+  \[
+  \begin{array}{lll}
+    \lambda x.x : A \to A\\
+    \\
+    \lambda x.\lambda y.y : A \to B \to B\\
+    \\
+    \lambda x.(x,x) : A \to (A \times A)\\
+    \\
+    \lambda f.\lambda g.\lambda x.g\,(f\,x) : (A \to B) \to (B \to C) \to (A \to C)
+  \end{array}
+  \]
+
+  \[
+  \begin{array}{lll}
+    $$\mprset{flushleft}
+    \inferrule* [right=$\beta$] {
+      \,
+    }{(\lambda x.t_2)\,t_1 \rightsquigarrow [t_1/x]t_2}
+    & \quad &
+    $$\mprset{flushleft}
+    \inferrule* [right=$\mathnormal{fst}$] {
+      \,
+    }{\mathsf{fst}\,(t_1,t_2) \rightsquigarrow t_1}
+    \\\\
+    $$\mprset{flushleft}
+    \inferrule* [right=$\mathnormal{snd}$] {
+      \,
+    }{\mathsf{snd}\,(t_1,t_2) \rightsquigarrow t_2}
+  \end{array}
+  \]
+  
+  \noindent
+  A formula $A$ is valid iff there exists a term $t$ and a context\\
+  $\Gamma$, such that, $\Gamma \vdash t : A$.
+
+  \begin{center}
+    \begin{math}
+      \begin{array}{ccc}
+        $$\mprset{flushleft}
+        \inferrule* [right=$\mathnormal{ax}$] {
+          \,
+        }{\Gamma, A \vdash A}
+        & \quad &
+        \Gamma \times A \mto^{\pi_2} A\\
+        \\
+        $$\mprset{flushleft}
+        \inferrule* [right=$1_{\mathnormal{i}}$] {
+          \,
+        }{\Gamma \vdash 1}
+        & \quad &
+        \Gamma \mto^{i} 1\\
+        \\
+        $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{i}}$] {
+    \Gamma \vdash A
+    \\
+    \Gamma \vdash B
+  }{\Gamma \vdash A \times B}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=] {
+    \Gamma \mto^{f} A
+    \\
+    \Gamma \mto^{g} B
+  }{\Gamma \mto^{\langle f,g \rangle} A \times B}\\
+  \\
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+    \Gamma \vdash A \times B
+  }{\Gamma \vdash A}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=] {
+    \Gamma \mto^f A \times B
+  }{\Gamma \mto^f A \times B \mto^{\pi_1} A}\\
+  \\
+  $$\mprset{flushleft}
+  \inferrule* [right=$\times_{\mathnormal{e}_1}$] {
+    \Gamma \vdash A \times B
+  }{\Gamma \vdash B}
+  & \quad &
+  $$\mprset{flushleft}
+  \inferrule* [right=] {
+    \Gamma \mto^f A \times B
+  }{\Gamma \mto^f A \times B \mto^{\pi_2} B}\\
+  \\
+  $$\mprset{flushleft}
+  \inferrule* [right=$\to_{\mathnormal{i}}$] {
+    \Gamma, A \vdash B
+  }{\Gamma \vdash A \to B}
+  & \quad & 
+  $$\mprset{flushleft}
+  \inferrule* [right=] {
+    \Gamma \times A \mto^{f} B
+  }{\Gamma \mto^{f^*} A \to B}\\
+  \\
+  $$\mprset{flushleft}
+\inferrule* [right=$\to_{\mathnormal{e}}$] {
+  \Gamma \vdash A \to B
+  \\
+  \Gamma \vdash A
+}{\Gamma \vdash B}
+& \quad &
+$$\mprset{flushleft}
+\inferrule* [right=] {
+  \Gamma \mto^f A \to B
+  \\
+  \Gamma \mto^g A
+}{\Gamma \mto^{\langle f,g \rangle} (A \to B) \times A \mto^{\mathsf{app}_{A,B}} B}
+      \end{array}
+    \end{math}
+  \end{center}
+  
+\end{document}
+%
+
+
+
+Theorem stripped_Odd_Order T mul one inv (G : T → Type) (n : natural) :
+       group_axioms T mul one inv
+     → group T mul one inv G
+     → finite_of_order T G n
+     → odd n
+     → solvable_group T mul one inv G.
