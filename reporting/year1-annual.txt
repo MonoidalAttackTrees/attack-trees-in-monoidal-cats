@@ -1,0 +1,242 @@
+Accomplishments: What was done? What was learned?
+-------------------------------------------------
+
+- What are the projects major goals?
+
+  1. The development of a new mathematical model of attack trees based
+     on monoidal categories.
+
+  2. The development of a new domain specific functional programming
+     language for conducting threat analysis using attack trees.
+     
+        - The development of the core language and its semantic
+          relationship with the mathematical model.
+
+        - The development of a surface language to aid security
+          researchers in conducting threat analysis.
+
+        - The development of a web-based IDE for working with the new
+          language.
+
+- What was accomplished under these goals (you must provide
+  information for at least one of the four categories)?
+
+   - Major Activities:
+
+     During the summer of 2016 Jiaming Jiang a Ph.D. student from
+     North Carolina State University was hired to aid me in the
+     development of the mathematical model in monoidal categories.  We
+     are currently writing it up for publication with a target venue
+     of the Computer Science Logic Conference and date March 2017.
+
+     The initial draft of the model was presented in a talk to the
+     research community as an peer reviewed abstract:
+
+     Harley Eades III, Jiaming Jiang. "On Linear Modalities for
+     Exchange, Weakening, and Contraction." Workshop on Linear Logic,
+     Mathematics, and Computer Science. Associated with Linear Logic:
+     Interaction, Proofs, and Computation (LL2016).
+     Accessible online at: http://metatheorem.org/includes/pubs/LL2016.pdf
+
+   - Specific Objectives:
+
+     The initial design and implementation of the core language has
+     begun with the aid of Matthew Tennis an Augusta University
+     undergraduate student.  We currently have developed an usable
+     implementation of a typed functional programming language based on
+     intuitionistic linear logic.  This implementation is public and
+     we hope to make it available for others to build new systems off
+     of.  The implementation can be found online at:
+     https://github.com/MonoidalAttackTrees/ILL-Impl
+
+     A connection between the mathematical model of this project has
+     been established with the study of gradual type systems for
+     functional programming languages.  An Augusta University
+     undergraduate student Michael Townsend and I have developed a new
+     semantics of gradually typed functional programming languages and
+     a prototype language and implementation.  We have begun writing
+     this result up for publication with a target venue of the
+     International Conference on Functional Programming (ICFP) 2017
+     and date of February 2017.
+
+   - Significant Results:
+     Nothing to report.
+
+   - Key outcomes or Other achievements:
+     Nothing to report.
+
+- What opportunities for training and professional development has the
+  project provided?
+
+  Throughout this year the project has provided mentorship to two
+  undergraduate research assistants and a visiting Ph.D. student.
+
+  The visiting Ph.D. student was Jiaming Jiang from North Carolina
+  State University.  I mentored her in both collaborative research and
+  in building her knowledge of the use of category theory in the study
+  of programming languages.  She remains an active member of the
+  project.  She has begun looking at how what she has learned from
+  this project can be applied to her thesis project.
+
+  During Jiaming Jiang's time on the project in the summer of 2016 I
+  was able to mentor her in learning category theory and its
+  applications to computer science and programming language research.
+  To help with this I organized a summer seminar covering category
+  theory in the computational sciences.  The seminar attracted two
+  postdocs from the University of Iowa, two Ph.D. students including
+  Jiaming, and five Augusta University undergraduates in majors
+  ranging from computer science and mathematics to physics.
+
+  Michael Townsend is one of the undergraduate students I mentored
+  over the course of the first year of this project.  Through this
+  project Michael has found a love of both research and the study of
+  functional programming languages.  He has begun applying to graduate
+  schools to begin next fall where he plans to get his Ph.D. with an
+  emphasis in programming languages.
+
+  Matthew Tennis is another undergraduate student I mentored over the
+  course of the first year.  He has learned a lot about the
+  applications of functional programming, and will be entering the
+  industry next year.
+
+  This project also provided myself with several professional
+  development opportunities.  I was able to attend the Symposium on
+  Trends in Functional Programming (TFP16) and during which a new
+  collaboration was formed.  As I mentioned above I presented the new
+  results of this project at LL2016 during which I was able to meet
+  several researchers in the Linear Logic community for the first
+  time.  Finally, this project opened the door for invitations from
+  two universities as an invited colloquium speaker.  The first was at
+  the Department of Computer Science at the University of Iowa and the
+  second was at the Department of Mathematical Sciences at Georgia
+  Southern University.
+
+- How have the results been disseminated to communities of interest?
+
+  Through several research presentations:
+
+  - (Peer reviewed) Harley Eades III, Jiaming Jiang. "On Linear Modalities for
+     Exchange, Weakening, and Contraction." Workshop on Linear Logic,
+     Mathematics, and Computer Science. Associated with Linear Logic:
+     Interaction, Proofs, and Computation (LL2016).
+     Accessible online at: http://metatheorem.org/includes/pubs/LL2016.pdf
+
+  - Department of Computer Science at the University of Iowa
+    colloquium speaker.
+
+  - Department of Mathematical Sciences at Georgia Southern
+    University colloquium speaker.
+
+- What do you plan to do during the next reporting period to
+  accomplish the goals?
+
+  - Publish the mathematical model developed during the first year.
+    Our current target venue is the Computer Science Logic Conference
+    (CSL) and with a target date of March 2017.
+
+  - Finish the implementation of the core language. An undergraduate
+    student and a visiting Ph.D. will be hired to aid me in this
+    development.
+
+  - Develop the surface language and web-based IDE.  An undergraduate
+    student will be hired to aid me with this development.
+
+  - Conduct several case studies.  An undergraduate student will be
+    hired to aid me in this development.
+
+  - Finally publish our final results.
+
+Products : What has the project produced?
+-----------------------------------------
+
+  - An implementation of a functional type system based on
+    intuitionistic linear logic that can be used by the community to
+    base new developments off of.  We plan to release this as open
+    source and freely available online.  The current development can
+    be found online at:
+    https://github.com/MonoidalAttackTrees/ILL-Impl
+
+Participants/Organizations : Participants & Other Collaborating
+Organizations - Who has been involved?
+------------------------------------------------------------------------------------------------------
+
+- Who has been involved?
+
+   Jiaming Jiang: Graduate student at North Carolina State University
+   Months: 3
+
+   Working on the development of the mathematical model in monoidal
+   categories.
+
+   Michael Townsend: Undergraduate student at Augusta University
+   Months: 3
+
+   Working on the connection of the mathematical model of this project
+   to gradual type systems.
+
+   Matthew Tennis: Undergraduate student at Augusta University
+   Months: 5
+
+   Working on the development of the core language.
+
+Impact: What is the impact of the project? How has it contributed?
+-----------------------------------------------------------------
+
+- What is the impact of the development of the principal discipline(s)
+  of the project?  (Describe how findings, results, techniques that
+  were developed or extended, or other products from the project made
+  an impact or are likely to make an impact on the base of knowledge,
+  theory, and research and/or pedagogical methods in the principal
+  disciplinary field(s) of the project.)
+
+  The majority of the impact of this project has been related to
+  mentorship.  Computer Science at Augusta University consists of
+  mostly non-traditional students.  The undergraduate trainees have
+  both reported that this project was responsible for opening their
+  eyes to the idea of doing research and going to graduate school.
+  Now Michael Townsend is actively applying for graduate school to
+  being Fall 2017, and Matthew Tennis is considering it as an option.
+
+  This project has also had an impact on Augusta University.  Many
+  Augusta University faculty members were unaware of the potential
+  projects like this have.  For example, currently Augusta University
+  does not have a graduate program, but this project allows for
+  visiting Ph.D. students.  Many faculty were not aware that one could
+  do this, and so it has breathed new life into the department. In
+  addition, the visiting Ph.D. students presence during the summer
+  offered the chance for many undergraduate students to interact with
+  them, and learn about graduate school.  Thus, impacting our student
+  body.
+
+- What is the impact on other disciplines?
+
+  It is too early to tell how this project will impact other
+  disciplines, but it has great potential too.  The problems we have
+  had to solve with respect to the mathematical model discussed in the
+  project goals are related to multiple different disciplines.  For
+  example, in mathematical modeling sentence structure in linguistics,
+  mathematically modeling operators for processes in security and
+  programming languages, and understanding how structural rules
+  interact in logic.  In fact, the mathematical model we have
+  developed solves several probelems in these areas.
+
+- What is the impact on the development of human recourses (impact on
+  human resource development)?
+   Nothing to report
+
+- What is the impact on physical resources that form infrastructure?
+   Nothing to report
+
+- What is the impact on information resources that form infrastructure?
+   Nothing to report
+
+- What is the impact on technology transfer?
+  Nothing to report
+
+- What is the impact on society beyond science and technology?
+  Nothing to report
+
+Changes/Problems
+----------------
+  Nothing to report
+
