@@ -30,7 +30,7 @@ Accomplishments: What was done? What was learned?
      of the Computer Science Logic Conference and date March 2017.
 
      The initial draft of the model was presented in a talk to the
-     research community as an peer reviewed abstract:
+     research community as a peer reviewed abstract:
 
      Harley Eades III, Jiaming Jiang. "On Linear Modalities for
      Exchange, Weakening, and Contraction." Workshop on Linear Logic,
@@ -211,7 +211,7 @@ Impact: What is the impact of the project? How has it contributed?
 - What is the impact on other disciplines?
 
   It is too early to tell how this project will impact other
-  disciplines, but it has great potential too.  The problems we have
+  disciplines, but it has great potential to.  The problems we have
   had to solve with respect to the mathematical model discussed in the
   project goals are related to multiple different disciplines.  For
   example, in mathematical modeling sentence structure in linguistics,
