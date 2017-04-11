@@ -1,4 +1,5 @@
 metavar term_var, b , w, x, y, z, v ::=
+metavar n , m ::=
 metavar vecs, vw {{tex \vec{w} }}, vx {{tex \vec{x} }}, vy {{tex \vec{y} }}, vz {{tex \vec{z} }} ::=
 indexvar index_var, i, j, k ::= 
 
@@ -7,6 +8,8 @@ grammar
 % Object-level Formulas.
 atree, t :: 'ATree_' ::=
   | b         :: :: Base
+  | ( b1 , c( b2 ) ) :: :: BaseCost
+  {{tex ([[b1]], \mathsf{c}([[b2]])) }}
   | t1 + t2   :: :: Parallel
   {{tex [[t1]] \odot [[t2]] }}
   | t1 (+) t2 :: :: Choice
@@ -15,6 +18,12 @@ atree, t :: 'ATree_' ::=
   {{tex [[t1]] \otimes [[t2]] }}  
   | t1 ; t2   :: :: SeqComp
   {{tex [[t1]] \rhd [[t2]] }}
+  | t1 +op t2   :: :: Parallel2
+  {{tex [[t1]] \odot_{\mathsf{op}_\odot} [[t2]] }}
+  | t1 (+)op t2 :: :: Choice2
+  {{tex [[t1]] \sqcup_{\mathsf{op}_\sqcup} [[t2]] }}
+  | t1 ;op t2   :: :: SeqComp2
+  {{tex [[t1]] \rhd_{\mathsf{op}_\rhd} [[t2]] }}  
   | ! t       :: :: OfCourse
   {{tex \textcopyright [[t]] }}
   | ( t )     :: S :: Parens

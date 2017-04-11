@@ -28,6 +28,7 @@
 \newcommand{\ATreesmetavars}{
 \ATreesmetavartabular{
  $ \ATreesmv{term\_var} ,\, \ATreesmv{b} ,\, \ATreesmv{w} ,\, \ATreesmv{x} ,\, \ATreesmv{y} ,\, \ATreesmv{z} ,\, \ATreesmv{v} $ &  \\
+ $ \ATreesmv{n} ,\, \ATreesmv{m} $ &  \\
  $ \ATreesmv{vecs} ,\, \vec{w} ,\, \vec{x} ,\, \vec{y} ,\, \vec{z} $ &  \\
  $ \ATreesmv{index\_var} ,\, \ATreesmv{i} ,\, \ATreesmv{j} ,\, \ATreesmv{k} $ &  \\
 }}
@@ -35,10 +36,14 @@
 \newcommand{\ATreesatree}{
 \ATreesrulehead{\ATreesnt{atree}  ,\ \ATreesnt{t}}{::=}{}\ATreesprodnewline
 \ATreesfirstprodline{|}{\ATreesmv{b}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ ( \ATreesmv{b_{{\mathrm{1}}}} , \mathsf{c}( \ATreesmv{b_{{\mathrm{2}}}} )) }{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \odot  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \sqcup  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \otimes  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \rhd  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{ \ATreesnt{t_{{\mathrm{1}}}}  \rhd_{\mathsf{op}_\rhd}  \ATreesnt{t_{{\mathrm{2}}}} }{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \textcopyright  \ATreesnt{t} }{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{\ATreessym{(}  \ATreesnt{t}  \ATreessym{)}} {\textsf{S}}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{ \ATreesnt{t} } {\textsf{M}}{}{}{}\ATreesprodnewline
@@ -108,6 +113,7 @@
 \newcommand{\ATreesuserXXsyntax}{
 \ATreesrulehead{\ATreesnt{user\_syntax}}{::=}{}\ATreesprodnewline
 \ATreesfirstprodline{|}{\ATreesmv{term\_var}}{}{}{}{}\ATreesprodnewline
+\ATreesprodline{|}{\ATreesmv{n}}{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{\ATreesmv{vecs}}{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{\ATreesmv{index\_var}}{}{}{}{}\ATreesprodnewline
 \ATreesprodline{|}{\ATreesnt{atree}}{}{}{}{}\ATreesprodnewline
