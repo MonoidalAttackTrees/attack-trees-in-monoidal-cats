@@ -10,7 +10,7 @@ OTTFileName := ll-attack
 OTTFile := $(OTTFileName).ott
 OTTGen := $(OTTFileName)-inc.tex
 OTTOutputFile := $(TexFileName).tex
-OTTPrefix := PG
+OTTPrefix := LLA
 
 PDF := $(TexFileName).pdf
 
