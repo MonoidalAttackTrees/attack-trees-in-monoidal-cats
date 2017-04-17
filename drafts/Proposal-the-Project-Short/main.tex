@@ -174,83 +174,15 @@ could be used in practice to certify the correctness of
 transformations of attack trees maintaining the resource based
 semantics.
 
+\section{A Short Introduction to Ordered Linear Logic}
+\label{sec:a_short_introduction_to_ordered_linear_logic}
+\input{ll-intro-output}
+% section a_short_introduction_to_ordered_linear_logic (end)
+
+
 \section{Attack Trees}
 \label{sec:attack_trees}
-In this section I introduce attack trees with sequential composition
-first proposed by Jhawar et al. \cite{Jhawar:2015}.  One of the
-projects ultimate goals is to extend attack trees with even more
-operators driven by our choice of semantics, but we leave this to
-future work.  The syntax for attack trees is defined in the following
-definition.
-\begin{definition}
-  \label{def:atrees}
-  Suppose $\mathsf{B}$ is a set of base attack, $\mathsf{C}$ is
-  a set of costs, $\Sigma =
-  \{\mathsf{op}_{\odot}, \mathsf{op}_\rhd, \mathsf{op}_\sqcup \}$ is a set of binary
-  operations on $\mathsf{C}$, and $I = \{i_\odot, i_\rhd, i_\sqcup\}$ is a set of
-  identities, such that, each $l \in \{ \mathsf{op}_{\odot}, \mathsf{op}_\sqcup \}$, $\mathsf{op}_l \in \Sigma$ and $i_l \in
-  I$ make $(\mathsf{C}, \mathsf{op}_l, i_l)$ a commutative monoid, and
-  $(\mathsf{C}, \mathsf{op}_\rhd, i_\rhd)$ a non-communicative monoid.
-
-  \ \\
-  \noindent
-  The following defines the syntax of \textbf{Attack Trees} given an
-  assignment $\mathsf{c} : \mathsf{B} \to \mathsf{C}$ of base attacks
-  to costs:
-  \[
-  \begin{array}{lll}
-    t ::= [[(b, c(b))]] \mid [[t1 (+)op t2]] \mid [[t1 +op t2]] \mid [[t1 ;op  t2]]\\
-  \end{array}
-  \]
-  I denote unsynchronized parallel composition of attacks by $[[t1 +op
-      t2]]$, choice between attacks by $[[t1 (+)op t2]]$, and sequential
-  composition of attacks by $[[t1 ;op t2]]$.
-
-  \ \\
-  \noindent
-  The following rules define the attack tree equivalence relation
-  (omitting operation annotations for readability):
-  \begin{center}
-    \vspace{-14px}
-    \footnotesize
-    \begin{math}
-      \begin{array}{cccccccc}
-        \begin{array}{c}
-          \inferrule* [right={\scriptsize assoc}] {
-            \,
-          }{[[(t1 op t2) op t3]] = [[t1 op (t2 op t3)]]}
-        \\
-        \inferrule* [right={\scriptsize sym}] {
-          \,
-        }{[[t1 opS t2]] = [[t2 opS t1]]}
-      \end{array}
-        & \quad &
-        \begin{array}{lll}
-          \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
-          \,
-        }{[[(t1 (+)  t2) + t3]] = [[(t1 + t3) (+) (t2 + t3)]]}
-        \\
-        \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
-          \,
-        }{[[(t1 (+)  t2) ; t3]] = [[(t1 ; t3) (+) (t2 ; t3)]]}
-        \end{array}
-      \end{array}
-    \end{math}    
-  \end{center}
-  where $\mathsf{op} \in \{\odot, \rhd, \sqcup\}$ and $\mathsf{op_S}
-  \in \{\odot, \sqcup\}$.  
-\end{definition}
-The equivalence relation is essentially the equivalence given in
-Jhaware et al. \cite{Jhawar:2015} -- Theorem 1.  Conducting an
-analysis of the threat potential of a complex system might yield an
-attack tree that must be rearranged to be understood, but this
-rearrangement should not compromise the meaning of the tree.
-
-We wish to treat attack trees as formulas of a linear logic where
-$[[t1 (+)op t2]]$ is the commutative tensor product and $[[t1 ;op
-    t2]]$ is the non-communicative tensor product.  Incorporating
-these two operators within the same linear logic is an interesting
-question in itself.
+\input{attack-trees-output}
 % section attack_trees (end)
 
 \section{A Linear Logic for Attack Trees}

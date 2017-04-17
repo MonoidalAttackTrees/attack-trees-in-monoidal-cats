@@ -1,0 +1,23 @@
+Before defining attack trees and the logical theory behind them we
+first give a brief introduction to linear logic to aid the readers
+understanding.  Linear logic is due to the work of
+Girard~\cite{Girard:1987}, and has since seen many applications in
+computer science, natural languages, mathematics, and philosophy.
+
+We call a logical formula \textbf{linear} if and only if all of its
+hypotheses are used exactly once.  In this paper, we will only
+consider the following linear logic formulas:
+\[
+A ::= b \mid [[A (x) B]] \mid [[A -o B]]\\
+\]
+Atomic formulas are denoted by $[[b]]$, linear conjunction is denoted
+by $[[A (x) B]]$, and linear implication is denoted by $[[A -o B]]$.
+
+
+Linear logic is then characterized by the logic of linear formulas.
+It can come in various flavors: intuitionistic, classical, modal, etc.
+Furthermore, it can come in several different formulations: natural
+deduction, sequent calculus, axiomatic, etc.  Every logic in this
+paper will be intuitionistic and in natural deduction form.
+
+

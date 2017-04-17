@@ -10,73 +10,18 @@ metavar baseAttackVar, b ::=
 indexvar index, i , j, k ::=
 
 grammar
-  op :: 'O_' ::=
-    | (.)op :: :: Para
-    {{tex \mathsf{op}_\odot }}
-    | >op   :: :: Seq
-    {{tex \mathsf{op}_\rhd }}
-    | +op  :: :: Choice
-    {{tex \mathsf{op}_\sqcup }}
-    | ->op :: :: LImp
-    {{tex \mathsf{rel}_{[[->]]} }}
-    | <-op :: :: RImp
-    {{tex \mathsf{rel}_{[[<-]]} }}
-    | -oop :: :: Imp
-    {{tex \mathsf{rel}_{[[-o]]} }}
-    | ->op ( c , - ) :: :: LImp2
-    {{tex \mathsf{rel}_{[[->]]}([[c]],-) }}
-    | <-op ( c , - ) :: :: RImp2
-    {{tex \mathsf{rel}_{[[<-]]}([[c]],-) }}
-    | -oop ( c , - ) :: :: Imp2
-    {{tex \mathsf{rel}_{[[-o]]}([[c]],-) }}        
-
-  C :: 'C_' ::=
-    | c :: :: cost
-    | op ( C1 , C2 ) :: :: op
-    | eta( b ) :: M :: costMap
-    {{tex \eta([[b]]) }}
-
-  T :: 'T_' ::=
+  A,B :: 'A_' ::=
     | b           :: :: Base
-    | T1 (.)op T2 :: :: Para
-    {{tex [[T1]] \odot_{\mathsf{op}_\odot} [[T2]] }}
-    | T1 >op T2   :: :: Seq
-    {{tex [[T1]] \rhd_{\mathsf{op}_\rhd} [[T2]] }}
-    | T1 +op T2   :: :: Choice
-    {{tex [[T1]] \sqcup_{\mathsf{op}_\sqcup} [[T2]] }}
+    | A (x) B :: :: Para
+    {{tex [[A]] \otimes [[B]] }}
+    | A -o B  :: :: Limp    
 
-  E :: 'E_' ::=
-    | b           :: :: AttackTree
-    | E1 (.)op E2 :: :: Para
-    {{tex [[E1]] \odot_{\mathsf{op}_\odot} [[E2]] }}
-    | E1 >op E2   :: :: Seq
-    {{tex [[E1]] \rhd_{\mathsf{op}_\rhd} [[E2]] }}
-    | E1 +op E2   :: :: Choice
-    {{tex [[E1]] \sqcup_{\mathsf{op}_\sqcup} [[E2]] }}    
-    | E1 ->op( c , - ) E2 :: :: LinImp1
-    {{tex [[E1]] \rightarrow_{\mathsf{rel}_{[[->]]}([[c]],-)} [[E2]] }}
-    | E2 <-op( c , - ) E1 :: :: LinImp2
-    {{tex [[E2]] \leftarrow_{\mathsf{rel}_{[[<-]]}([[c]],-)} [[E1]] }}
-    | E1 -oop( c , - ) E2 :: :: LinImp
-    {{tex [[E1]] \multimap_{\mathsf{rel}_{[[-o]]}([[c]],-)} [[E2]] }}
-    
   G {{ tex \Gamma }}, D {{tex \Delta }} :: G_ ::=                 
     | .                   ::   :: emptyCtx     
     {{tex \cdot }}
-    | ( b , C )           ::   :: vn           
+    | A                   ::   :: vn           
     | G , G'              ::   :: append       
     | ( G )               :: M :: parens
-    | (.)( T , C )        ::   :: Ext1
-    {{tex \bigodot ([[T]],[[C]]) }}
-    | >( T , C )         ::   :: Ext2
-    {{tex \mathlarger{\mathlarger{\mathlarger{\rhd} } } ([[T]],[[C]]) }}
-
-  I {{ tex \Theta }}, P {{tex \Psi }} :: I_ ::=                 
-    | .                   ::   :: emptyCtx     
-    {{tex \cdot }}
-    | ( E , c )           ::   :: vn           
-    | I , P               ::   :: append       
-    | ( T )               :: M :: parens
 
   terminals :: 'terminals_' ::=
     | (.) :: :: Para
@@ -120,24 +65,14 @@ grammar
     {{tex [[formula1]] \quad [[formula2]] }}
     | ( formula )         :: S :: parens
     {{tex [[formula]] }}
-    | G = (.)( T , c ) :: :: CtxEq1
-    {{tex [[G]] = \bigodot ([[T]],[[c]]) }}
-    | D = >( T , c ) :: :: CtxEq2
-    {{tex [[D]] = \mathlarger{\mathlarger{\mathlarger{\rhd} } }([[T]],[[c]]) }}
-    | ->op( c1 , c2 ) :: :: LImpRel
-    {{tex \mathsf{rel}_[[->]]([[c1]],[[c2]]) }}
-    | <-op( c1 , c2 ) :: :: RImpRel
-    {{tex \mathsf{rel}_[[<-]]([[c1]],[[c2]]) }}
-    | -oop( c1 , c2 ) :: :: ImpRel
-    {{tex \mathsf{rel}_[[-o]]([[c1]],[[c2]]) }}    
     
 
 defns
   Typing :: '' ::=
 
 defn
- G ; D |- C T :: :: type :: 'T_'    
- {{tex [[G]];[[D]] \vdash_{[[C]]} [[T]] }} by
+ G ; D |- A :: :: type :: 'T_'    
+ {{tex [[G]];[[D]] \vdash [[A]] }} by
     
  ------------- :: var
  .;(b,c) |-c b
@@ -184,10 +119,10 @@ defn
  I1,(E2,c2),(E1,c1),I2;P |-c E
 
  I;P,(E1,c1) |-c2 E2 && ->op(c1,c2)
- ---------------------------------- :: impRI
- I;P |- c2 E1 ->op(c1,-) E2
+ ----------------------------------- :: impRI
+ I;P |-c2 E1 ->op(c1,-) E2
 
- I1;P1 |- c2 E1 ->op(c1,-) E2 && I2;P2 |-c1 E1
+ I1;P1 |-c2 E1 ->op(c1,-) E2 && I2;P2 |-c1 E1
  ---------------------------------------------- :: impRE
  I1,I2;P1,P2 |-c2 E2
 
@@ -201,8 +136,8 @@ defn
 
  I,(E1,c1);P |-c2 E2 && -oop(c1,c2)
  ---------------------------------- :: impI
- I;P |- c2 E1 -oop(c1,-) E2
+ I;P |- -oop(c1,c2) E1 -o E2
 
- I1;P1 |- c2 E1 -oop(c1,-) E2 && I2;P2 |-c1 E1
+ I1;P1 |-c2 E1 -oop(c1,-) E2 && I2;P2 |-c1 E1
  ---------------------------------------------- :: impE
  I1,I2;P1,P2 |-c2 E2 

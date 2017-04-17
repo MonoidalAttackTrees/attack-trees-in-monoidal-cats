@@ -1,0 +1,99 @@
+In this section I introduce attack trees with sequential composition
+first proposed by Jhawar et al. \cite{Jhawar:2015}.  One of the
+projects ultimate goals is to extend attack trees with even more
+operators driven by our choice of semantics, but I leave this to
+future work.
+
+The definition of attack trees is broken up into two parts.  First,
+the definition of pre-attack trees.
+\begin{definition}
+  \label{def:atrees}
+  Suppose $\mathsf{B}$ is a set of base attack, $\mathsf{C}$ is
+  a set of costs, $\Sigma =
+  \{\mathsf{op}_{\odot}, \mathsf{op}_\rhd, \mathsf{op}_\sqcup \}$ is a set of binary
+  operations on $\mathsf{C}$, and $I = \{i_\odot, i_\rhd, i_\sqcup\}$ is a set of
+  identities, such that, each $l \in \{ \mathsf{op}_{\odot}, \mathsf{op}_\sqcup \}$, $\mathsf{op}_l \in \Sigma$ and $i_l \in
+  I$ make $(\mathsf{C}, \mathsf{op}_l, i_l)$ a commutative monoid, and
+  $(\mathsf{C}, \mathsf{op}_\rhd, i_\rhd)$ a monoid.
+
+  \ \\
+  \noindent
+  The following defines the syntax of \textbf{Pre-attack Trees} given an
+  assignment $\eta : \mathsf{B} \to \mathsf{C}$ of base attacks
+  to costs:
+  \[
+  \begin{array}{lll}
+    [[T]] ::= [[(b, eta(b))]] \mid [[T1 (.)op T2]] \mid [[T1 +op T2]] \mid [[T1 >op  T2]]\\
+  \end{array}
+  \]
+  I denote unsynchronized parallel composition of attacks by $[[T1 +op
+      T2]]$, choice between attacks by $[[T1 (.)op T2]]$, and sequential
+  composition of attacks by $[[T1 >op T2]]$.
+  %% \ \\
+  %% \noindent
+  %% The following rules define the attack tree equivalence relation
+  %% (omitting operation annotations for readability):
+  %% \begin{center}
+  %%   \vspace{-14px}
+  %%   \footnotesize
+  %%   \begin{math}
+  %%     \begin{array}{cccccccc}
+  %%       \begin{array}{c}
+  %%         \inferrule* [right={\scriptsize assoc}] {
+  %%           \,
+  %%         }{[[(t1 op t2) op t3]] = [[t1 op (t2 op t3)]]}
+  %%       \\
+  %%       \inferrule* [right={\scriptsize sym}] {
+  %%         \,
+  %%       }{[[t1 opS t2]] = [[t2 opS t1]]}
+  %%     \end{array}
+  %%       & \quad &
+  %%       \begin{array}{lll}
+  %%         \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
+  %%         \,
+  %%       }{[[(t1 (+)  t2) + t3]] = [[(t1 + t3) (+) (t2 + t3)]]}
+  %%       \\
+  %%       \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
+  %%         \,
+  %%       }{[[(t1 (+)  t2) ; t3]] = [[(t1 ; t3) (+) (t2 ; t3)]]}
+  %%       \end{array}
+  %%     \end{array}
+  %%   \end{math}    
+  %% \end{center}
+  %% where $\mathsf{op} \in \{\odot, \rhd, \sqcup\}$ and $\mathsf{op_S}
+  %% \in \{\odot, \sqcup\}$.  
+\end{definition}
+The most interesting aspect of the previous definition is that each
+branching operator is annotated with an monoidal operation that
+computes the cost at that branch.  Thus, given a preattack trees we do
+not know the cost of the root node.
+
+I characterize valid attack trees as preattack trees in which the
+given branching operators are used to construct the costs of the tree.
+This notion of validity is captured by the inference rules given in
+Figure~\ref{fig:valid-atrees}.
+\begin{figure}
+  \begin{mathpar}
+    \LLAdruleTXXvar{} \and
+    \LLAdruleTXXvarC{} \and
+    \LLAdruleTXXpara{} \and
+    \LLAdruleTXXseq{}
+  \end{mathpar}
+  \caption{Inference Rules for Valid Attack Trees}
+  \label{fig:valid-atrees}
+\end{figure}
+The valid attack tree inference rules constitute a very simple linear
+logic which guarantees that each base attack is used exactly once, and
+the cost of every subtree is calculated correctly.  We have now
+arrived at the following definition.
+\begin{definition}
+  \label{def:valid-atrees}
+  Suppose $[[G]]$ is a sequence of pairs of base attacks and their
+  costs that are to be used as leafs to the parallel branching
+  operator, and $[[D]]$ is a sequence of pairs of base attacks and
+  their costs that are to be used as leafs to the sequential branching
+  operator.  A preattack tree, $[[T]]$, is an \textbf{attack tree} if
+  and only if $[[G;D |-c T]]$ is derivable using the valid attack tree
+  inference rules.
+\end{definition}
+

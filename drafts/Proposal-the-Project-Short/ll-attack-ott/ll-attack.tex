@@ -50,7 +50,10 @@
 \ottprodline{|}{ \mathsf{op}_\sqcup }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \mathsf{rel}_{ \rightarrow } }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \mathsf{rel}_{ \leftarrow } }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \mathsf{rel}_{ \multimap } }{}{}{}{}}
+\ottprodline{|}{ \mathsf{rel}_{ \multimap } }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{rel}_{ \rightarrow }( \ottmv{c} ,-) }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{rel}_{ \leftarrow }( \ottmv{c} ,-) }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{rel}_{ \multimap }( \ottmv{c} ,-) }{}{}{}{}}
 
 \newcommand{\ottC}{
 \ottrulehead{\ottnt{C}}{::=}{}\ottprodnewline
@@ -70,17 +73,17 @@
 \ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \rightarrow  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{E_{{\mathrm{2}}}}  \leftarrow  \ottnt{E_{{\mathrm{1}}}} }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \multimap  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}}
+\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \rightarrow_{\mathsf{rel}_{ \rightarrow }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \ottnt{E_{{\mathrm{2}}}}  \leftarrow_{\mathsf{rel}_{ \leftarrow }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{1}}}} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \multimap_{\mathsf{rel}_{ \multimap }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}}
 
 \newcommand{\ottG}{
 \ottrulehead{\Gamma  ,\ \Delta}{::=}{}\ottprodnewline
 \ottfirstprodline{|}{ \cdot }{}{}{}{}\ottprodnewline
-\ottprodline{|}{\ottsym{(}  \ottmv{b}  \ottsym{,}  \ottmv{c}  \ottsym{)}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottsym{(}  \ottmv{b}  \ottsym{,}  \ottnt{C}  \ottsym{)}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\Gamma  \ottsym{,}  \Gamma'}{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \bigodot ( \ottnt{T} , \ottmv{c} ) }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \mathlarger{\mathlarger{\mathlarger{\rhd} } } ( \ottnt{T} , \ottmv{c} ) }{}{}{}{}}
+\ottprodline{|}{ \bigodot ( \ottnt{T} , \ottnt{C} ) }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathlarger{\mathlarger{\mathlarger{\rhd} } } ( \ottnt{T} , \ottnt{C} ) }{}{}{}{}}
 
 \newcommand{\ottI}{
 \ottrulehead{\Theta  ,\ \Psi}{::=}{}\ottprodnewline
@@ -202,30 +205,57 @@
 }}
 
 
-\newcommand{\ottdruleEXXimpRName}[0]{\ottdrulename{E\_impR}}
-\newcommand{\ottdruleEXXimpR}[1]{\ottdrule[#1]{%
+\newcommand{\ottdruleEXXimpRIName}[0]{\ottdrulename{E\_impRI}}
+\newcommand{\ottdruleEXXimpRI}[1]{\ottdrule[#1]{%
 \ottpremise{  \Theta ; \Psi  \ottsym{,}  \ottsym{(}  \ottnt{E_{{\mathrm{1}}}}  \ottsym{,}  \ottmv{c_{{\mathrm{1}}}}  \ottsym{)}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }  \ottnt{E_{{\mathrm{2}}}}   \quad   \mathsf{rel}_ \rightarrow ( \ottmv{c_{{\mathrm{1}}}} , \ottmv{c_{{\mathrm{2}}}} )  }%
 }{
- \Theta ; \Psi  \vdash_{  \mathsf{rel}_{ \rightarrow }   \ottsym{(}  \ottmv{c_{{\mathrm{1}}}}  \ottsym{,}  \ottmv{c_{{\mathrm{2}}}}  \ottsym{)} }   \ottnt{E_{{\mathrm{1}}}}  \rightarrow  \ottnt{E_{{\mathrm{2}}}}  }{%
-{\ottdruleEXXimpRName}{}%
+ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottnt{E_{{\mathrm{1}}}}  \rightarrow_{\mathsf{rel}_{ \rightarrow }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottnt{E_{{\mathrm{2}}}}  }{%
+{\ottdruleEXXimpRIName}{}%
 }}
 
 
-\newcommand{\ottdruleEXXimpLName}[0]{\ottdrulename{E\_impL}}
-\newcommand{\ottdruleEXXimpL}[1]{\ottdrule[#1]{%
+\newcommand{\ottdruleEXXimpREName}[0]{\ottdrulename{E\_impRE}}
+\newcommand{\ottdruleEXXimpRE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Theta_{{\mathrm{1}}} ; \Psi_{{\mathrm{1}}}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottnt{E_{{\mathrm{1}}}}  \rightarrow_{\mathsf{rel}_{ \rightarrow }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottnt{E_{{\mathrm{2}}}}    \quad   \Theta_{{\mathrm{2}}} ; \Psi_{{\mathrm{2}}}  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }  \ottnt{E_{{\mathrm{1}}}}  }%
+}{
+ \Theta_{{\mathrm{1}}}  \ottsym{,}  \Theta_{{\mathrm{2}}} ; \Psi_{{\mathrm{1}}}  \ottsym{,}  \Psi_{{\mathrm{2}}}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }  \ottnt{E_{{\mathrm{2}}}} }{%
+{\ottdruleEXXimpREName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXimpLIName}[0]{\ottdrulename{E\_impLI}}
+\newcommand{\ottdruleEXXimpLI}[1]{\ottdrule[#1]{%
 \ottpremise{  \Theta ; \ottsym{(}  \ottnt{E_{{\mathrm{1}}}}  \ottsym{,}  \ottmv{c_{{\mathrm{1}}}}  \ottsym{)}  \ottsym{,}  \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }  \ottnt{E_{{\mathrm{2}}}}   \quad   \mathsf{rel}_ \leftarrow ( \ottmv{c_{{\mathrm{1}}}} , \ottmv{c_{{\mathrm{2}}}} )  }%
 }{
- \Theta ; \Psi  \vdash_{  \mathsf{rel}_{ \leftarrow }   \ottsym{(}  \ottmv{c_{{\mathrm{1}}}}  \ottsym{,}  \ottmv{c_{{\mathrm{2}}}}  \ottsym{)} }   \ottnt{E_{{\mathrm{2}}}}  \leftarrow  \ottnt{E_{{\mathrm{1}}}}  }{%
-{\ottdruleEXXimpLName}{}%
+ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottnt{E_{{\mathrm{2}}}}  \leftarrow_{\mathsf{rel}_{ \leftarrow }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottnt{E_{{\mathrm{1}}}}  }{%
+{\ottdruleEXXimpLIName}{}%
 }}
 
 
-\newcommand{\ottdruleEXXimpName}[0]{\ottdrulename{E\_imp}}
-\newcommand{\ottdruleEXXimp}[1]{\ottdrule[#1]{%
+\newcommand{\ottdruleEXXimpLEName}[0]{\ottdrulename{E\_impLE}}
+\newcommand{\ottdruleEXXimpLE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Theta_{{\mathrm{1}}} ; \Psi_{{\mathrm{1}}}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottnt{E_{{\mathrm{2}}}}  \leftarrow_{\mathsf{rel}_{ \leftarrow }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottnt{E_{{\mathrm{1}}}}    \quad   \Theta_{{\mathrm{2}}} ; \Psi_{{\mathrm{2}}}  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }  \ottnt{E_{{\mathrm{1}}}}  }%
+}{
+ \Theta_{{\mathrm{1}}}  \ottsym{,}  \Theta_{{\mathrm{2}}} ; \Psi_{{\mathrm{1}}}  \ottsym{,}  \Psi_{{\mathrm{2}}}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }  \ottnt{E_{{\mathrm{2}}}} }{%
+{\ottdruleEXXimpLEName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXimpIName}[0]{\ottdrulename{E\_impI}}
+\newcommand{\ottdruleEXXimpI}[1]{\ottdrule[#1]{%
 \ottpremise{  \Theta  \ottsym{,}  \ottsym{(}  \ottnt{E_{{\mathrm{1}}}}  \ottsym{,}  \ottmv{c_{{\mathrm{1}}}}  \ottsym{)} ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }  \ottnt{E_{{\mathrm{2}}}}   \quad   \mathsf{rel}_ \multimap ( \ottmv{c_{{\mathrm{1}}}} , \ottmv{c_{{\mathrm{2}}}} )  }%
 }{
- \Theta ; \Psi  \vdash_{  \mathsf{rel}_{ \multimap }   \ottsym{(}  \ottmv{c_{{\mathrm{1}}}}  \ottsym{,}  \ottmv{c_{{\mathrm{2}}}}  \ottsym{)} }   \ottnt{E_{{\mathrm{1}}}}  \multimap  \ottnt{E_{{\mathrm{2}}}}  }{%
-{\ottdruleEXXimpName}{}%
+ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottnt{E_{{\mathrm{1}}}}  \multimap_{\mathsf{rel}_{ \multimap }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottnt{E_{{\mathrm{2}}}}  }{%
+{\ottdruleEXXimpIName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXimpEName}[0]{\ottdrulename{E\_impE}}
+\newcommand{\ottdruleEXXimpE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Theta_{{\mathrm{1}}} ; \Psi_{{\mathrm{1}}}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottnt{E_{{\mathrm{1}}}}  \multimap_{\mathsf{rel}_{ \multimap }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottnt{E_{{\mathrm{2}}}}    \quad   \Theta_{{\mathrm{2}}} ; \Psi_{{\mathrm{2}}}  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }  \ottnt{E_{{\mathrm{1}}}}  }%
+}{
+ \Theta_{{\mathrm{1}}}  \ottsym{,}  \Theta_{{\mathrm{2}}} ; \Psi_{{\mathrm{1}}}  \ottsym{,}  \Psi_{{\mathrm{2}}}  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }  \ottnt{E_{{\mathrm{2}}}} }{%
+{\ottdruleEXXimpEName}{}%
 }}
 
 \newcommand{\ottdefneq}[1]{\begin{ottdefnblock}[#1]{$ \Theta ; \Psi  \vdash_{ \ottnt{C} }  \ottnt{E} $}{}
@@ -236,9 +266,12 @@
 \ottusedrule{\ottdruleEXXseqI{}}
 \ottusedrule{\ottdruleEXXseqE{}}
 \ottusedrule{\ottdruleEXXex{}}
-\ottusedrule{\ottdruleEXXimpR{}}
-\ottusedrule{\ottdruleEXXimpL{}}
-\ottusedrule{\ottdruleEXXimp{}}
+\ottusedrule{\ottdruleEXXimpRI{}}
+\ottusedrule{\ottdruleEXXimpRE{}}
+\ottusedrule{\ottdruleEXXimpLI{}}
+\ottusedrule{\ottdruleEXXimpLE{}}
+\ottusedrule{\ottdruleEXXimpI{}}
+\ottusedrule{\ottdruleEXXimpE{}}
 \end{ottdefnblock}}
 
 
@@ -257,7 +290,7 @@
 \ottall
 
 \begin{verbatim}
-Definition rules:        14 good    0 bad
-Definition rule clauses: 24 good    0 bad
+Definition rules:        17 good    0 bad
+Definition rule clauses: 30 good    0 bad
 \end{verbatim}
 \end{document}
