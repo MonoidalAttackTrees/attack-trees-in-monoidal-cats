@@ -155,12 +155,39 @@
 }}
 
 
-\newcommand{\ottdruleEXXdistOneName}[0]{\ottdrulename{E\_dist1}}
-\newcommand{\ottdruleEXXdistOne}[1]{\ottdrule[#1]{%
-\ottpremise{    \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}    \quad   \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \rhd_{\mathsf{op}_\rhd}  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}      \quad   \mathsf{rel}_ \multimapboth ( \ottmv{c_{{\mathrm{1}}}} , \ottmv{c_{{\mathrm{2}}}} )  }%
+\newcommand{\ottdruleEXXchoiceSymName}[0]{\ottdrulename{E\_choiceSym}}
+\newcommand{\ottdruleEXXchoiceSym}[1]{\ottdrule[#1]{%
+\ottpremise{ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+ \Theta ; \Psi  \vdash_{ \ottmv{c} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \multimapboth_{\mathsf{rel}_{ \multimapboth }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{1}}}}   \ottsym{)}  }{%
+{\ottdruleEXXchoiceSymName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXchoiceAssocName}[0]{\ottdrulename{E\_choiceAssoc}}
+\newcommand{\ottdruleEXXchoiceAssoc}[1]{\ottdrule[#1]{%
+\ottpremise{ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{3}}}}  }%
+}{
+ \Theta ; \Psi  \vdash_{ \ottmv{c} }   \ottsym{(}   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}  \multimapboth_{\mathsf{rel}_{ \multimapboth }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  }{%
+{\ottdruleEXXchoiceAssocName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXdistParaName}[0]{\ottdrulename{E\_distPara}}
+\newcommand{\ottdruleEXXdistPara}[1]{\ottdrule[#1]{%
+\ottpremise{ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}  }%
 }{
  \Theta ; \Psi  \vdash_{ \ottmv{c} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  \multimapboth_{\mathsf{rel}_{ \multimapboth }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottsym{(}   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \rhd_{\mathsf{op}_\rhd}  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  }{%
-{\ottdruleEXXdistOneName}{}%
+{\ottdruleEXXdistParaName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXdistChoiceName}[0]{\ottdrulename{E\_distChoice}}
+\newcommand{\ottdruleEXXdistChoice}[1]{\ottdrule[#1]{%
+\ottpremise{ \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}  }%
+}{
+ \Theta ; \Psi  \vdash_{ \ottmv{c} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  \multimapboth_{\mathsf{rel}_{ \multimapboth }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottsym{(}   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \rhd_{\mathsf{op}_\rhd}  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  }{%
+{\ottdruleEXXdistChoiceName}{}%
 }}
 
 
@@ -265,7 +292,10 @@
 \newcommand{\ottdefneq}[1]{\begin{ottdefnblock}[#1]{$ \Theta ; \Psi  \vdash_{ \ottnt{C} }  \ottnt{E} $}{}
 \ottusedrule{\ottdruleEXXvar{}}
 \ottusedrule{\ottdruleEXXvarC{}}
-\ottusedrule{\ottdruleEXXdistOne{}}
+\ottusedrule{\ottdruleEXXchoiceSym{}}
+\ottusedrule{\ottdruleEXXchoiceAssoc{}}
+\ottusedrule{\ottdruleEXXdistPara{}}
+\ottusedrule{\ottdruleEXXdistChoice{}}
 \ottusedrule{\ottdruleEXXparaI{}}
 \ottusedrule{\ottdruleEXXparaE{}}
 \ottusedrule{\ottdruleEXXseqI{}}
@@ -295,7 +325,7 @@
 \ottall
 
 \begin{verbatim}
-Definition rules:        18 good    0 bad
-Definition rule clauses: 32 good    0 bad
+Definition rules:        21 good    0 bad
+Definition rule clauses: 38 good    0 bad
 \end{verbatim}
 \end{document}
