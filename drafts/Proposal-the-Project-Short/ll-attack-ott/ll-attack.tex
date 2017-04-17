@@ -53,7 +53,8 @@
 \ottprodline{|}{ \mathsf{rel}_{ \multimap } }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \mathsf{rel}_{ \rightarrow }( \ottmv{c} ,-) }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \mathsf{rel}_{ \leftarrow }( \ottmv{c} ,-) }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \mathsf{rel}_{ \multimap }( \ottmv{c} ,-) }{}{}{}{}}
+\ottprodline{|}{ \mathsf{rel}_{ \multimap }( \ottmv{c} ,-) }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{rel}_{ \multimapboth }( \ottmv{c} ,-) }{}{}{}{}}
 
 \newcommand{\ottC}{
 \ottrulehead{\ottnt{C}}{::=}{}\ottprodnewline
@@ -65,7 +66,8 @@
 \ottfirstprodline{|}{\ottmv{b}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{T_{{\mathrm{1}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}} }{}{}{}{}}
+\ottprodline{|}{ \ottnt{T_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{T_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottsym{(}  \ottnt{T}  \ottsym{)}}{}{}{}{}}
 
 \newcommand{\ottE}{
 \ottrulehead{\ottnt{E}}{::=}{}\ottprodnewline
@@ -75,18 +77,12 @@
 \ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \sqcup_{\mathsf{op}_\sqcup}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \rightarrow_{\mathsf{rel}_{ \rightarrow }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{E_{{\mathrm{2}}}}  \leftarrow_{\mathsf{rel}_{ \leftarrow }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{1}}}} }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \multimap_{\mathsf{rel}_{ \multimap }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}}
+\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \multimap_{\mathsf{rel}_{ \multimap }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \ottnt{E_{{\mathrm{1}}}}  \multimapboth_{\mathsf{rel}_{ \multimapboth }( \ottmv{c} ,-)}  \ottnt{E_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottsym{(}  \ottnt{E}  \ottsym{)}} {\textsf{S}}{}{}{}}
 
 \newcommand{\ottG}{
-\ottrulehead{\Gamma  ,\ \Delta}{::=}{}\ottprodnewline
-\ottfirstprodline{|}{ \cdot }{}{}{}{}\ottprodnewline
-\ottprodline{|}{\ottsym{(}  \ottmv{b}  \ottsym{,}  \ottnt{C}  \ottsym{)}}{}{}{}{}\ottprodnewline
-\ottprodline{|}{\Gamma  \ottsym{,}  \Gamma'}{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \bigodot ( \ottnt{T} , \ottnt{C} ) }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \mathlarger{\mathlarger{\mathlarger{\rhd} } } ( \ottnt{T} , \ottnt{C} ) }{}{}{}{}}
-
-\newcommand{\ottI}{
-\ottrulehead{\Theta  ,\ \Psi}{::=}{}\ottprodnewline
+\ottrulehead{\Gamma  ,\ \Delta  ,\ \Theta  ,\ \Psi}{::=}{}\ottprodnewline
 \ottfirstprodline{|}{ \cdot }{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottsym{(}  \ottnt{E}  \ottsym{,}  \ottmv{c}  \ottsym{)}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\Theta  \ottsym{,}  \Psi}{}{}{}{}}
@@ -96,8 +92,7 @@
 \ottC\ottinterrule
 \ottT\ottinterrule
 \ottE\ottinterrule
-\ottG\ottinterrule
-\ottI\ottafterlastrule
+\ottG\ottafterlastrule
 }}
 
 % defnss
@@ -157,6 +152,15 @@
 }{
  \ottsym{(}  \ottnt{E}  \ottsym{,}  \ottmv{c}  \ottsym{)} ;  \cdot   \vdash_{ \ottmv{c} }  \ottnt{E} }{%
 {\ottdruleEXXvarCName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXdistOneName}[0]{\ottdrulename{E\_dist1}}
+\newcommand{\ottdruleEXXdistOne}[1]{\ottdrule[#1]{%
+\ottpremise{    \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{1}}}} }   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}    \quad   \Theta ; \Psi  \vdash_{ \ottmv{c_{{\mathrm{2}}}} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \rhd_{\mathsf{op}_\rhd}  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}      \quad   \mathsf{rel}_ \multimapboth ( \ottmv{c_{{\mathrm{1}}}} , \ottmv{c_{{\mathrm{2}}}} )  }%
+}{
+ \Theta ; \Psi  \vdash_{ \ottmv{c} }   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \rhd_{\mathsf{op}_\rhd}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  \multimapboth_{\mathsf{rel}_{ \multimapboth }( \ottmv{c_{{\mathrm{1}}}} ,-)}  \ottsym{(}   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \rhd_{\mathsf{op}_\rhd}  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot_{\mathsf{op}_\odot}  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  }{%
+{\ottdruleEXXdistOneName}{}%
 }}
 
 
@@ -261,6 +265,7 @@
 \newcommand{\ottdefneq}[1]{\begin{ottdefnblock}[#1]{$ \Theta ; \Psi  \vdash_{ \ottnt{C} }  \ottnt{E} $}{}
 \ottusedrule{\ottdruleEXXvar{}}
 \ottusedrule{\ottdruleEXXvarC{}}
+\ottusedrule{\ottdruleEXXdistOne{}}
 \ottusedrule{\ottdruleEXXparaI{}}
 \ottusedrule{\ottdruleEXXparaE{}}
 \ottusedrule{\ottdruleEXXseqI{}}
@@ -290,7 +295,7 @@
 \ottall
 
 \begin{verbatim}
-Definition rules:        17 good    0 bad
-Definition rule clauses: 30 good    0 bad
+Definition rules:        18 good    0 bad
+Definition rule clauses: 32 good    0 bad
 \end{verbatim}
 \end{document}
