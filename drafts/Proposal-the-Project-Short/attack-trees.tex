@@ -23,45 +23,12 @@ the definition of pre-attack trees.
   to costs:
   \[
   \begin{array}{lll}
-    [[T]] ::= [[(b, eta(b))]] \mid [[T1 (.)op T2]] \mid [[T1 +op T2]] \mid [[T1 >op  T2]]\\
+    [[T]] ::= [[(b, c)]] \mid [[T1 (.)op T2]] \mid [[T1 +op T2]] \mid [[T1 >op  T2]]\\
   \end{array}
   \]
   I denote unsynchronized parallel composition of attacks by $[[T1 +op
       T2]]$, choice between attacks by $[[T1 (.)op T2]]$, and sequential
-  composition of attacks by $[[T1 >op T2]]$.
-  %% \ \\
-  %% \noindent
-  %% The following rules define the attack tree equivalence relation
-  %% (omitting operation annotations for readability):
-  %% \begin{center}
-  %%   \vspace{-14px}
-  %%   \footnotesize
-  %%   \begin{math}
-  %%     \begin{array}{cccccccc}
-  %%       \begin{array}{c}
-  %%         \inferrule* [right={\scriptsize assoc}] {
-  %%           \,
-  %%         }{[[(t1 op t2) op t3]] = [[t1 op (t2 op t3)]]}
-  %%       \\
-  %%       \inferrule* [right={\scriptsize sym}] {
-  %%         \,
-  %%       }{[[t1 opS t2]] = [[t2 opS t1]]}
-  %%     \end{array}
-  %%       & \quad &
-  %%       \begin{array}{lll}
-  %%         \inferrule* [right={\scriptsize $\textsc{dist}_1$}] {
-  %%         \,
-  %%       }{[[(t1 (+)  t2) + t3]] = [[(t1 + t3) (+) (t2 + t3)]]}
-  %%       \\
-  %%       \inferrule* [right={\scriptsize $\textsc{dist}_2$}] {
-  %%         \,
-  %%       }{[[(t1 (+)  t2) ; t3]] = [[(t1 ; t3) (+) (t2 ; t3)]]}
-  %%       \end{array}
-  %%     \end{array}
-  %%   \end{math}    
-  %% \end{center}
-  %% where $\mathsf{op} \in \{\odot, \rhd, \sqcup\}$ and $\mathsf{op_S}
-  %% \in \{\odot, \sqcup\}$.  
+  composition of attacks by $[[T1 >op T2]]$.  
 \end{definition}
 The most interesting aspect of the previous definition is that each
 branching operator is annotated with an monoidal operation that
@@ -73,12 +40,15 @@ given branching operators are used to construct the costs of the tree.
 This notion of validity is captured by the inference rules given in
 Figure~\ref{fig:valid-atrees}.
 \begin{figure}
-  \begin{mathpar}
+  \begin{mdframed}
+    \begin{mathpar}
     \LLAdruleTXXvar{} \and
     \LLAdruleTXXvarC{} \and
     \LLAdruleTXXpara{} \and
-    \LLAdruleTXXseq{}
+    \LLAdruleTXXseq{} \and
+    \LLAdruleTXXchoice{}
   \end{mathpar}
+  \end{mdframed}
   \caption{Inference Rules for Valid Attack Trees}
   \label{fig:valid-atrees}
 \end{figure}

@@ -7,6 +7,7 @@
 \usepackage{mathpartir}
 \usepackage{hyperref}
 \usepackage[barr]{xy}
+\usepackage{mdframed}
 
 %% This renames Barr's \to to \mto.  This allows us to use \to for imp
 %% and \mto for a inline morphism.
@@ -73,6 +74,29 @@
 %% Ott
 \input{atrees-ott}
 \input{ll-attack-ott}
+\renewcommand{\LLAdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\LLAdrulename{#4}}}
+\renewcommand{\LLAdrulename}[1]{#1}
+\renewcommand{\LLAdruleTXXvarName}{\text{id}_{\odot}}
+\renewcommand{\LLAdruleTXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\LLAdruleTXXparaName}{\odot}
+\renewcommand{\LLAdruleTXXseqName}{\rhd}
+\renewcommand{\LLAdruleTXXchoiceName}{\sqcup}
+
+\renewcommand{\LLAdruleEXXvarName}{\text{id}_{\odot}}
+\renewcommand{\LLAdruleEXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\LLAdruleEXXchoiceContName}{\text{cont}_\sqcup}
+\renewcommand{\LLAdruleEXXchoiceSymName}{\text{sym}_\sqcup}
+\renewcommand{\LLAdruleEXXchoiceAssocName}{\text{assoc}_\sqcup}
+\renewcommand{\LLAdruleEXXdistParaName}{\text{dis}_\odot}
+\renewcommand{\LLAdruleEXXdistSeqName}{\text{dis}_\rhd}
+\renewcommand{\LLAdruleEXXparaIName}{\odot_I}
+\renewcommand{\LLAdruleEXXparaEName}{\odot_E}
+\renewcommand{\LLAdruleEXXseqIName}{\rhd_I}
+\renewcommand{\LLAdruleEXXseqEName}{\rhd_E}
+\renewcommand{\LLAdruleEXXexName}{\text{sym}_\odot}
+\renewcommand{\LLAdruleEXXchoiceName}{\sqcup}
+\renewcommand{\LLAdruleEXXimpIName}{\multimap_I}
+\renewcommand{\LLAdruleEXXimpEName}{\multimap_E}
 
 \begin{document}
 

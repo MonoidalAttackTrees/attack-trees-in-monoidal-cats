@@ -17,12 +17,10 @@ grammar
     {{tex \mathsf{op}_\rhd }}
     | +op  :: :: Choice
     {{tex \mathsf{op}_\sqcup }}
-    | ->op :: :: LImp
-    {{tex \mathsf{rel}_{[[->]]} }}
-    | <-op :: :: RImp
-    {{tex \mathsf{rel}_{[[<-]]} }}
     | -oop :: :: Imp
     {{tex \mathsf{rel}_{[[-o]]} }}
+    | o-oop :: :: Imp3
+    {{tex \mathsf{rel}_{[[o-o]]} }}    
     | ->op ( c , - ) :: :: LImp2
     {{tex \mathsf{rel}_{[[->]]}([[c]],-) }}
     | <-op ( c , - ) :: :: RImp2
@@ -34,6 +32,7 @@ grammar
 
   C :: 'C_' ::=
     | c :: :: cost
+    | - :: :: Dash
     | op ( C1 , C2 ) :: :: op
     | eta( b ) :: M :: costMap
     {{tex \eta([[b]]) }}
@@ -56,14 +55,10 @@ grammar
     {{tex [[E1]] \rhd_{\mathsf{op}_\rhd} [[E2]] }}
     | E1 +op E2   :: :: Choice
     {{tex [[E1]] \sqcup_{\mathsf{op}_\sqcup} [[E2]] }}    
-    | E1 ->op( c , - ) E2 :: :: LinImp1
-    {{tex [[E1]] \rightarrow_{\mathsf{rel}_{[[->]]}([[c]],-)} [[E2]] }}
-    | E2 <-op( c , - ) E1 :: :: LinImp2
-    {{tex [[E2]] \leftarrow_{\mathsf{rel}_{[[<-]]}([[c]],-)} [[E1]] }}
     | E1 -oop( c , - ) E2 :: :: LinImp
     {{tex [[E1]] \multimap_{\mathsf{rel}_{[[-o]]}([[c]],-)} [[E2]] }}
-    | E1 o-oop( c , - ) E2 :: :: BiLinImp
-    {{tex [[E1]] \multimapboth_{\mathsf{rel}_{[[o-o]]}([[c]],-)} [[E2]] }}    
+    | E1 o-oop( C , - ) E2 :: :: BiLinImp
+    {{tex [[E1]] \multimapboth_{\mathsf{rel}_{[[o-o]]}([[C]],-)} [[E2]] }}    
     | ( E )               :: S :: Parens
     
   % G {{ tex \Gamma }}, D {{tex \Delta }} :: G_ ::=                 
@@ -162,6 +157,10 @@ defn
  -------------------------------------- :: seq
  G1,G2;D1,D2 |-T >op(c1,c2) T1 >op T2
 
+ G1;D1 |-T c1 T1 && G2;D2 |-T c2 T2
+ -------------------------------------- :: choice
+ G1,G2;D1,D2 |-T +op(c1,c2) T1 +op T2
+
 defn
  I ; P |- C E :: :: eq :: 'E_'    
  {{tex [[I]];[[P]] \vdash_{[[C]]} [[E]] }} by
@@ -172,11 +171,13 @@ defn
  ------------- :: varC
  (E,c);. |-c E
 
+ I;P |-c1 T 
+ ---------------------------------------- :: choiceCont
+ I;P |-c1 (T +op T) o-oop(+op(c1,c1),-) T
 
  I;P |-c1 T1 +op T2 
  --------------------------------------------------------- :: choiceSym
  I;P |-c (T1 +op T2) o-oop(c1,-) (T2 +op T1)
-
 
  I;P |-c1 (T1 +op T2) +op T3 
  ------------------------------------------------------------- :: choiceAssoc
@@ -184,49 +185,37 @@ defn
 
  I;P |-T c1 T1 (.)op (T2 >op T3)
  ------------------------------------------------------------------------ :: distPara
- I;P |-c (T1 (.)op (T2 >op T3)) o-oop(c1,-) ((T1 (.)op T2) >op (T1 (.)op T3))
+ I;P |-c (T1 (.)op (T2 +op T3)) o-oop(c1,-) ((T1 (.)op T2) +op (T1 (.)op T3))
 
- I;P |-T c1 T1 +op (T2 >op T3)
- ------------------------------------------------------------------------ :: distChoice
- I;P |-c (T1 +op (T2 >op T3)) o-oop(c1,-) ((T1 +op T2) >op (T1 +op T3))
+ I;P |-T c1 T1 >op (T2 +op T3)
+ ------------------------------------------------------------------------ :: distSeq
+ I;P |-c (T1 >op (T2 +op T3)) o-oop(c1,-) ((T1 >op T2) +op (T1 >op T3))
 
  I1;P1 |-c1 E1  && I2;P2 |-c2 E2
  -------------------------------------- :: paraI
  I1,I2;P1,P2 |-(.)op(c1,c2) E1 (.)op E2
 
- I2;P1 |-(.)op(c1,c2) E1 (.)op E2 && I1,(E1,c1),(E2,c2),I3;P2 |-c3 E3
+ I1;P2 |-(.)op(c1,c2) E1 (.)op E2 && I2;P1,(E1,c1),(E2,c2),P3 |-c3 E3
  -------------------------------------------------------------------- :: paraE
- I1,I2,I3;P1,P2 |-c3 E3
+ I1,I2;P1,P2,P3 |-c3 E3
 
  I1;P1 |-c1 E1  && I2;P2 |-c2 E2
  -------------------------------------- :: seqI
  I1,I2;P1,P2 |- >op(c1,c2) E1 >op E2
 
- I1;P2 |- >op(c1,c2) E1 >op E2 && I2;P1,(E1,c1),(E2,c2),P3 |-c3 E3
+ I2;P2 |- >op(c1,c2) E1 >op E2 && I1,(E1,c1),(E2,c2),I3;P2 |-c3 E3
  ----------------------------------------------------------------- :: seqE
- I1,I2;P1,P2,P3 |-c3 E3
+ I1,I2,I3;P1,P2 |-c3 E3
 
- I1,(E1,c1),(E2,c2),I2;P |-c E
+ I;P1,(E1,c1),(E2,c2),P2 |-c E
  ----------------------------- :: ex
- I1,(E2,c2),(E1,c1),I2;P |-c E
+ I;P1,(E2,c2),(E1,c1),P2 |-c E
 
- I;P,(E1,c1) |-c2 E2 && ->op(c1,c2)
- ---------------------------------- :: impRI
- I;P |- c2 E1 ->op(c1,-) E2
+ I1;P1 |-c1 E1 && I2;P2 |-c2 E2
+ ---------------------------------- :: choice
+ I1,I2;P1,P2 |-+op(c1,c2) E1 +op E2
 
- I1;P1 |- c2 E1 ->op(c1,-) E2 && I2;P2 |-c1 E1
- ---------------------------------------------- :: impRE
- I1,I2;P1,P2 |-c2 E2
-
- I;(E1,c1),P |-c2 E2 && <-op(c1,c2)
- ---------------------------------- :: impLI
- I;P |- c2 E2 <-op(c1,-) E1
-
- I1;P1 |- c2 E2 <-op(c1,-) E1 && I2;P2 |-c1 E1
- ---------------------------------------------- :: impLE
- I1,I2;P1,P2 |-c2 E2
-
- I,(E1,c1);P |-c2 E2 && -oop(c1,c2)
+ I;P,(E1,c1) |-c2 E2 && -oop(c1,c2)
  ---------------------------------- :: impI
  I;P |- c2 E1 -oop(c1,-) E2
 
