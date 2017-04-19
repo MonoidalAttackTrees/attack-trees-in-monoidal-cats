@@ -143,7 +143,14 @@
 \begin{abstract}
   In this short paper I provide an update on the status of newly
   funded research project investigating founding attack trees in the
-  resource conscious theory called linear logic.  
+  resource conscious theory called linear logic.  I introduce a new
+  linear logic called the Attack Tree Linear Logic (ATLL) which models
+  attack trees as formulas and uses implication to reason about attack
+  trees.  I then introduce a new generalization of Bucciarelli and
+  Ehrhard’s indexed linear logic to obtain Indexed ATLL which adds
+  costs to attack trees.  The most interesting aspect of Indexed ATLL
+  is that implication is endowed with a relation for taking into
+  consideration the costs while reasoning about attack trees.x
 \end{abstract}
 
 \section{Introduction}
@@ -161,13 +168,10 @@ analysis?
 The answer to the first question is positive, but the answer to the
 second question is open.  Each of the proposed models listed above
 have something in common.  They can all be modeled in some form of a
-symmetric monoidal category\footnote{I provide a proof that the
-  category of source sink graphs is monoidal in
-  Appendix~\ref{sec:source_sink_graphs_are_symmetric_monoidal}.}
-\cite{Tzouvaras:1998,Brown:1991,Fiore:2013,FrancescoAlbasini2010} --
-for the definition of a symmetric monoidal category see
-Appendix~\ref{sec:symmetric_monoidal_categories}.  That is all well
-and good, but what can we gain from monoidal categories?
+symmetric monoidal category
+\cite{Tzouvaras:1998,Brown:1991,Fiore:2013,FrancescoAlbasini2010}.
+That is all well and good, but what can we gain from monoidal
+categories?
 
 Monoidal categories are a mathematical model of linear logic as
 observed through the beautiful Curry-Howard-Lambek correspondence
@@ -193,13 +197,14 @@ This projects\footnote{This material is based upon work supported by
   the National Science Foundation CRII CISE Research Initiation grant,
   ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
   Categories``, under Grant No. 1565557.} main goal is to determine
-the suitability of linear logic as a foundation for attack trees.  The
-type of attack trees considered in this paper are attack trees with
-sequential composition similar to Jhawar et al.~\cite{Jhawar:2015}.
-Attack trees consist of two layers: the logical layer or process tree,
-and the quantitative layer.  One interesting aspect of our proposed
-foundation is that the logical layer can come to the aid of the
-quantitative layer.
+the suitability of linear logic as a foundation for attack trees.  In
+this short paper I give an update on this project and introduce a new
+logical foundation of attack trees. The type of attack trees
+considered in this paper are attack trees with sequential composition
+similar to Jhawar et al.~\cite{Jhawar:2015}.  Attack trees consist of
+two layers: the logical layer or process tree, and the quantitative
+layer.  One interesting aspect of my proposed foundation is that both
+layers can be considered during reasoning about attack trees.
 
 At the logical layer the base attacks of an attack tree will
 correspond to atomic formulas in linear logic, and each branching node
