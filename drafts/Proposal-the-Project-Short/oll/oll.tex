@@ -79,7 +79,7 @@
 \newcommand{\ottdruleTXXvarName}[0]{\ottdrulename{T\_var}}
 \newcommand{\ottdruleTXXvar}[1]{\ottdrule[#1]{%
 }{
-  \cdot  ; \ottmv{b}  \vdash  \ottmv{b} }{%
+  \cdot  ; \ottmv{b}  \vdash^T  \ottmv{b} }{%
 {\ottdruleTXXvarName}{}%
 }}
 
@@ -87,38 +87,38 @@
 \newcommand{\ottdruleTXXvarCName}[0]{\ottdrulename{T\_varC}}
 \newcommand{\ottdruleTXXvarC}[1]{\ottdrule[#1]{%
 }{
- \ottmv{b} ;  \cdot   \vdash  \ottmv{b} }{%
+ \ottmv{b} ;  \cdot   \vdash^T  \ottmv{b} }{%
 {\ottdruleTXXvarCName}{}%
 }}
 
 
 \newcommand{\ottdruleTXXparaName}[0]{\ottdrulename{T\_para}}
 \newcommand{\ottdruleTXXpara}[1]{\ottdrule[#1]{%
-\ottpremise{  \Gamma_{{\mathrm{1}}} ; \Delta_{{\mathrm{1}}}  \vdash  \ottnt{T_{{\mathrm{1}}}}   \quad   \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{2}}}  \vdash  \ottnt{T_{{\mathrm{2}}}}  }%
+\ottpremise{  \Gamma_{{\mathrm{1}}} ; \Delta_{{\mathrm{1}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
 }{
- \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}}  }{%
+ \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}}  }{%
 {\ottdruleTXXparaName}{}%
 }}
 
 
 \newcommand{\ottdruleTXXseqName}[0]{\ottdrulename{T\_seq}}
 \newcommand{\ottdruleTXXseq}[1]{\ottdrule[#1]{%
-\ottpremise{  \Gamma_{{\mathrm{1}}} ; \Delta_{{\mathrm{1}}}  \vdash  \ottnt{T_{{\mathrm{1}}}}   \quad   \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{2}}}  \vdash  \ottnt{T_{{\mathrm{2}}}}  }%
+\ottpremise{  \Gamma_{{\mathrm{1}}} ; \Delta_{{\mathrm{1}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
 }{
- \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}} }{%
+ \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}} }{%
 {\ottdruleTXXseqName}{}%
 }}
 
 
 \newcommand{\ottdruleTXXchoiceName}[0]{\ottdrulename{T\_choice}}
 \newcommand{\ottdruleTXXchoice}[1]{\ottdrule[#1]{%
-\ottpremise{  \Gamma_{{\mathrm{1}}} ; \Delta_{{\mathrm{1}}}  \vdash  \ottnt{T_{{\mathrm{1}}}}   \quad   \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{2}}}  \vdash  \ottnt{T_{{\mathrm{2}}}}  }%
+\ottpremise{  \Gamma_{{\mathrm{1}}} ; \Delta_{{\mathrm{1}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
 }{
- \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash   \ottnt{T_{{\mathrm{1}}}}  \sqcup  \ottnt{T_{{\mathrm{2}}}}  }{%
+ \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}} ; \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \sqcup  \ottnt{T_{{\mathrm{2}}}}  }{%
 {\ottdruleTXXchoiceName}{}%
 }}
 
-\newcommand{\ottdefnatv}[1]{\begin{ottdefnblock}[#1]{$ \Gamma ; \Delta  \vdash  \ottnt{T} $}{}
+\newcommand{\ottdefnatv}[1]{\begin{ottdefnblock}[#1]{$ \Gamma ; \Delta  \vdash^T  \ottnt{E} $}{}
 \ottusedrule{\ottdruleTXXvar{}}
 \ottusedrule{\ottdruleTXXvarC{}}
 \ottusedrule{\ottdruleTXXpara{}}
@@ -215,6 +215,24 @@
 }}
 
 
+\newcommand{\ottdruleEXXweakSName}[0]{\ottdrulename{E\_weakS}}
+\newcommand{\ottdruleEXXweakS}[1]{\ottdrule[#1]{%
+\ottpremise{  \Theta_{{\mathrm{1}}}  \ottsym{,}  \Theta_{{\mathrm{2}}} ; \Psi  \vdash  \ottnt{E}   \quad   \Theta_{{\mathrm{1}}}  \ottsym{,}  \Theta_{{\mathrm{2}}} ; \Psi  \vdash^T  \ottnt{T}  }%
+}{
+ \Theta_{{\mathrm{1}}}  \ottsym{,}  \ottnt{T}  \ottsym{,}  \Theta_{{\mathrm{2}}} ; \Psi  \vdash  \ottnt{E} }{%
+{\ottdruleEXXweakSName}{}%
+}}
+
+
+\newcommand{\ottdruleEXXweakPName}[0]{\ottdrulename{E\_weakP}}
+\newcommand{\ottdruleEXXweakP}[1]{\ottdrule[#1]{%
+\ottpremise{  \Theta ; \Psi_{{\mathrm{1}}}  \ottsym{,}  \Psi_{{\mathrm{2}}}  \vdash  \ottnt{E}   \quad   \Theta ; \Psi_{{\mathrm{1}}}  \ottsym{,}  \Psi_{{\mathrm{2}}}  \vdash^T  \ottnt{T}  }%
+}{
+ \Theta ; \Psi_{{\mathrm{1}}}  \ottsym{,}  \ottnt{T}  \ottsym{,}  \Psi_{{\mathrm{2}}}  \vdash  \ottnt{E} }{%
+{\ottdruleEXXweakPName}{}%
+}}
+
+
 \newcommand{\ottdruleEXXchoiceContName}[0]{\ottdrulename{E\_choiceCont}}
 \newcommand{\ottdruleEXXchoiceCont}[1]{\ottdrule[#1]{%
 \ottpremise{ \Theta ; \Psi  \vdash  \ottnt{T} }%
@@ -244,7 +262,7 @@
 
 \newcommand{\ottdruleEXXdistParaName}[0]{\ottdrulename{E\_distPara}}
 \newcommand{\ottdruleEXXdistPara}[1]{\ottdrule[#1]{%
-\ottpremise{ \Theta ; \Psi  \vdash   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottsym{(}  \ottnt{T_{{\mathrm{2}}}}  \rhd  \ottnt{T_{{\mathrm{3}}}}  \ottsym{)}  }%
+\ottpremise{ \Theta ; \Psi  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottsym{(}  \ottnt{T_{{\mathrm{2}}}}  \rhd  \ottnt{T_{{\mathrm{3}}}}  \ottsym{)}  }%
 }{
  \Theta ; \Psi  \vdash  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \sqcup  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)}  \multimapboth  \ottsym{(}   \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}}   \ottsym{)}  \sqcup  \ottsym{(}   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}   \ottsym{)} }{%
 {\ottdruleEXXdistParaName}{}%
@@ -253,7 +271,7 @@
 
 \newcommand{\ottdruleEXXdistSeqName}[0]{\ottdrulename{E\_distSeq}}
 \newcommand{\ottdruleEXXdistSeq}[1]{\ottdrule[#1]{%
-\ottpremise{ \Theta ; \Psi  \vdash  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \sqcup  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)} }%
+\ottpremise{ \Theta ; \Psi  \vdash^T  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \sqcup  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)} }%
 }{
  \Theta ; \Psi  \vdash  \ottsym{(}  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottsym{(}   \ottnt{T_{{\mathrm{2}}}}  \sqcup  \ottnt{T_{{\mathrm{3}}}}   \ottsym{)}  \ottsym{)}  \multimapboth  \ottsym{(}   \ottsym{(}  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}}  \ottsym{)}  \sqcup  \ottsym{(}  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{3}}}}  \ottsym{)}   \ottsym{)} }{%
 {\ottdruleEXXdistSeqName}{}%
@@ -270,6 +288,8 @@
 \ottusedrule{\ottdruleEXXchoice{}}
 \ottusedrule{\ottdruleEXXimpI{}}
 \ottusedrule{\ottdruleEXXimpE{}}
+\ottusedrule{\ottdruleEXXweakS{}}
+\ottusedrule{\ottdruleEXXweakP{}}
 \ottusedrule{\ottdruleEXXchoiceCont{}}
 \ottusedrule{\ottdruleEXXchoiceSym{}}
 \ottusedrule{\ottdruleEXXchoiceAssoc{}}
@@ -293,7 +313,7 @@
 \ottall
 
 \begin{verbatim}
-Definition rules:        20 good    0 bad
-Definition rule clauses: 36 good    0 bad
+Definition rules:        22 good    0 bad
+Definition rule clauses: 40 good    0 bad
 \end{verbatim}
 \end{document}

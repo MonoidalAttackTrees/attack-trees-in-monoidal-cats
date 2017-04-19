@@ -1,69 +1,150 @@
 In this section I introduce attack trees with sequential composition
-first proposed by Jhawar et al. \cite{Jhawar:2015}.  One of the
-projects ultimate goals is to extend attack trees with even more
-operators driven by our choice of semantics, but I leave this to
-future work.
-
-The definition of attack trees is broken up into two parts.  First,
-the definition of pre-attack trees.
+-- sometimes referred to SAND attack trees -- without cost annotations
+in the hope that doing so will make the main ideas of this work more
+clear to the reader.  This formulation of attack trees was first
+proposed by Jhawar et al. \cite{Jhawar:2015}. First, I define the
+syntax of attack trees then a linear logic for reasoning about attack
+trees.
 \begin{definition}
   \label{def:atrees}
-  Suppose $\mathsf{B}$ is a set of base attack, $\mathsf{C}$ is
-  a set of costs, $\Sigma =
-  \{\mathsf{op}_{\odot}, \mathsf{op}_\rhd, \mathsf{op}_\sqcup \}$ is a set of binary
-  operations on $\mathsf{C}$, and $I = \{i_\odot, i_\rhd, i_\sqcup\}$ is a set of
-  identities, such that, each $l \in \{ \mathsf{op}_{\odot}, \mathsf{op}_\sqcup \}$, $\mathsf{op}_l \in \Sigma$ and $i_l \in
-  I$ make $(\mathsf{C}, \mathsf{op}_l, i_l)$ a commutative monoid, and
-  $(\mathsf{C}, \mathsf{op}_\rhd, i_\rhd)$ a monoid.
-
-  \ \\
-  \noindent
-  The following defines the syntax of \textbf{Pre-attack Trees} given an
-  assignment $\eta : \mathsf{B} \to \mathsf{C}$ of base attacks
-  to costs:
+  Suppose $\mathsf{B}$ is a set of base attacks whose elements are
+  denoted by $[[b]]$.  Then an \textbf{attack tree} is defined by
+  the following grammar:
   \[
   \begin{array}{lll}
-    [[T]] ::= [[(b, c)]] \mid [[T1 (.)op T2]] \mid [[T1 +op T2]] \mid [[T1 >op  T2]]\\
+    [[T]] ::= [[b]] \mid [[T1 (.) T2]] \mid [[T1 + T2]] \mid [[T1 > T2]]\\
   \end{array}
   \]
-  I denote unsynchronized parallel composition of attacks by $[[T1 +op
-      T2]]$, choice between attacks by $[[T1 (.)op T2]]$, and sequential
-  composition of attacks by $[[T1 >op T2]]$.  
+  I denote unsynchronized parallel composition of attacks by $[[T1 (.) T2]]$,
+  choice between attacks by $[[T1 + T2]]$, and sequential
+  composition of attacks by $[[T1 > T2]]$.  
 \end{definition}
-The most interesting aspect of the previous definition is that each
-branching operator is annotated with an monoidal operation that
-computes the cost at that branch.  Thus, given a preattack trees we do
-not know the cost of the root node.
 
-I characterize valid attack trees as preattack trees in which the
-given branching operators are used to construct the costs of the tree.
-This notion of validity is captured by the inference rules given in
-Figure~\ref{fig:valid-atrees}.
+Now we define the attack tree linear logic (ATLL) for reasoning about
+attack trees. In ATLL attack trees are modeled as formulas, and thus,
+if attack trees are formulas, then reasoning about attack trees should
+correspond to proving implications between attack trees.  Furthermore,
+some care must be taken so that choice and parallel composition are
+symmetric, but sequential composition is not.  We enforce this
+property in ATLL by separating hypotheses as is usually done in
+ordered linear logic \cite{?}.
+\begin{definition}
+  \label{def:ATLL-syntax}
+  The syntax of ATLL formulas and contexts are defined as follows:
+  \[
+  \begin{array}{rll}
+    \text{(formulas)}         & [[E]] ::= [[b]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E -o B]]\\
+    \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[b]] \mid [[G,D]]\\
+    \text{(general contexts)} & [[I]],[[P]] ::= [[.]] \mid [[E]] \mid [[G,D]]\\\\
+  \end{array}
+  \]
+\end{definition}
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-    \LLAdruleTXXvar{} \and
-    \LLAdruleTXXvarC{} \and
-    \LLAdruleTXXpara{} \and
-    \LLAdruleTXXseq{} \and
-    \LLAdruleTXXchoice{}
-  \end{mathpar}
+      \ATLLdruleTXXvar{} \and
+      \ATLLdruleTXXvarC{} \and
+      \ATLLdruleTXXpara{} \and
+      \ATLLdruleTXXseq{} \and
+      \ATLLdruleTXXchoice{}
+    \end{mathpar}
   \end{mdframed}
-  \caption{Inference Rules for Valid Attack Trees}
-  \label{fig:valid-atrees}
+  \caption{Well Formed Attack Trees in ATLL}
+  \label{fig:wf-attack-trees}
 \end{figure}
-The valid attack tree inference rules constitute a very simple linear
-logic which guarantees that each base attack is used exactly once, and
-the cost of every subtree is calculated correctly.  We have now
-arrived at the following definition.
-\begin{definition}
-  \label{def:valid-atrees}
-  Suppose $[[G]]$ is a sequence of pairs of base attacks and their
-  costs that are to be used as leafs to the parallel branching
-  operator, and $[[D]]$ is a sequence of pairs of base attacks and
-  their costs that are to be used as leafs to the sequential branching
-  operator.  A preattack tree, $[[T]]$, is an \textbf{attack tree} if
-  and only if $[[G;D |-c T]]$ is derivable using the valid attack tree
-  inference rules.
-\end{definition}
 
+ATLL formulas are defined as an extension of the syntax for attack
+trees with linear implication.  An attack tree then corresponds to an
+ATLL formula without implication.  Suppose $[[E]]$ is an ATLL formula
+such that every base attack in $[[E]]$ which is a leaf of sequential
+composition is in the base context $[[G]]$, and every leaf of parallel
+composition is in the base context $[[D]]$. Then $[[E]]$ is an attack tree
+if and only if $[[G;D |-T E]]$ holds with respect to the rules in
+Figure~\ref{fig:wf-attack-trees}.
+
+The inference rules in Figure~\ref{fig:wf-attack-trees} enforce
+several properties.  First, they enforce that every base attack is
+used exactly once, and that an attack tree does not mention linear
+implication.  Furthermore, they allow us to restrict our reasoning to
+attack trees which I conjecture will result in our reasoning being
+more amenable to automation.
+
+\begin{figure}
+  \begin{mdframed}
+    \begin{mathpar}
+      \ATLLdruleEXXvar{} \and
+      \ATLLdruleEXXvarC{} \and
+      \ATLLdruleEXXparaI{} \and
+      \ATLLdruleEXXparaE{} \and
+      \ATLLdruleEXXseqI{} \and
+      \ATLLdruleEXXseqE{} \and
+      \ATLLdruleEXXex{} \and
+      \ATLLdruleEXXchoice{} \and
+      \ATLLdruleEXXimpI{} \and
+      \ATLLdruleEXXimpE{}      
+    \end{mathpar}
+  \end{mdframed}
+  \caption{ATLL Logical Inference Rules}
+  \label{fig:atll-rules}
+\end{figure}
+\begin{figure}
+  \begin{mdframed}
+    \begin{mathpar}
+      \ATLLdruleEXXchoiceCont{} \and
+      \ATLLdruleEXXchoiceSym{} \and
+      \ATLLdruleEXXchoiceAssoc{} \and
+      \ATLLdruleEXXdistPara{} \and
+      \ATLLdruleEXXdistSeq{}
+    \end{mathpar}
+  \end{mdframed}
+  \caption{ATLL Attack Tree Axioms}
+  \label{fig:atll-attack-tree-axioms}
+\end{figure}
+
+The ATLL logical inference rules are defined in
+Figure~\ref{fig:atll-rules}.  These rules make up a basic linear logic
+for attack trees.  For example, we can prove that sequential and
+parallel composition are associative, and the latter is symmetric, but
+there are a number of facts that these rules do not prove.  They cannot
+prove that choice is associative and symmetric, and they cannot prove
+the usual distributive laws associated with attack trees with
+sequential composition \cite{Jhawar:2015}.  To overcome this
+limitation we add the attack tree axioms in
+Figure~\ref{fig:atll-attack-tree-axioms} to ATLL.  The logical
+connective $[[o-o]]$ is linear biimplication which is defined in the
+usual way as classical implication.  The reader should note that these
+axioms are restricted to attack trees only and not applicable to full
+ATLL formulas.
+
+The ATLL logical inference rules also make it clear why we separate
+hypotheses into two contexts.  The exchange rule, $\text{sym}_\odot$,
+allows one to exchange hypotheses in the context $[[P]]$, but notice
+that there is no exchange rule for the context $[[I]]$.  Thus, one
+should think of the hypotheses in $[[P]]$ as running in parallel and
+the hypotheses in $[[I]]$ as running sequentially.  In fact, this
+interpretation is reinforced by the elimination rules, $\odot_E$ and
+$\rhd_E$, for parallel and sequential conjunction respectively.
+
+Finally, ATLL allows one to prove every equivalence for attack trees
+with sequential composition given by Jhawar et al.~\cite{Jhawar:2015}
+as linear implications.  I conjecture that it should be possible to
+define a proof search algorithm for ATLL to automate equational
+reasoning on attack trees, but this is future work.  However, using
+implication as a means to reason about attack trees opens the door for
+different types of reasoning.
+
+Suppose $[[T1]]$ is a larger attack tree, and we wish to know if the
+attack tree $[[T2]]$ is contained within $[[T1]]$, that is, $[[T2]]$
+is a subattack tree of $[[T1]]$.  Currently, ATLL will not allow us to
+prove this, but it can if we add the following rules:
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      \ATLLdruleEXXweakS{} & \quad & \ATLLdruleEXXweakP{}
+    \end{array}
+  \end{math}
+\end{center}
+These rules allow us to discard parts of a larger attack tree while
+constructing proof derivations, but this only works for attack trees
+not general ATLL formulas.  Thus, with these rules ATLL becomes
+slightly affine.

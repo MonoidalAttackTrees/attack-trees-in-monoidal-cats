@@ -74,6 +74,7 @@
 %% Ott
 \input{atrees-ott}
 \input{ll-attack-ott}
+\input{oll-ott}
 \renewcommand{\LLAdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\LLAdrulename{#4}}}
 \renewcommand{\LLAdrulename}[1]{#1}
 \renewcommand{\LLAdruleTXXvarName}{\text{id}_{\odot}}
@@ -97,6 +98,32 @@
 \renewcommand{\LLAdruleEXXchoiceName}{\sqcup}
 \renewcommand{\LLAdruleEXXimpIName}{\multimap_I}
 \renewcommand{\LLAdruleEXXimpEName}{\multimap_E}
+
+\renewcommand{\ATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\ATLLdrulename{#4}}}
+\renewcommand{\ATLLdrulename}[1]{#1}
+\renewcommand{\ATLLdruleTXXvarName}{\text{id}_{\odot}}
+\renewcommand{\ATLLdruleTXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\ATLLdruleTXXparaName}{\odot}
+\renewcommand{\ATLLdruleTXXseqName}{\rhd}
+\renewcommand{\ATLLdruleTXXchoiceName}{\sqcup}
+
+\renewcommand{\ATLLdruleEXXvarName}{\text{id}_{\odot}}
+\renewcommand{\ATLLdruleEXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\ATLLdruleEXXchoiceContName}{\text{cont}_\sqcup}
+\renewcommand{\ATLLdruleEXXchoiceSymName}{\text{sym}_\sqcup}
+\renewcommand{\ATLLdruleEXXchoiceAssocName}{\text{assoc}_\sqcup}
+\renewcommand{\ATLLdruleEXXdistParaName}{\text{dis}_\odot}
+\renewcommand{\ATLLdruleEXXdistSeqName}{\text{dis}_\rhd}
+\renewcommand{\ATLLdruleEXXparaIName}{\odot_I}
+\renewcommand{\ATLLdruleEXXparaEName}{\odot_E}
+\renewcommand{\ATLLdruleEXXseqIName}{\rhd_I}
+\renewcommand{\ATLLdruleEXXseqEName}{\rhd_E}
+\renewcommand{\ATLLdruleEXXexName}{\text{sym}_\odot}
+\renewcommand{\ATLLdruleEXXchoiceName}{\sqcup}
+\renewcommand{\ATLLdruleEXXimpIName}{\multimap_I}
+\renewcommand{\ATLLdruleEXXimpEName}{\multimap_E}
+\renewcommand{\ATLLdruleEXXweakSName}{\text{wk}_\odot}
+\renewcommand{\ATLLdruleEXXweakPName}{\text{wk}_\rhd}
 
 \begin{document}
 
@@ -198,21 +225,15 @@ could be used in practice to certify the correctness of
 transformations of attack trees maintaining the resource based
 semantics.
 
-\section{A Short Introduction to Ordered Linear Logic}
-\label{sec:a_short_introduction_to_ordered_linear_logic}
-\input{ll-intro-output}
-% section a_short_introduction_to_ordered_linear_logic (end)
-
-
-\section{Attack Trees}
-\label{sec:attack_trees}
+\section{Attack Trees without Costs}
+\label{sec:attack_trees_without_costs}
 \input{attack-trees-output}
-% section attack_trees (end)
+% section attack_trees_without_costs (end)
 
-\section{A Linear Logic for Attack Trees}
-\label{sec:a_linear_logic_for_attack_trees}
+\section{Attack Trees with Costs}
+\label{sec:attack_trees_with_costs}
 \input{ll-attack-output}
-% section a_linear_logic_for_attack_trees (end)
+% section attack_trees_with_costs (end)
 
 \bibliographystyle{plain}
 \bibliography{ref}

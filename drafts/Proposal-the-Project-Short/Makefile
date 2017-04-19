@@ -19,12 +19,8 @@ ll-attack-output.tex : ll-attack.tex ll-attack-ott/ll-attack.ott
 	$(OTT) $(OTT_FLAGS) -i ll-attack-ott/ll-attack.ott -o ll-attack-ott.tex -tex_name_prefix LLA \
 		-tex_filter ll-attack.tex ll-attack-output.tex
 
-oll-output.tex : ll-intro.tex oll/oll.ott
-	$(OTT) $(OTT_FLAGS) -i oll/oll.ott -o oll-ott.tex -tex_name_prefix OLL \
-		-tex_filter ll-intro.tex ll-intro-output.tex
-
-attack-trees-output.tex : attack-trees.tex ll-attack-ott/ll-attack.ott
-	$(OTT) $(OTT_FLAGS) -i ll-attack-ott/ll-attack.ott -o ll-attack-ott.tex -tex_name_prefix LLA \
+attack-trees-output.tex : attack-trees.tex oll/oll.ott
+	$(OTT) $(OTT_FLAGS) -i oll/oll.ott -o oll-ott.tex -tex_name_prefix ATLL \
 		-tex_filter attack-trees.tex attack-trees-output.tex
 
 main-output.tex : main.tex atrees.ott
@@ -33,7 +29,7 @@ main-output.tex : main.tex atrees.ott
 
 # Now this takes the full LaTex translation and compiles it using
 # pdflatex.
-main.pdf : ll-attack-output.tex main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile attack-trees-output.tex oll-output.tex
+main.pdf : ll-attack-output.tex main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile attack-trees-output.tex
 	$(PDFLATEX) -jobname=main main-output.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -jobname=main main-output.tex
