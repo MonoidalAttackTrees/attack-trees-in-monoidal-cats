@@ -186,7 +186,7 @@ resource -- of the system being analyzed. As it turns out, linear
 logic has been shown to be a logical foundation for multisets
 \cite{Tzouvaras:1998} and Petri Nets \cite{Brown:1991}.  Thus, linear
 logic has the ability to model the state as well as attack actions of
-the goals of an attack tree.  We propose that linear logic be used as
+the goals of an attack tree.  I propose that linear logic be used as
 the logical foundation of attack trees.
 
 This projects\footnote{This material is based upon work supported by
@@ -194,7 +194,7 @@ This projects\footnote{This material is based upon work supported by
   ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
   Categories``, under Grant No. 1565557.} main goal is to determine
 the suitability of linear logic as a foundation for attack trees.  The
-type of attack trees we consider in this paper are attack trees with
+type of attack trees considered in this paper are attack trees with
 sequential composition similar to Jhawar et al.~\cite{Jhawar:2015}.
 Attack trees consist of two layers: the logical layer or process tree,
 and the quantitative layer.  One interesting aspect of our proposed
@@ -235,6 +235,33 @@ semantics.
 \input{ll-attack-output}
 % section attack_trees_with_costs (end)
 
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+I introduced a new linear logic for reasoning about attack trees
+called the Attack Tree Linear Logic (ATLL) with and without costs.
+Attack trees are modeled as logical formulas and proving relationships
+between attack trees corresponds to proving implications.  Adding
+costs to ATLL results in a new indexed linear logic called Indexed
+ATLL.  Then I showed how endowing implication with a relation on costs
+can be used include the costs when reasoning about attack trees.
+
+ATLL is just one part of this project, the following are some next
+steps with respect to (Indexed) ATLL and other parts of the project:
+\begin{itemize}
+\item Define a term assignment for (Indexed) ATLL that can be used to
+  define attack trees using a functional programming language.
+\item Determine the applicability of automating reasoning on attack
+  trees in (Indexed) ATLL using proof search.  
+\item Finish studying the categorical model to which (Indexed) ATLL is
+  based.
+\item Finishing the development of a modular and stand alone IDE for
+  attack tree in Javascript that can be used with various
+  formalization of attack trees.  Hopefully, that the community will
+  be able to make use of this interface.
+\end{itemize}
+% section conclusion (end)
+
+
 \bibliographystyle{plain}
 \bibliography{ref}
 
@@ -242,15 +269,7 @@ semantics.
 
 \section*{Appendix}
 \label{sec:appendix}
-\section{Symmetric Monoidal Categories}
-\label{sec:symmetric_monoidal_categories}
-\input{appendix-SMC}
-% section symmetric_monoidal_categories (end)
 
-\section{Source Sink Graphs are Symmetric Monoidal}
-\label{sec:source_sink_graphs_are_symmetric_monoidal}
-\input{appendix-SSG-monoidal}
-% section source_sink_graphs_are_symmetric_monoidal (end)
 % section appendix (end)
 
 

@@ -32,7 +32,6 @@ grammar
 
   C :: 'C_' ::=
     | c :: :: cost
-    | - :: :: Dash
     | op ( C1 , C2 ) :: :: op
     | eta( b ) :: M :: costMap
     {{tex \eta([[b]]) }}
@@ -54,7 +53,7 @@ grammar
     | E1 >op E2   :: :: Seq
     {{tex [[E1]] \rhd_{\mathsf{op}_\rhd} [[E2]] }}
     | E1 +op E2   :: :: Choice
-    {{tex [[E1]] \sqcup_{\mathsf{op}_\sqcup} [[E2]] }}    
+    {{tex [[E1]] \sqcup_{\mathsf{op}_\sqcup} [[E2]] }}
     | E1 -oop( c , - ) E2 :: :: LinImp
     {{tex [[E1]] \multimap_{\mathsf{rel}_{[[-o]]}([[c]],-)} [[E2]] }}
     | E1 o-oop( C , - ) E2 :: :: BiLinImp
@@ -141,7 +140,7 @@ defns
 
 defn
  G ; D |-T  C T :: :: type :: 'T_'    
- {{tex [[G]];[[D]] \vdash_{[[C]]} [[T]] }} by
+ {{tex [[G]];[[D]] \vdash^T_{[[C]]} [[T]] }} by
     
  --------------- :: var
  .;(b,c) |-T c b

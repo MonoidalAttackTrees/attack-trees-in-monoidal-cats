@@ -30,10 +30,12 @@ property in ATLL by separating hypotheses as is usually done in
 ordered linear logic \cite{?}.
 \begin{definition}
   \label{def:ATLL-syntax}
-  The syntax of ATLL formulas and contexts are defined as follows:
+  Suppose $\mathsf{B}$ is a set of base attacks whose elements are
+  denoted by $[[b]]$. The syntax of ATLL formulas and contexts are
+  defined as follows:
   \[
   \begin{array}{rll}
-    \text{(formulas)}         & [[E]] ::= [[b]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E -o B]]\\
+    \text{(formulas)}         & [[E]] ::= [[b]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E1 -o E2]]\\
     \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[b]] \mid [[G,D]]\\
     \text{(general contexts)} & [[I]],[[P]] ::= [[.]] \mid [[E]] \mid [[G,D]]\\\\
   \end{array}
