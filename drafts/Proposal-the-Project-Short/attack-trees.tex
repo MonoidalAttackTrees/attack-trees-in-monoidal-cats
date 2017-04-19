@@ -147,4 +147,6 @@ prove this, but it can if we add the following rules:
 These rules allow us to discard parts of a larger attack tree while
 constructing proof derivations, but this only works for attack trees
 not general ATLL formulas.  Thus, with these rules ATLL becomes
-slightly affine.
+slightly affine.  We can now use these rules to determine if
+$[[T1 -o T2]]$ holds, and if it does, then $[[T2]]$ is a
+subattack tree of $[[T1]]$.
