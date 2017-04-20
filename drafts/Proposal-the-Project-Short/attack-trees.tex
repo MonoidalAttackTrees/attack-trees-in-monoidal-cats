@@ -1,4 +1,4 @@
-In this section I introduce attack trees with sequential composition
+In this section I introduce attack trees with sequential conjunction
 -- sometimes referred to SAND attack trees -- without cost annotations
 in the hope that doing so will make the main ideas of this work more
 clear to the reader.  This formulation of attack trees was first
@@ -15,19 +15,18 @@ trees.
     [[T]] ::= [[b]] \mid [[T1 (.) T2]] \mid [[T1 + T2]] \mid [[T1 > T2]]\\
   \end{array}
   \]
-  I denote unsynchronized parallel composition of attacks by $[[T1 (.) T2]]$,
+  I denote unsynchronized parallel conjunction of attacks by $[[T1 (.) T2]]$,
   choice between attacks by $[[T1 + T2]]$, and sequential
-  composition of attacks by $[[T1 > T2]]$.  
+  conjunction of attacks by $[[T1 > T2]]$.  
 \end{definition}
 
-Now we define the attack tree linear logic (ATLL) for reasoning about
+Now we define the Attack Tree Linear Logic (ATLL) for reasoning about
 attack trees. In ATLL attack trees are modeled as formulas, and thus,
-if attack trees are formulas, then reasoning about attack trees should
-correspond to proving implications between attack trees.  Furthermore,
-some care must be taken so that choice and parallel composition are
-symmetric, but sequential composition is not.  We enforce this
-property in ATLL by separating hypotheses as is usually done in
-ordered linear logic \cite{?}.
+reasoning about attack trees should correspond to proving implications
+between attack trees.  Furthermore, some care must be taken so that
+choice and parallel conjunction are symmetric, but sequential
+conjunction is not.  We enforce this property in ATLL by separating
+hypotheses as is usually done in ordered linear logic \cite{?}.
 \begin{definition}
   \label{def:ATLL-syntax}
   Suppose $\mathsf{B}$ is a set of base attacks whose elements are
@@ -59,8 +58,8 @@ ATLL formulas are defined as an extension of the syntax for attack
 trees with linear implication.  An attack tree then corresponds to an
 ATLL formula without implication.  Suppose $[[E]]$ is an ATLL formula
 such that every base attack in $[[E]]$ which is a leaf of sequential
-composition is in the base context $[[G]]$, and every leaf of parallel
-composition is in the base context $[[D]]$. Then $[[E]]$ is an attack tree
+conjunction is in the base context $[[G]]$, and every leaf of parallel
+conjunction is in the base context $[[D]]$. Then $[[E]]$ is an attack tree
 if and only if $[[G;D |-T E]]$ holds with respect to the rules in
 Figure~\ref{fig:wf-attack-trees}.
 
@@ -106,11 +105,11 @@ more amenable to automation.
 The ATLL logical inference rules are defined in
 Figure~\ref{fig:atll-rules}.  These rules make up a basic linear logic
 for attack trees.  For example, we can prove that sequential and
-parallel composition are associative, and the latter is symmetric, but
+parallel conjunction are associative, and the latter is symmetric, but
 there are a number of facts that these rules do not prove.  They cannot
 prove that choice is associative and symmetric, and they cannot prove
 the usual distributive laws associated with attack trees with
-sequential composition \cite{Jhawar:2015}.  To overcome this
+sequential conjunction \cite{Jhawar:2015}.  To overcome this
 limitation we add the attack tree axioms in
 Figure~\ref{fig:atll-attack-tree-axioms} to ATLL.  The logical
 connective $[[o-o]]$ is linear biimplication which is defined in the
@@ -128,7 +127,7 @@ interpretation is reinforced by the elimination rules, $\odot_E$ and
 $\rhd_E$, for parallel and sequential conjunction respectively.
 
 Finally, ATLL allows one to prove every equivalence for attack trees
-with sequential composition given by Jhawar et al.~\cite{Jhawar:2015}
+with sequential conjunction given by Jhawar et al.~\cite{Jhawar:2015}
 as linear implications.  I conjecture that it should be possible to
 define a proof search algorithm for ATLL to automate equational
 reasoning on attack trees, but this is future work.  However, using

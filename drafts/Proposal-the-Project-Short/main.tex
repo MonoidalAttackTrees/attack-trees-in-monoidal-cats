@@ -133,7 +133,7 @@
 %% \copyrightdoi{}
 %% \titlebanner{}
 
-\title{Project Update: A New Foundation of Attack Trees in Linear Logic}
+\title{A New Foundation of Attack Trees in Linear Logic}
 
 \author{Harley Eades III}
 \institute{Computer Science\\Augusta University \\ \href{mailto:heades@augusta.edu}{harley.eades@gmail.com}}
@@ -141,16 +141,16 @@
 \maketitle 
 
 \begin{abstract}
-  In this short paper I provide an update on the status of newly
-  funded research project investigating founding attack trees in the
-  resource conscious theory called linear logic.  I introduce a new
-  linear logic called the Attack Tree Linear Logic (ATLL) which models
-  attack trees as formulas and uses implication to reason about attack
-  trees.  I then introduce a new generalization of Bucciarelli and
-  Ehrhard’s indexed linear logic to obtain Indexed ATLL which adds
-  costs to attack trees.  The most interesting aspect of Indexed ATLL
-  is that implication is endowed with a relation for taking into
-  consideration the costs while reasoning about attack trees.
+  In this short paper I provide an update on an ongoing research
+  project investigating founding attack trees in the resource
+  conscious theory called linear logic.  I introduce a new linear
+  logic called the Attack Tree Linear Logic (ATLL) which models attack
+  trees as formulas and uses implication to reason about attack trees.
+  I then introduce a new generalization of Bucciarelli and Ehrhard’s
+  indexed linear logic to obtain Indexed ATLL which adds costs to
+  attack trees.  The most interesting aspect of Indexed ATLL is that
+  implication is endowed with a relation for taking into consideration
+  the costs while reasoning about attack trees.
 \end{abstract}
 
 \section{Introduction}
@@ -180,55 +180,48 @@ exactly once, and hence, if we view a hypothesis as a resource, then
 this property can be stated as every resource must be consumed.  This
 linearity property is achieved by removing the structural rules for
 weakening and contraction from classical or intuitionistic logic.
-Thus, from a resource perspective, resources cannot be spontaneously
-created or duplicated -- hence, propositional logic can be viewed as a
-degenerate, from a resource perspective, form of linear logic.
 
 Multisets and Petri nets both capture the idea that the nodes of an
-attack tree capture both the attack action and the state -- the
+attack tree consist of the attack action and the state -- the
 resource -- of the system being analyzed. As it turns out, linear
 logic has been shown to be a logical foundation for multisets
 \cite{Tzouvaras:1998} and Petri Nets \cite{Brown:1991}.  Thus, linear
 logic has the ability to model the state as well as attack actions of
-the goals of an attack tree.  I propose that linear logic be used as
-the logical foundation of attack trees.
+the goals of an attack tree.  
 
-This projects\footnote{This material is based upon work supported by
-  the National Science Foundation CRII CISE Research Initiation grant,
+In this short paper I give an update of an ongoing
+project\footnote{This material is based upon work supported by the
+  National Science Foundation CRII CISE Research Initiation grant,
   ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
-  Categories``, under Grant No. 1565557.} main goal is to determine
-the suitability of linear logic as a foundation for attack trees.  In
-this short paper I give an update on this project and introduce a new
-logical foundation of attack trees. The type of attack trees
-considered in this paper are attack trees with sequential composition
-similar to Jhawar et al.~\cite{Jhawar:2015}.  Attack trees consist of
-two layers: the logical layer or process tree, and the quantitative
-layer.  One interesting aspect of my proposed foundation is that both
-layers can be considered during reasoning about attack trees.
+  Categories``, under Grant No. 1565557.} whose main goal is to
+determine the suitability of linear logic as a foundation for attack
+trees; the type of attack trees considered in this paper are attack
+trees with sequential conjunction due to Jhawar et
+al.~\cite{Jhawar:2015}.  I introduce a new logical foundation of
+attack trees with and without costs in linear logic.
 
-At the logical layer the base attacks of an attack tree will
-correspond to atomic formulas in linear logic, and each branching node
-of an attack tree will correspond to a binary operator in linear
-logic.  Adding costs corresponds to annotating the atomic formulas
-with some base cost, and then annotating the binary operators with a
-cost computed from the costs of their respective left operand (left
-subtree) and right operand (right subtree).  The most interesting
-aspect of adding costs is that computing the costs at the branching
-nodes is done during the construction of a derivation using the
-inference rules of the logic.
+This new linear logic is called the Attack Tree Linear Logic (ATLL)
+(Section~\ref{sec:attack_trees_without_costs}).  Attack trees are
+modeled in ATLL as linear formulas where base attacks are atomic
+formulas, and each branching node corresponds to a binary logical
+connective. Then reasoning about attack trees corresponds to proving
+implications between attack trees.  In fact, every equation of attack
+trees from Jhawar et al.'s work on attack trees with sequential
+conjunction \cite{Jhawar:2015} can be proven as an implication in
+ATLL.  In addition, implication can be used to prove subattack tree
+relationships between attack trees.
 
-The inference rules of linear logic provide a number of benefits when
-constructing attack trees.  First, the inference rules will certify
-that an attack tree is constructed correctly and all costs on
-branching nodes will be computed from the costs of the left and right
-subtrees.  On top of that the inference rules offer a means of proving
-when two attack trees are equivalent. Leveraging the fact that
-language of attack trees corresponds to a very simple fragment of
-linear logic, e.g. linear implication is not needed, I conjecture
-that proving equivalence of attack trees can be automated.  Thus, this
-could be used in practice to certify the correctness of
-transformations of attack trees maintaining the resource based
-semantics.
+Using a generalization of Bucciarelli and Ehrhard’s~\cite{?} indexed
+linear logic I extend ATLL with costs.  I call this extension Indexed
+ATLL (Section~\ref{sec:attack_trees_with_costs}).  In this system
+every base attack is annotated with a cost, and every branching node
+is annotated with a binary operation used for computing the cost at
+that node.  Then implication is annotated with a binary relation on
+costs.  This new binary relation is used to insure that the costs of
+two trees are related when proving implications between attack trees.
+Thus, one can prove facts about attack trees in ATLL that require one
+to reason about both the tree structure as well quantitative data in
+the tree simultaneously.
 
 \section{Attack Trees without Costs}
 \label{sec:attack_trees_without_costs}
@@ -248,7 +241,7 @@ Attack trees are modeled as logical formulas and proving relationships
 between attack trees corresponds to proving implications.  Adding
 costs to ATLL results in a new indexed linear logic called Indexed
 ATLL.  Then I showed how endowing implication with a relation on costs
-can be used include the costs when reasoning about attack trees.
+can be used to include the costs when reasoning about attack trees.
 
 ATLL is just one part of this project, the following are some next
 steps with respect to (Indexed) ATLL and other parts of the project:
@@ -261,8 +254,10 @@ steps with respect to (Indexed) ATLL and other parts of the project:
   based.
 \item Finishing the development of a modular and stand alone IDE for
   attack tree in Javascript that can be used with various
-  formalization of attack trees.  Hopefully, that the community will
+  formalizations of attack trees.  Hopefully, that the community will
   be able to make use of this interface.
+\item Develop the concrete implementation, called Lina, of (Indexed)
+  ATLL with automation.
 \end{itemize}
 % section conclusion (end)
 
