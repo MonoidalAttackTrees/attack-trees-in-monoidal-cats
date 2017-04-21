@@ -8,6 +8,7 @@
 \usepackage{hyperref}
 \usepackage[barr]{xy}
 \usepackage{mdframed}
+\usepackage{thmtools, thm-restate}
 
 %% This renames Barr's \to to \mto.  This allows us to use \to for imp
 %% and \mto for a inline morphism.
@@ -205,17 +206,18 @@ conjunction \cite{Jhawar:2015} can be proven as an implication in
 ATLL.  In addition, implication can be used to prove subattack tree
 relationships between attack trees.
 
-Using a generalization of Bucciarelli and Ehrhard’s~\cite{?} indexed
-linear logic I extend ATLL with costs.  I call this extension Indexed
-ATLL (Section~\ref{sec:attack_trees_with_costs}).  In this system
-every base attack is annotated with a cost, and every branching node
-is annotated with a binary operation used for computing the cost at
-that node.  Then implication is annotated with a binary relation on
-costs.  This new binary relation is used to insure that the costs of
-two trees are related when proving implications between attack trees.
-Thus, one can prove facts about attack trees in ATLL that require one
-to reason about both the tree structure as well quantitative data in
-the tree simultaneously.
+Using a generalization of Bucciarelli and
+Ehrhard’s~\cite{BUCCIARELLI:2000} indexed linear logic I extend ATLL
+with costs.  I call this extension Indexed ATLL
+(Section~\ref{sec:attack_trees_with_costs}).  In this system every
+base attack is annotated with a cost, and every branching node is
+annotated with a binary operation used for computing the cost at that
+node.  Then implication is annotated with a binary relation on costs.
+This new binary relation is used to insure that the costs of two trees
+are related when proving implications between attack trees.  Thus, one
+can prove facts about attack trees in ATLL that require one to reason
+about both the tree structure as well quantitative data in the tree
+simultaneously.
 
 \section{Attack Trees without Costs}
 \label{sec:attack_trees_without_costs}
@@ -263,6 +265,11 @@ steps with respect to (Indexed) ATLL and other parts of the project:
 
 \section*{Appendix}
 \label{sec:appendix}
+
+\section{The Full Specification of Indexed ATLL}
+\label{subsec:the_full_specification_of_indexed_atll}
+\input{full-indexed-atll-output}
+% section the_full_specification_of_indexed_atll (end)
 
 % section appendix (end)
 
