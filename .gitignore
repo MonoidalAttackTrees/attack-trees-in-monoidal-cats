@@ -34,3 +34,11 @@ Travel/*
 hiring/*
 /drafts/Proposal-the-Project-Short/ll-attack.tex
 server/*
+/drafts/Proposal-the-Project-Short/intro-output1.tex
+/drafts/Proposal-the-Project-Short/intro-output1.tex.backup
+/drafts/Proposal-the-Project-Short/main-output1.tex
+/drafts/Proposal-the-Project-Short/main-output1.tex.backup
+scripts/*
+scripts/.*
+scripts/*
+drafts/Proposal-the-Project-Short/scripts/*
