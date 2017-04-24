@@ -44,7 +44,6 @@ hypotheses as is usually done in ordered linear logic
   \begin{mdframed}
     \begin{mathpar}
       \ATLLdruleTXXvar{} \and
-      \ATLLdruleTXXvarC{} \and
       \ATLLdruleTXXpara{} \and
       \ATLLdruleTXXseq{} \and
       \ATLLdruleTXXchoice{}
@@ -60,7 +59,7 @@ ATLL formula without implication.  Suppose $[[E]]$ is an ATLL formula
 such that every base attack in $[[E]]$ which is a leaf of sequential
 conjunction is in the base context $[[G]]$, and every leaf of parallel
 conjunction is in the base context $[[D]]$. Then $[[E]]$ is an attack tree
-if and only if $[[G;D |-T E]]$ holds with respect to the rules in
+if and only if $[[D |-T E]]$ holds with respect to the rules in
 Figure~\ref{fig:wf-attack-trees}.
 
 The inference rules in Figure~\ref{fig:wf-attack-trees} enforce
@@ -74,13 +73,20 @@ more amenable to automation.
   \begin{mdframed}
     \begin{mathpar}
       \ATLLdruleEXXvar{} \and
-      \ATLLdruleEXXvarC{} \and
+      \ATLLdruleEXXvarCC{} \and
+      \ATLLdruleEXXvarC{} \and      
       \ATLLdruleEXXparaI{} \and
       \ATLLdruleEXXparaE{} \and
+      \ATLLdruleEXXchoiI{} \and
+      \ATLLdruleEXXchoiE{} \and
       \ATLLdruleEXXseqI{} \and
       \ATLLdruleEXXseqE{} \and
-      \ATLLdruleEXXex{} \and
-      \ATLLdruleEXXchoice{} \and
+      \ATLLdruleEXXexP{} \and
+      \ATLLdruleEXXchoiI{} \and
+      \ATLLdruleEXXchoiE{} \and
+      \ATLLdruleEXXexC{} \and
+      \IATLLdruleEXXdup{} \and
+      \IATLLdruleEXXcont{} \and
       \ATLLdruleEXXimpI{} \and
       \ATLLdruleEXXimpE{} \and
       \ATLLdruleEXXcomp{} 
@@ -92,9 +98,6 @@ more amenable to automation.
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \ATLLdruleEXXchoiceCont{} \and
-      \ATLLdruleEXXchoiceSym{} \and
-      \ATLLdruleEXXchoiceAssoc{} \and
       \ATLLdruleEXXdistParaOne{} \and      
       \ATLLdruleEXXdistParaTwo{} \and
       \ATLLdruleEXXdistSeqOne{} \and
@@ -177,30 +180,30 @@ and $[[T2]]$ corresponds to the canonical tree given in Figure~2 of
 \cite{?}. The attack trees $[[T1]]$ and $[[T2]]$ are equivalent if and
 only if $[[T1 o-o T2]]$ holds.  First, ATLL attack tree axioms are
 biimplications, and hence, we may treat these axioms as equivalences.
-For example, suppose $[[.;. |- E1 o-o E2]]$ and $[[I;P |- E1 > E3]]$
-both hold, then we can prove that $[[I;P |- E2 > E3]]$ holds:
+For example, suppose $[[.;.;. |- E1 o-o E2]]$ and $[[I;H;P |- E1 > E3]]$
+both hold, then we can prove that $[[I;H;P |- E2 > E3]]$ holds:
 \[\small
 \inferrule* [right=$\ATLLdruleEXXseqEName{}$] {
-  [[I;P |- E1 > E3]]
+  [[I;H;P |- E1 > E3]]
   \\
   $$\mprset{flushleft}
   \inferrule* [right=$\ATLLdruleEXXseqEName{}$] {
     $$\mprset{flushleft}
     \inferrule* [right=$\ATLLdruleEXXimpEName{}$] {
-      [[. ; . |- E1 -o E2]]
+      [[.;.; . |- E1 -o E2]]
       \\
       $$\mprset{flushleft}
       \inferrule* [right=] {
         \,
-      }{[[E1;. |- E1]]}
-    }{[[E1;. |- E2]]}
+      }{[[E1;.;. |- E1]]}
+    }{[[E1;.;. |- E2]]}
     \\
     $$\mprset{flushleft}
     \inferrule* [right=] {
       \,
-    }{[[E3;. |- E3]]}
-  }{[[E1,E3; . |- E2 > E3]]}
-}{[[I;P |- E2 > E3]]}
+    }{[[E3;.;. |- E3]]}
+  }{[[E1,E3;.; . |- E2 > E3]]}
+}{[[I;H;P |- E2 > E3]]}
 \]
 Thus, using this realization and the ATLL attack tree axioms we can
 prove that $[[T1]]$ is equivalent to $[[T2]]$ informally as follows:

@@ -21,7 +21,6 @@ ability to model and reason about attack trees with costs.
   \begin{mdframed}
     \begin{mathpar}
       \IATLLdruleTXXvar{} \and
-      \IATLLdruleTXXvarC{} \and
       \IATLLdruleTXXpara{} \and
       \IATLLdruleTXXseq{} \and
       \IATLLdruleTXXchoice{}
@@ -61,8 +60,8 @@ As we can see the only major changes to the ATLL syntax is that all
 hypotheses are annotated with costs.
 
 The inference rules for well-formed attack trees in Indexed ATLL are
-given in Figure~\ref{fig:wf-index-attack-trees}.  The judgment is now
-denoted by $[[G;D |-T c T]]$ where $[[c]]$ is the fully computed cost
+given in Figure~\ref{fig:wf-index-attack-trees}.  The sequent is now
+denoted by $[[D |-T c T]]$ where $[[c]]$ is the fully computed cost
 of the root of the attack tree $[[T]]$.  Notice that this cost is
 computed during the construction of a proof derivation.  This cost
 will be used along with the relation on implication to influence the
@@ -71,6 +70,7 @@ relationship between attack trees.
   \begin{mdframed}
     \begin{mathpar}
       \IATLLdruleEXXvar{} \and
+      \IATLLdruleEXXvarCC{} \and
       \IATLLdruleEXXvarC{} \and
       \IATLLdruleEXXseqI{} \and
       \IATLLdruleEXXseqE{} \and      
