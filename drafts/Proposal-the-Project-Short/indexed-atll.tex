@@ -1,0 +1,103 @@
+Now I generalize Bucciarelli and Ehrhard’s indexed linear logic
+\cite{BUCCIARELLI:2000} to obtain an extension of ATLL called Indexed ATLL with the
+ability to model and reason about attack trees with costs.
+\begin{definition}
+  \label{def:atrees}
+  Suppose $\mathsf{B}$ is a set of base attacks whose elements are
+  denoted by $[[b]]$, and $\mathsf{C}$ is a set of costs whose
+  elements are denoted by $[[c]]$.  Additionally, let
+  $(\mathsf{C},[[(.)op]])$ and $(\mathsf{C},[[+op]])$ be symmetric
+  monoids on $\mathsf{C}$, and $(\mathsf{C},[[>op]])$ be a monoid on
+  $\mathsf{C}$, where $[[(.)op]]$ and $[[>op]]$ distribute over
+  $[[+op]]$.  Then an \textbf{attack tree with costs} is defined by
+  the following grammar:
+  \[
+  \begin{array}{lll}
+    [[T]] ::= [[(b,c)]] \mid [[T1 (.) T2]] \mid [[T1 + T2]] \mid [[T1 > T2]]\\
+  \end{array}
+  \]  
+\end{definition}
+\begin{figure}
+  \begin{mdframed}
+    \begin{mathpar}
+      \IATLLdruleTXXvar{} \and
+      \IATLLdruleTXXvarC{} \and
+      \IATLLdruleTXXpara{} \and
+      \IATLLdruleTXXseq{} \and
+      \IATLLdruleTXXchoice{}
+    \end{mathpar}
+  \end{mdframed}
+  \caption{Well Formed Attack Trees in Indexed ATLL}
+  \label{fig:wf-index-attack-trees}
+\end{figure}
+Each base attack is annotated with a cost, and every branching node is
+associated with a binary operation for computing the cost at that node
+using the costs of the left subtree and the right subtree.
+
+I now extend the syntax and rules of ATLL into Indexed ATLL, but due
+to space I do not give every rule here, but only the most interesting
+ones, because they are similar to ATLL; the entire system is defined
+in Appendix~\ref{subsec:the_full_specification_of_indexed_atll}.
+\begin{restatable}[]{definition}{iatllSyntax}
+  \label{def:ATLL-syntax}
+  Suppose $\mathsf{B}$ is a set of base attacks whose elements are
+  denoted by $[[b]]$, and $\mathsf{C}$ is a set of costs whose
+  elements are denoted by $[[c]]$.  Additionally, let
+  $(\mathsf{C},[[(.)op]])$ and $(\mathsf{C},[[+op]])$ be symmetric
+  monoids on $\mathsf{C}$, and $(\mathsf{C},[[>op]])$ be a monoid on
+  $\mathsf{C}$, where $[[(.)op]]$ and $[[>op]]$ distribute over
+  $[[+op]]$.  Furthermore, let $(\mathsf{C}, [[-oop]])$ be a
+  preorder on $\mathsf{C}$.  Then the syntax of Indexed ATLL formulas
+  and contexts are defined as follows:
+  \[
+  \begin{array}{rll}
+    \text{(formulas)}         & [[E]] ::= [[(b, c)]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E1 c -o E2]]\\
+    \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[(b,c)]] \mid [[G,D]]\\
+    \text{(general contexts)} & [[I]],[[P]] ::= [[.]] \mid [[(E,c)]] \mid [[G,D]]\\\\
+  \end{array}
+  \]
+\end{restatable}
+As we can see the only major changes to the ATLL syntax is that all
+hypotheses are annotated with costs.
+
+The inference rules for well-formed attack trees in Indexed ATLL are
+given in Figure~\ref{fig:wf-index-attack-trees}.  The judgment is now
+denoted by $[[G;D |-T c T]]$ where $[[c]]$ is the fully computed cost
+of the root of the attack tree $[[T]]$.  Notice that this cost is
+computed during the construction of a proof derivation.  This cost
+will be used along with the relation on implication to influence the
+relationship between attack trees.
+\begin{figure}
+  \begin{mdframed}
+    \begin{mathpar}
+      \IATLLdruleEXXvar{} \and
+      \IATLLdruleEXXvarC{} \and
+      \IATLLdruleEXXseqI{} \and
+      \IATLLdruleEXXseqE{} \and      
+      \IATLLdruleEXXimpI{} \and
+      \IATLLdruleEXXimpE{} 
+    \end{mathpar}
+  \end{mdframed}
+  \caption{Select Logical Inference Rules for Indexed ATLL}
+  \label{fig:atl}
+\end{figure}
+
+The logical inference rules for Indexed ATLL are given in
+Figure~\ref{fig:atl}.  As I mentioned above I only give a select few
+of the rules here, but the complete system can be found in
+Appendix~\ref{subsec:the_full_specification_of_indexed_atll}.  The
+  most interesting rule is the introduction rule for implication,
+  $[[-o]]_I$, because the second premise is $[[-oop]]([[c1]],[[c2]])$.
+
+Suppose $[[(T1,c1)]]$ and $[[(T2,c2)]]$ are two attack trees with the
+respective costs, and the relation $[[-oop]]([[c1]],[[c2]])$ holds if
+and only if $[[c1]] \leq [[c2]]$. If we wanted to show that the attack
+tree $[[T1]]$ is equivalent to the attack tree $[[T2]]$, then we would
+have to show $[[T1 o-o T2]]$ where $[[o-oop]]([[c1]],[[c2]])$
+holds if and only if $[[-oop]]([[c1]],[[c2]])$ and
+$[[-oop]]([[c2]],[[c1]])$ hold.  This would require one to prove
+$[[o-oop]]([[c1]],[[c2]])$ which would require $[[c1]] = [[c2]]$.
+Thus, in this example, attack trees would be equivalent if and only if
+they have the same logical structure and the same overall cost.  Thus,
+several different types of reasoning on attack trees can be modeled in
+Index ATLL depending on the relation chosen for implication.

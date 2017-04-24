@@ -5,12 +5,12 @@ OTT_FLAGS := -tex_show_meta false -picky_multiple_parses false
 SKIM := skim_revert.sh
 SKIMRevinPath := $(shell command -v $(SKIM) 2> /dev/null)
 
-TexFileName := oll
-OTTFileName := oll
+TexFileName := atll
+OTTFileName := atll
 OTTFile := $(OTTFileName).ott
 OTTGen := $(OTTFileName)-inc.tex
 OTTOutputFile := $(TexFileName).tex
-OTTPrefix := OLL
+OTTPrefix := ATLL
 
 PDF := $(TexFileName).pdf
 

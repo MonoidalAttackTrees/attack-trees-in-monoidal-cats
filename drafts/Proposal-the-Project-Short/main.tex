@@ -73,32 +73,35 @@
 %% \newtheorem{observation}[theorem]{Observation}
 
 %% Ott
-\input{atrees-ott}
-\input{ll-attack-ott}
+\input{indexed-atll-ott}
+\input{atll-ott}
 \input{oll-ott}
-\renewcommand{\LLAdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\LLAdrulename{#4}}}
-\renewcommand{\LLAdrulename}[1]{#1}
-\renewcommand{\LLAdruleTXXvarName}{\text{id}_{\odot}}
-\renewcommand{\LLAdruleTXXvarCName}{\text{id}_{\rhd}}
-\renewcommand{\LLAdruleTXXparaName}{\odot}
-\renewcommand{\LLAdruleTXXseqName}{\rhd}
-\renewcommand{\LLAdruleTXXchoiceName}{\sqcup}
+\renewcommand{\IATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\IATLLdrulename{#4}}}
+\renewcommand{\IATLLdrulename}[1]{#1}
+\renewcommand{\IATLLdruleTXXvarName}{\text{id}_{\odot}}
+\renewcommand{\IATLLdruleTXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\IATLLdruleTXXparaName}{\odot}
+\renewcommand{\IATLLdruleTXXseqName}{\rhd}
+\renewcommand{\IATLLdruleTXXchoiceName}{\sqcup}
 
-\renewcommand{\LLAdruleEXXvarName}{\text{id}_{\odot}}
-\renewcommand{\LLAdruleEXXvarCName}{\text{id}_{\rhd}}
-\renewcommand{\LLAdruleEXXchoiceContName}{\text{cont}_\sqcup}
-\renewcommand{\LLAdruleEXXchoiceSymName}{\text{sym}_\sqcup}
-\renewcommand{\LLAdruleEXXchoiceAssocName}{\text{assoc}_\sqcup}
-\renewcommand{\LLAdruleEXXdistParaName}{\text{dis}_\odot}
-\renewcommand{\LLAdruleEXXdistSeqName}{\text{dis}_\rhd}
-\renewcommand{\LLAdruleEXXparaIName}{\odot_I}
-\renewcommand{\LLAdruleEXXparaEName}{\odot_E}
-\renewcommand{\LLAdruleEXXseqIName}{\rhd_I}
-\renewcommand{\LLAdruleEXXseqEName}{\rhd_E}
-\renewcommand{\LLAdruleEXXexName}{\text{sym}_\odot}
-\renewcommand{\LLAdruleEXXchoiceName}{\sqcup}
-\renewcommand{\LLAdruleEXXimpIName}{\multimap_I}
-\renewcommand{\LLAdruleEXXimpEName}{\multimap_E}
+\renewcommand{\IATLLdruleEXXvarName}{\text{id}_{\odot}}
+\renewcommand{\IATLLdruleEXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\IATLLdruleEXXchoiceContName}{\text{cont}_\sqcup}
+\renewcommand{\IATLLdruleEXXchoiceSymName}{\text{sym}_\sqcup}
+\renewcommand{\IATLLdruleEXXchoiceAssocName}{\text{assoc}_\sqcup}
+\renewcommand{\IATLLdruleEXXdistParaOneName}{\text{dis}_{\odot_1}}
+\renewcommand{\IATLLdruleEXXdistSeqOneName}{\text{dis}_{\rhd_1}}
+\renewcommand{\IATLLdruleEXXdistParaTwoName}{\text{dis}_{\odot_2}}
+\renewcommand{\IATLLdruleEXXdistSeqTwoName}{\text{dis}_{\rhd_2}}
+\renewcommand{\IATLLdruleEXXparaIName}{\odot_I}
+\renewcommand{\IATLLdruleEXXparaEName}{\odot_E}
+\renewcommand{\IATLLdruleEXXseqIName}{\rhd_I}
+\renewcommand{\IATLLdruleEXXseqEName}{\rhd_E}
+\renewcommand{\IATLLdruleEXXexName}{\text{sym}_\odot}
+\renewcommand{\IATLLdruleEXXchoiceName}{\sqcup}
+\renewcommand{\IATLLdruleEXXimpIName}{\multimap_I}
+\renewcommand{\IATLLdruleEXXimpEName}{\multimap_E}
+\renewcommand{\ATLLdruleEXXcompName}{\text{comp}_\multimap}
 
 \renewcommand{\ATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\ATLLdrulename{#4}}}
 \renewcommand{\ATLLdrulename}[1]{#1}
@@ -113,8 +116,10 @@
 \renewcommand{\ATLLdruleEXXchoiceContName}{\text{cont}_\sqcup}
 \renewcommand{\ATLLdruleEXXchoiceSymName}{\text{sym}_\sqcup}
 \renewcommand{\ATLLdruleEXXchoiceAssocName}{\text{assoc}_\sqcup}
-\renewcommand{\ATLLdruleEXXdistParaName}{\text{dis}_\odot}
-\renewcommand{\ATLLdruleEXXdistSeqName}{\text{dis}_\rhd}
+\renewcommand{\ATLLdruleEXXdistParaOneName}{\text{dis}_{\odot_1}}
+\renewcommand{\ATLLdruleEXXdistSeqOneName}{\text{dis}_{\rhd_1}}
+\renewcommand{\ATLLdruleEXXdistParaTwoName}{\text{dis}_{\odot_2}}
+\renewcommand{\ATLLdruleEXXdistSeqTwoName}{\text{dis}_{\rhd_2}}
 \renewcommand{\ATLLdruleEXXparaIName}{\odot_I}
 \renewcommand{\ATLLdruleEXXparaEName}{\odot_E}
 \renewcommand{\ATLLdruleEXXseqIName}{\rhd_I}
@@ -125,6 +130,18 @@
 \renewcommand{\ATLLdruleEXXimpEName}{\multimap_E}
 \renewcommand{\ATLLdruleEXXweakSName}{\text{wk}_\odot}
 \renewcommand{\ATLLdruleEXXweakPName}{\text{wk}_\rhd}
+
+\renewcommand{\OLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\OLLdrulename{#4}}}
+\renewcommand{\OLLdrulename}[1]{#1}
+\renewcommand{\OLLdrulevarName}{\text{id}_{\odot}}
+\renewcommand{\OLLdrulevarCName}{\text{id}_{\rhd}}
+\renewcommand{\OLLdruleparaIName}{\odot_I}
+\renewcommand{\OLLdruleparaEName}{\odot_E}
+\renewcommand{\OLLdruleseqIName}{\rhd_I}
+\renewcommand{\OLLdruleseqEName}{\rhd_E}
+\renewcommand{\OLLdruleexName}{\text{sym}_\odot}
+\renewcommand{\OLLdruleimpIName}{\multimap_I}
+\renewcommand{\OLLdruleimpEName}{\multimap_E}
 
 \begin{document}
 
@@ -219,6 +236,12 @@ can prove facts about attack trees in ATLL that require one to reason
 about both the tree structure as well quantitative data in the tree
 simultaneously.
 
+\section{A Brief Introduction to Ordered Linear Logic}
+\label{sec:a_brief_introduction_to_ordered_linear_logic}
+\input{oll-output}
+% section a_brief_introduction_to_ordered_linear_logic (end)
+
+
 \section{Attack Trees without Costs}
 \label{sec:attack_trees_without_costs}
 \input{attack-trees-output}
@@ -226,7 +249,7 @@ simultaneously.
 
 \section{Attack Trees with Costs}
 \label{sec:attack_trees_with_costs}
-\input{ll-attack-output}
+\input{indexed-atll-output}
 % section attack_trees_with_costs (end)
 
 \section{Conclusion and Future Work}

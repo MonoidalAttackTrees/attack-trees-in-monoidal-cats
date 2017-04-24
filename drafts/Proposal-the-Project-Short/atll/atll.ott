@@ -1,0 +1,196 @@
+% The full Ott spec of Simply Typed Grady.
+
+embed
+  {{tex-preamble \usepackage{cmll}
+                 \usepackage{relsize} }}
+
+metavar costvar, c ::=
+metavar termvar, x, y , z, f ::=
+metavar baseAttackVar, b ::=
+indexvar index, i , j, k ::=
+
+grammar
+  A, B, C, E :: 'A_' ::=
+    | b           :: :: Base
+    | A (.) B :: :: Para
+    {{tex [[A]] \odot [[B]] }}
+    | A + B   :: :: Choice
+    {{tex [[A]] \sqcup [[B]] }}
+    | A > B   :: :: Seq
+    | A -o B  :: :: Limp
+    | A o-o B :: :: BLimp
+    | ( A )   :: :: Paren
+
+  T :: 'T_' ::=
+    | b           :: :: Base
+    | T1 (.) T2 :: :: Para
+    {{tex [[T1]] \odot [[T2]] }}
+    | T1 > T2   :: :: Seq
+    {{tex [[T1]] \rhd [[T2]] }}
+    | T1 + T2   :: :: Choice
+    {{tex [[T1]] \sqcup [[T2]] }}
+    | ( T ) :: :: Parens
+
+  G {{ tex \Gamma }}, D {{tex \Delta }},
+  I {{ tex \Theta }}, P {{tex \Psi }} :: G_ ::=                 
+    | .                   ::   :: emptyCtx     
+    {{tex \cdot }}
+    | A                   ::   :: vn           
+    | G , G'              ::   :: append       
+    | ( G )               :: M :: parens
+
+  terminals :: 'terminals_' ::=
+    | (.) :: :: Para
+    {{tex \odot}}
+    | > :: :: Seq
+    {{tex \rhd}}
+    | + :: :: Choice
+    {{tex \sqcup }}
+    |  ->                 ::   :: arrow
+    {{tex \rightarrow }}
+    |  <-                 ::   :: arrow2
+    {{tex \leftarrow }}
+    |  -o                 ::   :: arrow3
+    {{tex \multimap }}
+    |  o-o                 ::   :: arrow4
+    {{tex \multimapboth }}        
+    | |-                  ::   :: turnstile
+    {{tex \vdash }}
+    | |~                  ::   :: ndash
+    {{tex \not \vdash }}    
+    | succ                ::   :: succ
+    {{tex \mathsf{succ} }}
+    | ~                   ::   :: cons
+    {{tex \sim }}
+    | ~U                  ::   :: conv
+    {{tex \sim_U }}    
+    | elem                ::   :: elem
+    {{tex \in }}
+    | ~>                  ::   :: red
+    {{tex \rightsquigarrow }}
+    | box        :: :: box
+    {{tex \mathsf{box} }}
+    | unbox        :: :: unbox
+    {{tex \mathsf{unbox} }}
+    | fst        :: :: fst
+    {{tex \mathsf{fst} }}
+    | snd        :: :: snd
+    {{tex \mathsf{snd} }}                
+
+  formula :: 'formula_' ::=
+    | judgement           ::   :: judgement
+    | formula1 && formula2 ::  :: Quad
+    {{tex [[formula1]] \quad [[formula2]] }}
+    | ( formula )         :: S :: parens
+    {{tex [[formula]] }}
+    
+
+subrules
+ T <:: A
+
+defns
+  Typing :: '' ::=
+
+defn
+ G ; D |-T E :: :: atv :: 'T_'    
+ {{tex [[G]];[[D]] \vdash^T [[E]] }} by
+    
+ --------------- :: var
+ .;b |-T b
+
+ --------------- :: varC
+ b;. |-T b
+
+ G1;D1 |-T T1 && G2;D2 |-T T2
+ -------------------------------------- :: para
+ G1,G2;D1,D2 |-T T1 (.) T2
+
+ G1;D1 |-T T1 && G2;D2 |-T T2
+ -------------------------------------- :: seq
+ G1,G2;D1,D2 |-T T1 > T2
+
+ G1;D1 |-T T1 && G2;D2 |-T T2
+ -------------------------------------- :: choice
+ G1,G2;D1,D2 |-T T1 + T2
+
+defn
+ I ; P |- E :: :: ateq :: 'E_'    
+ {{tex [[I]];[[P]] \vdash [[E]] }} by
+
+ -------- :: var
+ .;E |- E
+ 
+ -------- :: varC
+ E;. |- E
+
+ I1;P1 |- E1  && I2;P2 |- E2
+ ------------------------- :: paraI
+ I1,I2;P1,P2 |- E1 (.) E2
+
+ I1;P2 |- E1 (.) E2 && I2;P1,E1,E2,P3 |- E3
+ ------------------------------------- :: paraE
+ I1,I2;P1,P2,P3 |- E3
+
+ I1;P1 |- E1  && I2;P2 |- E2
+ --------------------------- :: seqI
+ I1,I2;P1,P2 |- E1 > E2
+
+ I2;P2 |- E1 > E2 && I1,E1,E2,I3;P2 |- E3
+ ---------------------------------------- :: seqE
+ I1,I2,I3;P1,P2 |- E3
+
+ I;P1,E1,E2,P2 |- E
+ ---------------------------- :: ex
+ I;P1,E2,E1,P2 |- E
+
+ I1;P1 |- E1 && I2;P2 |- E2
+ -------------------------- :: choice
+ I1,I2;P1,P2 |- E1 + E2
+
+ I;P,E1 |- E2
+ --------------- :: impI
+ I;P |- E1 -o E2
+
+ I1;P1 |- E1 -o E2 && I2;P2 |- E1
+ -------------------------------- :: impE
+ I1,I2;P1,P2 |- E2
+
+ I2;P1 |- E1 -o E2 && I1;P2 |- E2 -o E3
+ -------------------------------------- :: comp
+ I1,I2;P1,P2 |- E1 -o E3
+
+ I1,I2;P |- E && G;D |-T T
+ ----------------------------- :: weakS
+ I1,T,I2;P |- E
+
+ I;P1,P2 |- E && G;D |-T T
+ ----------------------------- :: weakP
+ I;P1,T,P2 |- E
+
+ .;. |- T 
+ ---------------------- :: choiceCont
+ .;. |- (T + T) o-o T
+
+ .;. |- T1 + T2 
+ ------------------------------ :: choiceSym
+ .;. |- (T1 + T2) o-o (T2 + T1)
+
+ .;. |- (T1 + T2) + T3 
+ -------------------------------------------- :: choiceAssoc
+ .;. |- ((T1 + T2) + T3) o-o (T1 + (T2 + T3))
+
+ .;. |-T T1 (.) (T2 > T3)
+ ------------------------------------------------------------------------ :: distPara1
+ .;. |- (T1 (.) (T2 + T3)) o-o ((T1 (.) T2) + (T1 (.) T3))
+
+ .;. |-T T1 > (T2 + T3)
+ ------------------------------------------------------------------------ :: distSeq1
+ .;. |- (T1 > (T2 + T3)) o-o ((T1 > T2) + (T1 > T3))
+
+ .;. |-T (T2 > T3) (.) T1
+ ------------------------------------------------------------------------ :: distPara2
+ .;. |- ((T2 + T3) (.) T1) o-o ((T2 (.) T1) + (T3 (.) T1))
+
+ .;. |-T (T2 + T3) > T1
+ ------------------------------------------------------------------------ :: distSeq2
+ .;. |- ((T2 + T3) > T1) o-o ((T2 > T1) + (T2 > T1))

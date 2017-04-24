@@ -15,25 +15,27 @@ all: pdf
 
 pdf : main.pdf
 
-ll-attack-output.tex : ll-attack.tex ll-attack-ott/ll-attack.ott
-	$(OTT) $(OTT_FLAGS) -i ll-attack-ott/ll-attack.ott -o ll-attack-ott.tex -tex_name_prefix LLA \
-		-tex_filter ll-attack.tex ll-attack-output.tex
+indexed-atll-output.tex : indexed-atll.tex indexed-atll/indexed-atll.ott
+	$(OTT) $(OTT_FLAGS) -i indexed-atll/indexed-atll.ott -o indexed-atll-ott.tex -tex_name_prefix IATLL \
+		-tex_filter indexed-atll.tex indexed-atll-output.tex
 
-full-indexed-atll-output.tex : full-indexed-atll.tex ll-attack-ott/ll-attack.ott
-	$(OTT) $(OTT_FLAGS) -i ll-attack-ott/ll-attack.ott -o ll-attack-ott.tex -tex_name_prefix LLA \
+full-indexed-atll-output.tex : full-indexed-atll.tex indexed-atll/indexed-atll.ott
+	$(OTT) $(OTT_FLAGS) -i indexed-atll/indexed-atll.ott -o indexed-atll-ott.tex -tex_name_prefix IATLL \
 		-tex_filter full-indexed-atll.tex full-indexed-atll-output.tex
 
-attack-trees-output.tex : attack-trees.tex oll/oll.ott
-	$(OTT) $(OTT_FLAGS) -i oll/oll.ott -o oll-ott.tex -tex_name_prefix ATLL \
+attack-trees-output.tex : attack-trees.tex atll/atll.ott
+	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
 		-tex_filter attack-trees.tex attack-trees-output.tex
 
-main-output.tex : main.tex atrees.ott
-	$(OTT) $(OTT_FLAGS) -i atrees.ott -o atrees-ott.tex -tex_name_prefix ATrees \
+oll-output.tex : oll.tex oll/oll.ott
+	$(OTT) $(OTT_FLAGS) -i oll/oll.ott -o oll-ott.tex -tex_name_prefix OLL \
+		-tex_filter oll.tex oll-output.tex
+
+main-output.tex : main.tex atll/atll.ott
+	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
 		-tex_filter main.tex main-output.tex
 
-# Now this takes the full LaTex translation and compiles it using
-# pdflatex.
-main.pdf : ll-attack-output.tex main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile attack-trees-output.tex full-indexed-atll-output.tex
+main.pdf : indexed-atll-output.tex main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile attack-trees-output.tex full-indexed-atll-output.tex oll-output.tex
 	$(PDFLATEX) -jobname=main main-output.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -jobname=main main-output.tex
