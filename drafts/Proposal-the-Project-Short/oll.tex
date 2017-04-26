@@ -1,10 +1,12 @@
-Before introducing ATLL and Indexed ATLL and how it can be used to
-model and reason about attack trees I first give a brief introduction
-to (ordered) linear logic and how it can be used to model various
-structures in computer science.  I assume very little of the reader,
-and start with the basics of the specification of logics.  Ordered
-linear logic (OLL) \cite{Polakow:2001} will be the ongoing example
-throughout this section, because it is the logic ATLL is based on.
+In order to aid the reader unfamiliar with linear logic and how it and
+other logics can be used as a modeling framework I first give a brief
+introduction to (ordered) linear logic and how it can be used to model
+various structures in computer science.  I assume very little of the
+reader, and start with the basics of the specification of logics.
+Ordered linear logic (OLL) \cite{Polakow:2001} will be the ongoing
+example throughout this section, because it is the logic ATLL is based
+on.  If the reader is familiar with linear logic, then they can safely
+skip this section.
 
 Every logic presented in this paper is in the form of sequent-style
 natural deduction.  This type of formalization begins with the
@@ -19,22 +21,19 @@ by a set of inference rules.  The syntax for OLL is as follows:
 \end{array}
 \]
 Formulas of OLL consist of atomic formulas denoted by $[[b]]$, a
-symmetric tensor product denoted by $[[A (.) B]]$, its unit denoted by
-$[[Top]]$, a non-symmetric tensor product denoted by $[[A > B]]$, in
-ATLL the former will be used to model sequential conjunction, and the
-latter to model parallel conjunction, non-linear conjunction denoted
-by $[[A x B]]$, and linear implication denoted by $[[A -o B]]$.
-Contexts are lists of hypothesis where $[[D]]$ is a list of ordered
-hypothesis, and $[[G]]$ is a list of unordered hypothesis.  The former
-are associated with the non-symmetric tensor product, and the latter
-with the symmetric tensor product.  We denote the empty context by
-$[[.]]$, and appending of contexts $[[G1]]$ and $[[G2]]$ by
-$[[G1,G2]]$.
+symmetric tensor product $[[A (.) B]]$, its unit $[[Top]]$, a
+non-symmetric tensor product $[[A > B]]$, non-linear conjunction $[[A
+    x B]]$, and linear implication $[[A -o B]]$.  Contexts are lists
+of hypothesis where $[[D]]$ is a list of ordered hypothesis, and
+$[[G]]$ is a list of unordered hypothesis.  The former are associated
+with the non-symmetric tensor product, and the latter with the
+symmetric tensor product.  We denote the empty context by $[[.]]$, and
+appending of contexts $[[G1]]$ and $[[G2]]$ by $[[G1,G2]]$.
 
 First, some intuitions for the differences between each type of
 conjunction.  One can view the two tensor products, $[[A (.) B]]$ and
 $[[A > B]]$, as a form of linear conjunction.  The former should be
-thoughts of as parallel conjunction, and not as the usual conjunction
+thought of as parallel conjunction, and not as the usual conjunction
 from classical logic.  In fact, in linear logic it is not the case
 that $[[(A (.) B) -o A]]$ nor $[[(A (.) B) -o B]]$.  In addition, it
 is not the case that $[[A (.) A]]$ is the same as $[[A]]$, because
@@ -49,21 +48,23 @@ Sequents of OLL are denoted by $[[D;G |- A]]$.  We say that the
 sequent $[[D;G |- A]]$ holds if and only if given the hypothesis in
 $[[D]]$ and $[[G]]$ one can construct a proof of the formula $[[A]]$
 using the following inference rules:
-\begin{mathpar}
-  \OLLdrulevar{} \and
-  \OLLdrulevarC{} \and
-  \OLLdruleTop{} \and
-  \OLLdruleconjI{} \and
-  \OLLdruleconjEOne{} \and
-  \OLLdruleconjETwo{} \and
-  \OLLdruleparaI{} \and
-  \OLLdruleparaE{} \and
-  \OLLdruleseqI{} \and
-  \OLLdruleseqE{} \and
-  \OLLdruleex{} \and
-  \OLLdruleimpI{} \and
-  \OLLdruleimpE{}
-\end{mathpar}
+\begin{mdframed}
+  \begin{mathpar}
+    \OLLdrulevar{} \and
+    \OLLdrulevarC{} \and
+    \OLLdruleTop{} \and
+    \OLLdruleconjI{} \and
+    \OLLdruleconjEOne{} \and
+    \OLLdruleconjETwo{} \and
+    \OLLdruleparaI{} \and
+    \OLLdruleparaE{} \and
+    \OLLdruleseqI{} \and
+    \OLLdruleseqE{} \and
+    \OLLdruleex{} \and
+    \OLLdruleimpI{} \and
+    \OLLdruleimpE{}
+  \end{mathpar}
+\end{mdframed}
 An inference rule should be read from top to bottom as an implication.
 The sequents on top of the line are the premises, and the sequent
 below the line is the conclusion.  For example, one should read the
@@ -248,8 +249,8 @@ table or it is sitting on the block $[[y]]$ which was clear, and now
 we declare that $[[x]]$ is on top of $[[y]]$.
 
 We can see that the definition of the two axioms use the tensor
-product to indicate when two parallel processes.  For example, in
-$\OLLdrulegetName{}$ the robot arm is holding the block $[[x]]$ in
+product to indicate when two processes run in parallel.  For example,
+in $\OLLdrulegetName{}$ the robot arm is holding the block $[[x]]$ in
 parallel to checking the configuration of the table and other blocks.
 Then we use non-linear conjunction to model choices.  Furthermore, the
 identity to the tensor product can be used to model processes that may
