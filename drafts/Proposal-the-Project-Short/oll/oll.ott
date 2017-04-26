@@ -5,19 +5,35 @@ embed
                  \usepackage{relsize} }}
 
 metavar costvar, c ::=
-metavar termvar, x, y , z, f ::=
+metavar blocks, x, y , z, f ::=
 metavar baseAttackVar, b ::=
 indexvar index, i , j, k ::=
 
 grammar
   A, B, C :: 'A_' ::=
     | b           :: :: Base
+    | A x B   :: :: Prod
+    {{tex [[A]] \times [[B]] }}
+    | Top     :: :: Top
+    {{tex \top }}
     | A (.) B :: :: Para
     {{tex [[A]] \odot [[B]] }}
     | A > B   :: :: Seq
     | A -o B  :: :: Limp
     | A o-o B :: :: BLimp
     | ( A )   :: :: Paren
+    | h( A )  :: :: HParen
+    {{tex [[A]] }}
+    | on x y  :: :: on
+    {{tex \mathsf{on}\,[[x]]\,[[y]] }}
+    | table x :: :: table
+    {{tex \mathsf{table}\,[[x]] }}
+    | holds x :: :: holds
+    {{tex \mathsf{holds}\,[[x]] }}
+    | empty   :: :: empty
+    {{tex \mathsf{empty} }}
+    | clear x :: :: clear
+    {{tex \mathsf{clear}\,[[x]] }}
 
   G {{ tex \Gamma }}, D {{tex \Delta }},
   I {{ tex \Theta }}, P {{tex \Psi }} :: G_ ::=                 
@@ -25,7 +41,7 @@ grammar
     {{tex \cdot }}
     | A                   ::   :: vn           
     | G , G'              ::   :: append       
-    | ( G )               :: M :: parens
+    | ( G )               :: M :: parens  
 
   terminals :: 'terminals_' ::=
     | (.) :: :: Para
@@ -86,6 +102,21 @@ defn
  -------- :: varC
  A;. |- A
 
+ ---------- :: Top
+ .;. |- Top
+
+ D1;G |- A && D2;G |- B
+ ---------------------- :: conjI
+ D1,D2;G |- A x B
+
+ D;G |- A x B
+ ------------ :: conjE1
+ D;G |- A
+ 
+ D;G |- A x B
+ ------------ :: conjE2
+ D;G |- A
+
  D1;G1 |- A  && D2;G2 |- B
  ------------------------- :: paraI
  D1,D2;G1,G2 |- A (.) B
@@ -117,3 +148,9 @@ defn
  D2;G2 |- A -o B && D1;G1 |- B -o C
  -------------------------------------- :: comp
  D1,D2;G1,G2 |- A -o C
+
+ -------------------------------------------------------------------------------- :: get
+ .;empty, clear x |- (holds x) (.) (((table x) -o Top) x ((on x y) -o (clear y)))
+
+ -------------------------------------------------------------------------- :: put
+ .;holds x |- empty (.) h((clear x) (.) ((table x) x ((clear y) -o (on x y))))

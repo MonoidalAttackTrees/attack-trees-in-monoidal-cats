@@ -116,3 +116,28 @@ are related when proving implications between attack trees.  Thus, one
 can prove facts about attack trees in Indexed ATLL that require one to
 reason about both the tree structure as well the quantitative data in
 the tree simultaneously.
+
+Modeling attack trees in linear logic has a number of benefits.
+First, it connects attack trees back to logic.  Kordy et
+al.~\cite{Kordy:2012} proposed that attack trees be modeled in
+propositional logic, but in this model attacks can be freely
+duplicated and contracted which goes against the process nature of an
+attack tree.  However, linear logic restores this natural
+interpretation without loosing the process interpretation of attack
+trees.  By connecting attack trees to logic we can also tap into the
+long standing research and development of automation, for example,
+SAT, SMT, proof search, etc.  Finally, by connecting to logic we also
+connect to the theory of statically typed functional programming
+through the Curry-Howard-Lambek correspondence which will allow for
+the development of a programming language that can be used to certify
+the correctness of attack trees and the analysis performed using them.
+
+\textbf{Contributions.}  This paper offers the following
+contributions:
+\begin{itemize}
+\item The Attack Tree Linear Logic (ATLL): a new linear logic for the
+  specification and analysis of attack trees.
+\item The Indexed Attack Tree Linear Logic (Indexed ATLL): an
+  extension of ATLL with costs and the ability to reason about them
+  while reasoning about attack trees.
+\end{itemize}

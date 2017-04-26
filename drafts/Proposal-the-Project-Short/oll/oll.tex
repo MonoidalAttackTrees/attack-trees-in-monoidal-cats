@@ -38,7 +38,7 @@
 \newcommand{\ottmetavars}{
 \ottmetavartabular{
  $ \ottmv{costvar} ,\, \ottmv{c} $ &  \\
- $ \ottmv{termvar} ,\, \ottmv{x} ,\, \ottmv{y} ,\, \ottmv{z} ,\, \ottmv{f} $ &  \\
+ $ \ottmv{blocks} ,\, \ottmv{x} ,\, \ottmv{y} ,\, \ottmv{z} ,\, \ottmv{f} $ &  \\
  $ \ottmv{baseAttackVar} ,\, \ottmv{b} $ &  \\
  $ \ottmv{index} ,\, \ottmv{i} ,\, \ottmv{j} ,\, \ottmv{k} $ &  \\
 }}
@@ -46,11 +46,19 @@
 \newcommand{\ottA}{
 \ottrulehead{\ottnt{A}  ,\ \ottnt{B}  ,\ \ottnt{C}}{::=}{}\ottprodnewline
 \ottfirstprodline{|}{\ottmv{b}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \ottnt{A}  \times  \ottnt{B} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \top }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{A}  \odot  \ottnt{B} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{A}  \rhd  \ottnt{B}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{A}  \multimap  \ottnt{B}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{A}  \multimapboth  \ottnt{B}}{}{}{}{}\ottprodnewline
-\ottprodline{|}{\ottsym{(}  \ottnt{A}  \ottsym{)}}{}{}{}{}}
+\ottprodline{|}{\ottsym{(}  \ottnt{A}  \ottsym{)}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \ottnt{A} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{on}\, \ottmv{x} \, \ottmv{y} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{table}\, \ottmv{x} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{holds}\, \ottmv{x} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{empty} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{clear}\, \ottmv{x} }{}{}{}{}}
 
 \newcommand{\ottG}{
 \ottrulehead{\Gamma  ,\ \Delta  ,\ \Theta  ,\ \Psi}{::=}{}\ottprodnewline
@@ -79,6 +87,41 @@
 }{
  \ottnt{A} ;  \cdot   \vdash  \ottnt{A} }{%
 {\ottdrulevarCName}{}%
+}}
+
+
+\newcommand{\ottdruleTopName}[0]{\ottdrulename{Top}}
+\newcommand{\ottdruleTop}[1]{\ottdrule[#1]{%
+}{
+  \cdot  ;  \cdot   \vdash   \top  }{%
+{\ottdruleTopName}{}%
+}}
+
+
+\newcommand{\ottdruleconjIName}[0]{\ottdrulename{conjI}}
+\newcommand{\ottdruleconjI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Delta_{{\mathrm{1}}} ; \Gamma  \vdash  \ottnt{A}   \quad   \Delta_{{\mathrm{2}}} ; \Gamma  \vdash  \ottnt{B}  }%
+}{
+ \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}} ; \Gamma  \vdash   \ottnt{A}  \times  \ottnt{B}  }{%
+{\ottdruleconjIName}{}%
+}}
+
+
+\newcommand{\ottdruleconjEOneName}[0]{\ottdrulename{conjE1}}
+\newcommand{\ottdruleconjEOne}[1]{\ottdrule[#1]{%
+\ottpremise{ \Delta ; \Gamma  \vdash   \ottnt{A}  \times  \ottnt{B}  }%
+}{
+ \Delta ; \Gamma  \vdash  \ottnt{A} }{%
+{\ottdruleconjEOneName}{}%
+}}
+
+
+\newcommand{\ottdruleconjETwoName}[0]{\ottdrulename{conjE2}}
+\newcommand{\ottdruleconjETwo}[1]{\ottdrule[#1]{%
+\ottpremise{ \Delta ; \Gamma  \vdash   \ottnt{A}  \times  \ottnt{B}  }%
+}{
+ \Delta ; \Gamma  \vdash  \ottnt{A} }{%
+{\ottdruleconjETwoName}{}%
 }}
 
 
@@ -147,15 +190,35 @@
 
 \newcommand{\ottdrulecompName}[0]{\ottdrulename{comp}}
 \newcommand{\ottdrulecomp}[1]{\ottdrule[#1]{%
-\ottpremise{  \Delta_{{\mathrm{2}}} ; \Gamma_{{\mathrm{1}}}  \vdash  \ottnt{A}  \multimap  \ottnt{B}   \quad   \Delta_{{\mathrm{1}}} ; \Gamma_{{\mathrm{2}}}  \vdash  \ottnt{B}  \multimap  \ottnt{C}  }%
+\ottpremise{  \Delta_{{\mathrm{2}}} ; \Gamma_{{\mathrm{2}}}  \vdash  \ottnt{A}  \multimap  \ottnt{B}   \quad   \Delta_{{\mathrm{1}}} ; \Gamma_{{\mathrm{1}}}  \vdash  \ottnt{B}  \multimap  \ottnt{C}  }%
 }{
  \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}} ; \Gamma_{{\mathrm{1}}}  \ottsym{,}  \Gamma_{{\mathrm{2}}}  \vdash  \ottnt{A}  \multimap  \ottnt{C} }{%
 {\ottdrulecompName}{}%
 }}
 
+
+\newcommand{\ottdrulegetName}[0]{\ottdrulename{get}}
+\newcommand{\ottdruleget}[1]{\ottdrule[#1]{%
+}{
+  \cdot  ;  \mathsf{empty}   \ottsym{,}   \mathsf{clear}\, \ottmv{x}   \vdash   \ottsym{(}   \mathsf{holds}\, \ottmv{x}   \ottsym{)}  \odot  \ottsym{(}   \ottsym{(}  \ottsym{(}   \mathsf{table}\, \ottmv{x}   \ottsym{)}  \multimap   \top   \ottsym{)}  \times  \ottsym{(}  \ottsym{(}   \mathsf{on}\, \ottmv{x} \, \ottmv{y}   \ottsym{)}  \multimap  \ottsym{(}   \mathsf{clear}\, \ottmv{y}   \ottsym{)}  \ottsym{)}   \ottsym{)}  }{%
+{\ottdrulegetName}{}%
+}}
+
+
+\newcommand{\ottdruleputName}[0]{\ottdrulename{put}}
+\newcommand{\ottdruleput}[1]{\ottdrule[#1]{%
+}{
+  \cdot  ;  \mathsf{holds}\, \ottmv{x}   \vdash    \mathsf{empty}   \odot    \ottsym{(}   \mathsf{clear}\, \ottmv{x}   \ottsym{)}  \odot  \ottsym{(}   \ottsym{(}   \mathsf{table}\, \ottmv{x}   \ottsym{)}  \times  \ottsym{(}  \ottsym{(}   \mathsf{clear}\, \ottmv{y}   \ottsym{)}  \multimap  \ottsym{(}   \mathsf{on}\, \ottmv{x} \, \ottmv{y}   \ottsym{)}  \ottsym{)}   \ottsym{)}    }{%
+{\ottdruleputName}{}%
+}}
+
 \newcommand{\ottdefnateq}[1]{\begin{ottdefnblock}[#1]{$ \Delta ; \Gamma  \vdash  \ottnt{A} $}{}
 \ottusedrule{\ottdrulevar{}}
 \ottusedrule{\ottdrulevarC{}}
+\ottusedrule{\ottdruleTop{}}
+\ottusedrule{\ottdruleconjI{}}
+\ottusedrule{\ottdruleconjEOne{}}
+\ottusedrule{\ottdruleconjETwo{}}
 \ottusedrule{\ottdruleparaI{}}
 \ottusedrule{\ottdruleparaE{}}
 \ottusedrule{\ottdruleseqI{}}
@@ -164,6 +227,8 @@
 \ottusedrule{\ottdruleimpI{}}
 \ottusedrule{\ottdruleimpE{}}
 \ottusedrule{\ottdrulecomp{}}
+\ottusedrule{\ottdruleget{}}
+\ottusedrule{\ottdruleput{}}
 \end{ottdefnblock}}
 
 
@@ -182,7 +247,7 @@
 \ottall
 
 \begin{verbatim}
-Definition rules:        10 good    0 bad
-Definition rule clauses: 18 good    0 bad
+Definition rules:        16 good    0 bad
+Definition rule clauses: 27 good    0 bad
 \end{verbatim}
 \end{document}

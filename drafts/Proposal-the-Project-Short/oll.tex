@@ -183,4 +183,35 @@ structures as formulas, and then reasoning about the structures
 corresponds to proving implications between the interpretations.  As
 we will see, attack trees will be modeled as formulas of linear logic,
 and then we will prove several properties of attack trees by proving
-implications between them.
+implications between them, but before moving on to ATLL I give an
+example showing how to model a simple state-based system in linear
+logic.
+
+There is a common example of problem solving using in artificial
+intelligence called the block world scenario; I learned of this
+example from Power and Webster's work on embedding linear logic in Coq
+\cite{?}.  Suppose there is a finite set of blocks and a robot arm
+that be used to move blocks around.  For example, the arm might break
+a single stack of blocks into two stacks.  This setup can be modeled
+in linear logic using a few predicates on blocks.
+
+The state of the system can be modeled using the following predicates:
+\begin{center}
+  \begin{tabular}{|rll|}
+    \hline
+    $[[on x y]]$  & : & block $x$ is on top of block $y$\\
+    $[[table x]]$ & : & block $x$ is on the table (i.e. no block underneath of $x$)\\
+    $[[clear x]]$ & : & there is no block on top of $x$\\
+    $[[holds x]]$ & : & the robot arm is holding block $x$\\
+    $[[empty]]$  & : & an atomic formula indicating the robot arm is not holding a block.\\
+    \hline
+  \end{tabular}
+\end{center}
+Next we must characterize the valid actions one can perform during the
+game.  These are defined as a set of linear logic axioms.  The
+following set of inference rules axiomatize the actions:
+\begin{mdframed}
+  \begin{mathpar}
+    1
+  \end{mathpar}
+\end{mdframed}
