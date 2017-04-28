@@ -86,31 +86,31 @@
 
 \newcommand{\ottdruleTXXparaName}[0]{\ottdrulename{T\_para}}
 \newcommand{\ottdruleTXXpara}[1]{\ottdrule[#1]{%
-\ottpremise{  \Delta_{{\mathrm{1}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
+\ottpremise{  \Gamma  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
 }{
- \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}}  }{%
+ \Gamma  \ottsym{,}  \Delta  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}}  }{%
 {\ottdruleTXXparaName}{}%
 }}
 
 
 \newcommand{\ottdruleTXXseqName}[0]{\ottdrulename{T\_seq}}
 \newcommand{\ottdruleTXXseq}[1]{\ottdrule[#1]{%
-\ottpremise{  \Delta_{{\mathrm{1}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
+\ottpremise{  \Gamma  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
 }{
- \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}} }{%
+ \Gamma  \ottsym{,}  \Delta  \vdash^T  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}} }{%
 {\ottdruleTXXseqName}{}%
 }}
 
 
 \newcommand{\ottdruleTXXchoiceName}[0]{\ottdrulename{T\_choice}}
 \newcommand{\ottdruleTXXchoice}[1]{\ottdrule[#1]{%
-\ottpremise{  \Delta_{{\mathrm{1}}}  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta_{{\mathrm{2}}}  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
+\ottpremise{  \Gamma  \vdash^T  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash^T  \ottnt{T_{{\mathrm{2}}}}  }%
 }{
- \Delta_{{\mathrm{1}}}  \ottsym{,}  \Delta_{{\mathrm{2}}}  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \sqcup  \ottnt{T_{{\mathrm{2}}}}  }{%
+ \Gamma  \ottsym{,}  \Delta  \vdash^T   \ottnt{T_{{\mathrm{1}}}}  \sqcup  \ottnt{T_{{\mathrm{2}}}}  }{%
 {\ottdruleTXXchoiceName}{}%
 }}
 
-\newcommand{\ottdefnatv}[1]{\begin{ottdefnblock}[#1]{$ \Delta  \vdash^T  \ottnt{E} $}{}
+\newcommand{\ottdefnatv}[1]{\begin{ottdefnblock}[#1]{$ \Gamma  \vdash^T  \ottnt{E} $}{}
 \ottusedrule{\ottdruleTXXvar{}}
 \ottusedrule{\ottdruleTXXpara{}}
 \ottusedrule{\ottdruleTXXseq{}}

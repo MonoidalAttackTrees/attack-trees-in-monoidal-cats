@@ -1,9 +1,8 @@
 In this section I introduce attack trees with sequential conjunction
--- sometimes referred to SAND attack trees -- without cost annotations
-in the hope that doing so will make the main ideas of this work more
-clear to the reader.  This formulation of attack trees was first
-proposed by Jhawar et al. \cite{Jhawar:2015}. First, I define the
-syntax of attack trees then a linear logic for reasoning about them.
+-- sometimes referred to SAND attack trees -- without cost
+annotations.  This formulation of attack trees was first proposed by
+Jhawar et al. \cite{Jhawar:2015}. First, I define the syntax of attack
+trees then a linear logic for reasoning about them.
 \begin{definition}
   \label{def:atrees}
   Suppose $\mathsf{B}$ is a set of base attacks whose elements are
@@ -24,19 +23,18 @@ attack trees. In ATLL attack trees are modeled as formulas, and thus,
 reasoning about attack trees should correspond to proving implications
 between attack trees.  Furthermore, some care must be taken so that
 choice and parallel conjunction are symmetric, but sequential
-conjunction is not.  We enforce this property in ATLL by separating
-hypotheses as is usually done in ordered linear logic
-\cite{Polakow:2001}.
+conjunction is not.  This property is enforced in ATLL in the same way
+as OLL by separating hypotheses.
 \begin{definition}
   \label{def:ATLL-syntax}
   Suppose $\mathsf{B}$ is a set of base attacks whose elements are
   denoted by $[[b]]$. The syntax of ATLL formulas and contexts are
   defined as follows:
   \[
-  \begin{array}{rll}
+  \begin{array}{cll}
     \text{(formulas)}         & [[E]] ::= [[b]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E1 -o E2]]\\
     \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[b]] \mid [[G,D]]\\
-    \text{(general contexts)} & [[I]],[[P]] ::= [[.]] \mid [[E]] \mid [[G,D]]\\\\
+    \text{(general contexts)} & [[I]],[[H]],[[P]] ::= [[.]] \mid [[E]] \mid [[G,D]]\\\\
   \end{array}
   \]
 \end{definition}
@@ -52,17 +50,16 @@ hypotheses as is usually done in ordered linear logic
   \caption{Well Formed Attack Trees in ATLL}
   \label{fig:wf-attack-trees}
 \end{figure}
+\vspace{-10px}
 
 ATLL formulas are defined as an extension of the syntax for attack
-trees with linear implication.  An attack tree then corresponds to an
-ATLL formula without implication.  Suppose $[[E]]$ is an ATLL formula
-such that every base attack in $[[E]]$ which is a leaf of sequential
-conjunction is in the base context $[[G]]$, and every leaf of parallel
-conjunction is in the base context $[[D]]$. Then $[[E]]$ is an attack tree
-if and only if $[[D |-T E]]$ holds with respect to the rules in
+trees with linear implication denoted by $[[A -o B]]$.  Suppose
+$[[E]]$ is an ATLL formula such that every base attack in $[[E]]$ is
+in the base context $[[G]]$. Then $[[E]]$ is an attack tree if and
+only if $[[G |-T E]]$ holds with respect to the rules in
 Figure~\ref{fig:wf-attack-trees}.
 
-The inference rules in Figure~\ref{fig:wf-attack-trees} enforce
+The inference rules for in Figure~\ref{fig:wf-attack-trees} enforce
 several properties.  First, they enforce that every base attack is
 used exactly once, and that an attack tree does not mention linear
 implication.  Furthermore, they allow us to restrict our reasoning to
@@ -108,55 +105,51 @@ more amenable to automation.
   \label{fig:atll-attack-tree-axioms}
 \end{figure}
 
+
 The ATLL logical inference rules are defined in
-Figure~\ref{fig:atll-rules}.  These rules make up a basic linear logic
-for attack trees.  For example, we can prove that sequential and
-parallel conjunction are associative, and the latter is symmetric, but
-there are a number of facts that these rules do not prove.  They
-cannot prove that choice is associative and symmetric, and they cannot
-prove the usual distributive laws associated with attack trees with
-sequential conjunction \cite{Jhawar:2015}.  To overcome this
-limitation we add the attack tree axioms in
-Figure~\ref{fig:atll-attack-tree-axioms} to ATLL.  The logical
-connective $[[o-o]]$ is linear biimplication which is defined in the
-usual way as classical implication.  The reader should note that these
-axioms are restricted to attack trees only and not applicable to full
-ATLL formulas.  Furthermore, the reader should note that the rule
-$\ATLLdruleEXXcompName{}$ is very useful when proving properties of
-attack trees, but is actually an admissible rule, meaning, it can be
-proven to hold in terms of the other rules in ATLL, but to simplify
-the presentation given here it is taken as part of the system.  In
-addition, the rule $\ATLLdruleEXXdistParaTwoName{}$ is admissible as
-well, because parallel conjunction is symmetric.
+Figure~\ref{fig:atll-rules}.  The sequent of this system is denoted by
+$[[I;H;P |- E]]$ and consists of the general context $[[I]]$
+associated with sequential conjunction, $[[H]]$ associated with
+choice, and $[[P]]$ associated with parallel conjunction.  This is
+similar to OLL; see
+Section~\ref{sec:a_brief_introduction_to_ordered_linear_logic}.  It is
+required for hypotheses used with choice to be separated, because the
+attack tree equations for choice require contraction and a weak form
+of weakening; see the rules $\ATLLdruleEXXdupName{}$ and
+$\IATLLdruleEXXcontName{}$.
 
-The ATLL logical inference rules also make it clear why we separate
-hypotheses into two contexts.  The exchange rule, $\text{sym}_\odot$,
-allows one to exchange hypotheses in the context $[[P]]$, but notice
-that there is no exchange rule for the context $[[I]]$.  Thus, one
-should think of the hypotheses in $[[P]]$ as running in parallel and
-the hypotheses in $[[I]]$ as running sequentially.  In fact, this
-interpretation is reinforced by the elimination rules, $\odot_E$ and
-$\rhd_E$, for parallel and sequential conjunction respectively.
+These rules make up a basic linear logic for attack trees.  For
+example, we can prove that choice, sequential conjunction, and
+parallel conjunction are associative, and the choice and parallel
+conjunction are symmetric, but they cannot prove the usual
+distributive laws associated with attack trees with sequential
+conjunction \cite{Jhawar:2015}.  To overcome this limitation we add
+the attack tree axioms in Figure~\ref{fig:atll-attack-tree-axioms} to
+ATLL.  The logical connective $[[o-o]]$ is linear biimplication which
+is defined in the usual way as classical implication.  The reader
+should note that these axioms are restricted to attack trees only and
+not applicable to full ATLL formulas.  Furthermore, the reader should
+note that the rule $\ATLLdruleEXXcompName{}$ is very useful when
+proving properties of attack trees, but is actually a derivable rule.
+In addition, the rule $\ATLLdruleEXXdistParaTwoName{}$ is derivable
+as well, because parallel conjunction is symmetric.
 
-Finally, ATLL allows one to prove every equivalence for attack trees
-with sequential conjunction given by Jhawar et al.~\cite{Jhawar:2015}
-as linear implications.  I conjecture that it should be possible to
-define a proof search algorithm for ATLL to automate equational
-reasoning on attack trees, but this is future work.  However, using
-implication as a means to reason about attack trees opens the door for
-different types of reasoning.
+ATLL allows one to prove every equivalence for attack trees as linear
+implications.  I conjecture that it should be possible to define a
+proof search algorithm for ATLL to automate equational reasoning on
+attack trees, but this is future work.  However, using implication as
+a means to reason about attack trees opens the door for different
+types of reasoning.
 
 Suppose $[[T1]]$ is a larger attack tree, and we wish to know if the
 attack tree $[[T2]]$ is contained within $[[T1]]$, that is, $[[T2]]$
 is a subattack tree of $[[T1]]$.  Currently, ATLL will not allow us to
 prove this, but it can if we add the following rules:
-\begin{center}
-  \begin{math}
-    \begin{array}{lll}
-      \ATLLdruleEXXweakS{} & \quad & \ATLLdruleEXXweakP{}
-    \end{array}
-  \end{math}
-\end{center}
+\begin{mathpar}
+  \ATLLdruleEXXweakS{} \and
+  \ATLLdruleEXXweakC{} \and
+  \ATLLdruleEXXweakP{}
+\end{mathpar}
 These rules allow us to discard parts of a larger attack tree while
 constructing proof derivations, but this only works for attack trees
 not general ATLL formulas.  Thus, with these rules ATLL becomes
@@ -165,48 +158,19 @@ $[[T1 -o T2]]$ holds, and if it does, then $[[T2]]$ is a
 subattack tree of $[[T1]]$.
 
 I now give a couple of examples to illustrate using the system to
-prove properties of attack trees.  Consider the two example trees used
-to introduce the SPTool for checking equivalence of attack trees by
-Krody et al.~\cite{?}:
+prove properties of attack trees.  Consider the two example trees from
+the introduction:
 \[
 \begin{array}{lll}
   [[T1]] := [[(B1 (.) (B2 + B3)) > B4]]\\
   [[T2]] := [[((B1 (.) B2) > B4) + ((B1 (.) B3) > B4)]]\\
 \end{array}
 \]
-where $[[Bi]]$ for $1 \leq i \leq 4$ are the base attacks.  The tree
-$[[T1]]$ corresponds to the ATM attack tree from Figure~1 of \cite{?},
-and $[[T2]]$ corresponds to the canonical tree given in Figure~2 of
-\cite{?}. The attack trees $[[T1]]$ and $[[T2]]$ are equivalent if and
-only if $[[T1 o-o T2]]$ holds.  First, ATLL attack tree axioms are
+The attack trees $[[T1]]$ and $[[T2]]$ are equivalent if and only if
+$[[T1 o-o T2]]$ holds.  First, ATLL attack tree axioms are
 biimplications, and hence, we may treat these axioms as equivalences.
-For example, suppose $[[.;.;. |- E1 o-o E2]]$ and $[[I;H;P |- E1 > E3]]$
-both hold, then we can prove that $[[I;H;P |- E2 > E3]]$ holds:
-\[\small
-\inferrule* [right=$\ATLLdruleEXXseqEName{}$] {
-  [[I;H;P |- E1 > E3]]
-  \\
-  $$\mprset{flushleft}
-  \inferrule* [right=$\ATLLdruleEXXseqEName{}$] {
-    $$\mprset{flushleft}
-    \inferrule* [right=$\ATLLdruleEXXimpEName{}$] {
-      [[.;.; . |- E1 -o E2]]
-      \\
-      $$\mprset{flushleft}
-      \inferrule* [right=] {
-        \,
-      }{[[E1;.;. |- E1]]}
-    }{[[E1;.;. |- E2]]}
-    \\
-    $$\mprset{flushleft}
-    \inferrule* [right=] {
-      \,
-    }{[[E3;.;. |- E3]]}
-  }{[[E1,E3;.; . |- E2 > E3]]}
-}{[[I;H;P |- E2 > E3]]}
-\]
-Thus, using this realization and the ATLL attack tree axioms we can
-prove that $[[T1]]$ is equivalent to $[[T2]]$ informally as follows:
+Thus, using the ATLL attack tree axioms we can prove that $[[T1]]$ is
+equivalent to $[[T2]]$ informally as follows:
 \[
 \begin{array}{lllll}
   [[T1]]
