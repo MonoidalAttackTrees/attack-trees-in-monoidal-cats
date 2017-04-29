@@ -20,6 +20,8 @@ grammar
     | A -o B  :: :: Limp
     | A o-o B :: :: BLimp
     | ( A )   :: :: Paren
+    | h( A ) ::  :: HParen
+    {{tex [[A]] }}
 
   T :: 'T_' ::=
     | b           :: :: Base
