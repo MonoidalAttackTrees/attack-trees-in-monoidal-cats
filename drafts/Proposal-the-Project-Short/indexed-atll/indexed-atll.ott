@@ -59,6 +59,8 @@ grammar
     | E1 o-o E2 :: :: BiLinImp
     {{tex [[E1]] \multimapboth [[E2]] }}    
     | ( E )               :: S :: Parens
+    | h( E )              :: M :: HParens
+    {{tex [[E]] }}
     
   % G {{ tex \Gamma }}, D {{tex \Delta }} :: G_ ::=                 
   %   | .                   ::   :: emptyCtx     
