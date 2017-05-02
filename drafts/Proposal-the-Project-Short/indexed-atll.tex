@@ -70,14 +70,14 @@ in Appendix~\ref{subsec:the_full_specification_of_indexed_atll}.
   monoids on $\mathsf{C}$, and $(\mathsf{C},[[>op]])$ be a monoid on
   $\mathsf{C}$, where $[[(.)op]]$ and $[[>op]]$ distribute over
   $[[+op]]$.  Furthermore, let $(\mathsf{C}, [[-oop]])$ be a preorder
-  on $\mathsf{C}$ where $[[-oop]]([[+op]]([[c]],[[c]]),[[c]])$ and $[[-oop]]([[c]],[[+op]]([[c]],[[c]]))$.  Then
+  on $\mathsf{C}$ where $[[-oop]]([[+op]]([[c]],[[c]]),[[c]])$ and $[[-oop]]([[c]],[[+op]]([[c]],[[c]]))$ hold.  Then
   the syntax of Indexed ATLL formulas and contexts are defined as
   follows:
   \[
   \begin{array}{cll}
     \text{(formulas)}         & [[E]] ::= [[(b, c)]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E1 c -o E2]]\\
     \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[(b,c)]] \mid [[G,D]]\\
-    \text{(general contexts)} & [[I]],[[H]],[[P]] ::= [[.]] \mid [[(E,c)]] \mid [[G,D]]\\\\
+    \text{(general contexts)} & [[I]],[[H]],[[P]] ::= [[.]] \mid [[(E,c)]] \mid [[I,P]]\\\\
   \end{array}
   \]
 \end{restatable}
@@ -93,8 +93,9 @@ this includes the maximum and minimum monoids which are the most used
 operations for choice. The hypothesis in implications, now denoted by
 $[[E1 c -o E2]]$, are also annotated with a cost.  This is where we
 begin to link the quantitative layer with the logical layer.  In the
-introduction rule for linear implication the preorder on costs will be
-used to influence when an implication will be provable.
+inference rule, $\IATLLdruleEXXimpI{}$, for linear implication the
+preorder on costs will be used to influence when an implication will
+be provable.
 
 The inference rules for well-formed attack trees in Indexed ATLL are
 given in Figure~\ref{fig:wf-index-attack-trees}.  The sequent is now

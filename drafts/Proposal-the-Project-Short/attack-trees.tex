@@ -35,7 +35,7 @@ syntax is defined by the following definition.
   \begin{array}{cll}
     \text{(formulas)}         & [[E]] ::= [[b]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E1 -o E2]]\\
     \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[b]] \mid [[G,D]]\\
-    \text{(general contexts)} & [[I]],[[H]],[[P]] ::= [[.]] \mid [[E]] \mid [[G,D]]\\\\
+    \text{(general contexts)} & [[I]],[[H]],[[P]] ::= [[.]] \mid [[E]] \mid [[I,P]]\\\\
   \end{array}
   \]
 \end{definition}
@@ -61,7 +61,7 @@ attack tree if and only if $[[G |-T E]]$ holds with respect to the
 rules in Figure~\ref{fig:wf-attack-trees}.  These inference rules
 allow one to restrict themselves to attack trees when using ATLL.
 
-The inference rules for in Figure~\ref{fig:wf-attack-trees} enforce
+The inference rules in Figure~\ref{fig:wf-attack-trees} enforce
 several properties.  First, they enforce that every base attack is
 used exactly once, and that an attack tree does not mention linear
 implication.  Furthermore, they allow us to restrict our reasoning to
@@ -81,12 +81,10 @@ to future work.
       \ATLLdruleEXXchoiE{} \and
       \ATLLdruleEXXseqI{} \and
       \ATLLdruleEXXseqE{} \and
-      \ATLLdruleEXXexP{} \and
-      \ATLLdruleEXXchoiI{} \and
-      \ATLLdruleEXXchoiE{} \and
+      \ATLLdruleEXXexP{} \and      
       \ATLLdruleEXXexC{} \and
-      \IATLLdruleEXXdup{} \and
-      \IATLLdruleEXXcont{} \and
+      \ATLLdruleEXXdup{} \and
+      \ATLLdruleEXXcont{} \and
       \ATLLdruleEXXimpI{} \and
       \ATLLdruleEXXimpE{} \and
       \ATLLdruleEXXcomp{} 
@@ -144,7 +142,8 @@ ATLL allows one to prove every equivalence for attack trees as linear
 implications that one might expect.  The equations provable in ATLL
 are give in Table~\ref{table:attack-tree-eqs}.
 \begin{table}[h!]
-  \[\footnotesize
+  \begin{mdframed}[innertopmargin=-7px]
+    \[\footnotesize
 \begin{array}{lll}  
   [[h(T + T) o-o T]]                                  & \quad & [[h((T1 > T2) > T3) o-o h(T1 > (T2 > T3))]]\\
   [[h(T1 (.) T2) o-o h(T2 (.) T1)]]                   &       & [[h(T1 (.) (T2 + T3)) o-o h((T1 (.) T2) + (T1 (.) T3))]]\\
@@ -153,6 +152,7 @@ are give in Table~\ref{table:attack-tree-eqs}.
   [[h((T1 (.) T2) (.) T3) o-o h(T1 (.) (T2 (.) T3))]] &       & [[h((T2 + T3) > T1) o-o h((T2 > T1) + (T2 > T1))]]\\
 \end{array}
 \]
+  \end{mdframed}
 \caption{The Attack Tree Equivalences}
 \label{table:attack-tree-eqs}
 \end{table}

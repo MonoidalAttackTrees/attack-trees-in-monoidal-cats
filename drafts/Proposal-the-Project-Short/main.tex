@@ -128,8 +128,11 @@
 \renewcommand{\ATLLdruleEXXweakSName}{\text{wk}_\rhd}
 \renewcommand{\ATLLdruleEXXchoiIName}{\sqcup_I}
 \renewcommand{\ATLLdruleEXXchoiEName}{\sqcup_E}
+\renewcommand{\IATLLdruleEXXchoiIName}{\sqcup_I}
+\renewcommand{\IATLLdruleEXXchoiEName}{\sqcup_E}
 \renewcommand{\ATLLdruleEXXdupName}{\text{dup}_\sqcup}
 \renewcommand{\IATLLdruleEXXdupName}{\text{dup}_\sqcup}
+\renewcommand{\ATLLdruleEXXcontName}{\text{cont}_\sqcup}
 \renewcommand{\IATLLdruleEXXcontName}{\text{cont}_\sqcup}
 
 \renewcommand{\OLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\OLLdrulename{#4}}}
@@ -205,7 +208,6 @@ problems:
   insights into how to use logic to model attack trees, but
   propositional logic does not enforce the concurrency aspect of
   attack trees.  This is regained in ATLL by using linear logic.
-
   There is a rich amount of research that has gone into giving linear
   logic a game semantics \cite{Abramsky1999}.  I propose an open
   problem, in the spirit of Kordy et al.~\cite{Kordy2010} \textbf{can

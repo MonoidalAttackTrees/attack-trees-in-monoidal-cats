@@ -16,8 +16,8 @@ by a set of inference rules.  The syntax for OLL is as follows:
 \begin{array}{crcl}
 \text{(formulas)} & [[A]],[[B]],[[C]] & ::= & [[b]] \mid [[Top]] \mid [[A (.) B]]
   \mid [[A > B]] \mid [[A x B]] \mid [[A -o B]]\\
-\text{(ordered contexts)} & [[D]] & ::= & [[.]] \mid [[A]] \mid [[G,D]]\\
-\text{(unordered contexts)} & [[G]] & ::= & [[.]] \mid [[A]] \mid [[I,P]]\\
+\text{(ordered contexts)} & [[D]] & ::= & [[.]] \mid [[A]] \mid [[D1,D2]]\\
+\text{(unordered contexts)} & [[G]] & ::= & [[.]] \mid [[A]] \mid [[G1,G2]]\\
 \end{array}
 \]
 Formulas of OLL consist of atomic formulas denoted by $[[b]]$, a
@@ -85,7 +85,7 @@ The sequents on top of the line are the premises, and the sequent
 below the line is the conclusion.  For example, one should read the
 rule $\OLLdruleparaIName{}$ as if $[[D1;G1 |- A]]$ and $[[D2;G2 |-
     B]]$ both hold, then $[[D1,D2;G1,G2 |- A (.) B]]$ holds.  An
-inference rule with no premises are called axioms.  For example, the
+inference rule with no premises is called an axiom.  For example, the
 rules $\OLLdrulevarName{}$ and $\OLLdrulevarCName{}$ are both axioms.
 
 Inference rules are read from top to bottom, but applied from bottom
