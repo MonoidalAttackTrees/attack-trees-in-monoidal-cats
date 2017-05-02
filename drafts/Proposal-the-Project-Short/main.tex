@@ -190,7 +190,7 @@
 \input{indexed-atll-output}
 % section attack_trees_with_costs (end)
 
-\section{Related Work}
+\section{Related and Future Work}
 \label{sec:related_work}
 The following summarizes related work and proposes a few open
 problems:
@@ -207,11 +207,11 @@ problems:
   attack trees.  This is regained in ATLL by using linear logic.
 
   There is a rich amount of research that has gone into giving linear
-  logic a game semantics \cite{?}.  I propose an open problem, in the
-  spirit of Kordy et al.~\cite{Kordy2010} \textbf{can we use a game
-    semantics of linear logic to model attack trees?}  This would
-  provide the same benefits as their work, but with the resource
-  semantics left intact.
+  logic a game semantics \cite{Abramsky1999}.  I propose an open
+  problem, in the spirit of Kordy et al.~\cite{Kordy2010} \textbf{can
+    we use a game semantics of linear logic to model attack trees?}
+  This would provide the same benefits as their work, but with the
+  resource semantics left intact.
   
 \item Samarji et al.~\cite{Samarji2013} propose that graph based
   attack-defense models can be automatically constructed using and
@@ -230,14 +230,18 @@ problems:
   questions, \textbf{can one model the situation calculus in first-order
   linear logic?} This needs to be explored.
 \end{itemize}
+\noindent
+\textbf{Future work.} My students and I are working on designing and
+implementing a term-assignment to the fully general version of Indexed
+ATLL.  Under the Curry-Howard-Lambek correspondence this will produce
+a statically-typed functional programming language for specifying and
+reasoning about attack trees.  We hope to then study the feasibility
+of constructing a means of automatically constructing and reasoning
+about attack trees in a proof producing manner.  Finally, we are
+looking into if it is possible to use current graphical models of
+linear logic in string diagrams and proof nets to reason about attack
+trees graphically.
 % section related_work (end)
-
-
-\section{Future Work}
-\label{sec:fw}
-
-% section conclusion (end)
-
 
 \bibliographystyle{plain}
 \bibliography{ref}

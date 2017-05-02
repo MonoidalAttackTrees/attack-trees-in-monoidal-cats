@@ -23,26 +23,41 @@ by a set of inference rules.  The syntax for OLL is as follows:
 Formulas of OLL consist of atomic formulas denoted by $[[b]]$, a
 symmetric tensor product $[[A (.) B]]$, its unit $[[Top]]$, a
 non-symmetric tensor product $[[A > B]]$, non-linear conjunction $[[A
-    x B]]$, and linear implication $[[A -o B]]$.  Contexts are lists
-of hypothesis where $[[D]]$ is a list of ordered hypothesis, and
-$[[G]]$ is a list of unordered hypothesis.  The former are associated
-with the non-symmetric tensor product, and the latter with the
-symmetric tensor product.  We denote the empty context by $[[.]]$, and
-appending of contexts $[[G1]]$ and $[[G2]]$ by $[[G1,G2]]$.
+    x B]]$, and linear implication $[[A -o B]]$.  Note that the
+symmetric tensor product is to linear implication as conjunction is to
+implication in classical logic.  The other forms of conjunction are
+additional.  Contexts are lists of hypothesis where $[[D]]$ is a list
+of ordered hypothesis, and $[[G]]$ is a list of unordered hypothesis.
+The former are associated with the non-symmetric tensor product, and
+the latter with the symmetric tensor product.  We denote the empty
+context by $[[.]]$, and appending of contexts $[[G1]]$ and $[[G2]]$ by
+$[[G1,G2]]$.
 
-First, some intuitions for the differences between each type of
-conjunction.  One can view the two tensor products, $[[A (.) B]]$ and
-$[[A > B]]$, as a form of linear conjunction.  The former should be
-thought of as parallel conjunction, and not as the usual conjunction
-from classical logic.  In fact, in linear logic it is not the case
-that $[[(A (.) B) -o A]]$ nor $[[(A (.) B) -o B]]$.  In addition, it
-is not the case that $[[A (.) A]]$ is the same as $[[A]]$, because
-running a process in parallel with itself is not the same as running
-$[[A]]$ once.  The same can be said for $[[A > B]]$, but one should
-think of this operator as sequential conjunction, which means, that it
-is not the case that $[[(A > B) -o (B > A)]]$, and I prove this below.
-Now non-linear conjunction $[[A x B]]$ is ordinary conjunction from
-classical and intuitionistic logic.
+Linear logic has a resource interpretation, and the locus of this
+interpretation is linear implication.  In linear logic hypotheses
+cannot be freely duplicated or contracted.  That is, $[[A -o (A (.)
+    A)]]$ does not hold, nor does $[[(A (.) A) -o A]]$.  In addition,
+hypotheses cannot be freely created, that is, $[[A -o Top]]$ does not
+hold in general.  Each of these examples either uses an hypotheses
+more than once, or does not use an hypotheses at all.  This implies
+that every hypotheses must be used exactly once, and this property is
+called the linearity property.
+
+The linearity property produces a resource interpretation of formulas.
+Linear implication $[[A -o B]]$ can be interpreted as, consume the
+resource $[[A]]$, and then produce $[[B]]$.  Under this interpretation
+the linearity property can be read as, every resource must be consumed
+exactly once.  The symmetric tensor product $[[A (.) B]]$ can be read
+as, consume both the resources $[[A]]$ and $[[B]]$.  Similarly, the
+non-symmetric tensor product $[[A > B]]$ can be read as, consume the
+resource $[[A]]$, and then consume the resource $[[B]]$. Now
+non-linear conjunction $[[A x B]]$ is ordinary conjunction from
+classical and intuitionistic logic, and hence, formulas like $[[(A x
+    A) -o A]]$ and $[[A -o (A x A)]]$ both hold.  Similarly, $[[(A x
+    B) -o A]]$ and $[[(A x B) -o B]]$ hold.  Thus, one should
+interpret this as a way of pairing resources up.  I give an example of
+how to use the resources interpretation to model a simple state-based
+system at the end of this section.
 
 Sequents of OLL are denoted by $[[D;G |- A]]$.  We say that the
 sequent $[[D;G |- A]]$ holds if and only if given the hypothesis in
@@ -213,12 +228,11 @@ logic.
 There is a common example of problem solving used in artificial
 intelligence called the block world scenario; I learned of this
 example from Power and Webster's work on embedding linear logic in Coq
-\cite{?}.  Suppose there is a finite set of blocks and a robot arm
-that can be used to move blocks around.  For example, the arm might
-break a single stack of blocks into two stacks.  This setup can be
-modeled in linear logic using a few predicates on blocks.
-
-The state of the system can be modeled using the following predicates:
+\cite{nuimeprn6461}.  Suppose there is a finite set of blocks and a
+robot arm that can be used to move blocks around.  For example, the
+arm might break a single stack of blocks into two stacks.  This setup
+can be modeled in linear logic using a few predicates on blocks.  The
+state of the system can be modeled using the following predicates:
 \begin{center}
   \begin{tabular}{|rll|}
     \hline
@@ -230,26 +244,30 @@ The state of the system can be modeled using the following predicates:
     \hline
   \end{tabular}
 \end{center}
+
 Next we must characterize the pre- and post-states of the valid
 actions one can perform during the game.  These are defined as a set
-of linear logic axioms, where the hypothesis are the pre-state and the
-conclusion is the post-state.  The following set of inference rules
-axiomatize the actions:
+of linear logic axioms, where the hypotheses are the pre-state and the
+conclusion is the post-state.  In this setting linear implication,
+$[[A -o B]]$, is being interpreted as, if before the action executes,
+$[[A]]$ holds, then after the action executes, $[[B]]$ holds. The
+following set of inference rules axiomatize the actions:
 \begin{mdframed}[innertopmargin=-8px]\small
   \begin{mathpar}
     \OLLdruleget{} \and \OLLdruleput{}
   \end{mathpar}
 \end{mdframed}
 The $\OLLdrulegetName{}$ axiom states that if the robot arm was empty
-and there was no block on top of $[[x]]$, then after the action the
-robot arm will be holding the block $[[x]]$, and either the block
-$[[x]]$ had been on the table or it was on another block $[[y]]$ which
-we now declare has no block on top of it.  The $\OLLdruleputName{}$
-axiom states that if the robot arm was holding the block $[[x]]$, then
-after the action the robot arm is empty, the block $[[x]]$ has no
-block on top of it, and either the block $[[x]]$ is sitting on the
-table or it is sitting on the block $[[y]]$ which was clear, and now
-we declare that $[[x]]$ is on top of $[[y]]$.
+and there was no block on top of $[[x]]$, then after the action
+executes the robot arm will be holding the block $[[x]]$, and either
+the block $[[x]]$ had been on the table, or it was on another block
+$[[y]]$ which we now declare has no block on top of it.  The
+$\OLLdruleputName{}$ axiom states that if the robot arm was holding
+the block $[[x]]$, then after the action executes the robot arm is
+empty, the block $[[x]]$ has no block on top of it, and either the
+block $[[x]]$ is sitting on the table, or it is sitting on the block
+$[[y]]$ which was clear, and now we declare that $[[x]]$ is on top of
+$[[y]]$.
 
 We can see that the definition of the two axioms use the tensor
 product to indicate when two processes run in parallel.  For example,
