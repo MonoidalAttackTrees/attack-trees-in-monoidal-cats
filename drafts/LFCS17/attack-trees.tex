@@ -1,3 +1,53 @@
+%% \begin{center}\scriptsize
+%%   \begin{math}
+%%     $$\mprset{flushleft}
+%%     \inferrule* [right={\scriptsize $\ATLLdruleEXXparaIName{}$}] {
+%%       $$\mprset{flushleft}
+%%       \inferrule* [right={\scriptsize $\ATLLdruleEXXseqIName{}$}] {
+%%         $$\mprset{flushleft}
+%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXvarCName{}$}] {
+%%           \,
+%%         }{[[A;.;. |- A]]}
+%%         \\
+%%         $$\mprset{flushleft}
+%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXparaIName{}$}] {
+%%           $$\mprset{flushleft}
+%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
+%%             \,
+%%           }{[[.;.;B |- B]]}
+%%           \\
+%%           $$\mprset{flushleft}
+%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
+%%             \,
+%%           }{[[.;.;C |- C]]}
+%%         }{[[.;.;B,C |- B (.) C]]}
+%%       }{[[A;.;B,C |- A > (B (.) C)]]}
+%%       \\
+%%       $$\mprset{flushleft}
+%%       \inferrule* [right={\scriptsize $\ATLLdruleEXXseqIName{}$}] {
+%%         $$\mprset{flushleft}
+%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXparaIName{}$}] {
+%%           $$\mprset{flushleft}
+%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
+%%             \,
+%%           }{[[.;.;d |- d]]}
+%%           \\
+%%           $$\mprset{flushleft}
+%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
+%%             \,
+%%           }{[[.;.;E |- E]]}
+%%         }{[[.;.;d,E |- d (.) E]]}
+%%         \\
+%%         $$\mprset{flushleft}
+%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXvarCName{}$}] {
+%%           \,
+%%         }{[[F;.;. |- F]]}
+%%       }{[[F;.;d,E |- (d (.) E) > F]]}
+%%     }{[[A,F;.;B,C,d,E |- (A > (B (.) C)) (.) ((d (.) E) > F)]]}
+%%   \end{math}
+%% \end{center}
+%% 
+
 In this section I introduce attack trees with sequential conjunction
 -- sometimes referred to as SAND attack trees -- without cost
 annotations, and then the Attack Tree Linear Logic (ATLL).  This

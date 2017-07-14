@@ -1,0 +1,295 @@
+embed
+  {{tex-preamble \usepackage{cmll}
+                 \usepackage{relsize} }}
+
+metavar costvar, c ::=
+metavar termvar, x, y , z, f ::=
+metavar baseAttackVar, b ::=
+indexvar index, i , j, k ::=
+
+grammar
+  A, B, C, E, F, d {{tex D}} :: 'A_' ::=
+    | b       :: :: Base
+    | A (.) B :: :: Para
+    {{tex [[A]] \odot [[B]] }}
+    | A (+) B :: :: Par
+    {{tex [[A]] \oplus [[B]] }}
+    | A > B   :: :: Seq
+    | A -> B  :: :: RLimp
+    | B <- A  :: :: LLimp
+    | A -o B  :: :: Limp
+    | ( A )   :: :: Paren
+    | h( A ) ::  :: HParen
+    {{tex [[A]] }}
+
+  p :: 'Pat_' ::=
+    | x  :: :: Var
+    | p1 (+) p2 :: :: Par
+    | p1 (.) p2 :: :: Para
+    | p1 > p2   :: :: Seq
+    | ( p )     :: :: Parens
+
+  t, s :: 'Term_' ::=
+    | x           :: :: Var
+    | t1 (.) t2   :: :: Para
+    {{tex [[t1]] \odot [[t2]] }}
+    | let p = t1 in t2 :: :: Let
+    {{tex \mathsf{let}\,[[p]] = [[t1]]\,\mathsf{in}\,[[t2]] }}
+    | t1 > t2     :: :: Seq
+    | t1 (+) t2   :: :: Par
+    {{tex [[t1]] \oplus [[t2]] }}    
+    | \ x . t     :: :: LFun
+    {{tex \lambda [[x]] . [[t]] }}
+    | \l x . t    :: :: RLFun
+    {{tex \lambda_l [[x]] .  [[t]] }}
+    | \r x . t    :: :: LLFun
+    {{tex \lambda_r [[x]] .  [[t]] }}    
+    | t1 t2       :: :: LApp
+    | appr t1 t2  :: :: RLApp
+    {{tex \mathsf{app}_r\,[[t1]]\,[[t2]] }}
+    | appl t1 t2  :: :: LLApp
+    {{tex \mathsf{app}_l\,[[t1]]\,[[t2]] }}
+    | ( t )       :: :: Parens
+
+  G {{ tex \Gamma }}, D {{tex \Delta }} :: G_ ::=                 
+    | .                   ::   :: emptyCtx     
+    {{tex \cdot }}
+    | x : A               ::   :: vn
+    | G | G'              ::   :: append
+    {{tex [[G]] \mid [[G']] }}
+    | G , G'              ::   :: append1
+    | G ; G'              ::   :: append2
+    | ( G )               ::   :: parens
+    | h( G )              ::   :: hparens
+    {{tex [[G]] }}
+
+  P {{ tex \Phi }}, S {{tex \Psi }} :: P_ ::=                 
+    | .                   ::   :: emptyCtx     
+    {{tex \cdot }}
+    | t : A               ::   :: vn
+    | P , P'              ::   :: append1
+    | ( P )               ::   :: parens
+    | h( P )              ::   :: hparens
+    {{tex [[P]] }}
+    | [ t / x ] P         :: M :: Sub
+    | let p = t1 in P     :: M :: Let
+    {{tex \mathsf{let}\,[[p]] = [[t1]]\,\mathsf{in}\,[[P]] }}
+
+  terminals :: 'terminals_' ::=
+    | (.) :: :: Para
+    {{tex \odot}}
+    | (+) :: :: Par
+    {{tex \oplus}}    
+    | > :: :: Seq
+    {{tex \rhd}}
+    | + :: :: Choice
+    {{tex \sqcup }}
+    |  ->                 ::   :: arrow
+    {{tex \rightharpoonup }}
+    |  <-                 ::   :: arrow2
+    {{tex \leftharpoonup }}
+    |  -o                 ::   :: arrow3
+    {{tex \multimap }}
+    |  o-o                 ::   :: arrow4
+    {{tex \multimapboth }}        
+    | |-                  ::   :: turnstile
+    {{tex \vdash }}
+    | |~                  ::   :: ndash
+    {{tex \not \vdash }}    
+    | succ                ::   :: succ
+    {{tex \mathsf{succ} }}
+    | ~                   ::   :: cons
+    {{tex \sim }}
+    | ~U                  ::   :: conv
+    {{tex \sim_U }}    
+    | elem                ::   :: elem
+    {{tex \in }}
+    | ~>                  ::   :: red
+    {{tex \rightsquigarrow }}
+    | box        :: :: box
+    {{tex \mathsf{box} }}
+    | unbox        :: :: unbox
+    {{tex \mathsf{unbox} }}
+    | fst        :: :: fst
+    {{tex \mathsf{fst} }}
+    | snd        :: :: snd
+    {{tex \mathsf{snd} }}                
+
+  formula :: 'formula_' ::=
+    | judgement           ::   :: judgement
+    | formula1 && formula2 ::  :: Quad
+    {{tex [[formula1]] \quad [[formula2]] }}
+    | ( formula )         :: S :: parens
+    {{tex [[formula]] }}
+    | x nin FV( P )       :: M :: FV
+    {{tex [[x]] \not\in \mathsf{FV}([[P]]) }}
+    
+defns
+  Typing :: '' ::=
+
+defn
+  G1 |- G2 :: :: ctxm :: 'C_'
+  {{tex [[G1]] \vdash [[G2]] }} by
+
+  ------ :: id
+  G |- G
+
+  G1 |- G2 && G2 |- G3
+  -------------------- :: c
+  G1 |- G3
+
+  -------------------------------- :: a1
+  (G1 | G2) | G3 |- G1 | (G2 | G3)
+
+  ------------ :: m1
+  . | G2 |- G2
+
+  ------------ :: m2
+  G1 | . |- G1
+
+ -------------------------------------------------------------- :: e
+ h(G1 | h(x1 : A,x2 : B)) | G2 |- h(G1 | h(x2 : B,x1 : A)) | G2
+
+ % ------------------------------------------ :: d1
+ % G1 | A;(B,C) | G2 |- G1 | (A;B),(A;C) | G2
+
+ % ------------------------------------------ :: d2
+ % G1 | (A;B),(A;C) | G2 |- G1 | A;(B,C) | G2
+
+defn
+  P1 |- P2 :: :: cctxm :: 'CC_'
+  {{tex [[P1]] \vdash [[P2]] }} by
+
+  ------ :: id
+  P |- P
+
+  P1 |- P2 && P2 |- P3
+  -------------------- :: c
+  P1 |- P3
+
+  -------------------------------- :: a1
+  (P1, P2), P3 |- P1, (P2, P3)
+
+  ------------ :: m1
+  ., P2 |- P2
+
+  ------------ :: m2
+  P1, . |- P1
+
+ ---------------------------------------------------------- :: e
+ h(P1, h(x1 : A,x2 : B)), P2 |- h(P1, h(x2 : B,x1 : A)), P2
+
+
+defn
+ G |- t : A :: :: atv :: 'T_'    
+ {{tex [[G]] \vdash [[t]] : [[A]] }} by
+    
+ -------------- :: var
+ x : B |- x : B
+
+ G1 |- G2 && G2 |- t : A
+ ----------------------- :: Ctx
+ G1 |- t : A
+
+ G |- t1 : A && D |- t2 : B
+ -------------------------- :: paraI
+ G,D |- t1 (.) t2 : A (.) B
+
+ G |- t1 : A && D |- t2 : B
+ -------------------------- :: seqI
+ G;D |- t1 > t2 : A >  B
+
+ G |- t1 : A (.) B && h(D1 | h(x1 : A,x2 : B)) | D2 |- t2 : C
+ ------------------------------------------------------------ :: paraE
+ h(D1 | G) | D2 |- let (x1 (.) x2) = t1 in t2 : C
+
+ G |- t1 : A > B && h(D1 | h(x1 : A;x2 : B)) | D2 |- t2 : C
+ ---------------------------------------------------------- :: seqE
+ h(D1 | G) | D2 |- let (x1 > x2) = t1 in t2 : C
+
+ G,x : A |- t : B
+ ------------------ :: limpI
+ G |- \x.t : A -o B
+
+ G |- t1 : A -o B && D |- t2 : A
+ ------------------------------- :: limpE
+ G,D |- t1 t2 : B
+
+ G;x : A |- t : B
+ ---------------------- :: RlimpI
+ G |- \r x . t : A -> B
+
+ G |- t1 : A -> B && D |- t2 : A
+ ------------------------------- :: RlimpE
+ G;D |- appr t1 t2 : B
+
+ x : A;G |- t : B
+ ---------------------- :: LlimpI
+ G |- \l x . t : B <- A
+
+ G |- t1 : B <- A && D |- t2 : A
+ ------------------------------- :: LlimpE
+ D;G |- appl t1 t2 : B
+
+defn
+ G |-F P :: :: fill :: 'F_'    
+ {{tex [[G]] \vdash [[P]] }} by
+    
+ --------------- :: var
+ x : B |-F x : B
+
+ (G1 |- G2 && G2 |-F P2) && P2 |- P1
+ ----------------------------------- :: ctx
+ G1 |-F P1
+
+ G2 |-F P1,t : A,P3 && h(G1 | x : A) | G3 |-F P2
+ ----------------------------------------------- :: cut
+ h(G1 | G2) | G3 |-F P1,[t/x]P2,P3
+
+ h(G1 | h(x1 : A,x2 : B)) | G2 |-F P
+ ----------------------------------------------------- :: paraL
+ h(G1 | y : A (.) B) | G2 |-F let (x1 (.) x2) = y in P
+
+ G |-F t1 : A,P1 && D |-F t2 : B,P2
+ ---------------------------------- :: paraR
+ G,D |-F t1 (.) t2 : A (.) B,P1,P2
+
+ h(G1 | h(x1 : A;x2 : B)) | G2 |-F P
+ ------------------------------------------------- :: seqL
+ h(G1 | y : A > B) | G2 |-F let (x1 > x2) = y in P
+
+ G |-F t1 : A,P1 && D |-F t2 : B,P2
+ ---------------------------------- :: seqR
+ G;D |-F t1 > t2 : A > B,P1,P2
+
+ G2 |-F t1 : A, P1 && h(G1 | x : B) | G3 |-F P2
+ ---------------------------------------------- :: limpL
+ h(G1 | h(y : A -o B,G2)) | G3 |-F P1,[y t1/x]P2
+
+ G,x : A |-F t : B, P && x nin FV(P)
+ ----------------------------------- :: limpR
+ G |-F \x.t : A -o B,P
+
+ G2 |-F t1 : A, P1 && h(G1 | x : B) | G3 |-F P2
+ ----------------------------------------------- :: RlimpL
+ h(G1 | h(G2,y : A -> B)) | G3 |-F P1,[y t1/x]P2
+
+ G;x : A |-F t : B,P && x nin FV(P)
+ ---------------------------------- :: RlimpR
+ G |-F \r x . t : A -> B, P
+
+ G2 |-F t1 : A, P1 && h(G1 | x : B) | G3 |-F P2
+ ----------------------------------------------- :: LlimpL
+ h(G1 | h(y : A <- B,G2)) | G3 |-F P1,[y t1/x]P2
+
+ x : A;G |-F t : B,P && x nin FV(P)
+ --------------------------------- :: LlimpR
+ G |-F \l x . t : B <- A, P
+
+ G |-F P1 , t1 : A, t2 : B,P2
+ ------------------------------ :: parR
+ G |-F P1,t1 (+) t2 : A (+) B,P2
+
+ G1 | x1 : A |-F P1 && x2 : B | G2 |-F P2
+ --------------------------------------------------------------------------------- :: parL
+ h(G1 | z : A (+) B) | G2 |-F (let x1 (+) x2 = z in P1), (let x1 (+) x2 = z in P2)

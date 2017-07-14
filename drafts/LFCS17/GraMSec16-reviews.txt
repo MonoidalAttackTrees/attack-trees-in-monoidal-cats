@@ -1,0 +1,199 @@
+Dear Harley,
+
+We thank you for submitting your paper entitled Proposing a New Foundation of Attack Trees in Monoidal Categories to the 3rd International Workshop on Graphical 
+Models for Security. We are sorry to inform you that your submission was not selected for presentation at the 
+workshop. 
+
+This year we have received 23 high quality submissions amongst which only 7 regular and 2 short papers 
+have been accepted. 
+
+The reviews for your paper are appended to this email. We hope you will find them useful in preparing 
+subsequent versions of your article.
+
+Even though your paper was not accepted, you are warmly invited to attend GraMSec'16. Please refer to the 
+workshop's website (https://gramsec.uni.lu/) for all relevant information. 
+
+With kind regards,
+Mathias Ekstedt, DongSeong Kim, and Barbara Kordy 
+Co-chairs of GraMSec'16
+
+
+----------------------- REVIEW 1 ---------------------
+PAPER: 1
+TITLE: Proposing a New Foundation of Attack Trees in Monoidal Categories
+AUTHORS: Harley Eades Iii
+
+OVERALL EVALUATION: 1 (weak accept)
+REVIEWER'S CONFIDENCE: 4 (high)
+
+----------- Relevance to the workshop -----------
+The paper is definitely within the scope of the GraMSec workshop. It presents a formal model for attack trees based on full intuitionistic linear logic. Based on this model and exploiting the Curry-Howard-Lambek correspondence, the paper then shortly presents a functional programming language called Lina.
+
+----------- Technical soundness -----------
+The model suggested in the paper is based on full intuitionistic linear logic. This part of the paper is technically sound but its novelty is limited because it reuses previous model on full intuitionistic linear logic.
+
+The Lina language is more informally presented. Using this language, it is argued that "the security specialist will not program directly in Lina, but instead will use a graphical interface to construct attack trees and prove properties about them in a completely graphical nature." This looks like an interesting but rather preliminary contribution.
+
+----------- Presentation -----------
+The paper is submitted as a short paper. It is unclear why the author did not decide to submit it as a regular paper. In particular, it would be very relevant to develop concrete examples of attack trees to illustrate the approach and show how to use the Lina language.
+
+----------- Detailed remarks -----------
+The paper presents preliminary work to define a language called Lina. The work seems promising but there is still much work to do to develop a new tool to conduct threat analysis using attack trees. It would be at least useful to include in the paper an example to illustrate "the ability to design and formally reason about attack trees using interactive theorem proving." Instead, this point is unfortunately suggested in the conclusion as future work.
+
+It would be also relevant to further discuss the expressivity of the Lina language.
+
+A more detailed comparison with other approaches to model attack trees would be also useful, see for instance previous work based on situation calculus.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 1
+TITLE: Proposing a New Foundation of Attack Trees in Monoidal Categories
+AUTHORS: Harley Eades Iii
+
+OVERALL EVALUATION: -2 (reject)
+REVIEWER'S CONFIDENCE: 5 (expert)
+
+----------- Relevance to the workshop -----------
+The subject of the paper is relevant to GraMSec.
+
+----------- Technical soundness -----------
+Section 1. The opening discussion is distressingly naive and, I would suggest quite poorly informed. 
+
+Section 2. I believe so, but a more detailed discussion would be helpful.
+
+Section 3. I believe so, but much more development is required.  
+
+Section 4. This is just an elevator pitch.
+
+The paper is wholly devoid of examples. This is a problem.
+
+----------- Presentation -----------
+The paper is generally well written. A few routine language bugs, but nothing much. 
+
+The contextual discussion is, however, not adequate. Poorly informed and wholly lacking in examples.
+
+----------- Detailed remarks -----------
+As it stands, the paper is not yet ready for presentation at GramSec. It requires significant improvement in the 
+following respects:
+
+1. The justification of the use of this particular categorical semantics, starting with the using linear logic's so-called 
+resource semantics as a point of departure, through to the choice to use the dialectica constructions is weak. 
+There is a rich theory of logics with substantive resource resource semantics and significant application (via something 
+called separation logic, through pointer logic, from BI). There are also idea such as event structures that are well-adpated 
+to process interpretations, and much more besides. I would need to see a careful explanation and justification of the 
+choices being made. 
+
+2. The meta-theory of the semantics of attack trees in monoidal categories is not sufficiently well-developed. Is there a 
+completeness (or full abstraction) property to go along with soundness? (That is, does there exist a specific monoidal 
+category or class of monoidal categories such that [[t_1]] = [[t_2]] implies t_1 ~> t_2? 
+
+3. What is the relationship between logics (e.g., of state) that can be interpreted in the semantics (or routine constructions 
+upon it) and their process interpretations in attack trees? 
+
+4. What use is the semantics? No substantive examples are given. 
+
+5. Is the language Lina a proposal or a reality? Seems more like the former? What evidence is there that that is will be 
+useful? 
+
+I could go on with similar questions, but I think that's enough for now.  
+
+The line of research does, however, have the potential to be promising. But it needs a lot more development before 
+it's ready for presentation.
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 1
+TITLE: Proposing a New Foundation of Attack Trees in Monoidal Categories
+AUTHORS: Harley Eades Iii
+
+OVERALL EVALUATION: 2 (accept)
+REVIEWER'S CONFIDENCE: 4 (high)
+
+----------- Relevance to the workshop -----------
+This paper is well on the topic of GraMSec and it is well written as a _short paper_, describing a new research direction regarding foundations of Attack Trees.
+
+----------- Technical soundness -----------
+The author has put the effort into formalizing his results with the Agda proof assistant.
+
+----------- Presentation -----------
+Overall, the paper is well written and organized, and would make a good contribution to GraMSec.
+
+----------- Detailed remarks -----------
+----------------
+general considerations
+----------------
+
+This paper is well on the topic of GraMSec and it is well written as a _short paper_, describing a new research direction regarding foundations of Attack Trees.
+The presentation of this research ideas could be very interesting for the GraMSec audience, and I encourage it to be accepted.
+
+The paper proposes to investigate attack trees using the categorical constructs of Chu spaces, and to relate them with the intuitionistic linear logic.
+Such research ideas that connect different areas are always good to explore, as they always provide new insights.
+
+Connecting attack trees with Chu spaces and linear logic sound very plausible. Chu spaces have been used as models of concurrent systems, and linear logics as logics for concurrent systems. The attack trees have the notion of concurrency in the AND-branches. The semantic of this paper proposes different kinds of "interacting" concurrent composition for attack trees, which can prove useful also in the more complex practical applications.
+
+Overall, the paper is well written and organized, and would make a good contribution to GraMSec.
+Moreover, the author has put the effort into formalizing his results with the Agda proof assistant.
+
+
+----------------
+specific comments
+----------------
+Indeed, Dialectica spaces seam very close to Chu spaces as used by Pratt. In fact I do not see the difference. And if the only difference is the fact that the Dialectica spaces consider the structure of the Set 2 or in your intuitionistic case the structure of 3, you should take a look at the more recent papers of Pratt where he looks closer at concurrency models and Chu spaces. Especially those papers related to triadic event structures and higher dimensional automata, where the structure of 3 woth a linear order is important (i.e., 0 < 1/2 < 2 standing for and event "not started", "in transition", and "terminated"). There is a recent journal article of Pratt (~2003 or 2006) called "Transition and cancellation in ..." where he studies Chu spaces over 4, where the structure of 4 is even more interesting, and not just linear.
+
+In your explanation of the uses of the 3 (0,\bot,1) you only tell what 0 and 1 intuitively represent. But what does \bot represent for you? in the semantics of attack trees ?
+
+And if I understood correctly that the order matters for Dialectical spaces, then what is the order for you on 3 ?
+
+If we talk about concurrency, then the AND- and OR-transitions of attack trees always looked to me like the transitions in Alternating Automata.
+
+If you have space in the final version, please add more explanation and maybe the definition of the "symmetric tensor product definable on 3" ...
+(Unfortunately, I did not have time to check your links to the formalizations)
+
+A few Typos:
+- "have be used" -> been
+- Sec.2 1st par. remove last sentence.
+- " unsynchronized communicating parallel composition " -> should be interacting
+- In the definition of Choice you use the symbol + in two places where it should not be.
+
+- Please make a thorough proof reading of the References, for the final version. There are many problems in there.
+-- Valeria Paiva (missing "de") in [2]
+-- see also [6,11]
+
+
+----------------------- REVIEW 4 ---------------------
+PAPER: 1
+TITLE: Proposing a New Foundation of Attack Trees in Monoidal Categories
+AUTHORS: Harley Eades Iii
+
+OVERALL EVALUATION: 1 (weak accept)
+REVIEWER'S CONFIDENCE: 3 (medium)
+
+----------- Relevance to the workshop -----------
+As this is a paper on formal semantics of attack trees, it is clearly within the scope of GraMSec.
+
+----------- Technical soundness -----------
+The author starts from the observation that existing formal semantics of attack trees have much in common and proposes a unification in the form of symmetric monoidal categories. Next, the author provides an abstract syntax (inspired by linear logic) which extends published notations with interacting parallel composition and copy. The paper proceeds with a new semantics in dialectica spaces, and rounds up with practical implications in the form of a domain specific specification and analysis language.
+
+Being a "short paper", one could rightly expect a high-level approach, proposing new views, rather than providing a full-fledged technical development. As such, this paper is a very interesting research proposal which already provides some evidence of its feasibility in the form of some basic theorems and proofs.
+
+Unfortunately, the condensed format also constitutes the main weakness of the paper. Technical proposals are just stated as is, without sufficient explanation and without sufficient appeal to intuition. This does not only impose problems for those readers who are not initiated in topics like linear logic, but also for those (a small minority, I assume) who know some background behind the technicalities in the paper.
+
+A few examples:
+- How to read and interpret the inference rules in section 2?
+- What is the interpretation and purpose of the new operators introduced in section 2?
+- How can the communicating parallel operator be used to include social engineering?
+- Which intuitive semantical model and which design decisions led to the use of dialectica spaces as a semantical domain?
+- What could LINA look like and how could it be used to support specifying and analyzing attack trees?
+- What kind of properties could be expressed and verified with LINA?
+- How can LINA be used for the automated generation of attack trees?
+
+----------- Presentation -----------
+Except for the lack of proper intuition and explanation, the paper is well-written.
+
+----------- Detailed remarks -----------
+No additional comments, except for some typos.
+
+p2. "projects ultimate" -> "project's ultimate"
+p3. "a unsuspecting" -> "an unsuspecting"
+p4. "have be used" -> "have been used"
+p9. "the there" -> "there"

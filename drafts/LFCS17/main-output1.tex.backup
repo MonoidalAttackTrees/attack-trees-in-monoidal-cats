@@ -1,0 +1,238 @@
+\documentclass{llncs}
+
+\usepackage{amssymb,amsmath}
+\usepackage{cmll}
+\usepackage{stmaryrd}
+\usepackage{todonotes}
+\usepackage{mathpartir}
+\usepackage{hyperref}
+\usepackage[barr]{xy}
+\usepackage{mdframed}
+\usepackage{thmtools, thm-restate}
+
+%% This renames Barr's \to to \mto.  This allows us to use \to for imp
+%% and \mto for a inline morphism.
+\let\mto\to
+\let\to\relax
+\newcommand{\to}{\rightarrow}
+
+% Commands that are useful for writing about type theory and programming language design.
+%% \newcommand{\case}[4]{\text{case}\ #1\ \text{of}\ #2\text{.}#3\text{,}#2\text{.}#4}
+\newcommand{\interp}[1]{\llbracket #1 \rrbracket}
+\newcommand{\normto}[0]{\rightsquigarrow^{!}}
+\newcommand{\join}[0]{\downarrow}
+\newcommand{\redto}[0]{\rightsquigarrow}
+\newcommand{\nat}[0]{\mathbb{N}}
+\newcommand{\fun}[2]{\lambda #1.#2}
+\newcommand{\CRI}[0]{\text{CR-Norm}}
+\newcommand{\CRII}[0]{\text{CR-Pres}}
+\newcommand{\CRIII}[0]{\text{CR-Prog}}
+\newcommand{\subexp}[0]{\sqsubseteq}
+%% Must include \usepackage{mathrsfs} for this to work.
+\newcommand{\powerset}[0]{\mathscr{P}}
+
+\date{}
+
+% Cat commands.
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
+\newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
+\newcommand{\limp}[0]{\multimap}
+\newcommand{\dial}[0]{\mathsf{Dial_3}(\mathsf{Sets})}
+\newcommand{\dialSets}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets})}
+\newcommand{\dcSets}[1]{\mathsf{DC_{#1}}(\mathsf{Sets})}
+\newcommand{\sets}[0]{\mathsf{Sets}}
+\newcommand{\obj}[1]{\mathsf{Obj}(#1)}
+\newcommand{\mor}[1]{\mathsf{Mor(#1)}}
+\newcommand{\id}[0]{\mathsf{id}}
+\newcommand{\lett}[0]{\mathsf{let}\,}
+\newcommand{\inn}[0]{\,\mathsf{in}\,}
+\newcommand{\cur}[1]{\mathsf{cur}(#1)}
+\newcommand{\curi}[1]{\mathsf{cur}^{-1}(#1)}
+
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}}
+
+%% % Theorems
+%% \newtheorem{theorem}{Theorem}
+%% \newtheorem{lemma}[theorem]{Lemma}
+%% \newtheorem{fact}[theorem]{Fact}
+%% \newtheorem{corollary}[theorem]{Corollary}
+%% \newtheorem{definition}[theorem]{Definition}
+%% \newtheorem{remark}[theorem]{Remark}
+%% \newtheorem{proposition}[theorem]{Proposition}
+%% \newtheorem{notn}[theorem]{Notation}
+%% \newtheorem{observation}[theorem]{Observation}
+
+%% Ott
+\input{indexed-atll-ott}
+\input{atll-ott}
+\input{oll-ott}
+\renewcommand{\IATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\IATLLdrulename{#4}}}
+\renewcommand{\IATLLdrulename}[1]{#1}
+\renewcommand{\IATLLdruleTXXvarName}{\text{id}_{\odot}}
+\renewcommand{\IATLLdruleTXXparaName}{\odot}
+\renewcommand{\IATLLdruleTXXseqName}{\rhd}
+\renewcommand{\IATLLdruleTXXchoiceName}{\sqcup}
+
+\renewcommand{\IATLLdruleEXXvarName}{\text{id}_{\odot}}
+\renewcommand{\IATLLdruleEXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\IATLLdruleEXXvarCCName}{\text{id}_{\sqcup}}
+\renewcommand{\IATLLdruleEXXdistParaOneName}{\text{dis}_{\odot_1}}
+\renewcommand{\IATLLdruleEXXdistSeqOneName}{\text{dis}_{\rhd_1}}
+\renewcommand{\IATLLdruleEXXdistParaTwoName}{\text{dis}_{\odot_2}}
+\renewcommand{\IATLLdruleEXXdistSeqTwoName}{\text{dis}_{\rhd_2}}
+\renewcommand{\IATLLdruleEXXparaIName}{\odot_I}
+\renewcommand{\IATLLdruleEXXparaEName}{\odot_E}
+\renewcommand{\IATLLdruleEXXseqIName}{\rhd_I}
+\renewcommand{\IATLLdruleEXXseqEName}{\rhd_E}
+\renewcommand{\IATLLdruleEXXexPName}{\text{sym}_\odot}
+\renewcommand{\IATLLdruleEXXexCName}{\text{sym}_\sqcup}
+\renewcommand{\IATLLdruleEXXimpIName}{\multimap_I}
+\renewcommand{\IATLLdruleEXXimpEName}{\multimap_E}
+\renewcommand{\ATLLdruleEXXcompName}{\text{comp}_\multimap}
+
+\renewcommand{\ATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\ATLLdrulename{#4}}}
+\renewcommand{\ATLLdrulename}[1]{#1}
+\renewcommand{\ATLLdruleTXXvarName}{\text{id}_{\odot}}
+\renewcommand{\ATLLdruleTXXparaName}{\odot}
+\renewcommand{\ATLLdruleTXXseqName}{\rhd}
+\renewcommand{\ATLLdruleTXXchoiceName}{\sqcup}
+
+\renewcommand{\ATLLdruleEXXvarName}{\text{id}_{\odot}}
+\renewcommand{\ATLLdruleEXXvarCName}{\text{id}_{\rhd}}
+\renewcommand{\ATLLdruleEXXvarCCName}{\text{id}_{\sqcup}}
+\renewcommand{\ATLLdruleEXXdistParaOneName}{\text{dis}_{\odot_1}}
+\renewcommand{\ATLLdruleEXXdistSeqOneName}{\text{dis}_{\rhd_1}}
+\renewcommand{\ATLLdruleEXXdistParaTwoName}{\text{dis}_{\odot_2}}
+\renewcommand{\ATLLdruleEXXdistSeqTwoName}{\text{dis}_{\rhd_2}}
+\renewcommand{\ATLLdruleEXXparaIName}{\odot_I}
+\renewcommand{\ATLLdruleEXXparaEName}{\odot_E}
+\renewcommand{\ATLLdruleEXXseqIName}{\rhd_I}
+\renewcommand{\ATLLdruleEXXseqEName}{\rhd_E}
+\renewcommand{\ATLLdruleEXXexPName}{\text{sym}_\odot}
+\renewcommand{\ATLLdruleEXXexCName}{\text{sym}_\sqcup}
+\renewcommand{\ATLLdruleEXXimpIName}{\multimap_I}
+\renewcommand{\ATLLdruleEXXimpEName}{\multimap_E}
+\renewcommand{\ATLLdruleEXXweakSName}{\text{wk}_\odot}
+\renewcommand{\ATLLdruleEXXweakPName}{\text{wk}_\rhd}
+\renewcommand{\ATLLdruleEXXchoiIName}{\sqcup_I}
+\renewcommand{\ATLLdruleEXXchoiEName}{\sqcup_E}
+\renewcommand{\IATLLdruleEXXdupName}{\text{dup}_\sqcup}
+\renewcommand{\IATLLdruleEXXcontName}{\text{cont}_\sqcup}
+
+\renewcommand{\OLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\OLLdrulename{#4}}}
+\renewcommand{\OLLdrulename}[1]{#1}
+\renewcommand{\OLLdrulevarName}{\text{id}_{\odot}}
+\renewcommand{\OLLdrulevarCName}{\text{id}_{\rhd}}
+\renewcommand{\OLLdruleparaIName}{\odot_I}
+\renewcommand{\OLLdruleparaEName}{\odot_E}
+\renewcommand{\OLLdruleseqIName}{\rhd_I}
+\renewcommand{\OLLdruleseqEName}{\rhd_E}
+\renewcommand{\OLLdruleexName}{\text{sym}_\odot}
+\renewcommand{\OLLdruleimpIName}{\multimap_I}
+\renewcommand{\OLLdruleimpEName}{\multimap_E}
+
+\begin{document}
+
+\title{A New Foundation of Attack Trees in Linear Logic}
+
+\author{Harley Eades III}
+\institute{Computer Science\\Augusta University \\ \href{mailto:heades@augusta.edu}{harley.eades@gmail.com}}
+
+\maketitle 
+
+\begin{abstract}
+  In this short paper I provide an update on an ongoing research
+  project investigating founding attack trees in the resource
+  conscious theory called linear logic.  I introduce a new linear
+  logic called the Attack Tree Linear Logic (ATLL) which models attack
+  trees as formulas and uses implication to reason about attack trees.
+  I then introduce a new generalization of Bucciarelli and Ehrhard’s
+  indexed linear logic to obtain Indexed ATLL which adds costs to
+  attack trees.  The most interesting aspect of Indexed ATLL is that
+  implication is endowed with a relation for taking into consideration
+  the costs while reasoning about attack trees.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+\input{intro-output}
+
+\section{A Brief Introduction to Ordered Linear Logic}
+\label{sec:a_brief_introduction_to_ordered_linear_logic}
+\input{oll-output}
+% section a_brief_introduction_to_ordered_linear_logic (end)
+
+
+\section{Attack Trees without Costs}
+\label{sec:attack_trees_without_costs}
+\input{attack-trees-output}
+% section attack_trees_without_costs (end)
+
+\section{Attack Trees with Costs}
+\label{sec:attack_trees_with_costs}
+\input{indexed-atll-output}
+% section attack_trees_with_costs (end)
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+I introduced a new linear logic for reasoning about attack trees
+called the Attack Tree Linear Logic (ATLL) with and without costs.
+Attack trees are modeled as logical formulas and proving relationships
+between attack trees corresponds to proving implications.  Adding
+costs to ATLL results in a new indexed linear logic called Indexed
+ATLL.  Then I showed how endowing implication with a relation on costs
+can be used to include the costs when reasoning about attack trees.
+
+ATLL is just one part of this project, the following are some next
+steps with respect to (Indexed) ATLL and other parts of the project:
+\begin{itemize}
+\item Define a term assignment for (Indexed) ATLL that can be used to
+  define attack trees using a functional programming language.
+\item Determine the applicability of automating reasoning on attack
+  trees in (Indexed) ATLL using proof search.  
+\item Finish studying the categorical model to which (Indexed) ATLL is
+  based.
+\item Finishing the development of a modular and stand alone IDE for
+  attack tree in Javascript that can be used with various
+  formalizations of attack trees.  Hopefully, the community will
+  be able to make use of this interface.
+\item Develop the concrete implementation, called Lina, of (Indexed)
+  ATLL with automation.
+\end{itemize}
+% section conclusion (end)
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\appendix
+
+\section*{Appendix}
+\label{sec:appendix}
+
+\section{The Full Specification of Indexed ATLL}
+\label{subsec:the_full_specification_of_indexed_atll}
+\input{full-indexed-atll-output}
+% section the_full_specification_of_indexed_atll (end)
+
+% section appendix (end)
+
+
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+

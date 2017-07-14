@@ -1,0 +1,161 @@
+\usepackage{amsmath,amssymb,amsthm}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[barr]{xy}
+\usepackage{todonotes}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{stmaryrd}
+\usepackage{mathpartir}
+\usepackage{layout}
+\usepackage[margin=1.1in]{geometry}
+
+%% \usepackage{nobibprint}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{corollary}[thm]{Corollary}
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{proposition}[thm]{Proposition}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{observation}[thm]{Observation}
+
+\newcommand{\cat}[1]{\mathbb{#1}}
+\newcommand{\catobj}[1]{\mathsf{Obj}(\cat{#1})}
+\newcommand{\catop}[1]{\mathbb{#1}^{\mathsf{op}}}
+\newcommand{\sets}[0]{\mathsf{Sets}}
+\newcommand{\homs}[2]{\mathsf{Hom}[#1,#2]}
+\newcommand{\cur}[0]{\mathsf{cur}}
+\newcommand{\curi}[0]{\mathsf{cur}^{-1}}
+\newcommand{\app}[0]{\mathsf{app}}
+\newcommand{\id}[0]{\mathsf{id}}
+\newcommand{\injl}[0]{\mathsf{inj_l}}
+\newcommand{\injr}[0]{\mathsf{inj_r}}
+\newcommand{\pow}[1]{\mathcal{P}(#1)}
+\newcommand{\cpy}[0]{\textcopyright}
+\newcommand{\lett}[3]{\mathsf{let}\,#1 = #2\,\mathsf{in}\,#3}
+
+\include{type-theory_inc}
+
+\title{\vspace{-50px}Summer Research Proposal: \\ Marrying Gradual and Linear Types \\ The Attack Tree Linear Logic (ATLL)}
+\author{Harley Eades III, Computer Science, Augusta University}
+\date{\vspace{-22px}}
+\begin{document}
+\maketitle  
+
+\begin{full}
+%% \layout
+\section{Overview}
+\label{sec:overview}
+
+This proposal seeks summer faculty salary support from the Hull
+College of Business for the months of June and July to support two
+cutting edge research projects in computer science and cyber security.
+I briefly describe these projects before discussing the summer
+activities that the requested funds will support.
+
+\section{Marrying Gradual and Linear Types}
+\label{sec:marrying_gradual_and_linear_types}
+Gradual typing is a new area of research in the theory of programming
+languages that impacts much of the technical industry.  Linear types
+provide a means of specifying and broadening computer programs to be
+more safe when dealing with input from the outside world.  This
+project will be the first to bring these two paradigms together
+providing the best of both worlds.
+
+Over the course of the summer my trainee, a Ph.D. student from the
+University of Iowa, and I will develop a new programming language that
+combines gradual and linear types.  We will then mathematically prove
+the correctness of this programming language inside a new cutting edge
+system called Agda which is a proof assistant for conducting machine
+checked mathematical proofs.  This will certify that our programming
+language meets all of the desired properties solidifying its
+correctness.
+% section marrying_gradual_and_linear_types (end)
+
+\section{The Attack Tree Linear Logic (ATLL)}
+\label{sec:the_attack_tree_linear_logic_(atll)}
+\textbf{Attack trees} are a modeling tool, originally proposed by
+Bruce Schneier \cite{Schneier:1999}, which are used to assess the
+threat potential of a security critical system.  Attack trees have
+since been used to analyze the threat potential of many types of
+security critical systems, for example, cybersecurity of power grids
+\cite{Ten:2007}, wireless networks \cite{Reinhardt:2012}, and many
+others.  Attack trees consists of several goals, usually specified in
+English prose, for example, ``compromise safe'' or ``obtain
+administrative privileges'', where the root is the ultimate goal of
+the attack and each node coming off of the root is a refinement of the
+main goal into a subgoal.  Then each subgoal can be further refined.
+The leaves of an attack tree make up the set of base attacks.  Subgoals
+can be either disjunctively or conjunctively combined.
+
+\textbf{The need for a foundation.}  Attack trees for real-world
+security scenarios can grow to be quite complex.  The attack tree
+presented in \cite{Ten:2007} to access the security of power grids has
+twenty-nine nodes with sixty counter measures attached to the nodes
+throughout the tree.  The details of the tree spans several pages of
+appendix.  The attack tree developed for the border gateway protocol
+has over a hundred nodes \cite{Convey:2003}, and the details of the
+tree spans ten pages.  Manipulating such large trees without a formal
+semantics can be dangerous.
+
+%% Semantics of ATREES:
+%%   - Boolean logic
+%%   - Attack nets (2000)
+%%   - Multisets (2006)
+%%   - Series-parallel graphs (extension of multisets) (2015)
+\textbf{The formal semantics of attack trees.} The leading question
+the field is seeking to answer by giving a mathematical foundation to
+attack trees is ``what is an attack tree?''  There have been numerous
+attempts at answering this question.  However, the research on the
+mathematical foundation of attack trees being done here at Augusta
+University\footnote{\label{grant}The National Science Foundation CRII CISE Research Initiation grant,
+  ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
+  Categories``, under Grant No. 1565557.} is the first of its kind,
+and the first to propose the use of linear logic.
+
+This summer my trainee, a visiting Ph.D. student from North Carolina
+State University, will aid me in developing a new system for reasoning
+about attack trees and conducting threat analysis using attack trees
+called the Attack Tree Linear Logic (ATLL).  This system is the first
+of its kind and has the potential to greatly impact the cyber security
+research community.
+
+% section the_attack_tree_linear_logic_(atll) (end)
+
+\section{The Proposal}
+\label{sec:the_proposal}
+I will be hosting two visiting Ph.D. students from June 1 till Augusta
+1.  They will be fully funded from my NSF grant, fn.~\ref{grant}, but
+this grant does not include PI salary support.
+
+The amount I am requesting is \$10,000. This will cover my salary for
+the summer months of June and July.  The amount of effort required for
+the proper mentorship and research development necessary for this
+summer is at least as much effort as teaching a summer course. Lastly,
+this research program benefits, not only myself, but the college and
+university as a whole, because I will be mentoring two visiting
+Ph.D. students as well as building relationships with other
+universities through this mentorship.
+
+In addition, I will be holding a summer research seminar that will be
+open to Hull College of Business students as well as three graduate
+students and two postdocs from the University of Iowa.  The project
+will begin on June 1 and end on July 30.
+
+At the completion of the summer project I will happily provide drafts
+of the two papers these projects will produce to the college and/or
+present the results and activities to the college during a brown bag.
+% section the_proposal (end)
+
+
+\end{full}
+%% \nocite{*}
+\bibliographystyle{plain}
+\bibliography{refs}
+
+
+
