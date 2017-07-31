@@ -63,11 +63,11 @@ formula in ATLL as follows:
   \ATLLnt{B_{{\mathrm{2}}}} := \text{``social engineer''}\\
   \ATLLnt{B_{{\mathrm{3}}}} := \text{``find a post-it''}\\
   \ATLLnt{B_{{\mathrm{4}}}} := \text{``withdrawal money''}\\
-  \ATLLnt{T_{{\mathrm{1}}}} := \ATLLsym{(}   \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLsym{(}   \ATLLnt{B_{{\mathrm{2}}}}  \sqcup  \ATLLnt{B_{{\mathrm{3}}}}   \ATLLsym{)}   \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}
+  \ATLLnt{T_{{\mathrm{1}}}} := \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{2}}}}  \sqcup  \ATLLnt{B_{{\mathrm{3}}}}  \ATLLsym{)}  \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}
 \end{array}
 \]
 Each $\ATLLnt{B_{\ATLLmv{i}}}$ is an atomic formula, parallel conjunction of attack
-trees is denoted by $ \ATLLnt{T_{{\mathrm{1}}}}  \odot  \ATLLnt{T_{{\mathrm{2}}}} $, choice between attacks by $ \ATLLnt{T_{{\mathrm{1}}}}  \sqcup  \ATLLnt{T_{{\mathrm{2}}}} $, and sequential conjunction of attacks by $\ATLLnt{T_{{\mathrm{1}}}}  \rhd  \ATLLnt{T_{{\mathrm{2}}}}$.
+trees is denoted by $\ATLLnt{T_{{\mathrm{1}}}}  \odot  \ATLLnt{T_{{\mathrm{2}}}}$, choice between attacks by $\ATLLnt{T_{{\mathrm{1}}}}  \sqcup  \ATLLnt{T_{{\mathrm{2}}}}$, and sequential conjunction of attacks by $\ATLLnt{T_{{\mathrm{1}}}}  \rhd  \ATLLnt{T_{{\mathrm{2}}}}$.
 Parallel conjunction and choice are both symmetric, but sequential
 conjunction is not.  Now that we can model attack trees as formulas we
 should be able to use the logic to reason about attack trees.
@@ -88,18 +88,18 @@ We can model this attack tree as a formula in ATLL as well (the base
 attacks are the same):
 \[
 \begin{array}{lll}
-  \ATLLnt{T_{{\mathrm{2}}}} :=  \ATLLsym{(}  \ATLLsym{(}   \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}}   \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}  \ATLLsym{)}  \sqcup  \ATLLsym{(}  \ATLLsym{(}   \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{3}}}}   \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}  \ATLLsym{)} 
+  \ATLLnt{T_{{\mathrm{2}}}} := \ATLLsym{(}  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}}  \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}  \ATLLsym{)}  \sqcup  \ATLLsym{(}  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{3}}}}  \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}  \ATLLsym{)}
 \end{array}
 \]
 The attack trees $\ATLLnt{T_{{\mathrm{1}}}}$ and $\ATLLnt{T_{{\mathrm{2}}}}$ represents the same attack, and
-this can be proven in ATLL by showing that $\ATLLnt{T_{{\mathrm{1}}}}  \multimapboth  \ATLLnt{T_{{\mathrm{2}}}}$ where
+this can be proven in ATLL by showing that $\texttt{\textcolor{red}{[[no parses (char 4): T1 o***-o T2 ]]}}$ where
 $ \multimapboth $ denotes bi-implication.  The proof holds by using the
 distributive rules for choice.
 
 In addition, implication can be used to prove subattack tree
 relationships between attack trees.  For example, supposed we wanted
-to show that the tree $ \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}} $ is a subattack tree of $\ATLLnt{T_{{\mathrm{2}}}}$,
-then this is the case if $\ATLLnt{T_{{\mathrm{2}}}}  \multimap  \ATLLsym{(}   \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}}   \ATLLsym{)}$. This requires some
+to show that the tree $\ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}}$ is a subattack tree of $\ATLLnt{T_{{\mathrm{2}}}}$,
+then this is the case if $\ATLLnt{T_{{\mathrm{2}}}}  \multimap  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}}  \ATLLsym{)}$. This requires some
 additional rules be added to ATLL and this is discussed in
 Section~\ref{sec:attack_trees_without_costs}.
 

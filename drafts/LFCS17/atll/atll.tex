@@ -39,16 +39,18 @@
 \ottmetavartabular{
  $ \ottmv{costvar} ,\, \ottmv{c} $ &  \\
  $ \ottmv{termvar} ,\, \ottmv{x} ,\, \ottmv{y} ,\, \ottmv{z} ,\, \ottmv{f} $ &  \\
- $ \ottmv{baseAttackVar} ,\, \ottmv{b} $ &  \\
+ $ \ottmv{baseAttackVars} ,\, \ottmv{N} $ &  \\
+ $ \ottmv{baseAttackTVars} ,\, \ottmv{n} $ &  \\
  $ \ottmv{index} ,\, \ottmv{i} ,\, \ottmv{j} ,\, \ottmv{k} $ &  \\
 }}
 
 \newcommand{\ottA}{
-\ottrulehead{\ottnt{A}  ,\ \ottnt{B}  ,\ \ottnt{C}  ,\ \ottnt{E}  ,\ \ottnt{F}  ,\ D}{::=}{}\ottprodnewline
-\ottfirstprodline{|}{\ottmv{b}}{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{A}  \odot  \ottnt{B} }{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{A}  \oplus  \ottnt{B} }{}{}{}{}\ottprodnewline
+\ottrulehead{\ottnt{A}  ,\ \ottnt{B}  ,\ \ottnt{C}  ,\ \ottnt{E}  ,\ \ottnt{F}  ,\ D  ,\ \ottnt{T}}{::=}{}\ottprodnewline
+\ottfirstprodline{|}{\ottmv{N}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{A}  \odot  \ottnt{B}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{A}  \oplus  \ottnt{B}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{A}  \rhd  \ottnt{B}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{A}  \sqcup  \ottnt{B}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{A}  \rightharpoonup  \ottnt{B}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{B}  \leftharpoonup  \ottnt{A}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{A}  \multimap  \ottnt{B}}{}{}{}{}\ottprodnewline
@@ -57,19 +59,25 @@
 
 \newcommand{\ottp}{
 \ottrulehead{\ottnt{p}}{::=}{}\ottprodnewline
-\ottfirstprodline{|}{\ottmv{x}}{}{}{}{}\ottprodnewline
+\ottfirstprodline{|}{\ottsym{-}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottmv{x}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{p_{{\mathrm{1}}}}  \oplus  \ottnt{p_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{p_{{\mathrm{1}}}}  \odot  \ottnt{p_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{p_{{\mathrm{1}}}}  \rhd  \ottnt{p_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{p_{{\mathrm{1}}}}  \sqcup  \ottnt{p_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottsym{(}  \ottnt{p}  \ottsym{)}}{}{}{}{}}
 
 \newcommand{\ottt}{
 \ottrulehead{\ottnt{t}  ,\ \ottnt{s}}{::=}{}\ottprodnewline
-\ottfirstprodline{|}{\ottmv{x}}{}{}{}{}\ottprodnewline
-\ottprodline{|}{ \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
+\ottfirstprodline{|}{ \mathsf{n} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottmv{x}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \mathsf{let}\, \ottnt{p}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottnt{t_{{\mathrm{1}}}}  \rhd  \ottnt{t_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{t_{{\mathrm{1}}}}  \sqcup  \ottnt{t_{{\mathrm{2}}}}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \ottnt{t_{{\mathrm{1}}}}  \oplus  \ottnt{t_{{\mathrm{2}}}} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{dist}\, \ottmv{x_{{\mathrm{11}}}} , \ottmv{x_{{\mathrm{12}}}} \,\mathsf{with}\, \ottmv{x_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t} }{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \mathsf{contract}\, \ottmv{x_{{\mathrm{11}}}} , \ottmv{x_{{\mathrm{12}}}} \,\mathsf{with}\, \ottmv{x_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \lambda  \ottmv{x}  .  \ottnt{t} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \lambda_l  \ottmv{x}  .   \ottnt{t} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \lambda_r  \ottmv{x}  .   \ottnt{t} }{}{}{}{}\ottprodnewline
@@ -81,10 +89,12 @@
 \newcommand{\ottG}{
 \ottrulehead{\Gamma  ,\ \Delta}{::=}{}\ottprodnewline
 \ottfirstprodline{|}{ \cdot }{}{}{}{}\ottprodnewline
+\ottprodline{|}{\ottnt{A}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottmv{x}  \ottsym{:}  \ottnt{A}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \Gamma  \mid  \Gamma' }{}{}{}{}\ottprodnewline
 \ottprodline{|}{\Gamma  \ottsym{,}  \Gamma'}{}{}{}{}\ottprodnewline
 \ottprodline{|}{\Gamma  \ottsym{;}  \Gamma'}{}{}{}{}\ottprodnewline
+\ottprodline{|}{ \Gamma_{{\mathrm{1}}}  .  \Gamma_{{\mathrm{2}}} }{}{}{}{}\ottprodnewline
 \ottprodline{|}{\ottsym{(}  \Gamma  \ottsym{)}}{}{}{}{}\ottprodnewline
 \ottprodline{|}{ \Gamma }{}{}{}{}}
 
@@ -148,20 +158,74 @@
 }}
 
 
-\newcommand{\ottdruleCXXeName}[0]{\ottdrulename{C\_e}}
-\newcommand{\ottdruleCXXe}[1]{\ottdrule[#1]{%
+\newcommand{\ottdruleCXXeOneLName}[0]{\ottdrulename{C\_e1L}}
+\newcommand{\ottdruleCXXeOneL}[1]{\ottdrule[#1]{%
 }{
-    \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}  \ottsym{,}  \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}     \mid  \Gamma_{{\mathrm{2}}}  }{%
-{\ottdruleCXXeName}{}%
+    \Gamma_{{\mathrm{1}}}  \mid   \ottnt{A}  \ottsym{,}  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid   \ottnt{B}  \ottsym{,}  \ottnt{A}     \mid  \Gamma_{{\mathrm{2}}}  }{%
+{\ottdruleCXXeOneLName}{}%
 }}
 
-\newcommand{\ottdefnctxm}[1]{\begin{ottdefnblock}[#1]{$ \Gamma_{{\mathrm{1}}}  \vdash  \Gamma_{{\mathrm{2}}} $}{}
+
+\newcommand{\ottdruleCXXeTwoLName}[0]{\ottdrulename{C\_e2L}}
+\newcommand{\ottdruleCXXeTwoL}[1]{\ottdrule[#1]{%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid    \ottnt{A}  .  \ottnt{B}      \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid    \ottnt{B}  .  \ottnt{A}      \mid  \Gamma_{{\mathrm{2}}}  }{%
+{\ottdruleCXXeTwoLName}{}%
+}}
+
+
+\newcommand{\ottdruleCXXcOneLName}[0]{\ottdrulename{C\_c1L}}
+\newcommand{\ottdruleCXXcOneL}[1]{\ottdrule[#1]{%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid  \ottnt{A}    \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid    \ottnt{A}  .  \ottnt{A}      \mid  \Gamma_{{\mathrm{2}}}  }{%
+{\ottdruleCXXcOneLName}{}%
+}}
+
+
+\newcommand{\ottdruleCXXcTwoLName}[0]{\ottdrulename{C\_c2L}}
+\newcommand{\ottdruleCXXcTwoL}[1]{\ottdrule[#1]{%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid    \ottnt{A}  .  \ottnt{A}      \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid  \ottnt{A}    \mid  \Gamma_{{\mathrm{2}}}  }{%
+{\ottdruleCXXcTwoLName}{}%
+}}
+
+
+\newcommand{\ottdruleCXXdOneLName}[0]{\ottdrulename{C\_d1L}}
+\newcommand{\ottdruleCXXdOneL}[1]{\ottdrule[#1]{%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid   \ottnt{A}  \ottsym{;}  \ottsym{(}   \Delta_{{\mathrm{1}}}  .  \Delta_{{\mathrm{2}}}   \ottsym{)}     \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid    \ottsym{(}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{1}}}  \ottsym{)}  .  \ottsym{(}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{2}}}  \ottsym{)}      \mid  \Gamma_{{\mathrm{2}}}  }{%
+{\ottdruleCXXdOneLName}{}%
+}}
+
+
+\newcommand{\ottdruleCXXdTwoLName}[0]{\ottdrulename{C\_d2L}}
+\newcommand{\ottdruleCXXdTwoL}[1]{\ottdrule[#1]{%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid    \ottsym{(}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{1}}}  \ottsym{)}  .  \ottsym{(}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{2}}}  \ottsym{)}      \mid  \Gamma_{{\mathrm{2}}}   \vdash     \Gamma_{{\mathrm{1}}}  \mid   \ottnt{A}  \ottsym{;}  \ottsym{(}   \Delta_{{\mathrm{1}}}  .  \Delta_{{\mathrm{2}}}   \ottsym{)}     \mid  \Gamma_{{\mathrm{2}}}  }{%
+{\ottdruleCXXdTwoLName}{}%
+}}
+
+
+\newcommand{\ottdruleCXXWeakName}[0]{\ottdrulename{C\_Weak}}
+\newcommand{\ottdruleCXXWeak}[1]{\ottdrule[#1]{%
+}{
+  \Gamma  \mid  \ottnt{A}   \vdash  \Gamma }{%
+{\ottdruleCXXWeakName}{}%
+}}
+
+\newcommand{\ottdefnctxm}[1]{\begin{ottdefnblock}[#1]{$ \Gamma_{{\mathrm{1}}}  \vdash  \Gamma_{{\mathrm{2}}} $}{\ottcom{Context Morphisms}}
 \ottusedrule{\ottdruleCXXid{}}
 \ottusedrule{\ottdruleCXXc{}}
 \ottusedrule{\ottdruleCXXaOne{}}
 \ottusedrule{\ottdruleCXXmOne{}}
 \ottusedrule{\ottdruleCXXmTwo{}}
-\ottusedrule{\ottdruleCXXe{}}
+\ottusedrule{\ottdruleCXXeOneL{}}
+\ottusedrule{\ottdruleCXXeTwoL{}}
+\ottusedrule{\ottdruleCXXcOneL{}}
+\ottusedrule{\ottdruleCXXcTwoL{}}
+\ottusedrule{\ottdruleCXXdOneL{}}
+\ottusedrule{\ottdruleCXXdTwoL{}}
+\ottusedrule{\ottdruleCXXWeak{}}
 \end{ottdefnblock}}
 
 %% defn cctxm
@@ -213,13 +277,266 @@
 {\ottdruleCCXXeName}{}%
 }}
 
-\newcommand{\ottdefncctxm}[1]{\begin{ottdefnblock}[#1]{$ \Phi_{{\mathrm{1}}}  \vdash  \Phi_{{\mathrm{2}}} $}{}
+\newcommand{\ottdefncctxm}[1]{\begin{ottdefnblock}[#1]{$ \Phi_{{\mathrm{1}}}  \vdash  \Phi_{{\mathrm{2}}} $}{\ottcom{Context Morphisms}}
 \ottusedrule{\ottdruleCCXXid{}}
 \ottusedrule{\ottdruleCCXXc{}}
 \ottusedrule{\ottdruleCCXXaOne{}}
 \ottusedrule{\ottdruleCCXXmOne{}}
 \ottusedrule{\ottdruleCCXXmTwo{}}
 \ottusedrule{\ottdruleCCXXe{}}
+\end{ottdefnblock}}
+
+%% defn vtl
+\newcommand{\ottdruleATXXvarName}[0]{\ottdrulename{AT\_var}}
+\newcommand{\ottdruleATXXvar}[1]{\ottdrule[#1]{%
+}{
+ \ottnt{T}  \vdash  \ottnt{T} }{%
+{\ottdruleATXXvarName}{}%
+}}
+
+
+\newcommand{\ottdruleATXXnodeName}[0]{\ottdrulename{AT\_node}}
+\newcommand{\ottdruleATXXnode}[1]{\ottdrule[#1]{%
+}{
+  \cdot   \vdash  \ottmv{N} }{%
+{\ottdruleATXXnodeName}{}%
+}}
+
+
+\newcommand{\ottdruleATXXparaIName}[0]{\ottdrulename{AT\_paraI}}
+\newcommand{\ottdruleATXXparaI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+ \Gamma  \ottsym{,}  \Delta  \vdash  \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}} }{%
+{\ottdruleATXXparaIName}{}%
+}}
+
+
+\newcommand{\ottdruleATXXchoiceIName}[0]{\ottdrulename{AT\_choiceI}}
+\newcommand{\ottdruleATXXchoiceI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+  \Gamma  .  \Delta   \vdash  \ottnt{T_{{\mathrm{1}}}}  \sqcup  \ottnt{T_{{\mathrm{2}}}} }{%
+{\ottdruleATXXchoiceIName}{}%
+}}
+
+
+\newcommand{\ottdruleATXXseqIName}[0]{\ottdrulename{AT\_seqI}}
+\newcommand{\ottdruleATXXseqI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+ \Gamma  \ottsym{;}  \Delta  \vdash  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}} }{%
+{\ottdruleATXXseqIName}{}%
+}}
+
+\newcommand{\ottdefnvtl}[1]{\begin{ottdefnblock}[#1]{$ \Gamma  \vdash  \ottnt{T} $}{\ottcom{Valid Attack Trees}}
+\ottusedrule{\ottdruleATXXvar{}}
+\ottusedrule{\ottdruleATXXnode{}}
+\ottusedrule{\ottdruleATXXparaI{}}
+\ottusedrule{\ottdruleATXXchoiceI{}}
+\ottusedrule{\ottdruleATXXseqI{}}
+\end{ottdefnblock}}
+
+%% defn atl
+\newcommand{\ottdruleLXXvarName}[0]{\ottdrulename{L\_var}}
+\newcommand{\ottdruleLXXvar}[1]{\ottdrule[#1]{%
+}{
+ \ottnt{B}  \vdash  \ottnt{B} }{%
+{\ottdruleLXXvarName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXnodeName}[0]{\ottdrulename{L\_node}}
+\newcommand{\ottdruleLXXnode}[1]{\ottdrule[#1]{%
+}{
+  \cdot   \vdash  \ottmv{N} }{%
+{\ottdruleLXXnodeName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXCtxName}[0]{\ottdrulename{L\_Ctx}}
+\newcommand{\ottdruleLXXCtx}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma_{{\mathrm{1}}}  \vdash  \Gamma_{{\mathrm{2}}}   \quad   \Gamma_{{\mathrm{2}}}  \vdash  \ottnt{A}  }%
+}{
+ \Gamma_{{\mathrm{1}}}  \vdash  \ottnt{A} }{%
+{\ottdruleLXXCtxName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXparaIName}[0]{\ottdrulename{L\_paraI}}
+\newcommand{\ottdruleLXXparaI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}   \quad   \Delta  \vdash  \ottnt{B}  }%
+}{
+ \Gamma  \ottsym{,}  \Delta  \vdash  \ottnt{A}  \odot  \ottnt{B} }{%
+{\ottdruleLXXparaIName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXchoiceIName}[0]{\ottdrulename{L\_choiceI}}
+\newcommand{\ottdruleLXXchoiceI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}   \quad   \Delta  \vdash  \ottnt{B}  }%
+}{
+  \Gamma  .  \Delta   \vdash  \ottnt{A}  \sqcup  \ottnt{B} }{%
+{\ottdruleLXXchoiceIName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXseqIName}[0]{\ottdrulename{L\_seqI}}
+\newcommand{\ottdruleLXXseqI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}   \quad   \Delta  \vdash  \ottnt{B}  }%
+}{
+ \Gamma  \ottsym{;}  \Delta  \vdash  \ottnt{A}  \rhd  \ottnt{B} }{%
+{\ottdruleLXXseqIName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXparaEName}[0]{\ottdrulename{L\_paraE}}
+\newcommand{\ottdruleLXXparaE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}  \odot  \ottnt{B}   \quad      \Delta_{{\mathrm{1}}}  \mid   \ottnt{A}  \ottsym{,}  \ottnt{B}     \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{C}  }%
+}{
+    \Delta_{{\mathrm{1}}}  \mid  \Gamma    \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{C} }{%
+{\ottdruleLXXparaEName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXchoiceEName}[0]{\ottdrulename{L\_choiceE}}
+\newcommand{\ottdruleLXXchoiceE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}  \sqcup  \ottnt{B}   \quad      \Delta_{{\mathrm{1}}}  \mid    \ottnt{A}  .  \ottnt{B}      \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{C}  }%
+}{
+    \Delta_{{\mathrm{1}}}  \mid  \Gamma    \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{C} }{%
+{\ottdruleLXXchoiceEName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXseqEName}[0]{\ottdrulename{L\_seqE}}
+\newcommand{\ottdruleLXXseqE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}  \rhd  \ottnt{B}   \quad      \Delta_{{\mathrm{1}}}  \mid   \ottnt{A}  \ottsym{;}  \ottnt{B}     \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{C}  }%
+}{
+    \Delta_{{\mathrm{1}}}  \mid  \Gamma    \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{C} }{%
+{\ottdruleLXXseqEName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXlimpIName}[0]{\ottdrulename{L\_limpI}}
+\newcommand{\ottdruleLXXlimpI}[1]{\ottdrule[#1]{%
+\ottpremise{ \Gamma  \ottsym{,}  \ottnt{A}  \vdash  \ottnt{B} }%
+}{
+ \Gamma  \vdash  \ottnt{A}  \multimap  \ottnt{B} }{%
+{\ottdruleLXXlimpIName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXlimpEName}[0]{\ottdrulename{L\_limpE}}
+\newcommand{\ottdruleLXXlimpE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}  \multimap  \ottnt{B}   \quad   \Delta  \vdash  \ottnt{A}  }%
+}{
+ \Gamma  \ottsym{,}  \Delta  \vdash  \ottnt{B} }{%
+{\ottdruleLXXlimpEName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXRlimpIName}[0]{\ottdrulename{L\_RlimpI}}
+\newcommand{\ottdruleLXXRlimpI}[1]{\ottdrule[#1]{%
+\ottpremise{ \Gamma  \ottsym{;}  \ottnt{A}  \vdash  \ottnt{B} }%
+}{
+ \Gamma  \vdash  \ottnt{A}  \rightharpoonup  \ottnt{B} }{%
+{\ottdruleLXXRlimpIName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXRlimpEName}[0]{\ottdrulename{L\_RlimpE}}
+\newcommand{\ottdruleLXXRlimpE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{A}  \rightharpoonup  \ottnt{B}   \quad   \Delta  \vdash  \ottnt{A}  }%
+}{
+ \Gamma  \ottsym{;}  \Delta  \vdash  \ottnt{B} }{%
+{\ottdruleLXXRlimpEName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXLlimpIName}[0]{\ottdrulename{L\_LlimpI}}
+\newcommand{\ottdruleLXXLlimpI}[1]{\ottdrule[#1]{%
+\ottpremise{ \ottnt{A}  \ottsym{;}  \Gamma  \vdash  \ottnt{B} }%
+}{
+ \Gamma  \vdash  \ottnt{B}  \leftharpoonup  \ottnt{A} }{%
+{\ottdruleLXXLlimpIName}{}%
+}}
+
+
+\newcommand{\ottdruleLXXLlimpEName}[0]{\ottdrulename{L\_LlimpE}}
+\newcommand{\ottdruleLXXLlimpE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{B}  \leftharpoonup  \ottnt{A}   \quad   \Delta  \vdash  \ottnt{A}  }%
+}{
+ \Delta  \ottsym{;}  \Gamma  \vdash  \ottnt{B} }{%
+{\ottdruleLXXLlimpEName}{}%
+}}
+
+\newcommand{\ottdefnatl}[1]{\begin{ottdefnblock}[#1]{$ \Gamma  \vdash  \ottnt{A} $}{\ottcom{Attack Tree Logic (ATL)}}
+\ottusedrule{\ottdruleLXXvar{}}
+\ottusedrule{\ottdruleLXXnode{}}
+\ottusedrule{\ottdruleLXXCtx{}}
+\ottusedrule{\ottdruleLXXparaI{}}
+\ottusedrule{\ottdruleLXXchoiceI{}}
+\ottusedrule{\ottdruleLXXseqI{}}
+\ottusedrule{\ottdruleLXXparaE{}}
+\ottusedrule{\ottdruleLXXchoiceE{}}
+\ottusedrule{\ottdruleLXXseqE{}}
+\ottusedrule{\ottdruleLXXlimpI{}}
+\ottusedrule{\ottdruleLXXlimpE{}}
+\ottusedrule{\ottdruleLXXRlimpI{}}
+\ottusedrule{\ottdruleLXXRlimpE{}}
+\ottusedrule{\ottdruleLXXLlimpI{}}
+\ottusedrule{\ottdruleLXXLlimpE{}}
+\end{ottdefnblock}}
+
+%% defn att
+\newcommand{\ottdruleATTXXvarName}[0]{\ottdrulename{ATT\_var}}
+\newcommand{\ottdruleATTXXvar}[1]{\ottdrule[#1]{%
+}{
+ \ottmv{x}  \ottsym{:}  \ottnt{T}  \vdash  \ottmv{x}  :  \ottnt{T} }{%
+{\ottdruleATTXXvarName}{}%
+}}
+
+
+\newcommand{\ottdruleATTXXnodeName}[0]{\ottdrulename{ATT\_node}}
+\newcommand{\ottdruleATTXXnode}[1]{\ottdrule[#1]{%
+}{
+  \cdot   \vdash   \mathsf{n}   :  \ottmv{N} }{%
+{\ottdruleATTXXnodeName}{}%
+}}
+
+
+\newcommand{\ottdruleATTXXparaIName}[0]{\ottdrulename{ATT\_paraI}}
+\newcommand{\ottdruleATTXXparaI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+ \Gamma  \ottsym{,}  \Delta  \vdash  \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{T_{{\mathrm{1}}}}  \odot  \ottnt{T_{{\mathrm{2}}}} }{%
+{\ottdruleATTXXparaIName}{}%
+}}
+
+
+\newcommand{\ottdruleATTXXchoiceIName}[0]{\ottdrulename{ATT\_choiceI}}
+\newcommand{\ottdruleATTXXchoiceI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+  \Gamma  .  \Delta   \vdash  \ottnt{t_{{\mathrm{1}}}}  \sqcup  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{T_{{\mathrm{1}}}}  \sqcup  \ottnt{T_{{\mathrm{2}}}} }{%
+{\ottdruleATTXXchoiceIName}{}%
+}}
+
+
+\newcommand{\ottdruleATTXXseqIName}[0]{\ottdrulename{ATT\_seqI}}
+\newcommand{\ottdruleATTXXseqI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{T_{{\mathrm{1}}}}   \quad   \Delta  \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{T_{{\mathrm{2}}}}  }%
+}{
+ \Gamma  \ottsym{;}  \Delta  \vdash  \ottnt{t_{{\mathrm{1}}}}  \rhd  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{T_{{\mathrm{1}}}}  \rhd  \ottnt{T_{{\mathrm{2}}}} }{%
+{\ottdruleATTXXseqIName}{}%
+}}
+
+\newcommand{\ottdefnatt}[1]{\begin{ottdefnblock}[#1]{$ \Gamma  \vdash  \ottnt{t}  :  \ottnt{T} $}{\ottcom{Valid Attack Tree Type Theory (ATTT)}}
+\ottusedrule{\ottdruleATTXXvar{}}
+\ottusedrule{\ottdruleATTXXnode{}}
+\ottusedrule{\ottdruleATTXXparaI{}}
+\ottusedrule{\ottdruleATTXXchoiceI{}}
+\ottusedrule{\ottdruleATTXXseqI{}}
 \end{ottdefnblock}}
 
 %% defn atv
@@ -231,12 +548,74 @@
 }}
 
 
-\newcommand{\ottdruleTXXCtxName}[0]{\ottdrulename{T\_Ctx}}
-\newcommand{\ottdruleTXXCtx}[1]{\ottdrule[#1]{%
-\ottpremise{  \Gamma_{{\mathrm{1}}}  \vdash  \Gamma_{{\mathrm{2}}}   \quad   \Gamma_{{\mathrm{2}}}  \vdash  \ottnt{t}  :  \ottnt{A}  }%
+\newcommand{\ottdruleTXXnodeName}[0]{\ottdrulename{T\_node}}
+\newcommand{\ottdruleTXXnode}[1]{\ottdrule[#1]{%
 }{
- \Gamma_{{\mathrm{1}}}  \vdash  \ottnt{t}  :  \ottnt{A} }{%
-{\ottdruleTXXCtxName}{}%
+  \cdot   \vdash   \mathsf{n}   :  \ottmv{N} }{%
+{\ottdruleTXXnodeName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXexOneName}[0]{\ottdrulename{T\_ex1}}
+\newcommand{\ottdruleTXXexOne}[1]{\ottdrule[#1]{%
+\ottpremise{    \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{C} }%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{C} }{%
+{\ottdruleTXXexOneName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXexTwoName}[0]{\ottdrulename{T\_ex2}}
+\newcommand{\ottdruleTXXexTwo}[1]{\ottdrule[#1]{%
+\ottpremise{    \Gamma_{{\mathrm{1}}}  \mid    \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  .  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}      \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{C} }%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid    \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{A}  .  \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{B}      \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{C} }{%
+{\ottdruleTXXexTwoName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXweakName}[0]{\ottdrulename{T\_weak}}
+\newcommand{\ottdruleTXXweak}[1]{\ottdrule[#1]{%
+\ottpremise{   \Gamma_{{\mathrm{1}}}  \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{B}   \quad   \ottmv{x}  \not\in \mathsf{FV}( \ottnt{t} )  }%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid  \ottmv{x}  \ottsym{:}  \ottnt{A}    \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{B} }{%
+{\ottdruleTXXweakName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXdistOneName}[0]{\ottdrulename{T\_dist1}}
+\newcommand{\ottdruleTXXdistOne}[1]{\ottdrule[#1]{%
+\ottpremise{    \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{;}  \ottsym{(}   \Delta_{{\mathrm{1}}}  .  \Delta_{{\mathrm{2}}}   \ottsym{)}     \vdash  \ottnt{t}  :  D   \quad   \ottmv{x_{{\mathrm{2}}}}  \not\in \mathsf{FV}( \ottnt{t} )  }%
+}{
+   \Gamma_{{\mathrm{1}}}  \mid    \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{1}}}  \ottsym{)}  .  \ottsym{(}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{2}}}  \ottsym{)}      \vdash  \ottnt{t}  :  D }{%
+{\ottdruleTXXdistOneName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXdistTwoName}[0]{\ottdrulename{T\_dist2}}
+\newcommand{\ottdruleTXXdistTwo}[1]{\ottdrule[#1]{%
+\ottpremise{       \Gamma_{{\mathrm{1}}}  \mid    \ottsym{(}  \ottmv{x_{{\mathrm{11}}}}  \ottsym{:}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{1}}}  \ottsym{)}  .  \ottsym{(}  \ottmv{x_{{\mathrm{12}}}}  \ottsym{:}  \ottnt{A}  \ottsym{;}  \Delta_{{\mathrm{2}}}  \ottsym{)}      \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  D   \quad  \Delta_{{\mathrm{1}}}  \neq   \cdot     \quad  \Delta_{{\mathrm{2}}}  \neq   \cdot  }%
+}{
+   \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{;}  \ottsym{(}   \Delta_{{\mathrm{1}}}  .  \Delta_{{\mathrm{2}}}   \ottsym{)}     \vdash   \mathsf{dist}\, \ottmv{x_{{\mathrm{11}}}} , \ottmv{x_{{\mathrm{12}}}} \,\mathsf{with}\, \ottmv{x_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t}   :  D }{%
+{\ottdruleTXXdistTwoName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXcontractOneName}[0]{\ottdrulename{T\_contract1}}
+\newcommand{\ottdruleTXXcontractOne}[1]{\ottdrule[#1]{%
+\ottpremise{     \Gamma_{{\mathrm{1}}}  \mid  \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}    \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{B}   \quad   \ottmv{x_{{\mathrm{2}}}}  \not\in \mathsf{FV}( \ottnt{t} )  }%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid  \ottsym{(}   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  .  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{A}   \ottsym{)}    \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{B} }{%
+{\ottdruleTXXcontractOneName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXcontractTwoName}[0]{\ottdrulename{T\_contract2}}
+\newcommand{\ottdruleTXXcontractTwo}[1]{\ottdrule[#1]{%
+\ottpremise{    \Gamma_{{\mathrm{1}}}  \mid    \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  .  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{A}      \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottnt{t}  :  \ottnt{B} }%
+}{
+    \Gamma_{{\mathrm{1}}}  \mid  \ottmv{x}  \ottsym{:}  \ottnt{A}    \mid  \Gamma_{{\mathrm{2}}}   \vdash   \mathsf{contract}\, \ottmv{x_{{\mathrm{1}}}} , \ottmv{x_{{\mathrm{2}}}} \,\mathsf{with}\, \ottmv{x} \,\mathsf{in}\, \ottnt{t}   :  \ottnt{B} }{%
+{\ottdruleTXXcontractTwoName}{}%
 }}
 
 
@@ -244,8 +623,17 @@
 \newcommand{\ottdruleTXXparaI}[1]{\ottdrule[#1]{%
 \ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{A}   \quad   \Delta  \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{B}  }%
 }{
- \Gamma  \ottsym{,}  \Delta  \vdash   \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}}   :   \ottnt{A}  \odot  \ottnt{B}  }{%
+ \Gamma  \ottsym{,}  \Delta  \vdash  \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{A}  \odot  \ottnt{B} }{%
 {\ottdruleTXXparaIName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXchoiceIName}[0]{\ottdrulename{T\_choiceI}}
+\newcommand{\ottdruleTXXchoiceI}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{A}   \quad   \Delta  \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{B}  }%
+}{
+  \Gamma  .  \Delta   \vdash  \ottnt{t_{{\mathrm{1}}}}  \sqcup  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{A}  \sqcup  \ottnt{B} }{%
+{\ottdruleTXXchoiceIName}{}%
 }}
 
 
@@ -260,10 +648,19 @@
 
 \newcommand{\ottdruleTXXparaEName}[0]{\ottdrulename{T\_paraE}}
 \newcommand{\ottdruleTXXparaE}[1]{\ottdrule[#1]{%
-\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :   \ottnt{A}  \odot  \ottnt{B}    \quad      \Delta_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}     \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{C}  }%
+\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{A}  \odot  \ottnt{B}   \quad      \Delta_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}     \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{C}  }%
 }{
     \Delta_{{\mathrm{1}}}  \mid  \Gamma    \mid  \Delta_{{\mathrm{2}}}   \vdash   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   :  \ottnt{C} }{%
 {\ottdruleTXXparaEName}{}%
+}}
+
+
+\newcommand{\ottdruleTXXchoiceEName}[0]{\ottdrulename{T\_choiceE}}
+\newcommand{\ottdruleTXXchoiceE}[1]{\ottdrule[#1]{%
+\ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  :  \ottnt{A}  \sqcup  \ottnt{B}   \quad      \Delta_{{\mathrm{1}}}  \mid    \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  .  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}      \mid  \Delta_{{\mathrm{2}}}   \vdash  \ottnt{t_{{\mathrm{2}}}}  :  \ottnt{C}  }%
+}{
+    \Delta_{{\mathrm{1}}}  \mid  \Gamma    \mid  \Delta_{{\mathrm{2}}}   \vdash   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   :  \ottnt{C} }{%
+{\ottdruleTXXchoiceEName}{}%
 }}
 
 
@@ -329,12 +726,21 @@
 {\ottdruleTXXLlimpEName}{}%
 }}
 
-\newcommand{\ottdefnatv}[1]{\begin{ottdefnblock}[#1]{$ \Gamma  \vdash  \ottnt{t}  :  \ottnt{A} $}{}
+\newcommand{\ottdefnatv}[1]{\begin{ottdefnblock}[#1]{$ \Gamma  \vdash  \ottnt{t}  :  \ottnt{A} $}{\ottcom{Attack Tree Type Theory (ATTT)}}
 \ottusedrule{\ottdruleTXXvar{}}
-\ottusedrule{\ottdruleTXXCtx{}}
+\ottusedrule{\ottdruleTXXnode{}}
+\ottusedrule{\ottdruleTXXexOne{}}
+\ottusedrule{\ottdruleTXXexTwo{}}
+\ottusedrule{\ottdruleTXXweak{}}
+\ottusedrule{\ottdruleTXXdistOne{}}
+\ottusedrule{\ottdruleTXXdistTwo{}}
+\ottusedrule{\ottdruleTXXcontractOne{}}
+\ottusedrule{\ottdruleTXXcontractTwo{}}
 \ottusedrule{\ottdruleTXXparaI{}}
+\ottusedrule{\ottdruleTXXchoiceI{}}
 \ottusedrule{\ottdruleTXXseqI{}}
 \ottusedrule{\ottdruleTXXparaE{}}
+\ottusedrule{\ottdruleTXXchoiceE{}}
 \ottusedrule{\ottdruleTXXseqE{}}
 \ottusedrule{\ottdruleTXXlimpI{}}
 \ottusedrule{\ottdruleTXXlimpE{}}
@@ -342,6 +748,171 @@
 \ottusedrule{\ottdruleTXXRlimpE{}}
 \ottusedrule{\ottdruleTXXLlimpI{}}
 \ottusedrule{\ottdruleTXXLlimpE{}}
+\end{ottdefnblock}}
+
+%% defn red
+\newcommand{\ottdruleRXXparaBetaName}[0]{\ottdrulename{R\_paraBeta}}
+\newcommand{\ottdruleRXXparaBeta}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow  \ottsym{[}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{/}  \ottmv{x_{{\mathrm{1}}}}  \ottsym{]}  \ottsym{[}  \ottnt{t_{{\mathrm{2}}}}  \ottsym{/}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{]}  \ottnt{t_{{\mathrm{3}}}}}{%
+{\ottdruleRXXparaBetaName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXchoiceBetaName}[0]{\ottdrulename{R\_choiceBeta}}
+\newcommand{\ottdruleRXXchoiceBeta}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}}  \sqcup  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow  \ottsym{[}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{/}  \ottmv{x_{{\mathrm{1}}}}  \ottsym{]}  \ottsym{[}  \ottnt{t_{{\mathrm{2}}}}  \ottsym{/}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{]}  \ottnt{t_{{\mathrm{3}}}}}{%
+{\ottdruleRXXchoiceBetaName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXseqBetaName}[0]{\ottdrulename{R\_seqBeta}}
+\newcommand{\ottdruleRXXseqBeta}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}}  \rhd  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow  \ottsym{[}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{/}  \ottmv{x_{{\mathrm{1}}}}  \ottsym{]}  \ottsym{[}  \ottnt{t_{{\mathrm{2}}}}  \ottsym{/}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{]}  \ottnt{t_{{\mathrm{3}}}}}{%
+{\ottdruleRXXseqBetaName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXbetaName}[0]{\ottdrulename{R\_beta}}
+\newcommand{\ottdruleRXXbeta}[1]{\ottdrule[#1]{%
+}{
+\ottsym{(}   \lambda  \ottmv{x}  .  \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \, \ottnt{t_{{\mathrm{1}}}}  \rightsquigarrow  \ottsym{[}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{/}  \ottmv{x}  \ottsym{]}  \ottnt{t_{{\mathrm{2}}}}}{%
+{\ottdruleRXXbetaName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXbetarName}[0]{\ottdrulename{R\_betar}}
+\newcommand{\ottdruleRXXbetar}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{app}_r\, \ottsym{(}   \lambda_r  \ottmv{x}  .   \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \, \ottnt{t_{{\mathrm{1}}}}   \rightsquigarrow  \ottsym{[}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{/}  \ottmv{x}  \ottsym{]}  \ottnt{t_{{\mathrm{2}}}}}{%
+{\ottdruleRXXbetarName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXbetalName}[0]{\ottdrulename{R\_betal}}
+\newcommand{\ottdruleRXXbetal}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{app}_l\, \ottsym{(}   \lambda_l  \ottmv{x}  .   \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \, \ottnt{t_{{\mathrm{1}}}}   \rightsquigarrow  \ottsym{[}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{/}  \ottmv{x}  \ottsym{]}  \ottnt{t_{{\mathrm{2}}}}}{%
+{\ottdruleRXXbetalName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXparaCCName}[0]{\ottdrulename{R\_paraCC}}
+\newcommand{\ottdruleRXXparaCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \odot  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \odot  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXparaCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXparaCCCName}[0]{\ottdrulename{R\_paraCCC}}
+\newcommand{\ottdruleRXXparaCCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \sqcup  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \sqcup  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXparaCCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXparaSCCName}[0]{\ottdrulename{R\_paraSCC}}
+\newcommand{\ottdruleRXXparaSCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \rhd  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \rhd  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXparaSCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXchoiceCCName}[0]{\ottdrulename{R\_choiceCC}}
+\newcommand{\ottdruleRXXchoiceCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \sqcup  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \sqcup  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXchoiceCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXchoicePCCName}[0]{\ottdrulename{R\_choicePCC}}
+\newcommand{\ottdruleRXXchoicePCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \odot  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \odot  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXchoicePCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXchoiceSCCName}[0]{\ottdrulename{R\_choiceSCC}}
+\newcommand{\ottdruleRXXchoiceSCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \rhd  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \rhd  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXchoiceSCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXseqCCName}[0]{\ottdrulename{R\_seqCC}}
+\newcommand{\ottdruleRXXseqCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \rhd  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \rhd  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXseqCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXseqPCCName}[0]{\ottdrulename{R\_seqPCC}}
+\newcommand{\ottdruleRXXseqPCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \odot  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \odot  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXseqPCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXseqCCCName}[0]{\ottdrulename{R\_seqCCC}}
+\newcommand{\ottdruleRXXseqCCC}[1]{\ottdrule[#1]{%
+}{
+ \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \sqcup  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{y_{{\mathrm{1}}}}  \sqcup  \ottmv{y_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{2}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{3}}}}   \ottsym{)} }{%
+{\ottdruleRXXseqCCCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXparaACCName}[0]{\ottdrulename{R\_paraACC}}
+\newcommand{\ottdruleRXXparaACC}[1]{\ottdrule[#1]{%
+}{
+\ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \, \ottnt{t_{{\mathrm{3}}}}  \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}  \ottnt{t_{{\mathrm{2}}}} \, \ottnt{t_{{\mathrm{3}}}}  \ottsym{)} }{%
+{\ottdruleRXXparaACCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXchoiceACCName}[0]{\ottdrulename{R\_choiceACC}}
+\newcommand{\ottdruleRXXchoiceACC}[1]{\ottdrule[#1]{%
+}{
+\ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \, \ottnt{t_{{\mathrm{3}}}}  \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \sqcup  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}  \ottnt{t_{{\mathrm{2}}}} \, \ottnt{t_{{\mathrm{3}}}}  \ottsym{)} }{%
+{\ottdruleRXXchoiceACCName}{}%
+}}
+
+
+\newcommand{\ottdruleRXXseqACCName}[0]{\ottdrulename{R\_seqACC}}
+\newcommand{\ottdruleRXXseqACC}[1]{\ottdrule[#1]{%
+}{
+\ottsym{(}   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottnt{t_{{\mathrm{2}}}}   \ottsym{)} \, \ottnt{t_{{\mathrm{3}}}}  \rightsquigarrow   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \rhd  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottnt{t_{{\mathrm{1}}}} \,\mathsf{in}\, \ottsym{(}  \ottnt{t_{{\mathrm{2}}}} \, \ottnt{t_{{\mathrm{3}}}}  \ottsym{)} }{%
+{\ottdruleRXXseqACCName}{}%
+}}
+
+\newcommand{\ottdefnred}[1]{\begin{ottdefnblock}[#1]{$\ottnt{t_{{\mathrm{1}}}}  \rightsquigarrow  \ottnt{t_{{\mathrm{2}}}}$}{}
+\ottusedrule{\ottdruleRXXparaBeta{}}
+\ottusedrule{\ottdruleRXXchoiceBeta{}}
+\ottusedrule{\ottdruleRXXseqBeta{}}
+\ottusedrule{\ottdruleRXXbeta{}}
+\ottusedrule{\ottdruleRXXbetar{}}
+\ottusedrule{\ottdruleRXXbetal{}}
+\ottusedrule{\ottdruleRXXparaCC{}}
+\ottusedrule{\ottdruleRXXparaCCC{}}
+\ottusedrule{\ottdruleRXXparaSCC{}}
+\ottusedrule{\ottdruleRXXchoiceCC{}}
+\ottusedrule{\ottdruleRXXchoicePCC{}}
+\ottusedrule{\ottdruleRXXchoiceSCC{}}
+\ottusedrule{\ottdruleRXXseqCC{}}
+\ottusedrule{\ottdruleRXXseqPCC{}}
+\ottusedrule{\ottdruleRXXseqCCC{}}
+\ottusedrule{\ottdruleRXXparaACC{}}
+\ottusedrule{\ottdruleRXXchoiceACC{}}
+\ottusedrule{\ottdruleRXXseqACC{}}
 \end{ottdefnblock}}
 
 %% defn fill
@@ -375,7 +946,7 @@
 \newcommand{\ottdruleFXXparaL}[1]{\ottdrule[#1]{%
 \ottpremise{    \Gamma_{{\mathrm{1}}}  \mid   \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash  \Phi }%
 }{
-    \Gamma_{{\mathrm{1}}}  \mid  \ottmv{y}  \ottsym{:}   \ottnt{A}  \odot  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottmv{y} \,\mathsf{in}\, \Phi  }{%
+    \Gamma_{{\mathrm{1}}}  \mid  \ottmv{y}  \ottsym{:}  \ottnt{A}  \odot  \ottnt{B}    \mid  \Gamma_{{\mathrm{2}}}   \vdash   \mathsf{let}\, \ottsym{(}  \ottmv{x_{{\mathrm{1}}}}  \odot  \ottmv{x_{{\mathrm{2}}}}  \ottsym{)}  =  \ottmv{y} \,\mathsf{in}\, \Phi  }{%
 {\ottdruleFXXparaLName}{}%
 }}
 
@@ -384,7 +955,7 @@
 \newcommand{\ottdruleFXXparaR}[1]{\ottdrule[#1]{%
 \ottpremise{  \Gamma  \vdash  \ottnt{t_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \Phi_{{\mathrm{1}}}   \quad   \Delta  \vdash  \ottnt{t_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}  \ottsym{,}  \Phi_{{\mathrm{2}}}  }%
 }{
- \Gamma  \ottsym{,}  \Delta  \vdash   \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}}   \ottsym{:}   \ottnt{A}  \odot  \ottnt{B}   \ottsym{,}  \Phi_{{\mathrm{1}}}  \ottsym{,}  \Phi_{{\mathrm{2}}} }{%
+ \Gamma  \ottsym{,}  \Delta  \vdash  \ottnt{t_{{\mathrm{1}}}}  \odot  \ottnt{t_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{A}  \odot  \ottnt{B}  \ottsym{,}  \Phi_{{\mathrm{1}}}  \ottsym{,}  \Phi_{{\mathrm{2}}} }{%
 {\ottdruleFXXparaRName}{}%
 }}
 
@@ -465,7 +1036,7 @@
 \newcommand{\ottdruleFXXparR}[1]{\ottdrule[#1]{%
 \ottpremise{ \Gamma  \vdash  \Phi_{{\mathrm{1}}}  \ottsym{,}  \ottnt{t_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}  \ottsym{,}  \ottnt{t_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}  \ottsym{,}  \Phi_{{\mathrm{2}}} }%
 }{
- \Gamma  \vdash  \Phi_{{\mathrm{1}}}  \ottsym{,}   \ottnt{t_{{\mathrm{1}}}}  \oplus  \ottnt{t_{{\mathrm{2}}}}   \ottsym{:}   \ottnt{A}  \oplus  \ottnt{B}   \ottsym{,}  \Phi_{{\mathrm{2}}} }{%
+ \Gamma  \vdash  \Phi_{{\mathrm{1}}}  \ottsym{,}   \ottnt{t_{{\mathrm{1}}}}  \oplus  \ottnt{t_{{\mathrm{2}}}}   \ottsym{:}  \ottnt{A}  \oplus  \ottnt{B}  \ottsym{,}  \Phi_{{\mathrm{2}}} }{%
 {\ottdruleFXXparRName}{}%
 }}
 
@@ -474,7 +1045,7 @@
 \newcommand{\ottdruleFXXparL}[1]{\ottdrule[#1]{%
 \ottpremise{   \Gamma_{{\mathrm{1}}}  \mid  \ottmv{x_{{\mathrm{1}}}}  \ottsym{:}  \ottnt{A}   \vdash  \Phi_{{\mathrm{1}}}   \quad    \ottmv{x_{{\mathrm{2}}}}  \ottsym{:}  \ottnt{B}  \mid  \Gamma_{{\mathrm{2}}}   \vdash  \Phi_{{\mathrm{2}}}  }%
 }{
-    \Gamma_{{\mathrm{1}}}  \mid  \ottmv{z}  \ottsym{:}   \ottnt{A}  \oplus  \ottnt{B}     \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottsym{(}   \mathsf{let}\, \ottmv{x_{{\mathrm{1}}}}  \oplus  \ottmv{x_{{\mathrm{2}}}}  =  \ottmv{z} \,\mathsf{in}\, \Phi_{{\mathrm{1}}}   \ottsym{)}  \ottsym{,}  \ottsym{(}   \mathsf{let}\, \ottmv{x_{{\mathrm{1}}}}  \oplus  \ottmv{x_{{\mathrm{2}}}}  =  \ottmv{z} \,\mathsf{in}\, \Phi_{{\mathrm{2}}}   \ottsym{)} }{%
+    \Gamma_{{\mathrm{1}}}  \mid  \ottmv{z}  \ottsym{:}  \ottnt{A}  \oplus  \ottnt{B}    \mid  \Gamma_{{\mathrm{2}}}   \vdash  \ottsym{(}   \mathsf{let}\, \ottmv{x_{{\mathrm{1}}}}  \oplus  \ottsym{-}  =  \ottmv{z} \,\mathsf{in}\, \Phi_{{\mathrm{1}}}   \ottsym{)}  \ottsym{,}  \ottsym{(}   \mathsf{let}\, \ottsym{-}  \oplus  \ottmv{x_{{\mathrm{2}}}}  =  \ottmv{z} \,\mathsf{in}\, \Phi_{{\mathrm{2}}}   \ottsym{)} }{%
 {\ottdruleFXXparLName}{}%
 }}
 
@@ -498,7 +1069,7 @@
 
 
 \newcommand{\ottdefnsTyping}{
-\ottdefnctxm{}\ottdefncctxm{}\ottdefnatv{}\ottdefnfill{}}
+\ottdefnctxm{}\ottdefncctxm{}\ottdefnvtl{}\ottdefnatl{}\ottdefnatt{}\ottdefnatv{}\ottdefnred{}\ottdefnfill{}}
 
 \newcommand{\ottdefnss}{
 \ottdefnsTyping
@@ -512,7 +1083,7 @@
 \ottall
 
 \begin{verbatim}
-Definition rules:        39 good    0 bad
-Definition rule clauses: 66 good    0 bad
+Definition rules:        97 good    0 bad
+Definition rule clauses: 151 good    0 bad
 \end{verbatim}
 \end{document}
