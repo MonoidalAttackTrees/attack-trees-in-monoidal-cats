@@ -1,0 +1,191 @@
+\newcommand{\forth}{\frac{1}{4}}
+\newcommand{\half}{\frac{1}{2}}
+
+Kordy et al.~\cite{Kordy:2012} gave a very elegant and simple
+semantics of attack-defense trees in boolean algebras.  Unfortunately,
+while their semantics is elegant it does not capture the resource
+aspect of attack trees, it allows contraction, and it does not provide
+a means to model sequential conjunction.  In this section we give a
+semantics of attack trees in the spirit of Kordy et al.'s using a four
+valued logic.
+
+The propositional variables of our ternary logic, denoted by $A$, $B$,
+$C$, and $D$, range over the set $\{0, \forth, \half, 1\}$.  We think
+of $0$ and $1$ as we usually do in boolean algebras, but we think of
+$\forth$ and $\half$ as intermediate values that can be used to break
+various structural rules.  In particular we will use these values to
+prevent exchange for sequential conjunction from holding, and
+contraction from holding for parallel and sequential conjunction.
+\begin{definition}
+  \label{def:logical-connectives}
+  The logical connectives of our four valued logic are defined as
+  follows:
+  \begin{itemize}
+  \item[] Parallel Conjunction:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          A \odot_4 B = 1, \text{where neither $A$ nor $B$ are $0$}\\
+          A \odot_4 B = 0, \text{otherwise}
+        \end{array}
+      \end{math}
+    \end{center}
+  \item[] Sequential Conjunction:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          \forth \rhd_4 B = \forth, \text{where $B \neq 0$}\\[2px]         
+          A \rhd_4 B = \half, \text{where } A \in \{\half, 1\} \text{ and } B \neq 0\\
+          A \rhd_4 B = 0, \text{otherwise}
+        \end{array}
+      \end{math}
+    \end{center}
+  \item[] Choice: $A \sqcup_4 B = \mathsf{max}(A,B)$    
+  \end{itemize}
+\end{definition}
+These definitions are carefully crafted to satisfy the necessary
+properties to model attack trees.  Comparing these definitions with
+Kordy et al.'s~\cite{Kordy:2012} work we can see that choice is
+defined similarly, but parallel conjunction is not a product --
+ordinary conjunction -- but rather a linear tensor product, and
+sequential conjunction is not actually definable in a boolean algebra,
+and hence, makes heavy use of the intermediate values to insure that
+neither exchange nor contraction hold.  The following results solidify
+these claims.
+
+We use the usual notion of equivalence between propositions, that is,
+propositions $\phi$ and $\psi$ are considered equivalent, denoted by
+$\phi \equiv \psi$, if and only if they have the same truth tables. In
+order to model attack trees parallel conjunction must be symmetric,
+associative, but not satisfy contraction.
+\begin{lemma}[Parallel Conjunction is Symmetric]
+  \label{lemma:parallel_conjunction_is_symmetric}
+  For any $A$ and $B$, $A \odot_4 B \equiv B \odot A$.
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[Parallel Conjunction is Associative]
+  \label{lemma:parallel_conjunction_is_associative}
+  For any $A$, $B$, and $C$, $(A \odot_4 B) \odot_4 C \equiv A \odot_4 (B \odot_4 C)$.
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[Parallel Conjunction is not Contractive]
+  \label{lemma:parallel_conjunction_is_not_contractive}
+  It is not the case that for any $A$, $A \odot_4 A \equiv A$.
+\end{lemma}
+\begin{proof}
+  Suppose $A = \forth$.  Then by definition $A \odot_4 A = 1$, but
+  $\forth$ is not $1$.
+\end{proof}
+Similarly, sequential conjunction must be associative, but not
+symmetric nor satisfy contraction.
+\begin{lemma}[Sequential Conjunction is Associative]
+  \label{lemma:sequential_conjunction_is_associative}
+  For any $A$, $B$, and $C$, $(A \rhd_4 B) \rhd_4 C \equiv A \rhd_4 (B \rhd_4 C)$.
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[Sequential Conjunction is not Symmetric]
+  \label{lemma:sequential_conjunction_is_symmetric}
+  It is not the case that for any $A$ and $B$, $A \rhd_4 B \equiv B \rhd_4 A$.
+\end{lemma}
+\begin{proof}
+  Suppose $A = \forth$ and $B = \half$.  Then $A \rhd_4 B = \forth$,
+  but $B \rhd_4 A = \half$.
+\end{proof}
+
+\begin{lemma}[Sequential Conjunction is not Contractive]
+  \label{lemma:sequential_conjunction_is_not_contractive}
+  It is not the case that for any $A$, $A \rhd_4 A \equiv A$.
+\end{lemma}
+\begin{proof}
+  Suppose $A = 1$.  Then by definition $A \odot A = \half$, but
+  $\half$ is not $1$.
+\end{proof}
+Now choice satisfies all three properties, that is, it is symmetric,
+associative, and does satisfy contraction.
+\begin{lemma}[Choice is Symmetric]
+  \label{lemma:choice_is_symmetric}
+  For any $A$ and $B$, $A \sqcup_4 B \equiv B \sqcup_4 A$.
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[Choice is Associative]
+  \label{lemma:choice_is_associative}
+  For any $A$, $B$, and $C$, $(A \sqcup_4 B) \sqcup_4 C \equiv A \sqcup_4 (B \sqcup_4 C)$.
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[Choice is Contractive]
+  \label{lemma:choice_is_contractive}
+  For any $A$, $A \sqcup_4 A \equiv_4 A$.
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+Finally, the necessary distributive laws hold.
+\begin{lemma}[Parallel Conjunction Distributes Over Choice]
+  \label{lemma:parallel_conjunction_distributes_over_choice}
+  \begin{itemize}
+  \item[i.] For any $A$, $B$, and $C$, $A \odot_4 (B \sqcup_4 C) \equiv (A \odot_4 B) \sqcup_4 (A \odot_4 C)$.
+  \item[ii.] For any $A$, $B$, and $C$, $(A \sqcup_4 B) \odot_4 C \equiv (A \odot_4 C) \sqcup_4 (B \odot_4 C)$.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[Sequential Conjunction Distributes Over Choice]
+  \label{lemma:sequential_conjunction_distributes_over_choice}
+  \begin{itemize}
+  \item[i.] For any $A$, $B$, and $C$, $A \rhd_4 (B \sqcup_4 C) \equiv (A \rhd_4 B) \sqcup_4 (A \rhd_4 C)$.
+  \item[ii.] For any $A$, $B$, and $C$, $(A \sqcup_4 B) \rhd_4 C \equiv (A \rhd_4 C) \sqcup_4 (B \rhd_4 C)$.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  This proof holds by simply comparing truth tables.
+\end{proof}
+
+At this point it is quite easy to model attack trees as formulas.  The
+following defines their interpretation.
+\begin{definition}
+  \label{def:interp-aterms-ternary}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then we define the interpretation of
+  $\mathsf{ATerms}$ to propositions as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lll}
+        \interp{[[b]] \in \mathbb{B}} & = & \alpha([[b]])\\
+        \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot \interp{[[T2]]}\\
+        \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd \interp{[[T2]]}\\
+        \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup \interp{[[T2]]}\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+We can use this semantics to prove equivalences between attack trees.
+\begin{lemma}[Equivalence of Attack Trees in the Ternary Semantics]
+  \label{lemma:equivalence_of_attack_trees}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then for any attack trees $[[T1]]$ and
+  $[[T2]]$, $[[T1 ~ T2]]$ if and only if $\interp{[[T1]]} \equiv \interp{[[T2]]}$.
+\end{lemma}
+\begin{proof}
+  This proof holds by induction on the form of $[[T1 ~ T2]]$.
+\end{proof}
+This is a very simple and elegant semantics, but it also leads to a
+more substantial theory.

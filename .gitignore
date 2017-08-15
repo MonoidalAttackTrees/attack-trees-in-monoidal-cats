@@ -42,3 +42,6 @@ scripts/*
 scripts/.*
 scripts/*
 drafts/Proposal-the-Project-Short/scripts/*
+attack-trees/attack-trees.tex
+/drafts/LFCS17/attack-trees/attack-trees.tex
+/drafts/LFCS17/attack-trees/attack-trees.pdf
