@@ -1,0 +1,101 @@
+Classical natural deduction has a semantics in boolean algebras, and
+so the semantics in the previous section begs the question of whether
+there is a natural deduction system that can be used to reason about
+attack trees.  We answer this question in the positive, but before
+defining the logic we first build up a non-trivial concrete
+categorical model of our desired logic in dialectica spaces, but this
+first requires the refinement of the quaternary semantics into a
+postal semantics we call the lineale semantics of SAND attack trees.
+This semantics will live at the base of the dialectica space model
+given in the next section.
+
+\newcommand{\Four}[0]{\mathsf{Four}} We denote by $\leq_4 : \Four
+\times \Four \to \Four$ the obvious preorder on $\Four$ making
+$(\Four, \leq_4)$ a preordered set.  It is well known that every
+preordered set induces a category whose objects are the elements of
+the carrier set, here $\Four$, and morphisms $\Hom{\Four}{a}{b} = a
+\leq_4 b$.  Composition of morphisms hold by transitivity and
+identities exists by reflexivity.  Under this setting it is
+straightforward to show that for any propositions $\phi$ and $\psi$
+over $\Four$ we have $\phi \equiv \psi$ if and only if $\phi \leq_4
+\psi$ and $\psi \leq_4 \psi$.  Thus, every result proven for the
+logical connectives on $\Four$ in the previous section induce
+properties on morphisms in this setting.
+
+In addition to the induced properties just mentioned we also have the
+following new ones which are required when lifting this semantics to
+dialectica spaces, but are also important when building a
+corresponding logic.
+\begin{lemma}[Parallel Conjunction is Functorial]
+  \label{lemma:parallel_conjunction_is_functorial}
+  For any $a,b,c,d \in \Four$, if $a \leq_4 c$ and $b \le_4 d$, then
+  $(a \odot_4 b) \leq_4 (c \odot_4 d)$.
+\end{lemma}
+\begin{proof}
+  This proof holds by a straightforward case analysis on $a$, $b$,
+  $c$, and $d$.  In any cases where $(a \odot_4 b) \leq_4 (c \odot_4
+  d)$ does not hold, then one of the premises will also not hold.
+\end{proof}
+
+\begin{lemma}[Sequential Conjunction is Functorial]
+  \label{lemma:sequential_conjunction_is_functorial}
+  For any $a,b,c,d \in \Four$, if $a \leq_4 c$ and $b \le_4 d$, then
+  $(a \rhd_4 b) \leq_4 (c \rhd_4 d)$.
+\end{lemma}
+\begin{proof}
+  This proof is similar to the previous result.
+\end{proof}
+
+\begin{lemma}[Choice is Functorial]
+  \label{lemma:parallel_conjunction_is_functorial}
+  For any $a,b,c,d \in \Four$, if $a \leq_4 c$ and $b \le_4 d$, then
+  $(a \sqcup_4 b) \leq_4 (c \sqcup_4 d)$.
+\end{lemma}
+\begin{proof}
+  This proof is similar to the previous result.
+\end{proof}
+
+The logic we a building up is indeed intuitionistic, but none of the
+operators we have introduced thus far are closed, but we can define
+the standard symmetric linear tensor product in $\Four$ that is
+closed.
+\begin{definition}
+  \label{def:tensor-and-implication}
+  The following defines the linear tensor product on $\Four$ as well
+  as linear implication:
+  \begin{itemize}
+  \item[] Tensor Product:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          A \otimes_4 B = \mathsf{max}(A,B), \text{where $A$ nor $B$ are $0$}\\
+          A \otimes_4 B = 0, \text{otherwise}
+        \end{array}
+      \end{math}
+    \end{center}
+    The unit of the tensor product is $I_4 = \forth$.\\
+    
+  \item[] Linear Implication:
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          A \limp_4 B = 0, \text{where $B <_4 A$}\\
+          A \limp_4 A = A, \text{where $A \in \{\forth,\half\}$}\\
+          A \limp_4 B = 1, \text{otherwise}
+        \end{array}
+      \end{math}
+    \end{center}
+  \end{itemize}
+\end{definition}
+The expected monoidal properties hold for the tensor product.
+\begin{lemma}[Tensor is Symmetric Monoidal]
+  \label{lemma:tensor_is_symmetric_monoidal}
+  \begin{itemize}
+  \item[] (Symmetry) For any $A$ and $B$, $A \otimes_4 B \equiv B \otimes A$.
+  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \otimes_4 B) \otimes_4 C \equiv A \otimes_4 (B \otimes_4 C)$.
+  \item[] (Left Unitor) For any $A$, $(A \otimes I_4) \equiv A$.
+  \item[] (Right Unitor) For any $A$, $(I_4 \otimes A) \equiv A$.
+  \item[] (Functorality) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
+    $(A \otimes_4 B) \leq_4 (C \otimes_4 D)$.
+  \end{itemize}
+\end{lemma}
