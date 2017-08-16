@@ -1,7 +1,7 @@
 \documentclass{llncs}
 
 \usepackage{wrapfig}
-\usepackage{amssymb,amsmath}
+\usepackage{amssymb,amsmath,txfonts}
 \usepackage{cmll}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
@@ -40,8 +40,7 @@
 \newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
 \newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
 \newcommand{\limp}[0]{\multimap}
-\newcommand{\dial}[0]{\mathsf{Dial_3}(\mathsf{Sets})}
-\newcommand{\dialSets}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets})}
+\newcommand{\dial}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets})}
 \newcommand{\dcSets}[1]{\mathsf{DC_{#1}}(\mathsf{Sets})}
 \newcommand{\sets}[0]{\mathsf{Sets}}
 \newcommand{\obj}[1]{\mathsf{Obj}(#1)}
@@ -155,7 +154,7 @@
   
 \begin{document}
 
-\title{????}
+\title{An Intuitionistic Linear Logical Semantics of SAND Attack Trees}
 
 \author{Harley Eades III}
 \institute{Computer Science\\Augusta University \\ \href{mailto:heades@augusta.edu}{harley.eades@gmail.com}}
@@ -179,6 +178,11 @@
 \label{sec:lineale_semantics_for_sand_attack_trees}
 \input{postal-semantics-output}
 % section postal_semantics_for_sand_attack_trees (end)
+
+\section{Dialectica Semantics of SAND Attack Trees}
+\label{sec:dialectica_semantics_of_sand_attack_trees}
+\input{dialectica-semantics-output}
+% section dialectica_semantics_of_sand_attack_trees (end)
 
 
 %% \section{A Brief Introduction to Ordered Linear Logic}

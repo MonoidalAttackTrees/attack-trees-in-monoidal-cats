@@ -52,6 +52,12 @@ grammar
     {{tex \in }}
     | ~>                  ::   :: red
     {{tex \rightsquigarrow }}
+    | <~                  ::   :: red2
+    {{tex \leftsquigarrow }}
+    | ~>*                 ::   :: red3
+    {{tex \rightsquigarrow^* }}
+    | *<~                 ::   :: red4
+    {{tex \leftsquigarrow^* }}        
     | box        :: :: box
     {{tex \mathsf{box} }}
     | unbox        :: :: unbox
@@ -71,6 +77,10 @@ grammar
     {{tex [[formula1]] \quad [[formula2]] }}
     | ( formula )         :: S :: parens
     {{tex [[formula]] }}
+    | T1 ~> T2            :: M :: RW1
+    | T1 <~ T2            :: M :: RW2
+    | T1 ~>* T2           :: M :: RW3
+    | T1 *<~ T2           :: M :: RW4    
 
 defns
   Typing :: '' ::=

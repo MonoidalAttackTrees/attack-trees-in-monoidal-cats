@@ -188,4 +188,44 @@ can be abstracted.
 \begin{proof}
   This proof holds by induction on the form of $[[T1 ~ T2]]$.
 \end{proof}
-Simplifications.
+This result seems basic, but has some interesting consequences.
+Notice that we can break up equivalence of attack trees, $[[T1 ~
+    T2]]$, into rewrite rules $[[T1 ~> T2]]$ and $[[T1 <~ T2]]$ by
+reading each equivalence from left-to-right and right-to-left
+respectively, such that, $[[T1 ~ T2]]$ if and only if $[[T1 ~>* T2]]$
+and $[[T1 *<~ T2]]$.  Then we have the following corollary.
+\begin{corollary}[Simplifications of Attack Trees in the Lineale Semantics]
+  \label{corollary:attack_trees_rewrites_mor_lineale}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then for any attack trees $[[T1]]$ and
+  $[[T2]]$ the following hold:
+  \begin{enumerate}[label=\roman*.]
+  \item if $[[T1 ~> T2]]$, then $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$
+  \item if $[[T1 <~ T2]]$, then $\interp{[[T2]]} \leq_4 \interp{[[T1]]}$
+  \end{enumerate}
+\end{corollary}
+More generally, the previous two results show that equivalence of
+attack trees can actually be modeled by isomorphisms in the category,
+and that if we break the equivalences up into rewrite rules, then
+rewriting attack trees corresponds to exhibiting a morphism in the
+category.
+
+The previous corollary also has practical consequences. The
+left-to-right rewrite rules, what we call the attack tree
+simplification rules, can be used to normalize attack trees, we
+discuss this in more detail in Section~\ref{?}, such that, if two
+attack trees have the same normal form, then they are equivalent.  The
+previous corollary implies that doing so is semantically valid.
+
+Finally, the previous two results lead us to a more logical viewpoint.
+If we know $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$, then by closure
+$I_4 \leq_4 (\interp{[[T1]]} \limp_4 \interp{[[T2]]})$.  Thus, two
+attack trees are then equivalent if and only if they are
+bi-conditionally related, i.e. $I_4 \leq_4 (\interp{[[T1]]} \limp_4
+\interp{[[T2]]})$ and $I_4 \leq_4 (\interp{[[T2]]} \limp_4
+\interp{[[T1]]})$.  Therefore, if we are able to find a logic that is
+sound with respect to the semantics laid out thus far, then we can use
+it to reason about attack trees using linear implication, but can we
+first define a non-trivial -- not in prosets -- categorical model of
+attack trees?

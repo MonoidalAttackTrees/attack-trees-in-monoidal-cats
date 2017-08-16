@@ -1,0 +1,25 @@
+In her thesis de Paiva \cite{?} gave one of the first sound and
+complete categorical models, called dialectica categories, of full
+intuitionistic linear logic.  Her models arose from giving a
+categorical definition to G\"odel's Dialectica interpretation.  de
+Paiva defines a particular class of dialectica categories called $GC$
+over a base category $C$, see page 41 of \cite{dePaiva:1988}.  She
+later showed that by instantiating $C$ to $\mathsf{Sets}$, the
+category of sets and total functions, that one arrives at concrete
+instantiation of $GC$ she called $\dial{2}$ whose objects are called
+\emph{dialectica spaces}, and then she abstracts $\dial{2}$ into a
+family of concrete dialectica spaces, $\dial{\text{$L$}}$, by replacing
+$\mathsf{2}$ with an arbitrary lineale $L$.
+
+In this section we construct the dialectica category, $\dial{4}$, and
+show that it is a model of attack trees.  This will be done by
+essentially lifting each of the attack tree operators defined for the
+lineale semantics given in the previous section into the dialectica
+category.  Working with dialectica categories can be very complex due
+to the nature of how they are constructed.  In fact, they are one of
+the few examples of theories that are easier to work with in a proof
+assistant than outside of one.  Thus, throughout this section we only
+give brief proof sketches, but the interested reader will find the
+complete proofs in the formalization.
+
+
