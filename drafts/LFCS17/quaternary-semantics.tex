@@ -36,7 +36,7 @@ conjunction.
       \begin{math}
         \begin{array}{lll}
           \forth \rhd_4 B = \forth, \text{where $B \neq 0$}\\[2px]         
-          A \rhd_4 B = \half, \text{where } A \in \{\half, 1\} \text{ and } B \neq 0\\
+          A \rhd_4 B = 1, \text{where } A \in \{\half, 1\} \text{ and } B \neq 0\\
           A \rhd_4 B = 0, \text{otherwise}
         \end{array}
       \end{math}
@@ -57,102 +57,60 @@ these claims.
 We use the usual notion of equivalence between propositions, that is,
 propositions $\phi$ and $\psi$ are considered equivalent, denoted by
 $\phi \equiv \psi$, if and only if they have the same truth tables. In
-order to model attack trees parallel conjunction must be symmetric,
-associative, but not satisfy contraction.
-\begin{lemma}[Parallel Conjunction is Symmetric]
-  \label{lemma:parallel_conjunction_is_symmetric}
-  For any $A$ and $B$, $A \odot_4 B \equiv B \odot A$.
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
-\end{proof}
-
-\begin{lemma}[Parallel Conjunction is Associative]
-  \label{lemma:parallel_conjunction_is_associative}
-  For any $A$, $B$, and $C$, $(A \odot_4 B) \odot_4 C \equiv A \odot_4 (B \odot_4 C)$.
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
-\end{proof}
-
-\begin{lemma}[Parallel Conjunction is not Contractive]
-  \label{lemma:parallel_conjunction_is_not_contractive}
-  It is not the case that for any $A$, $A \odot_4 A \equiv A$.
-\end{lemma}
-\begin{proof}
-  Suppose $A = \forth$.  Then by definition $A \odot_4 A = 1$, but
-  $\forth$ is not $1$.
-\end{proof}
-Similarly, sequential conjunction must be associative, but not
-symmetric nor satisfy contraction.
-\begin{lemma}[Sequential Conjunction is Associative]
-  \label{lemma:sequential_conjunction_is_associative}
-  For any $A$, $B$, and $C$, $(A \rhd_4 B) \rhd_4 C \equiv A \rhd_4 (B \rhd_4 C)$.
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
-\end{proof}
-
-\begin{lemma}[Sequential Conjunction is not Symmetric]
-  \label{lemma:sequential_conjunction_is_symmetric}
-  It is not the case that for any $A$ and $B$, $A \rhd_4 B \equiv B \rhd_4 A$.
-\end{lemma}
-\begin{proof}
-  Suppose $A = \forth$ and $B = \half$.  Then $A \rhd_4 B = \forth$,
-  but $B \rhd_4 A = \half$.
-\end{proof}
-
-\begin{lemma}[Sequential Conjunction is not Contractive]
-  \label{lemma:sequential_conjunction_is_not_contractive}
-  It is not the case that for any $A$, $A \rhd_4 A \equiv A$.
-\end{lemma}
-\begin{proof}
-  Suppose $A = 1$.  Then by definition $A \odot A = \half$, but
-  $\half$ is not $1$.
-\end{proof}
-Now choice satisfies all three properties, that is, it is symmetric,
-associative, and does satisfy contraction.
-\begin{lemma}[Choice is Symmetric]
-  \label{lemma:choice_is_symmetric}
-  For any $A$ and $B$, $A \sqcup_4 B \equiv B \sqcup_4 A$.
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
-\end{proof}
-
-\begin{lemma}[Choice is Associative]
-  \label{lemma:choice_is_associative}
-  For any $A$, $B$, and $C$, $(A \sqcup_4 B) \sqcup_4 C \equiv A \sqcup_4 (B \sqcup_4 C)$.
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
-\end{proof}
-
-\begin{lemma}[Choice is Contractive]
-  \label{lemma:choice_is_contractive}
-  For any $A$, $A \sqcup_4 A \equiv_4 A$.
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
-\end{proof}
-Finally, the necessary distributive laws hold.
-\begin{lemma}[Parallel Conjunction Distributes Over Choice]
-  \label{lemma:parallel_conjunction_distributes_over_choice}
+order to model attack trees the previously defined logical connectives
+must satisfy the appropriate equivalences corresponding to the
+equations between attack trees.  These equivalences are all proven by
+the following results.
+\begin{lemma}[Parallel Conjunction]
+  \label{lemma:parallel_conjunction_is_props}
   \begin{itemize}
-  \item[i.] For any $A$, $B$, and $C$, $A \odot_4 (B \sqcup_4 C) \equiv (A \odot_4 B) \sqcup_4 (A \odot_4 C)$.
-  \item[ii.] For any $A$, $B$, and $C$, $(A \sqcup_4 B) \odot_4 C \equiv (A \odot_4 C) \sqcup_4 (B \odot_4 C)$.
+  \item[] (Symmetry) For any $A$ and $B$, $A \odot_4 B \equiv B \odot A$.\\
+  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \odot_4 B) \odot_4 C \equiv A \odot_4 (B \odot_4 C)$.\\
+  \item[] (Contraction) It is not the case that for any $A$, $A \odot_4 A \equiv A$.
   \end{itemize}
 \end{lemma}
 \begin{proof}
-  This proof holds by simply comparing truth tables.
+  Symmetry and associativity hold by simply comparing truth tables.
+  As for contraction, suppose $A = \forth$.  Then by definition $A
+  \odot_4 A = 1$, but $\forth$ is not $1$.
 \end{proof}
 
-\begin{lemma}[Sequential Conjunction Distributes Over Choice]
-  \label{lemma:sequential_conjunction_distributes_over_choice}
+\begin{lemma}[Sequential Conjunction]
+  \label{lemma:sequential_conjunction_props}
   \begin{itemize}
-  \item[i.] For any $A$, $B$, and $C$, $A \rhd_4 (B \sqcup_4 C) \equiv (A \rhd_4 B) \sqcup_4 (A \rhd_4 C)$.
-  \item[ii.] For any $A$, $B$, and $C$, $(A \sqcup_4 B) \rhd_4 C \equiv (A \rhd_4 C) \sqcup_4 (B \rhd_4 C)$.
+  \item[] (Symmetry) It is not the case that for any $A$ and $B$, $A \rhd_4 B \equiv B \rhd_4 A$.\\
+  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \rhd_4 B) \rhd_4 C \equiv A \rhd_4 (B \rhd_4 C)$.\\
+  \item[] (Conjunction) It is not the case that for any $A$, $A \rhd_4 A \equiv A$.
   \end{itemize}
+\end{lemma}
+\begin{proof}
+  First, we prove symmetry fails.  Suppose $A = \forth$ and $B =
+  \half$.  Then $A \rhd_4 B = \forth$, but $B \rhd_4 A = \half$.
+  Associativity holds by simply comparing truth tables.  As for
+  contraction, suppose $A = 1$.  Then by definition $A \odot A =
+  \half$, but $\half$ is not $1$.
+\end{proof}
+
+\begin{lemma}[Choice]
+  \label{lemma:choice_props}
+  \begin{itemize}
+  \item[] (Symmetry) For any $A$ and $B$, $A \sqcup_4 B \equiv B \sqcup_4 A$.\\
+  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \sqcup_4 B) \sqcup_4 C \equiv A \sqcup_4 (B \sqcup_4 C)$.\\
+  \item[] (Contraction) For any $A$, $A \sqcup_4 A \equiv_4 A$.
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  Each case of this proof holds by simply comparing truth tables.
+\end{proof}
+
+\begin{lemma}[The Distributive Laws]
+  \label{lemma:dist_laws}
+  \begin{enumerate}[label=\roman*.]
+  \item For any $A$, $B$, and $C$, $A \odot_4 (B \sqcup_4 C) \equiv (A \odot_4 B) \sqcup_4 (A \odot_4 C)$.\\
+  \item For any $A$, $B$, and $C$, $(A \sqcup_4 B) \odot_4 C \equiv (A \odot_4 C) \sqcup_4 (B \odot_4 C)$.\\
+  \item For any $A$, $B$, and $C$, $A \rhd_4 (B \sqcup_4 C) \equiv (A \rhd_4 B) \sqcup_4 (A \rhd_4 C)$.\\
+  \item For any $A$, $B$, and $C$, $(A \sqcup_4 B) \rhd_4 C \equiv (A \rhd_4 C) \sqcup_4 (B \rhd_4 C)$.
+  \end{enumerate}
 \end{lemma}
 \begin{proof}
   This proof holds by simply comparing truth tables.
@@ -170,9 +128,9 @@ following defines their interpretation.
     \begin{math}
       \begin{array}{lll}
         \interp{[[b]] \in \mathbb{B}} & = & \alpha([[b]])\\
-        \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot \interp{[[T2]]}\\
-        \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd \interp{[[T2]]}\\
-        \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup \interp{[[T2]]}\\
+        \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot_4 \interp{[[T2]]}\\
+        \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd_4 \interp{[[T2]]}\\
+        \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup_4 \interp{[[T2]]}\\
       \end{array}
     \end{math}
   \end{center}
@@ -190,3 +148,4 @@ We can use this semantics to prove equivalences between attack trees.
 \end{proof}
 This is a very simple and elegant semantics, but it also leads to a
 more substantial theory.
+
