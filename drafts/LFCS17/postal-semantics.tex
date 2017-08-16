@@ -4,10 +4,11 @@ there is a natural deduction system that can be used to reason about
 attack trees.  We answer this question in the positive, but before
 defining the logic we first build up a non-trivial concrete
 categorical model of our desired logic in dialectica spaces, but this
-first requires the refinement of the quaternary semantics into a
-postal semantics we call the lineale semantics of SAND attack trees.
+first requires the abstraction of the quaternary semantics into a
+preorder semantics we call the lineale semantics of SAND attack trees.
 This semantics will live at the base of the dialectica space model
-given in the next section.
+given in the next section, but it also begins to shed light on new and
+interesting reasoning tools for attack trees.
 
 \newcommand{\Four}[0]{\mathsf{Four}} We denote by $\leq_4 : \Four
 \times \Four \to \Four$ the obvious preorder on $\Four$ making
@@ -170,3 +171,21 @@ we can easily prove that $(\Four, \leq_4)$ defines a lineale.
   $(A \limp_4 B) \leq_4 (A \limp_4 B)$, thus by the previous property we obtain
   that $((A \limp_4 B) \otimes_4 A) \leq_4 B$.
 \end{proof}
+
+The interpretation of attack trees into the lineale $(\Four, \leq_4,
+\otimes_4, I_4, \limp_4)$ does not change from
+Definition~\ref{def:interp-aterms-ternary}, but the equivalences
+between attack trees, Lemma~\ref{lemma:equivalence_of_attack_trees},
+can be abstracted.
+\begin{lemma}[Equivalence of Attack Trees in the Lineale Semantics]
+  \label{lemma:equivalence_of_attack_trees_lineale}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then for any attack trees $[[T1]]$ and
+  $[[T2]]$, $[[T1 ~ T2]]$ if and only if $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$ and
+  $\interp{[[T2]]} \leq_4 \interp{[[T1]]}$.
+\end{lemma}
+\begin{proof}
+  This proof holds by induction on the form of $[[T1 ~ T2]]$.
+\end{proof}
+Simplifications.
