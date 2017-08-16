@@ -22,4 +22,110 @@ assistant than outside of one.  Thus, throughout this section we only
 give brief proof sketches, but the interested reader will find the
 complete proofs in the formalization.
 
+We begin with the basic definition of $\dial{4}$, and prove it is a
+category.
+\begin{definition}
+  \label{def:dialectica-model}
+  The category of dialectica spaces over $\Four$, denoted by
+  $\dial{4}$, is defined by the following data:
+  \begin{itemize}
+  \item objects, or dialectica spaces, are triples $(U, X, \alpha)$
+    where $U$ and $X$ are sets, and $\alpha : U \to X \to \Four$ is a
+    relation on $\Four$.
 
+  \item morphisms are pairs $(f,F) : (U,X,\alpha) \to (V,Y,\beta)$
+    where $f : U \to V$ and $F : Y \to X$ such that for any $u \in U$
+    and $y \in Y$, $\alpha(u,F(y)) \leq_4 \beta(f(u),y)$.
+  \end{itemize}
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:dial4_is_a_category}
+  The category $\dial{4}$ is a category.
+\end{lemma}
+\begin{proof}
+  Identity morphisms are defined by $(\id_U, \id_X) : (U , X , \alpha)
+  \to (U , X, \alpha)$, and the property on morphisms holds by
+  reflexivity.  Given two morphism $(f, F) : (U , X, \alpha) \to (V ,
+  Y , \beta)$ and $(g, G) : (V , Y, \beta) \to (W , Z, \gamma)$, then
+  their composition is defined by $(f;g, G;F) $ $: (U , X , \alpha) \to
+  (W , Z , \gamma)$ whose property holds by transitivity.  Proving
+  that composition is associative and respects identities is
+  straightforward.
+\end{proof}
+
+Next we show that $\dial{4}$ is symmetric monoidal closed.  The
+definitions of both the tensor product and the internal hom will be
+defined in terms of their respective counterparts in the lineale
+semantics.
+\begin{definition}
+  \label{def:dialectica-model-smcc}
+  The following defines the tensor product and the internal hom:
+  \begin{itemize}
+  \item[] (Tensor Product) Suppose $A = (U , X , \alpha)$ and $B = (V, Y, \beta)$, then
+    define $A \otimes B = (U \times V, (V \to X) \times (U \to Y), \alpha \otimes_r \beta)$, where
+    $(\alpha \otimes_r \beta)(u, v)(f, g) = (\alpha\,u\,(f v)) \otimes_4 (\beta\,v\,(g\,u))$.\\[-5px]
+
+  \item[] (Internal Hom) Suppose $A = (U , X , \alpha)$ and $B = (V, Y, \beta)$, then
+    define $A \limp B = ((U \to V) \times (Y \to X), U \times Y, \alpha \limp_r \beta)$, where
+    $(\alpha \limp_4 \beta)(f , g)(u , y) = (\alpha\,u\,(g\,y)) \limp_4 (\beta\,(f\,u)\,y)$.
+  \end{itemize}
+  The unit of the tensor product is defined by $I = (\top, \top,
+  (\lambda x.\lambda y.I_4))$, where $\top$ is the final object in
+  $\mathsf{Set}$.
+\end{definition}
+The following properties hold for the previous constructions.
+\begin{lemma}[SMCC Properties for $\dial{4}$]
+  \label{lemma:smcc_properties_for_dial4}
+  \begin{itemize}
+  \item[] (Functorality for Tensor) Given morphisms $f : A \mto C$ and
+    $g : B \mto D$, then there is a morphism $f \otimes g : (A \otimes B) \mto (C \otimes D)$.\\[-5px]
+  \item[] (Associator) There is a natural isomorphism, $\alpha_{A,B,C} : (A \otimes B) \otimes C \mto A \otimes (B \otimes C)$.\\[-5px]
+  \item[] (Unitors) There are natural isomorphisms, $\lambda_A : (I \otimes A) \mto A$ and $\rho_A : (A \otimes I) \mto A$.\\[-5px]
+  \item[] (Symmetry) There is a natural transformation, $\beta_{A,B} : (A \otimes B) \mto (B \otimes A)$ that is involutive.\\[-5px]
+  \item[] (Functorality for the Internal Hom) Given morphism $f : C \mto A$ and $g : B \mto D$, then there is a morphism $f \limp g : (A \limp B) \mto (C \limp D)$.\\[-5px]
+  \item[] (Adjunction) There is a natural bijection:\vspace{-5px}
+    \[ \mathsf{curry} : \Hom{\dial{4}}{A \otimes B}{C} \cong \Hom{\dial{4}}{A}{B \limp C}. \]
+  \end{itemize}
+  Finally, the coherence diagrams for symmetric monoidal categories --
+  which we omit to conserve space, but can be found here \cite{?} --
+  also hold for the natural transformations above.
+\end{lemma}
+\begin{proof}
+  These properties are not new, and their proofs follow almost exactly
+  de Paiva's proofs from her thesis \cite{?}.  The complete proofs for
+  each of the cases above, including the proofs for the symmetric
+  monoidal coherence diagrams, can be found in the formalization.
+\end{proof}
+
+The constructions on $\dial{4}$ given so far are not new, but the
+constructions for the attack tree operators for parallel conjunction,
+sequential conjunction, and choice are new to dialectica categories,
+but it turns out that the definition of choice we give here has been
+previously used in a different categorical construction called the
+category of Chu spaces.
+\begin{definition}
+  \label{def:attack-tree-ops-dialectica}
+  The attack tree operators are defined in $\dial{4}$ as follows:
+  \begin{itemize}
+  \item[] (Parallel Conjunction) Suppose $A = (U , X , \alpha)$ and $B = (V , Y , \beta)$, then
+    $A \odot B = (U \times V, X \times Y, \alpha \odot_r \beta)$, where
+    $(\alpha \odot_r \beta)(u , v)(x , y) = (\alpha\,u\,x) \odot_4 (\beta\,v\,y)$.\\[-5px]
+
+  \item[] (Sequential Conjunction) $A = (U , X , \alpha)$ and $B = (V , Y , \beta)$, then
+    $A \rhd B = (U \times V, X \times Y, \alpha \rhd_r \beta)$, where
+    $(\alpha \rhd_r \beta)(u , v)(x , y) = (\alpha\,u\,x) \rhd_4 (\beta\,v\,y)$.\\[-5px]
+    
+  \item[] (Choice) $A = (U , X , \alpha)$ and $B = (V , Y , \beta)$, then
+    $A \sqcup B = (U + V, X + Y, \alpha \sqcup_r \beta)$, where
+    \begin{center}
+      \begin{math}
+        \begin{array}{lll}
+          (\alpha \odot_r \beta)\,a\,b = \alpha\,a\,b, \text{when $a \in U$ and $b \in X$}\\
+          (\alpha \odot_r \beta)\,a\,b = \beta\,a\,b, \text{when $a \in V$ and $b \in Y$}\\
+          (\alpha \odot_r \beta)\,a\,b = 0, \text{otherwise}\\
+        \end{array}
+      \end{math}
+    \end{center}
+  \end{itemize}
+\end{definition}
