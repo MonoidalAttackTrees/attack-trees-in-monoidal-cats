@@ -22,22 +22,24 @@ conjunction.
   The logical connectives of our four valued logic are defined as
   follows:
   \begin{itemize}
-  \item[] Parallel Conjunction:
+  \item[] Parallel and Sequential Conjunction:
     \begin{center}
       \begin{math}
+        \setlength{\arraycolsep}{10px}
         \begin{array}{lll}
-          A \odot_4 B = 1, \text{where neither $A$ nor $B$ are $0$}\\
-          A \odot_4 B = 0, \text{otherwise}
+          \begin{array}{lll}
+            A \odot_4 B = 1,\\
+            \,\,\,\,\,\,\,\text{where neither $A$ nor $B$ are $0$}\\
+          A \odot_4 B = 0, \text{otherwise}\\
+          \\
         \end{array}
-      \end{math}
-    \end{center}
-  \item[] Sequential Conjunction:
-    \begin{center}
-      \begin{math}
-        \begin{array}{lll}
+        &
+        \begin{array}{lll}          
+          A \rhd_4 B = 1,\\
+          \,\,\,\,\,\,\,\text{where } A \in \{\half, 1\} \text{ and } B \neq 0\\
           \forth \rhd_4 B = \forth, \text{where $B \neq 0$}\\[2px]         
-          A \rhd_4 B = 1, \text{where } A \in \{\half, 1\} \text{ and } B \neq 0\\
           A \rhd_4 B = 0, \text{otherwise}
+        \end{array}
         \end{array}
       \end{math}
     \end{center}
@@ -61,76 +63,51 @@ order to model attack trees the previously defined logical connectives
 must satisfy the appropriate equivalences corresponding to the
 equations between attack trees.  These equivalences are all proven by
 the following results.
-\begin{lemma}[Parallel Conjunction]
-  \label{lemma:parallel_conjunction_is_props}
+\begin{lemma}[Properties of the Attack Tree Operators in the Quaternary Semantics]
+  \label{lemma:props_atree_ops_quaternary-semantics}
   \begin{itemize}
-  \item[] (Symmetry) For any $A$ and $B$, $A \odot_4 B \equiv B \odot A$.\\
-  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \odot_4 B) \odot_4 C \equiv A \odot_4 (B \odot_4 C)$.\\
-  \item[] (Contraction) It is not the case that for any $A$, $A \odot_4 A \equiv A$.
+  \item[] (Symmetry) For any $A$ and $B$, $A \bullet B \equiv B \bullet A$, for $\bullet \in \{\odot_4, \sqcup_4\}$.\\[-5px]
+  \item[] (Symmetry for Sequential Conjunction) It is not the case that, for any $A$ and $B$, $A \rhd_4 B \equiv B \rhd_4 A$.\\[-5px]
+  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \bullet B) \bullet C \equiv A \bullet (B \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4, \sqcup_4\}$.\\[-5px]
+  \item[] (Contraction for Parallel and Sequential Conjunction) It is not the case that for any $A$, $A \bullet A \equiv A$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
+  \item[] (Contraction for Choice) For any $A$, $A \sqcup_4 A \equiv_4 A$\\[-5px]
+  \item[] (Left Distributive Law) For any $A$, $B$, and $C$, $A \bullet (B \sqcup_4 C) \equiv (A \bullet B) \sqcup_4 (A \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
+  \item[] (Right Distributive Law) For any $A$, $B$, and $C$, $(A \sqcup_4 B) \bullet C \equiv (A \bullet C) \sqcup_4 (B \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\
   \end{itemize}
 \end{lemma}
 \begin{proof}
-  Symmetry and associativity hold by simply comparing truth tables.
-  As for contraction, suppose $A = \forth$.  Then by definition $A
-  \odot_4 A = 1$, but $\forth$ is not $1$.
-\end{proof}
-
-\begin{lemma}[Sequential Conjunction]
-  \label{lemma:sequential_conjunction_props}
-  \begin{itemize}
-  \item[] (Symmetry) It is not the case that for any $A$ and $B$, $A \rhd_4 B \equiv B \rhd_4 A$.\\
-  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \rhd_4 B) \rhd_4 C \equiv A \rhd_4 (B \rhd_4 C)$.\\
-  \item[] (Conjunction) It is not the case that for any $A$, $A \rhd_4 A \equiv A$.
-  \end{itemize}
-\end{lemma}
-\begin{proof}
-  First, we prove symmetry fails.  Suppose $A = \forth$ and $B =
-  \half$.  Then $A \rhd_4 B = \forth$, but $B \rhd_4 A = \half$.
-  Associativity holds by simply comparing truth tables.  As for
-  contraction, suppose $A = 1$.  Then by definition $A \odot A =
-  \half$, but $\half$ is not $1$.
-\end{proof}
-
-\begin{lemma}[Choice]
-  \label{lemma:choice_props}
-  \begin{itemize}
-  \item[] (Symmetry) For any $A$ and $B$, $A \sqcup_4 B \equiv B \sqcup_4 A$.\\
-  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \sqcup_4 B) \sqcup_4 C \equiv A \sqcup_4 (B \sqcup_4 C)$.\\
-  \item[] (Contraction) For any $A$, $A \sqcup_4 A \equiv_4 A$.
-  \end{itemize}
-\end{lemma}
-\begin{proof}
-  Each case of this proof holds by simply comparing truth tables.
-\end{proof}
-
-\begin{lemma}[The Distributive Laws]
-  \label{lemma:dist_laws}
-  \begin{enumerate}[label=\roman*.]
-  \item For any $A$, $B$, and $C$, $A \odot_4 (B \sqcup_4 C) \equiv (A \odot_4 B) \sqcup_4 (A \odot_4 C)$.\\
-  \item For any $A$, $B$, and $C$, $(A \sqcup_4 B) \odot_4 C \equiv (A \odot_4 C) \sqcup_4 (B \odot_4 C)$.\\
-  \item For any $A$, $B$, and $C$, $A \rhd_4 (B \sqcup_4 C) \equiv (A \rhd_4 B) \sqcup_4 (A \rhd_4 C)$.\\
-  \item For any $A$, $B$, and $C$, $(A \sqcup_4 B) \rhd_4 C \equiv (A \rhd_4 C) \sqcup_4 (B \rhd_4 C)$.
-  \end{enumerate}
-\end{lemma}
-\begin{proof}
-  This proof holds by simply comparing truth tables.
+  Symmetry, associativity, contraction for choice, and the
+  distributive laws for each operator hold by simply comparing truth
+  tables.  As for contraction for parallel conjunction, suppose $A =
+  \forth$.  Then by definition $A \odot_4 A = 1$, but $\forth$ is not
+  $1$.  Contraction for sequential conjunction also fails, suppose $A
+  = \half$.  Then by definition $A \rhd_4 A = 1$, but $\half$ is not
+  $1$.  Similarly, symmetry fails for sequential conjunction. Suppose
+  $A = \forth$ and $B = \half$.  Then $A \rhd_4 B = \forth$, but $B
+  \rhd_4 A = 1$.
 \end{proof}
 
 At this point it is quite easy to model attack trees as formulas.  The
 following defines their interpretation.
 \begin{definition}
   \label{def:interp-aterms-ternary}
-  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
   propositional variables.  Then we define the interpretation of
   $\mathsf{ATerms}$ to propositions as follows:
   \begin{center}
     \begin{math}
+      \setlength{\arraycolsep}{5px}
       \begin{array}{lll}
-        \interp{[[b]] \in \mathbb{B}} & = & \alpha([[b]])\\
-        \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot_4 \interp{[[T2]]}\\
-        \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd_4 \interp{[[T2]]}\\
-        \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup_4 \interp{[[T2]]}\\
+        \begin{array}{lll}
+          \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
+          \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot_4 \interp{[[T2]]}\\
+        \end{array}
+        &
+        \begin{array}{lll}
+          \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd_4 \interp{[[T2]]}\\
+          \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup_4 \interp{[[T2]]}\\
+        \end{array}
       \end{array}
     \end{math}
   \end{center}
@@ -138,7 +115,7 @@ following defines their interpretation.
 We can use this semantics to prove equivalences between attack trees.
 \begin{lemma}[Equivalence of Attack Trees in the Ternary Semantics]
   \label{lemma:equivalence_of_attack_trees}
-  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
   propositional variables.  Then for any attack trees $[[T1]]$ and
   $[[T2]]$, $[[T1 ~ T2]]$ if and only if $\interp{[[T1]]} \equiv \interp{[[T2]]}$.
@@ -149,3 +126,7 @@ We can use this semantics to prove equivalences between attack trees.
 This is a very simple and elegant semantics, but it also leads to a
 more substantial theory.
 
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: main.tex
+%%% End: 

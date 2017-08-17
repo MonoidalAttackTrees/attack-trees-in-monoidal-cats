@@ -70,6 +70,8 @@ grammar
     {{tex \neq }}
     | nin        :: :: Nin
     {{tex \not\in }}
+    | ~= :: :: SimEq
+    {{tex \simeq }}
 
   formula :: 'formula_' ::=
     | judgement           ::   :: judgement
@@ -80,7 +82,8 @@ grammar
     | T1 ~> T2            :: M :: RW1
     | T1 <~ T2            :: M :: RW2
     | T1 ~>* T2           :: M :: RW3
-    | T1 *<~ T2           :: M :: RW4    
+    | T1 *<~ T2           :: M :: RW4
+    | T1 ~= T2           :: M :: Eq2        
 
 defns
   Typing :: '' ::=

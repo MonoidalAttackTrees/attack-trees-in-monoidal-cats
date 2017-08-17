@@ -144,4 +144,89 @@ and a state $q$ of $A \sqcup B$, for $A = (U , X , \alpha)$ and $B =
 (V , Y , \beta)$, are either an action of $A$ or an action of $B$, and
 a state of $A$ or a state of $B$.  Then an action, $a$, of $A \sqcup
 B$ will execute in state $q$ of $A \sqcup B$ if they are both from $A$
-or both from $B$.  
+or both from $B$.  Thus, the definition of choice very much fits the
+semantics of a choice operator.  It is well known that the cartesian
+product distributes over the disjoint union in $\mathsf{Sets}$, and
+because of the definitions of parallel and sequential conjunction, and
+choice, these properties lift up into $\dial{4}$.
+
+It turns out that the definition of choice given here is not new at
+all, but first appeared as the choice operator used for modeling
+concurrency in Chu spaces due to Gupta and Pratt \cite{Gupta:1994}.
+Chu spaces are the concrete objects of Chu categories just like
+dialectica spaces are the concrete objects of dialectica categories.
+In fact, Chu categories and dialectica categories are cousins
+\cite{dePaiva:2006b}.  Chu and dialectica categories have exactly the
+same objects, but the condition on morphisms is slightly different,
+for Chu categories the condition uses equality instead of the
+preorder.  The impact of this is significant, Chu spaces are a model
+of classical linear logic, while dialectica categories are a model of
+intuitionistic linear logic.  At this point one natural question to
+ask is since choice is an object of both Chu and dialectica categories
+does it bring any additional structural rules with it?  In fact, it
+does, we are able to show that there is a natural transformation,
+$\mathsf{contract}^\sqcup : (A \sqcup A) \mto A$, in $\dial{4}$, but
+this is exactly what we want, because choice in attack trees
+contracts, however, this is not an isomorphism.  Keep in mind that no
+other operator presented here satisfies contraction.
+
+The following gives all of the properties that hold for the attack
+tree operators in $\dial{4}$.
+\begin{lemma}[Properties of the Attack Tree Operators in $\dial{4}$]
+  \label{lemma:properties_of_the_attack_tree_operators_in_dial4}
+  \begin{itemize}
+  \item[] (Functorality) Given morphisms $f : A \mto C$ and
+    $g : B \mto D$, then there is a morphism $f \bullet g : (A \bullet B) \mto (C \bullet D)$, for $\bullet \in \{\odot, \rhd, \sqcup\}$.\\[-5px]
+  \item[] (Associativity) There is a natural isomorphism, $\alpha^\bullet_{A,B,C} : (A \bullet B) \bullet C \mto A \bullet (B \bullet C)$, for $\bullet \in \{\odot, \rhd, \sqcup\}$.\\[-5px]
+  \item[] (Symmetry) There is a natural transformation, $\beta^\bullet_{A,B} : (A \bullet B) \mto (B \bullet A)$ that is involutive, for $\bullet \in \{\odot, \rhd, \sqcup\}$.\\[-5px]
+  \item[] (Choice is Contractive) There is a natural transformation, $\mathsf{contract}^\sqcup : (A \sqcup A) \mto A$.\\[-5px]
+  \item[] (Left Distributive Laws) There is a natural isomorphism, $distl^\bullet : A \bullet (B \sqcup C) \mto (A \bullet B) \sqcup (A \bullet C)$, for $\bullet \in \{\odot, \rhd\}$.\\[-5px]
+  \item[] (Right Distributive Laws) There is a natural isomorphism, $distr^\bullet : (A \sqcup B) \bullet C \mto (A \bullet C) \sqcup (B \bullet C)$, for $\bullet \in \{\odot, \rhd\}$.
+  \end{itemize}
+\end{lemma}
+
+At this point we can interpret attack trees into $\dial{4}$, but
+because $\mathsf{contract}^\sqcup$ is only a natural transformation
+and not an isomorphism we have to rethink proving equivalences between
+attack trees.
+\begin{definition}
+  \label{def:interp-aterms-ternary}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \obj{\dial{4}}$ is an assignment of base attacks to
+  dialectica spaces.  Then we define the interpretation of
+  $\mathsf{ATerms}$ to objects of $\dial{4}$ as follows:
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{5px}
+      \begin{array}{lll}
+        \begin{array}{rll}
+          \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
+        \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot \interp{[[T2]]}\\
+        \end{array}
+        &
+        \begin{array}{rll}
+          \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup \interp{[[T2]]}\\
+          \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd \interp{[[T2]]}\\          
+        \end{array}
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+Let $[[T1 ~= T2]]$ be $[[T1 ~ T2]]$ without contraction for choice.
+Then we have the following result.
+\begin{lemma}[Equivalence of Attack Trees in the Dialectica Semantics]
+  \label{lemma:equivalence_of_attack_trees_lineale}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \obj{\dial{4}}$ is an assignment of base attacks to
+  dialectica spaces.  Then for any attack trees $[[T1]]$ and $[[T2]]$,
+  $[[T1 ~= T2]]$ if and only if there is an isomorphism $m :
+  \interp{[[T1]]} \mto \interp{[[T2]]}$ in $\dial{4}$.
+\end{lemma}
+\begin{proof}
+  This proof holds by induction on the form of $[[T1 ~= T2]]$.
+\end{proof}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: main.tex
+%%% End: 

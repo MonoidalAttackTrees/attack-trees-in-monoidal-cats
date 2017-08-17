@@ -30,9 +30,9 @@ corresponding logic.
   \label{lemma:functorality}
   \begin{itemize}
   \item[] (Parallel Conjunction) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
-    $(A \odot_4 B) \leq_4 (C \odot_4 D)$.\\
+    $(A \odot_4 B) \leq_4 (C \odot_4 D)$.\\[-5px]
   \item[] (Sequential Conjunction) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
-  $(A \rhd_4 B) \leq_4 (C \rhd_4 D)$.\\
+  $(A \rhd_4 B) \leq_4 (C \rhd_4 D)$.\\[-5px]
   \item[] (Choice) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
   $(A \sqcup_4 B) \leq_4 (C \sqcup_4 D)$.
   \end{itemize}
@@ -75,14 +75,14 @@ The expected monoidal properties hold for the tensor product.
 \begin{lemma}[Tensor is Symmetric Monoidal Closed]
   \label{lemma:tensor_is_symmetric_monoidal_closed}
   \begin{itemize}
-  \item[] (Symmetry) For any $A$ and $B$, $A \otimes_4 B \equiv B \otimes A$.\\
-  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \otimes_4 B) \otimes_4 C \equiv A \otimes_4 (B \otimes_4 C)$.\\
-  \item[] (Unitors) For any $A$, $(A \otimes I_4) \equiv A \equiv (I_4 \otimes A)$.\\
+  \item[] (Symmetry) For any $A$ and $B$, $A \otimes_4 B \equiv B \otimes A$.\\[-5px]
+  \item[] (Associativity) For any $A$, $B$, and $C$, $(A \otimes_4 B) \otimes_4 C \equiv A \otimes_4 (B \otimes_4 C)$.\\[-5px]
+  \item[] (Unitors) For any $A$, $(A \otimes I_4) \equiv A \equiv (I_4 \otimes A)$.\\[-5px]
   \item[] (Tensor is Functorial) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
-    $(A \otimes_4 B) \leq_4 (C \otimes_4 D)$.\\
+    $(A \otimes_4 B) \leq_4 (C \otimes_4 D)$.\\[-5px]
   \item[] (Implication is Functorial) For any $A$, $B$, $C$, and $D$, if
     $C \leq_4 A$ and $B \leq_4 D$, then $(A \limp_4 B) \leq_4 (C
-    \limp_4 D)$.\\
+    \limp_4 D)$.\\[-5px]
   \item[] (Closure) For any $A$, $B$, and $C$, $(A \otimes_4 B) \leq_4 C$ if and only if $A \leq_4 (B \limp_4 C)$.
   \end{itemize}
 \end{lemma}
