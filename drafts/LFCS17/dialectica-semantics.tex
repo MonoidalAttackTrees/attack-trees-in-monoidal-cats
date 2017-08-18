@@ -41,7 +41,7 @@ category.
 
 \begin{lemma}
   \label{lemma:dial4_is_a_category}
-  The category $\dial{4}$ is a category.
+  The structure $\dial{4}$ is a category.
 \end{lemma}
 \begin{proof}
   Identity morphisms are defined by $(\id_U, \id_X) : (U , X , \alpha)
@@ -167,8 +167,10 @@ does it bring any additional structural rules with it?  In fact, it
 does, we are able to show that there is a natural transformation,
 $\mathsf{contract}^\sqcup : (A \sqcup A) \mto A$, in $\dial{4}$, but
 this is exactly what we want, because choice in attack trees
-contracts, however, this is not an isomorphism.  Keep in mind that no
-other operator presented here satisfies contraction.
+contracts, however, this is not an isomorphism which sets the
+dialectica semantics of attack trees apart from the quaternary and
+lineale semantics.  Keep in mind that no other operator presented here
+satisfies contraction.
 
 The following gives all of the properties that hold for the attack
 tree operators in $\dial{4}$.
@@ -224,6 +226,43 @@ Then we have the following result.
 \end{lemma}
 \begin{proof}
   This proof holds by induction on the form of $[[T1 ~= T2]]$.
+\end{proof}
+
+Modeling full equivalence of attack trees, $[[T1 ~ T2]]$, requires
+contraction for choice, but by redefining the equivalence operator we
+can regain full equivalence in the model.  Denote by $[[Si]]$ the
+sublanguage of attack trees with no occurrences of $[[OR T T]]$ for
+any attack tree $[[T]]$.  Now denote by $[[T1 ~>c T2]]$ the subrewrite
+system of $[[T1 ~> T2]]$ consisting only of $[[OR T T ~> T]]$ and the
+obvious congruence rules.  This rewrite system is terminating and
+confluent, because it is a subsystem of $[[T1 ~> T2]]$ which was shown
+to be terminating and confluent by Kordy et al.~\cite{Kordy2017}.  We
+now arrive at the following result.
+\begin{lemma}
+  \label{lemma:new-equivalence-atrees}
+  Suppose $[[T1]]$ and $[[T2]]$ are two attack trees.  Then $[[T1 ~
+      T2]]$ if and only if there are attack trees $[[S1]]$ and
+  $[[S2]]$ such that $[[T1 ~>c* S1]]$, $[[T2 ~>c* S2]]$, and $[[S1 ~=
+      S2]]$.
+\end{lemma}
+\begin{proof}
+  ($\Rightarrow$) Suppose $[[T1]]$ and $[[T2]]$ are two attack trees
+  such that $[[T1 ~ T2]]$.  Since $[[~>c*]]$ is a subsystem of
+  $[[~]]$, then if $[[T1]]$ or $[[T2]]$ has a subtree of the form
+  $[[OR T T]]$ for some $[[T]]$, then there are attack trees $[[S1]]$
+  and $[[S2]]$ such that $[[T1 ~ S1]]$ and $[[T2 ~ S2]]$ using only
+  the rules for contraction and congruences, but this implies that
+  $[[T1 ~>c* S1]]$ and $[[T2 ~>c* S2]]$.  Furthermore, since $[[T1 ~
+      T2]]$, then it must be the case that $[[S1 ~= S2]]$, because
+  $[[S1]]$ and $[[S2]]$ only differ from $[[T1]]$ and $[[T2]]$ by
+  contractions.
+
+  \noindent
+  ($\Leftarrow$) Suppose there are attack trees $[[T1]]$, $[[T2]]$,
+  $[[S1]]$ and $[[S2]]$ such that $[[T1 ~>c* S1]]$, $[[T2 ~>c* S2]]$,
+  and $[[S1 ~= S2]]$.  Clearly, $[[T1 ~ S1]]$, $[[T2 ~ S2]]$, and
+  $[[S1 ~ S2]]$, because $[[~]]$ subsumes both $[[~>c*]]$ and
+  $[[~=]]$.  Therefore, by transitivity $[[T1 ~ T2]]$.
 \end{proof}
 
 %%% Local Variables: 

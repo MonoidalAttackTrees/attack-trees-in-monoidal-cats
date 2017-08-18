@@ -28,22 +28,16 @@ dialectica spaces, but are also important when building a
 corresponding logic.
 \begin{lemma}[Functorality]
   \label{lemma:functorality}
-  \begin{itemize}
-  \item[] (Parallel Conjunction) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
-    $(A \odot_4 B) \leq_4 (C \odot_4 D)$.\\[-5px]
-  \item[] (Sequential Conjunction) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
-  $(A \rhd_4 B) \leq_4 (C \rhd_4 D)$.\\[-5px]
-  \item[] (Choice) For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$, then
-  $(A \sqcup_4 B) \leq_4 (C \sqcup_4 D)$.
-  \end{itemize}
+  For any $A$, $B$, $C$, and $D$, if $A \leq_4 C$ and $B \le_4 D$,
+  then $(A \bullet B) \leq_4 (C \bullet D)$, for $\bullet \in \{\odot_4,
+  \rhd_4, \sqcup_4 \}$.
 \end{lemma}
 \begin{proof}
-  Part one holds by a straightforward case analysis on $A$, $B$, $C$,
-  and $D$.  In any cases where $(A \odot_4 B) \leq_4 (C \odot_4 D)$
-  does not hold, then one of the premises will also not hold.  The
-  other cases are similar.
+  Each part holds by case analysis over $A$, $B$, $C$,
+  and $D$.  In any cases where $(A \bullet B) \leq_4 (C \bullet D)$
+  does not hold, then one of the premises will also not hold.
 \end{proof}
-The logic we a building up is indeed intuitionistic, but none of the
+The logic we are building up is indeed intuitionistic, but none of the
 operators we have introduced thus far are closed, but we can define
 the standard symmetric linear tensor product in $\Four$ that is
 closed.
@@ -205,9 +199,9 @@ and $[[T1 *<~ T2]]$.  Then we have the following corollary.
   \end{enumerate}
 \end{corollary}
 More generally, the previous two results show that equivalence of
-attack trees can actually be modeled by isomorphisms in the category,
+attack trees can actually be modeled by isomorphisms in a category,
 and that if we break the equivalences up into rewrite rules, then
-rewriting attack trees corresponds to exhibiting a morphism in the
+rewriting attack trees corresponds to exhibiting a morphism in a
 category.
 
 The previous corollary also has practical consequences. The

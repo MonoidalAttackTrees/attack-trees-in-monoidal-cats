@@ -9,7 +9,7 @@ metavar baseAttackTVars, n ::=
 indexvar index, i , j, k ::=
 
 grammar
-  A, B, C, E, F, d {{tex D}}, T :: 'A_' ::=
+  A, B, C, E, F, d {{tex D}}, T, S :: 'A_' ::=
     | b        :: :: Base
     | AND A B  :: :: Para
     {{tex \mathsf{AND}\,[[A]]\,[[B]] }}
@@ -45,19 +45,23 @@ grammar
     | succ                ::   :: succ
     {{tex \mathsf{succ} }}
     | ~                   ::   :: cons
-    {{tex \sim }}
+    {{tex \approx }}
     | ~U                  ::   :: conv
     {{tex \sim_U }}    
     | elem                ::   :: elem
     {{tex \in }}
     | ~>                  ::   :: red
     {{tex \rightsquigarrow }}
+    | ~>c                  ::   :: red5
+    {{tex \rightsquigarrow_\copyright }}
+    | ~>c*                ::   :: red6
+    {{tex \rightsquigarrow^*_\copyright }}        
     | <~                  ::   :: red2
     {{tex \leftsquigarrow }}
     | ~>*                 ::   :: red3
-    {{tex \rightsquigarrow^* }}
+    {{tex \rightsquigarrow^{\hspace{-1.5px}*} }}
     | *<~                 ::   :: red4
-    {{tex \leftsquigarrow^* }}        
+    {{tex \prescript{*\hspace{-2px} }{}{\leftsquigarrow} }}        
     | box        :: :: box
     {{tex \mathsf{box} }}
     | unbox        :: :: unbox
@@ -80,6 +84,8 @@ grammar
     | ( formula )         :: S :: parens
     {{tex [[formula]] }}
     | T1 ~> T2            :: M :: RW1
+    | T1 ~>c T2           :: M :: RW5
+    | T1 ~>c* T2          :: M :: RW6
     | T1 <~ T2            :: M :: RW2
     | T1 ~>* T2           :: M :: RW3
     | T1 *<~ T2           :: M :: RW4
