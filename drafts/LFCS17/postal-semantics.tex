@@ -116,7 +116,7 @@ that anti-symmetry can be safely dropped.
   then $a \circ c \leq b \circ c$ for any $c \in L$.
 \end{definition}
 Now a lineale can be seen as essentially a symmetric monoidal closed
-category in the category prosets.
+category in the category of prosets.
 \begin{definition}
   \label{def:lineale}
   A \textbf{lineale} is a monoidal proset, $(L, \leq, \circ, e)$, with
@@ -182,11 +182,11 @@ can be abstracted.
   This proof holds by induction on the form of $[[T1 ~ T2]]$.
 \end{proof}
 This result seems basic, but has some interesting consequences.
-Notice that we can break up equivalence of attack trees, $[[T1 ~
-    T2]]$, into rewrite rules $[[T1 ~> T2]]$ and $[[T1 <~ T2]]$ by
-reading each equivalence from left-to-right and right-to-left
-respectively, such that, $[[T1 ~ T2]]$ if and only if $[[T1 ~>* T2]]$
-and $[[T1 *<~ T2]]$.  Then we have the following corollary.
+
+Recall that equivalence of attack trees is defined to be the
+reflexive, symmetric, and transitive closure of the attack tree
+simplification rules given in Definition~\ref{?}.  We can now
+interpret these rules as morphisms.
 \begin{corollary}[Simplifications of Attack Trees in the Lineale Semantics]
   \label{corollary:attack_trees_rewrites_mor_lineale}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
@@ -195,30 +195,71 @@ and $[[T1 *<~ T2]]$.  Then we have the following corollary.
   $[[T2]]$ the following hold:
   \begin{enumerate}[label=\roman*.]
   \item if $[[T1 ~> T2]]$, then $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$
-  \item if $[[T1 <~ T2]]$, then $\interp{[[T2]]} \leq_4 \interp{[[T1]]}$
   \end{enumerate}
 \end{corollary}
-More generally, the previous two results show that equivalence of
-attack trees can actually be modeled by isomorphisms in a category,
-and that if we break the equivalences up into rewrite rules, then
-rewriting attack trees corresponds to exhibiting a morphism in a
-category.
+This corollary also implies that categorical models, and equivalently
+by the Curry-Howard-Lambek Correspondence, logical models of attack
+trees can support different notions of equivalence, because
+equivalence of attack trees can be broken down into morphisms.  In
+fact, in the next section we will lift the lineale semantics up into a
+dialectica model, but dialectica models are models of linear logic
+where contraction of choice will only hold up to a natural
+transformation and not a natural isomorphism.  Thus, in order to be
+able to model full equivalence of attack trees the definition of
+equivalence will need to be modified into an equivalent one that does
+not require contraction to be an isomorphism.
 
-The previous corollary also has practical consequences. The
-left-to-right rewrite rules, what we call the attack tree
-simplification rules, can be used to normalize attack trees, we
-discuss this in more detail in Section~\ref{?}, such that, if two
-attack trees have the same normal form, then they are equivalent.  The
-previous corollary implies that doing so is semantically valid.
+Kordy et al.~\cite{Kordy2017} showed that the attack tree
+simplification rules are confluent, and hence, satisfy the
+Church-Rosser theorem.  This result can be utilized to reformulate
+equivalence of attack trees into the following one.
+\begin{definition}
+  \label{def:join-eq-atrees}
+  Suppose $[[T1]]$ and $[[T2]]$ are attack trees over some set of base
+  attacks $\mathbb{B}$. Then $[[join T1 T2]]$ if and only if there
+  exists an attack tree $[[S]]$, such that, $[[T1 ~>* S]]$ and $[[T2 ~>*
+      S]]$.
+\end{definition}
+It is fairly straightforward to show the following two results.
+\begin{lemma}[Joinability is an Equivalence Relation]
+  \label{lemma:joinability_is_an_equivalence_relation}
+  Suppose $[[T1]]$ and $[[T2]]$ are attack trees over some set of base
+  attacks $\mathbb{B}$. Then $[[join T1 T2]]$ is an equivalence
+  relation.
+\end{lemma}
+\begin{proof}
+  Reflexivity holds by reflexivity of the underlying reduction
+  relation, symmetry is by definition, and transitivity holds by the
+  Church-Rosser theorem.
+\end{proof}
 
-Finally, the previous two results lead us to a more logical viewpoint.
-If we know $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$, then by closure
-$I_4 \leq_4 (\interp{[[T1]]} \limp_4 \interp{[[T2]]})$.  Thus, two
-attack trees are then equivalent if and only if they are
+\begin{lemma}[Equivalence of Attack Trees and Joinability]
+  \label{lemma:equivalence_of_attack_trees_and_joinability}
+  Suppose $[[T1]]$ and $[[T2]]$ are attack trees over some set of base
+  attacks $\mathbb{B}$.  Then $[[T1 ~ T2]]$ if and only if $[[join T1
+      T2]]$.
+\end{lemma}
+\begin{proof}
+  The left-to-right direction holds by induction on $[[T1 ~ T2]]$.
+  The opposite direction holds by showing that if $[[T1 ~>* T2]]$,
+  then $[[T1 ~ T2]]$, which holds by induction on $[[T1 ~>* T2]]$. 
+\end{proof}
+Joinability of attack trees gets around having to have full
+contraction for choice, because it never requires one to use its
+inverse.  In the next section we will use this result to model
+equivalence of attack trees in dialectica models.
+
+Finally, the results of this section leads us to a more logical
+viewpoint.  If we know $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$, then
+by closure $I_4 \leq_4 (\interp{[[T1]]} \limp_4 \interp{[[T2]]})$.
+Thus, two attack trees are then equivalent if and only if they are
 bi-conditionally related, i.e. $I_4 \leq_4 (\interp{[[T1]]} \limp_4
 \interp{[[T2]]})$ and $I_4 \leq_4 (\interp{[[T2]]} \limp_4
 \interp{[[T1]]})$.  Therefore, if we are able to find a logic that is
 sound with respect to the semantics laid out thus far, then we can use
-it to reason about attack trees using linear implication, but can we
-first define a non-trivial -- not in prosets -- categorical model of
-attack trees?
+it to reason about attack trees using linear implication.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: main.tex
+%%% End: 

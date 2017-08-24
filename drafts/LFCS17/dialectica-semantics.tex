@@ -216,7 +216,7 @@ attack trees.
 \end{definition}
 Let $[[T1 ~= T2]]$ be $[[T1 ~ T2]]$ without contraction for choice.
 Then we have the following result.
-\begin{lemma}[Equivalence of Attack Trees in the Dialectica Semantics]
+\begin{lemma}[Non-contractive Equivalence of Attack Trees in the Dialectica Semantics]
   \label{lemma:equivalence_of_attack_trees_lineale}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \obj{\dial{4}}$ is an assignment of base attacks to
@@ -264,6 +264,20 @@ now arrive at the following result.
   $[[S1 ~ S2]]$, because $[[~]]$ subsumes both $[[~>c*]]$ and
   $[[~=]]$.  Therefore, by transitivity $[[T1 ~ T2]]$.
 \end{proof}
+We now use the previous result to model full equivalence of attack
+trees including contraction.
+\begin{theorem}[Equivalence of Attack Trees in the Dialectica Semantics]
+  \label{lemma:equivalence_of_attack_trees_in_the_dialectica_semantics}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \obj{\dial{4}}$ is an assignment of base attacks to
+  dialectica spaces.  Then for any attack trees $[[T1]]$ and $[[T2]]$,
+  if there are attack trees $[[S1]]$ and $[[S2]]$ such that $[[T1 ~>c*
+      S1]]$, $[[T2 ~>c* S2]]$, and $[[S1 ~= S2]]$, then there are
+  natural transformations $s_1 : \interp{[[T1]]} \mto
+  \interp{[[S1]]}$, $s_2 : \interp{[[T1]]} \mto \interp{[[S2]]}$, and
+  a natural isomorphism $m : \interp{[[S1]]} \mto \interp{[[S2]]}$.
+\end{theorem}
+
 
 %%% Local Variables: 
 %%% mode: latex

@@ -89,7 +89,9 @@ grammar
     | T1 <~ T2            :: M :: RW2
     | T1 ~>* T2           :: M :: RW3
     | T1 *<~ T2           :: M :: RW4
-    | T1 ~= T2           :: M :: Eq2        
+    | T1 ~= T2            :: M :: Eq2
+    | join T1 T2          :: M :: JoinT
+    {{tex [[T1]] \curlyveedownarrow [[T2]] }}
 
 defns
   Typing :: '' ::=

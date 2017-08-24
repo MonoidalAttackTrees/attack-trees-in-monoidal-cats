@@ -9,7 +9,7 @@ a means to model sequential conjunction.  In this section we give a
 semantics of attack trees in the spirit of Kordy et al.'s using a four
 valued logic.
 
-The propositional variables of our ternary logic, denoted by $A$, $B$,
+The propositional variables of our quaternary logic, denoted by $A$, $B$,
 $C$, and $D$, range over the set $\mathsf{4} = \{0, \forth, \half,
 1\}$.  We think of $0$ and $1$ as we usually do in boolean algebras,
 but we think of $\forth$ and $\half$ as intermediate values that can
@@ -89,7 +89,7 @@ the following result.
 At this point it is quite easy to model attack trees as formulas.  The
 following defines their interpretation.
 \begin{definition}
-  \label{def:interp-aterms-ternary}
+  \label{def:interp-aterms-quaternary}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
   propositional variables.  Then we define the interpretation of
@@ -112,7 +112,7 @@ following defines their interpretation.
   \end{center}
 \end{definition}
 We can use this semantics to prove equivalences between attack trees.
-\begin{lemma}[Equivalence of Attack Trees in the Ternary Semantics]
+\begin{lemma}[Equivalence of Attack Trees in the Quaternary Semantics]
   \label{lemma:equivalence_of_attack_trees}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
