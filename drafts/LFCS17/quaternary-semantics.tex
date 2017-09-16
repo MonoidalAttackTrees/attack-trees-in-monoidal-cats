@@ -69,14 +69,12 @@ the following result.
   \item[] (Symmetry for Sequential Conjunction) It is not the case that, for any $A$ and $B$, $A \rhd_4 B \equiv B \rhd_4 A$.\\[-5px]
   \item[] (Associativity) For any $A$, $B$, and $C$, $(A \bullet B) \bullet C \equiv A \bullet (B \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4, \sqcup_4\}$.\\[-5px]
   \item[] (Contraction for Parallel and Sequential Conjunction) It is not the case that for any $A$, $A \bullet A \equiv A$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
-  \item[] (Contraction for Choice) For any $A$, $A \sqcup_4 A \equiv_4 A$\\[-5px]
-  \item[] (Left Distributive Law) For any $A$, $B$, and $C$, $A \bullet (B \sqcup_4 C) \equiv (A \bullet B) \sqcup_4 (A \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
-  \item[] (Right Distributive Law) For any $A$, $B$, and $C$, $(A \sqcup_4 B) \bullet C \equiv (A \bullet C) \sqcup_4 (B \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\
+  \item[] (Distributive Law) For any $A$, $B$, and $C$, $A \bullet (B \sqcup_4 C) \equiv (A \bullet B) \sqcup_4 (A \bullet C)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
   \end{itemize}
 \end{lemma}
 \begin{proof}
   Symmetry, associativity, contraction for choice, and the
-  distributive laws for each operator hold by simply comparing truth
+  distributive law for each operator hold by simply comparing truth
   tables.  As for contraction for parallel conjunction, suppose $A =
   \forth$.  Then by definition $A \odot_4 A = 1$, but $\forth$ is not
   $1$.  Contraction for sequential conjunction also fails, suppose $A
@@ -100,12 +98,12 @@ following defines their interpretation.
       \begin{array}{lll}
         \begin{array}{lll}
           \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
-          \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot_4 \interp{[[T2]]}\\
+          \interp{[[AND(A, B)]]} & = & \interp{[[A]]} \odot_4 \interp{[[B]]}\\
         \end{array}
         &
         \begin{array}{lll}
-          \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd_4 \interp{[[T2]]}\\
-          \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup_4 \interp{[[T2]]}\\
+          \interp{[[SAND(A,B)]]} & = & \interp{[[A]]} \rhd_4 \interp{[[B]]}\\
+          \interp{[[OR(A,B)]]} & = & \interp{[[A]]} \sqcup_4 \interp{[[B]]}\\
         \end{array}
       \end{array}
     \end{math}
@@ -116,11 +114,11 @@ We can use this semantics to prove equivalences between attack trees.
   \label{lemma:equivalence_of_attack_trees}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
-  propositional variables.  Then for any attack trees $[[T1]]$ and
-  $[[T2]]$, $[[T1 ~ T2]]$ if and only if $\interp{[[T1]]} \equiv \interp{[[T2]]}$.
+  propositional variables.  Then for any attack trees $[[A]]$ and
+  $[[B]]$, $[[A ~ B]]$ if and only if $\interp{[[A]]} \equiv \interp{[[B]]}$.
 \end{lemma}
 \begin{proof}
-  This proof holds by induction on the form of $[[T1 ~ T2]]$.
+  This proof holds by induction on the form of $[[A ~ B]]$.
 \end{proof}
 This is a very simple and elegant semantics, but it also leads to a
 more substantial theory.

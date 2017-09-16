@@ -1,15 +1,15 @@
-In her thesis de Paiva \cite{?} gave one of the first sound and
-complete categorical models, called dialectica categories, of full
+In her thesis de Paiva \cite{dePaiva:1987} gave one of the first sound
+and complete categorical models, called dialectica categories, of full
 intuitionistic linear logic.  Her models arose from giving a
 categorical definition to G\"odel's Dialectica interpretation.  de
 Paiva defines a particular class of dialectica categories called $GC$
-over a base category $C$, see page 41 of \cite{dePaiva:1988}.  She
+over a base category $C$, see page 41 of \cite{dePaiva:1987}.  She
 later showed that by instantiating $C$ to $\mathsf{Sets}$, the
 category of sets and total functions, that one arrives at concrete
 instantiation of $GC$ she called $\dial{2}$ whose objects are called
 \emph{dialectica spaces}, and then she abstracts $\dial{2}$ into a
-family of concrete dialectica spaces, $\dial{\text{$L$}}$, by replacing
-$\mathsf{2}$ with an arbitrary lineale $L$.
+family of concrete dialectica spaces, $\dial{\text{$L$}}$, by
+replacing $\mathsf{2}$ with an arbitrary lineale $L$.
 
 In this section we construct the dialectica category, $\dial{4}$, and
 show that it is a model of attack trees.  This will be done by
@@ -88,14 +88,16 @@ The following properties hold for the previous constructions.
     \[ \mathsf{curry} : \Hom{\dial{4}}{A \otimes B}{C} \cong \Hom{\dial{4}}{A}{B \limp C}. \]
   \end{itemize}
   Finally, the coherence diagrams for symmetric monoidal categories --
-  which we omit to conserve space, but can be found here \cite{?} --
-  also hold for the natural transformations above.
+  which we omit to conserve space, but can be found here
+  \cite{MacLane:1971} -- also hold for the natural transformations
+  above.
 \end{lemma}
 \begin{proof}
   These properties are not new, and their proofs follow almost exactly
-  de Paiva's proofs from her thesis \cite{?}.  The complete proofs for
-  each of the cases above, including the proofs for the symmetric
-  monoidal coherence diagrams, can be found in the formalization.
+  de Paiva's proofs from her thesis \cite{dePaiva:1987}.  The complete
+  proofs for each of the cases above, including the proofs for the
+  symmetric monoidal coherence diagrams, can be found in the
+  formalization.
 \end{proof}
 
 The constructions on $\dial{4}$ given so far are not new, but the
@@ -134,7 +136,7 @@ literally the lifting of their lineale counterparts.  The parallel and
 sequential operators on $(\mathsf{4}, \leq_4,\otimes_4,I_4,\limp_4)$,
 $\odot_4$ and $\rhd_4$, restrict the cartesian product to the required
 properties for attack trees.  Now choice must be carefully constructed
-so that we may prove the required distributive laws and contraction.
+so that we may prove the required distributive law.
 
 Given a dialectica space, $(U, X, \alpha)$, we can consider $U$ as a
 set of actions and $X$ as a set of states.  Then given an action, $a
@@ -161,16 +163,7 @@ same objects, but the condition on morphisms is slightly different,
 for Chu categories the condition uses equality instead of the
 preorder.  The impact of this is significant, Chu spaces are a model
 of classical linear logic, while dialectica categories are a model of
-intuitionistic linear logic.  At this point one natural question to
-ask is since choice is an object of both Chu and dialectica categories
-does it bring any additional structural rules with it?  In fact, it
-does, we are able to show that there is a natural transformation,
-$\mathsf{contract}^\sqcup : (A \sqcup A) \mto A$, in $\dial{4}$, but
-this is exactly what we want, because choice in attack trees
-contracts, however, this is not an isomorphism which sets the
-dialectica semantics of attack trees apart from the quaternary and
-lineale semantics.  Keep in mind that no other operator presented here
-satisfies contraction.
+intuitionistic linear logic.  
 
 The following gives all of the properties that hold for the attack
 tree operators in $\dial{4}$.
@@ -181,16 +174,11 @@ tree operators in $\dial{4}$.
     $g : B \mto D$, then there is a morphism $f \bullet g : (A \bullet B) \mto (C \bullet D)$, for $\bullet \in \{\odot, \rhd, \sqcup\}$.\\[-5px]
   \item[] (Associativity) There is a natural isomorphism, $\alpha^\bullet_{A,B,C} : (A \bullet B) \bullet C \mto A \bullet (B \bullet C)$, for $\bullet \in \{\odot, \rhd, \sqcup\}$.\\[-5px]
   \item[] (Symmetry) There is a natural transformation, $\beta^\bullet_{A,B} : (A \bullet B) \mto (B \bullet A)$ that is involutive, for $\bullet \in \{\odot, \rhd, \sqcup\}$.\\[-5px]
-  \item[] (Choice is Contractive) There is a natural transformation, $\mathsf{contract}^\sqcup : (A \sqcup A) \mto A$.\\[-5px]
-  \item[] (Left Distributive Laws) There is a natural isomorphism, $distl^\bullet : A \bullet (B \sqcup C) \mto (A \bullet B) \sqcup (A \bullet C)$, for $\bullet \in \{\odot, \rhd\}$.\\[-5px]
-  \item[] (Right Distributive Laws) There is a natural isomorphism, $distr^\bullet : (A \sqcup B) \bullet C \mto (A \bullet C) \sqcup (B \bullet C)$, for $\bullet \in \{\odot, \rhd\}$.
+  \item[] (Distributive Law) There is a natural isomorphism, $distl^\bullet : A \bullet (B \sqcup C) \mto (A \bullet B) \sqcup (A \bullet C)$, for $\bullet \in \{\odot, \rhd\}$.\\[-5px]
   \end{itemize}
 \end{lemma}
 
-At this point we can interpret attack trees into $\dial{4}$, but
-because $\mathsf{contract}^\sqcup$ is only a natural transformation
-and not an isomorphism we have to rethink proving equivalences between
-attack trees.
+At this point we can interpret attack trees into $\dial{4}$.
 \begin{definition}
   \label{def:interp-aterms-ternary}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
@@ -203,81 +191,29 @@ attack trees.
       \begin{array}{lll}
         \begin{array}{rll}
           \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
-        \interp{[[AND T1 T2]]} & = & \interp{[[T1]]} \odot \interp{[[T2]]}\\
+        \interp{[[AND(A,B)]]} & = & \interp{[[A]]} \odot \interp{[[B]]}\\
         \end{array}
         &
         \begin{array}{rll}
-          \interp{[[OR T1 T2]]} & = & \interp{[[T1]]} \sqcup \interp{[[T2]]}\\
-          \interp{[[SAND T1 T2]]} & = & \interp{[[T1]]} \rhd \interp{[[T2]]}\\          
+          \interp{[[OR(A,B)]]} & = & \interp{[[A]]} \sqcup \interp{[[B]]}\\
+          \interp{[[SAND(A,B)]]} & = & \interp{[[A]]} \rhd \interp{[[B]]}\\          
         \end{array}
       \end{array}
     \end{math}
   \end{center}
 \end{definition}
-Let $[[T1 ~= T2]]$ be $[[T1 ~ T2]]$ without contraction for choice.
 Then we have the following result.
-\begin{lemma}[Non-contractive Equivalence of Attack Trees in the Dialectica Semantics]
+\begin{lemma}[Equivalence of Attack Trees in the Dialectica Semantics]
   \label{lemma:equivalence_of_attack_trees_lineale}
   Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
   \mathbb{B} \mto \obj{\dial{4}}$ is an assignment of base attacks to
-  dialectica spaces.  Then for any attack trees $[[T1]]$ and $[[T2]]$,
-  $[[T1 ~= T2]]$ if and only if there is an isomorphism $m :
-  \interp{[[T1]]} \mto \interp{[[T2]]}$ in $\dial{4}$.
+  dialectica spaces.  Then for any attack trees $[[A]]$ and $[[B]]$,
+  $[[A ~ B]]$ if and only if there is a natural isomorphism $m :
+  \interp{[[A]]} \mto \interp{[[B]]}$ in $\dial{4}$.
 \end{lemma}
 \begin{proof}
-  This proof holds by induction on the form of $[[T1 ~= T2]]$.
+  This proof holds by induction on the form of $[[A ~ B]]$.
 \end{proof}
-
-Modeling full equivalence of attack trees, $[[T1 ~ T2]]$, requires
-contraction for choice, but by redefining the equivalence operator we
-can regain full equivalence in the model.  Denote by $[[Si]]$ the
-sublanguage of attack trees with no occurrences of $[[OR T T]]$ for
-any attack tree $[[T]]$.  Now denote by $[[T1 ~>c T2]]$ the subrewrite
-system of $[[T1 ~> T2]]$ consisting only of $[[OR T T ~> T]]$ and the
-obvious congruence rules.  This rewrite system is terminating and
-confluent, because it is a subsystem of $[[T1 ~> T2]]$ which was shown
-to be terminating and confluent by Kordy et al.~\cite{Kordy2017}.  We
-now arrive at the following result.
-\begin{lemma}
-  \label{lemma:new-equivalence-atrees}
-  Suppose $[[T1]]$ and $[[T2]]$ are two attack trees.  Then $[[T1 ~
-      T2]]$ if and only if there are attack trees $[[S1]]$ and
-  $[[S2]]$ such that $[[T1 ~>c* S1]]$, $[[T2 ~>c* S2]]$, and $[[S1 ~=
-      S2]]$.
-\end{lemma}
-\begin{proof}
-  ($\Rightarrow$) Suppose $[[T1]]$ and $[[T2]]$ are two attack trees
-  such that $[[T1 ~ T2]]$.  Since $[[~>c*]]$ is a subsystem of
-  $[[~]]$, then if $[[T1]]$ or $[[T2]]$ has a subtree of the form
-  $[[OR T T]]$ for some $[[T]]$, then there are attack trees $[[S1]]$
-  and $[[S2]]$ such that $[[T1 ~ S1]]$ and $[[T2 ~ S2]]$ using only
-  the rules for contraction and congruences, but this implies that
-  $[[T1 ~>c* S1]]$ and $[[T2 ~>c* S2]]$.  Furthermore, since $[[T1 ~
-      T2]]$, then it must be the case that $[[S1 ~= S2]]$, because
-  $[[S1]]$ and $[[S2]]$ only differ from $[[T1]]$ and $[[T2]]$ by
-  contractions.
-
-  \noindent
-  ($\Leftarrow$) Suppose there are attack trees $[[T1]]$, $[[T2]]$,
-  $[[S1]]$ and $[[S2]]$ such that $[[T1 ~>c* S1]]$, $[[T2 ~>c* S2]]$,
-  and $[[S1 ~= S2]]$.  Clearly, $[[T1 ~ S1]]$, $[[T2 ~ S2]]$, and
-  $[[S1 ~ S2]]$, because $[[~]]$ subsumes both $[[~>c*]]$ and
-  $[[~=]]$.  Therefore, by transitivity $[[T1 ~ T2]]$.
-\end{proof}
-We now use the previous result to model full equivalence of attack
-trees including contraction.
-\begin{theorem}[Equivalence of Attack Trees in the Dialectica Semantics]
-  \label{lemma:equivalence_of_attack_trees_in_the_dialectica_semantics}
-  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
-  \mathbb{B} \mto \obj{\dial{4}}$ is an assignment of base attacks to
-  dialectica spaces.  Then for any attack trees $[[T1]]$ and $[[T2]]$,
-  if there are attack trees $[[S1]]$ and $[[S2]]$ such that $[[T1 ~>c*
-      S1]]$, $[[T2 ~>c* S2]]$, and $[[S1 ~= S2]]$, then there are
-  natural transformations $s_1 : \interp{[[T1]]} \mto
-  \interp{[[S1]]}$, $s_2 : \interp{[[T1]]} \mto \interp{[[S2]]}$, and
-  a natural isomorphism $m : \interp{[[S1]]} \mto \interp{[[S2]]}$.
-\end{theorem}
-
 
 %%% Local Variables: 
 %%% mode: latex

@@ -181,75 +181,20 @@ can be abstracted.
 \begin{proof}
   This proof holds by induction on the form of $[[T1 ~ T2]]$.
 \end{proof}
-This result seems basic, but has some interesting consequences.
+This result seems basic, but has some interesting consequences.  It
+implies that the notion of attack tree equivalence can be broken up
+unto left-to-right and right-to-left implications which can themselves
+be used to reason about properties of attack trees like when one tree
+is a subtree of another.
 
-Recall that equivalence of attack trees is defined to be the
-reflexive, symmetric, and transitive closure of the attack tree
-simplification rules given in Definition~\ref{?}.  We can now
-interpret these rules as morphisms.
-\begin{corollary}[Simplifications of Attack Trees in the Lineale Semantics]
-  \label{corollary:attack_trees_rewrites_mor_lineale}
-  Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
-  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
-  propositional variables.  Then for any attack trees $[[T1]]$ and
-  $[[T2]]$ the following hold:
-  \begin{enumerate}[label=\roman*.]
-  \item if $[[T1 ~> T2]]$, then $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$
-  \end{enumerate}
-\end{corollary}
-This corollary also implies that categorical models, and equivalently
-by the Curry-Howard-Lambek Correspondence, logical models of attack
-trees can support different notions of equivalence, because
+In addition, this also implies that categorical models, and
+equivalently by the Curry-Howard-Lambek Correspondence, logical models
+of attack trees can support different notions of equivalence, because
 equivalence of attack trees can be broken down into morphisms.  In
 fact, in the next section we will lift the lineale semantics up into a
-dialectica model, but dialectica models are models of linear logic
-where contraction of choice will only hold up to a natural
-transformation and not a natural isomorphism.  Thus, in order to be
-able to model full equivalence of attack trees the definition of
-equivalence will need to be modified into an equivalent one that does
-not require contraction to be an isomorphism.
+dialectica model, but dialectica models are models of linear logic.
 
-Kordy et al.~\cite{Kordy2017} showed that the attack tree
-simplification rules are confluent, and hence, satisfy the
-Church-Rosser theorem.  This result can be utilized to reformulate
-equivalence of attack trees into the following one.
-\begin{definition}
-  \label{def:join-eq-atrees}
-  Suppose $[[T1]]$ and $[[T2]]$ are attack trees over some set of base
-  attacks $\mathbb{B}$. Then $[[join T1 T2]]$ if and only if there
-  exists an attack tree $[[S]]$, such that, $[[T1 ~>* S]]$ and $[[T2 ~>*
-      S]]$.
-\end{definition}
-It is fairly straightforward to show the following two results.
-\begin{lemma}[Joinability is an Equivalence Relation]
-  \label{lemma:joinability_is_an_equivalence_relation}
-  Suppose $[[T1]]$ and $[[T2]]$ are attack trees over some set of base
-  attacks $\mathbb{B}$. Then $[[join T1 T2]]$ is an equivalence
-  relation.
-\end{lemma}
-\begin{proof}
-  Reflexivity holds by reflexivity of the underlying reduction
-  relation, symmetry is by definition, and transitivity holds by the
-  Church-Rosser theorem.
-\end{proof}
-
-\begin{lemma}[Equivalence of Attack Trees and Joinability]
-  \label{lemma:equivalence_of_attack_trees_and_joinability}
-  Suppose $[[T1]]$ and $[[T2]]$ are attack trees over some set of base
-  attacks $\mathbb{B}$.  Then $[[T1 ~ T2]]$ if and only if $[[join T1
-      T2]]$.
-\end{lemma}
-\begin{proof}
-  The left-to-right direction holds by induction on $[[T1 ~ T2]]$.
-  The opposite direction holds by showing that if $[[T1 ~>* T2]]$,
-  then $[[T1 ~ T2]]$, which holds by induction on $[[T1 ~>* T2]]$. 
-\end{proof}
-Joinability of attack trees gets around having to have full
-contraction for choice, because it never requires one to use its
-inverse.  In the next section we will use this result to model
-equivalence of attack trees in dialectica models.
-
-Finally, the results of this section leads us to a more logical
+Finally, the results of this section lead us to a more logical
 viewpoint.  If we know $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$, then
 by closure $I_4 \leq_4 (\interp{[[T1]]} \limp_4 \interp{[[T2]]})$.
 Thus, two attack trees are then equivalent if and only if they are

@@ -1,17 +1,49 @@
-%% the problem?
-What is a mathematical model of attack trees?  There have been
-numerous proposed answers to this question.  Some examples are
-propositional logic, multisets, directed acyclic graphs, source sink
-graphs (or parallel-series pomsets), Petri nets, and Markov processes.
-Is there a unifying foundation in common to each of these proposed
+Attack trees are a type of tree based graphical model used in
+analyzing the threat potential of secure systems.  They were
+popularized by Bruce Schneier \cite{Schneier:1999} at the NSA and they
+were found to be affective at analyzing both physical and virtual
+secure systems.  An attack tree represents all possible ways to
+accomplish a particular attack on a system.  The root of the tree is
+the over all goal, and then each child node represents a refinement of
+the overall goal.  The leafs are particular attacks needed to
+accomplish the goal of the tree.  An example attack tree for attacking
+an ATM can be found in Figure~\ref{fig:atm-tree1}.
+
+In this paper attack trees have three types of branching nodes:
+and-node, or-nodes, and sequence-nodes.  And-nodes are depicted
+graphically by drawing a horizontal line linking the children nodes.
+This type of node represents a set of attacks that all must be
+executed, but there is no particular order on which must be executed
+first. Similarly, sequence-nodes are depicted by a horizontal arrow
+linking the children nodes.  These nodes represent ordered execution
+of attacks.  Finally, the remaining nodes are or-nodes which represent
+a choice between attacks.  This formalization of attack trees is known
+as SAND attack trees and were introduced by Jhawar
+et. al~\cite{Jhawar:2015}.
+
+The way in which we describe attack trees suggests that they should be
+considered as describing a process in terms of smaller processes.
+Then each leaf of an attack tree represents a process -- an attack --
+that must be executed to reach the overall goal.  Branching nodes are
+then operators of process algebra.  Thus, an attack tree is a process
+tree representing an attack.
+
+Until recently attack trees have been primarily a tool without a
+theoretical foundation.  This has become worrisome, because several
+projects have used them to asses the security of large scale systems.
+Therefore, a leading question regarding attack trees is, what is a
+mathematical model of attack trees?  There have been numerous proposed
+answers to this question.  Some examples are propositional logic,
+multisets, directed acyclic graphs, source sink graphs (or
+parallel-series pomsets), Petri nets, and Markov processes.
+
+Give that there are quite a few different models one can then ask, is
+there a unifying foundation in common to each of these proposed
 models?  Furthermore, can this unifying foundation be used to further
 the field of attack trees and build new tools for conducting threat
-analysis?
-
-The answer to the first question is positive, but the answer to the
-second question is open.  Each of the proposed models listed above
-have something in common.  They can all be modeled in some form of a
-symmetric monoidal category
+analysis?  This paper contributes to the answer of these questions.
+Each of the proposed models listed above have something in common.
+They can all be modeled in some form of a symmetric monoidal category
 \cite{Tzouvaras:1998,Brown:1991,Fiore:2013,FrancescoAlbasini2010}.
 That is all well and good, but what can we gain from monoidal
 categories?
@@ -21,8 +53,7 @@ observed through the beautiful Curry-Howard-Lambek correspondence
 \cite{Mellies:2009}.  In linear logic every hypothesis must be used
 exactly once, and hence, if we view a hypothesis as a resource, then
 this property can be stated as every resource must be consumed.  This
-linearity property is achieved by restricting the logic so that
-hypothesis are never duplicated or removed.
+is an ideal setting for reasoning about processes like attack trees.
 
 Multisets and Petri nets both capture the idea that the nodes of an
 attack tree consist of the attack action and the state -- the
@@ -35,26 +66,24 @@ the goals of an attack tree.
 In this paper\footnote{This material is based upon work supported by
   the National Science Foundation CRII CISE Research Initiation grant,
   ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
-  Categories``, under Grant No. 1565557.} I introduce a new logical
-foundation of attack trees -- with and without costs -- in linear
-logic; the type of attack trees considered in this paper are attack
-trees with sequential conjunction due to Jhawar et
-al.~\cite{Jhawar:2015}.  This new foundation is based on a new logic
-called the Attack Tree Linear Logic (ATLL).
+  Categories``, under Grant No. 1565557.} we introduce a new logical
+foundation of SAND attack trees in intuitionistic linear logic.  This
+new foundation is based on a new logic called the Attack Tree Linear
+Logic (ATLL).
 
 \begin{wrapfigure}{r}{0.5\textwidth}
-  \vspace{-30px}
+  \vspace{-45px}
   \begin{center}
-    \includegraphics[scale=0.225]{ATM-Tree1}
+    \includegraphics[scale=0.210]{ATM-Tree1}
   \end{center}  
   \label{fig:atm-tree1}
   \caption{Attack Tree for an ATM attack from Figure~1 on page 2 of Kordy et al.~\cite{Kordy2017}}
   \vspace{-55px}
 \end{wrapfigure}
-In ATLL (Section~\ref{sec:attack_trees_without_costs}) attack trees
-are modeled as linear formulas where base attacks are atomic formulas,
-and each branching node corresponds to a binary logical connective.
-Consider the attack tree for an ATM attack from
+In ATLL (Section~\ref{sec:the_attack_tree_linear_logic_(atll)}) attack
+trees are modeled as linear formulas where base attacks are atomic
+formulas, and each branching node corresponds to a binary logical
+connective.  Consider the attack tree for an ATM attack from
 Figure~\ref{fig:atm-tree1}.  We can model this attack tree as a
 formula in ATLL as follows:
 \[
@@ -66,12 +95,13 @@ formula in ATLL as follows:
   [[T1]] := [[(B1 (.) (B2 + B3)) > B4]]
 \end{array}
 \]
-Each $[[Bi]]$ is an atomic formula, parallel conjunction of attack
-trees is denoted by $[[T1 (.) T2]]$, choice between attacks by $[[T1 +
-    T2]]$, and sequential conjunction of attacks by $[[T1 > T2]]$.
-Parallel conjunction and choice are both symmetric, but sequential
-conjunction is not.  Now that we can model attack trees as formulas we
-should be able to use the logic to reason about attack trees.
+Each $[[Bi]]$ is an atomic formula, parallel conjunction -- and-nodes
+-- of attack trees is denoted by $[[T1 (.) T2]]$, choice between
+attacks -- or-nodes -- by $[[T1 + T2]]$, and sequential conjunction of
+attacks -- sequence-nodes -- by $[[T1 > T2]]$.  Parallel conjunction
+and choice are both symmetric, but sequential conjunction is not.  Now
+that we can model attack trees as formulas we should be able to use
+the logic to reason about attack trees.
 
 Reasoning about attack trees corresponds to proving implications
 between them.  In fact, every equation from Jhawar et al.'s
@@ -97,51 +127,54 @@ this can be proven in ATLL by showing that $[[T1 o-o T2]]$ where
 $[[o-o]]$ denotes bi-implication.  The proof holds by using the
 distributive rules for choice.
 
-In addition, implication can be used to prove subattack tree
-relationships between attack trees.  For example, supposed we wanted
-to show that the tree $[[B1 (.) B2]]$ is a subattack tree of $[[T2]]$,
-then this is the case if $[[T2 -o (B1 (.) B2)]]$. This requires some
-additional rules be added to ATLL and this is discussed in
-Section~\ref{sec:attack_trees_without_costs}.
-
-Using a generalization of Bucciarelli and
-Ehrhard’s~\cite{BUCCIARELLI:2000} indexed linear logic I extend ATLL
-with costs.  I call this extension Indexed ATLL
-(Section~\ref{sec:attack_trees_with_costs}).  In this system every
-base attack is annotated with a cost, and every branching node is
-associated with a binary operation used for computing the cost at that
-node.  Then implication is associated with a binary relation on costs.
-This new binary relation is used to insure that the costs of two trees
-are related when proving implications between attack trees.  Thus, one
-can prove facts about attack trees in Indexed ATLL that require one to
-reason about both the tree structure as well the quantitative data in
-the tree simultaneously.
-
 Modeling attack trees in linear logic has a number of benefits.
 First, it connects attack trees back to logic, but in elegant and
 simple way.  Kordy et al.~\cite{Kordy2010,Kordy:2012} proposed that
 attack trees be modeled in propositional logic, but in this model
 attacks can be freely duplicated and contracted which goes against the
-process/resources nature of an attack tree.  However, linear logic
-restores this natural interpretation without loosing the process
-interpretation of attack trees and without having to resort to
-complicated notation unlike models similar to the situation calculus
-\cite{Samarji2013}.  By connecting attack trees to logic we can also
-tap into the long standing research and development of automation, for
-example, SAT, SMT, proof search, etc.  Finally, by connecting to logic
-we also connect to the theory of statically typed functional
-programming through the Curry-Howard-Lambek correspondence which will
-allow for the development of a programming language that can be used
-to certify the correctness of attack trees and the analysis performed
-using them.
+process nature of an attack tree.  However, linear logic restores this
+natural interpretation without loosing the process interpretation of
+attack trees and without having to resort to complicated notation
+unlike models similar to the situation calculus \cite{Samarji2013}.
+By connecting attack trees to logic we can also tap into the long
+standing research and development of automation, for example, SAT,
+SMT, proof search, etc.  Finally, by connecting to logic we also
+connect to the theory of statically typed functional programming
+through the Curry-Howard-Lambek correspondence which will allow for
+the development of a programming language that can be used to certify
+the correctness of attack trees and the analysis performed using them.
+In particular, we can use ATLL to design a functional scripting
+language for the definition of attack trees that has the same
+semantics as attack trees.
+
+Before introducing ATLL we given several new logical models of attack
+trees starting in
+Section~\ref{sec:a_quaternary_semantics_for_sand_attack_trees} with a
+very basic truth table semantics.  Then we lift this semantics into a
+semantics of attack trees based on lineales in
+Section~\ref{sec:lineale_semantics_for_sand_attack_trees}, but this
+can be further lifted into a dialectica model which ATLL is based
+(Section~\ref{sec:dialectica_semantics_of_sand_attack_trees}).
 
 \textbf{Contributions.}  This paper offers the following
 contributions:
 \begin{itemize}
-\item The Attack Tree Linear Logic (ATLL): a new linear logic for the
-  specification and analysis of attack trees.
-\item The Indexed Attack Tree Linear Logic (Indexed ATLL): an
-  extension of ATLL with costs and the ability to reason about them
-  while reasoning about attack trees.
-\item A few new and interesting open problems.
+\item The first simple truth table semantics of SAND attack trees,
+\item The first categorical model of attack trees in dialectica
+  categories,
+\item The Attack Tree Linear Logic (ATLL): a new intuitionistic linear
+  logic for the specification and analysis of attack trees.
+
+\item Horne et al.~\cite{horne2017semantics} propose to model attack
+  trees in linear logic as well, but their logic is based on classical
+  linear logic, and does not support full distribution of sequential
+  conjunction over choice, while ATLL does.
 \end{itemize}
+
+Every section except
+Section~\ref{sec:the_attack_tree_linear_logic_(atll)} has been
+formalized in the Agda proof assistant\footnote{The Agda formalization
+  can be found here
+  \url{https://github.com/MonoidalAttackTrees/ATLL-Formalization}}.
+Furthermore, all of the syntax used in this paper was formalized using
+OTT~\cite{Sewell:2010}.

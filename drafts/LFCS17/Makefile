@@ -25,7 +25,7 @@ full-indexed-atll-output.tex : full-indexed-atll.tex indexed-atll/indexed-atll.o
 		-tex_filter full-indexed-atll.tex full-indexed-atll-output.tex
 
 attack-trees-output.tex : attack-trees.tex atll/atll.ott
-	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
+	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o attack-trees-ott.tex -tex_name_prefix AT \
 		-tex_filter attack-trees.tex attack-trees-output.tex
 
 oll-output.tex : oll.tex oll/oll.ott
@@ -51,7 +51,15 @@ dialectica-semantics-output.tex : dialectica-semantics.tex attack-trees/attack-t
 	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
 		-tex_filter dialectica-semantics.tex dialectica-semantics-output.tex
 
-main.pdf : indexed-atll-output.tex main.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile attack-trees-output.tex full-indexed-atll-output.tex oll-output.tex intro-output.tex quaternary-semantics-output.tex postal-semantics-output.tex dialectica-semantics-output.tex
+atll-output.tex : atll.tex atll/atll.ott
+	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
+		-tex_filter atll.tex atll-output.tex
+
+rfw-output.tex : rfw.tex atll/atll.ott 
+	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
+		-tex_filter rfw.tex rfw-output.tex
+
+main.pdf : indexed-atll-output.tex main.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile attack-trees-output.tex full-indexed-atll-output.tex oll-output.tex intro-output.tex quaternary-semantics-output.tex postal-semantics-output.tex dialectica-semantics-output.tex atll-output.tex rfw-output.tex
 	$(PDFLATEX) -jobname=main main.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -jobname=main main.tex

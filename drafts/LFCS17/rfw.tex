@@ -1,0 +1,25 @@
+\textbf{Related Work.}  Horne et al.~\cite{horne2017semantics} also
+propose modeling SAND attack trees using linear logic, but they base
+their work on pomsets and classical linear logic.  In addition, their
+logic cannot derive the distributive law for sequential conjunction up
+to an equivalence, but they can derive $[[* |- ((A > B) + (A > C)) -o
+    (A > (B + C))]]$.  The full equivalence is derivable in ATLL
+however.
+
+The logic of bunched implications \cite{Ohearn:2003} has already been
+shown to be able to support non-commutative operators by O'hearn, but
+here we show how distributive laws can be controlled using properties
+on contexts.
+
+de Paiva~\cite{depaiva1991} shows how to model non-commutative
+operators in dialectica categories, but here we show an alternative
+way of doing this, and we extend the model to include more operators
+like choice and its distributive laws.
+
+\textbf{Future Work.}  We plan to build a term assignment for ATLL
+that can be used a scripting language for defining and reasoning about
+attack trees.  In addition, we plan to extend equivalence of attack
+trees with contraction for choice, and to investigate adding a
+modality that adds weakening to ATLL, and then, this modality could be
+used to reason about subattack trees.  Finally, we leave the proof
+theory of ATLL to future work.

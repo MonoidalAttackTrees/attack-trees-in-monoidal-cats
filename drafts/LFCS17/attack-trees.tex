@@ -1,58 +1,5 @@
-%% \begin{center}\scriptsize
-%%   \begin{math}
-%%     $$\mprset{flushleft}
-%%     \inferrule* [right={\scriptsize $\ATLLdruleEXXparaIName{}$}] {
-%%       $$\mprset{flushleft}
-%%       \inferrule* [right={\scriptsize $\ATLLdruleEXXseqIName{}$}] {
-%%         $$\mprset{flushleft}
-%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXvarCName{}$}] {
-%%           \,
-%%         }{[[A;.;. |- A]]}
-%%         \\
-%%         $$\mprset{flushleft}
-%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXparaIName{}$}] {
-%%           $$\mprset{flushleft}
-%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
-%%             \,
-%%           }{[[.;.;B |- B]]}
-%%           \\
-%%           $$\mprset{flushleft}
-%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
-%%             \,
-%%           }{[[.;.;C |- C]]}
-%%         }{[[.;.;B,C |- B (.) C]]}
-%%       }{[[A;.;B,C |- A > (B (.) C)]]}
-%%       \\
-%%       $$\mprset{flushleft}
-%%       \inferrule* [right={\scriptsize $\ATLLdruleEXXseqIName{}$}] {
-%%         $$\mprset{flushleft}
-%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXparaIName{}$}] {
-%%           $$\mprset{flushleft}
-%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
-%%             \,
-%%           }{[[.;.;d |- d]]}
-%%           \\
-%%           $$\mprset{flushleft}
-%%           \inferrule* [right={\scriptsize $\ATLLdruleEXXvarName{}$}] {
-%%             \,
-%%           }{[[.;.;E |- E]]}
-%%         }{[[.;.;d,E |- d (.) E]]}
-%%         \\
-%%         $$\mprset{flushleft}
-%%         \inferrule* [right={\scriptsize $\ATLLdruleEXXvarCName{}$}] {
-%%           \,
-%%         }{[[F;.;. |- F]]}
-%%       }{[[F;.;d,E |- (d (.) E) > F]]}
-%%     }{[[A,F;.;B,C,d,E |- (A > (B (.) C)) (.) ((d (.) E) > F)]]}
-%%   \end{math}
-%% \end{center}
-%% 
-
-In this section I introduce attack trees with sequential conjunction
--- sometimes referred to as SAND attack trees -- without cost
-annotations, and then the Attack Tree Linear Logic (ATLL).  This
-formulation of attack trees was first proposed by Jhawar et
-al. \cite{Jhawar:2015}.
+In this section we introduce SAND attack trees.  This formulation of
+attack trees was first proposed by Jhawar et al. \cite{Jhawar:2015}.
 \begin{definition}
   \label{def:atrees}
   Suppose $\mathsf{B}$ is a set of base attacks whose elements are
@@ -60,204 +7,35 @@ al. \cite{Jhawar:2015}.
   the following grammar:
   \[
   \begin{array}{lll}
-    [[T]] ::= [[b]] \mid [[T1 (.) T2]] \mid [[T1 + T2]] \mid [[T1 > T2]]\\
+    [[A]],[[B]],[[C]],[[T]] := [[b]] \mid [[OR(A,B)]] \mid [[AND(A,B)]] \mid [[SAND(A,B)]]\\
   \end{array}
   \]
-  I denote unsynchronized parallel conjunction of attacks by $[[T1 (.) T2]]$,
-  choice between attacks by $[[T1 + T2]]$, and sequential
-  conjunction of attacks by $[[T1 > T2]]$.  
+  \noindent
+  Equivalence of attack trees, denoted by $[[A ~ B]]$, is defined as
+  follows:
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{10px}
+      \begin{array}{lll}
+        (\text{E}_1) & [[OR(OR(A,B),C) ~ OR(A,OR(B,C))]]\\
+        (\text{E}_2) & [[AND(AND(A,B),C) ~ AND(A,AND(B,C))]]\\
+        (\text{E}_3) & [[SAND(SAND(A,B),C) ~ SAND(A,SAND(B,C))]]\\
+        (\text{E}_4) & [[OR(A,B) ~ OR(B,A)]]\\
+        (\text{E}_5) & [[AND(A,B) ~ AND(B,A)]]\\
+        (\text{E}_6) & [[AND(A,OR(B,C)) ~ OR(AND(A,B),AND(A,C))]]\\
+        (\text{E}_7) & [[SAND(A,OR(B,C)) ~ OR(SAND(A,B),SAND(A,C))]]\\
+      \end{array}
+    \end{math}
+  \end{center}
 \end{definition}
-Next I define ATLL and discuss how it can be used for reasoning about
-attack trees.
-
-In ATLL attack trees are modeled as formulas, and thus, reasoning
-about attack trees should correspond to proving implications between
-them.  ATLL is an extension of OLL
-(Section~\ref{sec:a_brief_introduction_to_ordered_linear_logic}) with
-a new operator for modeling choice between attack trees.  The ATLL
-syntax is defined by the following definition.
-\begin{definition}
-  \label{def:ATLL-syntax}
-  Suppose $\mathsf{B}$ is a set of base attacks whose elements are
-  denoted by $[[b]]$. The syntax of ATLL formulas and contexts are
-  defined as follows:
-  \[
-  \begin{array}{cll}
-    \text{(formulas)}         & [[E]] ::= [[b]] \mid [[E1 (.) E1]] \mid [[E1 + E2]] \mid [[E1 > E2]] \mid [[E1 -o E2]]\\
-    \text{(base contexts)}    & [[G]],[[D]] ::= [[.]] \mid [[b]] \mid [[G,D]]\\
-    \text{(general contexts)} & [[I]],[[H]],[[P]] ::= [[.]] \mid [[E]] \mid [[I,P]]\\\\
-  \end{array}
-  \]
-\end{definition}
-\begin{figure}\footnotesize
-  \begin{mdframed}
-    \begin{mathpar}
-      \ATLLdruleTXXvar{} \and
-      \ATLLdruleTXXpara{} \and
-      \ATLLdruleTXXseq{} \and
-      \ATLLdruleTXXchoice{}
-    \end{mathpar}
-  \end{mdframed}
-  \caption{Well Formed Attack Trees in ATLL}
-  \label{fig:wf-attack-trees}
-\end{figure}
-\vspace{-10px}
-
-One can also view ATLL formulas as being defined as an extension of
-the syntax for attack trees with linear implication denoted by $[[A -o
-    B]]$.  Suppose $[[E]]$ is an ATLL formula such that every base
-attack in $[[E]]$ is in the base context $[[G]]$. Then $[[E]]$ is an
-attack tree if and only if $[[G |-T E]]$ holds with respect to the
-rules in Figure~\ref{fig:wf-attack-trees}.  These inference rules
-allow one to restrict themselves to attack trees when using ATLL.
-
-The inference rules in Figure~\ref{fig:wf-attack-trees} enforce
-several properties.  First, they enforce that every base attack is
-used exactly once, and that an attack tree does not mention linear
-implication.  Furthermore, they allow us to restrict our reasoning to
-attack trees in ATLL which I enforce in the hope that it will result
-in our reasoning being more amenable to automation, but this is left
-to future work.
-
-\begin{figure}\small
-  \begin{mdframed}
-    \begin{mathpar}
-      \ATLLdruleEXXvar{} \and
-      \ATLLdruleEXXvarCC{} \and
-      \ATLLdruleEXXvarC{} \and      
-      \ATLLdruleEXXparaI{} \and
-      \ATLLdruleEXXparaE{} \and
-      \ATLLdruleEXXchoiI{} \and
-      \ATLLdruleEXXchoiE{} \and
-      \ATLLdruleEXXseqI{} \and
-      \ATLLdruleEXXseqE{} \and
-      \ATLLdruleEXXexP{} \and      
-      \ATLLdruleEXXexC{} \and
-      \ATLLdruleEXXdup{} \and
-      \ATLLdruleEXXcont{} \and
-      \ATLLdruleEXXimpI{} \and
-      \ATLLdruleEXXimpE{} \and
-      \ATLLdruleEXXcomp{} 
-    \end{mathpar}
-  \end{mdframed}
-  \caption{ATLL Logical Inference Rules}
-  \label{fig:atll-rules}
-\end{figure}
-\begin{figure}
-  \begin{mdframed}
-    \begin{mathpar}
-      \ATLLdruleEXXdistParaOne{} \and      
-      \ATLLdruleEXXdistParaTwo{} \and
-      \ATLLdruleEXXdistSeqOne{} \and
-      \ATLLdruleEXXdistSeqTwo{}
-    \end{mathpar}
-  \end{mdframed}
-  \caption{ATLL Attack Tree Axioms}
-  \label{fig:atll-attack-tree-axioms}
-\end{figure}
-
-
-The ATLL logical inference rules are defined in
-Figure~\ref{fig:atll-rules}.  The sequent of this system is denoted by
-$[[I;H;P |- E]]$ and consists of the general context $[[I]]$
-associated with sequential conjunction, $[[H]]$ associated with
-choice, and $[[P]]$ associated with parallel conjunction.  This is
-similar to OLL; see
-Section~\ref{sec:a_brief_introduction_to_ordered_linear_logic}.  It is
-required for hypotheses used with choice to be separated, because the
-attack tree equations for choice require contraction and a weak form
-of weakening; see the rules $\ATLLdruleEXXdupName{}$ and
-$\IATLLdruleEXXcontName{}$.
-
-These rules make up a basic linear logic for attack trees.  The reader
-should note that the rule $\ATLLdruleEXXcompName{}$ is very useful
-when proving properties of attack trees, but is actually a derivable
-rule. Furthermore, one can see quite clearly that these rules are an
-extension of the rules for OLL, but instead of non-linear conjunction
-it has non-linear choice.  In ATLL one can prove that choice,
-sequential conjunction, and parallel conjunction are associative, and
-choice and parallel conjunction are symmetric. However, one cannot
-prove the usual distributive laws associated with attack trees with
-sequential conjunction \cite{Jhawar:2015}.
-
-To overcome this limitation we add the attack tree axioms in
-Figure~\ref{fig:atll-attack-tree-axioms} to ATLL.  The logical
-connective $[[o-o]]$ is linear biimplication which is defined in the
-usual way as classical implication.  The reader should note that these
-axioms are restricted to attack trees only and not applicable to full
-ATLL formulas.  In addition, the rule $\ATLLdruleEXXdistParaTwoName{}$
-is derivable, because parallel conjunction is symmetric.
-
-ATLL allows one to prove every equivalence for attack trees as linear
-implications that one might expect.  The equations provable in ATLL
-are give in Table~\ref{table:attack-tree-eqs}.
-\begin{table}[h!]
-  \begin{mdframed}[innertopmargin=-7px]
-    \[\footnotesize
-\begin{array}{lll}  
-  [[h(T + T) o-o T]]                                  & \quad & [[h((T1 > T2) > T3) o-o h(T1 > (T2 > T3))]]\\
-  [[h(T1 (.) T2) o-o h(T2 (.) T1)]]                   &       & [[h(T1 (.) (T2 + T3)) o-o h((T1 (.) T2) + (T1 (.) T3))]]\\
-  [[h(T1 + T2) o-o h(T2 + T1)]]                       &       & [[h((T2 + T3) (.) T1) o-o h((T2 (.) T1) + (T3 (.) T1))]]\\
-  [[h((T1 + T2) + T3) o-o h(T1 + (T2 + T3))]]         &       & [[h(T1 > (T2 + T3)) o-o h((T1 > T2) + (T1 > T3))]]\\
-  [[h((T1 (.) T2) (.) T3) o-o h(T1 (.) (T2 (.) T3))]] &       & [[h((T2 + T3) > T1) o-o h((T2 > T1) + (T2 > T1))]]\\
-\end{array}
-\]
-  \end{mdframed}
-\caption{The Attack Tree Equivalences}
-\label{table:attack-tree-eqs}
-\end{table}
-These are all of the equations given by Jhawar et
-al.~\cite{Jhawar:2015}.  I conjecture that it should be possible to
-define a proof search algorithm for ATLL to automate equational
-reasoning on attack trees, but this is future work.  Using implication
-as a means to reason about attack trees opens the door for different
-types of reasoning.
-
-Suppose $[[T1]]$ is a larger attack tree, and we wish to know if the
-attack tree $[[T2]]$ is contained within $[[T1]]$, that is, $[[T2]]$
-is a subattack tree of $[[T1]]$.  Currently, ATLL will not allow us to
-prove this, but it can if we add the following rules:
-\vspace{-5px}
-\mdfdefinestyle{mdfexample}{innerbottommargin=1px, innertopmargin=-8.5px}
-\begin{mdframed}[style=mdfexample]
-  \begin{mathpar}\footnotesize
-    \ATLLdruleEXXweakS{} \and
-    \ATLLdruleEXXweakC{} \and
-    \ATLLdruleEXXweakP{}
-  \end{mathpar}
-\end{mdframed}
-These rules allow us to discard parts of a larger attack tree while
-constructing proof derivations, but this only works for attack trees
-not general ATLL formulas.  Thus, with these rules ATLL becomes
-slightly affine.  We can now use these rules to determine if
-$[[T1 -o T2]]$ holds, and if it does, then $[[T2]]$ is a
-subattack tree of $[[T1]]$.
-
-I now give an example to illustrate using the system to
-prove properties of attack trees.  Consider the two example trees from
-the introduction:
-\[
-\begin{array}{lll}
-  [[T1]] := [[(B1 (.) (B2 + B3)) > B4]]\\
-  [[T2]] := [[((B1 (.) B2) > B4) + ((B1 (.) B3) > B4)]]\\
-\end{array}
-\]
-The attack trees $[[T1]]$ and $[[T2]]$ are equivalent if and only if
-$[[T1 o-o T2]]$ holds.  The ATLL attack tree axioms are
-biimplications, and hence, we may treat these axioms as equivalences.
-Thus, using the ATLL attack tree axioms we can prove that $[[T1]]$ is
-equivalent to $[[T2]]$ informally as follows:
-\[
-\begin{array}{lllll}
-  [[T1]]
-  & := & [[(B1 (.) (B2 + B3)) > B4]]                       & \text{(definition)}\\
-  & [[o-o]] & [[((B1 (.) B2) + (B1 (.) B3)) > B4]]         & (\text{rule }\ATLLdruleEXXdistParaOneName{})\\
-  & [[o-o]] & [[((B1 (.) B2) > B4) + ((B1 (.) B3) > B4)]]  & (\text{rule }\ATLLdruleEXXdistSeqTwoName{})\\
-  & := & [[T2]]                                            & \text{(definition)}\\
-\end{array}
-\]
-The corresponding formal derivation is quite large, but is easily
-constructible using the previous reasoning.
+This definition of SAND attack trees differs slightly from Jhawar
+et. al.'s~\cite{Jhawar:2015} definition.  They define $n$-ary
+operators, but we only consider the binary case, because it fits better
+with the models presented here and it does not loose any generality
+because we can model the $n$-ary case using binary operators in the
+obvious way.  Finally, they also include the equivalence $[[OR(A,A) ~
+    A]]$, but it is not obvious how to include this in the models
+presented here and we leave its addition to future work.
 
 %%% Local Variables: 
 %%% mode: latex

@@ -75,10 +75,40 @@
 %% \newtheorem{observation}[theorem]{Observation}
 
 %% Ott
-\input{indexed-atll-ott}
+\input{attack-trees-ott}
 \input{atll-ott}
 \input{oll-ott}
 \input{aterms-ott}
+\renewcommand{\ATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,#4}}
+\renewcommand{\ATLLdruleLXXvarName}{\text{id}}
+\renewcommand{\ATLLdruleLXXnodeName}{\text{base}}
+\renewcommand{\ATLLdruleLXXCtxName}{\text{CM}}
+\renewcommand{\ATLLdruleLXXparaIName}{\odot_i}
+\renewcommand{\ATLLdruleLXXchoiceIName}{\sqcup_i}
+\renewcommand{\ATLLdruleLXXseqIName}{\rhd_i}
+\renewcommand{\ATLLdruleLXXparaEName}{\odot_e}
+\renewcommand{\ATLLdruleLXXchoiceEName}{\sqcup_e}
+\renewcommand{\ATLLdruleLXXseqEName}{\rhd_e}
+\renewcommand{\ATLLdruleLXXlimpIName}{\limp_i}
+\renewcommand{\ATLLdruleLXXlimpEName}{\limp_e}
+\renewcommand{\ATLLdruleCXXidName}{\text{id}}
+\renewcommand{\ATLLdruleCXXcName}{\text{comp}}
+\renewcommand{\ATLLdruleCXXaOneName}{\text{assoc}}
+\renewcommand{\ATLLdruleCXXuOneName}{\text{unit}_1}
+\renewcommand{\ATLLdruleCXXuTwoName}{\text{unit}_2}
+\renewcommand{\ATLLdruleCXXeOneName}{\text{ex}_1}
+\renewcommand{\ATLLdruleCXXeTwoName}{\text{ex}_2}
+\renewcommand{\ATLLdruleCXXdOneName}{\text{dist}_1}
+\renewcommand{\ATLLdruleCXXdTwoName}{\text{dist}_2}
+\renewcommand{\ATLLdruleCXXdThreeName}{\text{dist}_3}
+\renewcommand{\ATLLdruleCXXdFourName}{\text{dist}_4}
+\renewcommand{\ATLLdruleCXXWeakName}{}
+\renewcommand{\ATLLdruleATXXvarName}{\text{id}}
+\renewcommand{\ATLLdruleATXXnodeName}{\text{base}}
+\renewcommand{\ATLLdruleATXXparaIName}{\odot_i}
+\renewcommand{\ATLLdruleATXXchoiceIName}{\sqcup_i}
+\renewcommand{\ATLLdruleATXXseqIName}{\rhd_i}
+
 %% \renewcommand{\IATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\IATLLdrulename{#4}}}
 %% \renewcommand{\IATLLdrulename}[1]{#1}
 %% \renewcommand{\IATLLdruleTXXvarName}{\text{id}_{\odot}}
@@ -163,12 +193,27 @@
 \maketitle 
 
 \begin{abstract}
-  TODO
+  In this paper we introduce a new logical foundation of SAND attack
+  trees in intuitionistic linear logic.  This new foundation is based
+  on a new logic called the Attack Tree Linear Logic (ATLL).  Before
+  introducing ATLL we given several new logical models of attack trees,
+  the first, is a very basic model based in truth tables.  Then we lift
+  this semantics into a semantics of attack trees based on lineales
+  which introduces implication, but this can be further lifted into a
+  dialectica model which ATLL is based.  One important feature of ATLL
+  is that it supports full distributivity of sequential conjunction
+  over choice.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
-%% \input{intro-output}
+\input{intro-output}
+
+\section{SAND Attack Trees}
+\label{sec:sand_attack_trees}
+\input{attack-trees-output}
+% section sand_attack_trees (end)
+
 
 \section{A Quaternary Semantics for SAND Attack Trees}
 \label{sec:a_quaternary_semantics_for_sand_attack_trees}
@@ -184,6 +229,16 @@
 \label{sec:dialectica_semantics_of_sand_attack_trees}
 \input{dialectica-semantics-output}
 % section dialectica_semantics_of_sand_attack_trees (end)
+
+\section{The Attack Tree Linear Logic (ATLL)}
+\label{sec:the_attack_tree_linear_logic_(atll)}
+\input{atll-output}
+% section the_attack_tree_linear_logic_(atll) (end)
+
+\section{Related and Future Work}
+\label{sec:related_and_future_work}
+\input{rfw-output}
+% section related_and_future_work (end)
 
 
 %% \section{A Brief Introduction to Ordered Linear Logic}
@@ -257,10 +312,10 @@
 \bibliographystyle{plain}
 \bibliography{ref}
 
-\appendix
+%% \appendix
 
-\section*{Appendix}
-\label{sec:appendix}
+%% \section*{Appendix}
+%% \label{sec:appendix}
 
 %% \section{The Full Specification of Indexed ATLL}
 %% \label{subsec:the_full_specification_of_indexed_atll}
