@@ -1,0 +1,247 @@
+Accomplishments: What was done? What was learned?
+-------------------------------------------------
+
+- What are the projects major goals?
+
+  1. The development of a new mathematical model of attack trees based
+     on monoidal categories.
+
+  2. The development of a new domain specific functional programming
+     language for conducting threat analysis using attack trees.
+     
+        - The development of the core language and its semantic
+          relationship with the mathematical model.
+
+        - The development of a surface language to aid security
+          researchers in conducting threat analysis.
+
+        - The development of a web-based IDE for working with the new
+          language.
+
+- What was accomplished under these goals (you must provide
+  information for at least one of the four categories)?
+
+   - Major Activities:     
+
+     During the summer of 2017 I was able to hire two visiting
+     Ph.D. students: Jiaming Jiang from North Carolina State
+     University, and Richard Blair from the University of Iowa.
+
+     Jiaming finished her work on the new categorical model, logic,
+     and type theory capable of modeling attack trees.  The draft is
+     ready to be submited to LINEARITY 2018 a FLOC workshop in March.
+
+     Richarch Blair extended the work on gradual typing with Michael
+     Townsend, who graduated in Spring 2017, to include linearity. We
+     have an initial draft that we are finishing up now.
+
+     I was able to connect the work of this project, specifically to
+     non-commutative linear logic, to Valeria de Paiva's older work on
+     the same subjet.  We published the following paper on the
+     subject:
+
+     Valeria de Paiva and Harley Eades III. "Dialectica Categories for
+     the Lambek Calculus". In: Artemov S., Nerode A. (eds) Logical
+     Foundations of Computer Science. LFCS 2018. Lecture Notes in
+     Computer Science, vol 10703. Springer, Cham.     
+     doi: https://doi.org/10.1007/978-3-319-72056-2_16
+
+     Jiaming's draft mentioned above can be seen as an alternative
+     approach to the previous mentioned paper, but is able to connect
+     to more systems and has a more algebraic semantics.
+
+     After presenting our work at multiple workshops and conferences
+     over the past two years many collegues were of the opionion that
+     it might be worth exaiming the potential to extend our system to
+     include dependent types which would also lend to an existing open
+     problem.  I presented some of my initial ideas on this approach
+     at Trends in Linear Logic and Applications:
+
+     Harley Eades III. "Introducing a New Project on The Combination
+     of Substructural Logics and Dependent Type Theory." International
+     Workshop on Trends in Linear Logic and Applications (TLLA)
+     affiliated with the Second International Conference on Formal
+     Structures for Computation and Deduction (FSCD). 31 July 2017.
+
+     This connection will have a substantial amount of broader
+     impacts, especially, in dependent types for substructural logics.
+     In addition, this new connection has blossomed a new
+     collaboration between my group and Dominc Orchard's group at Kent
+     University in the UK.
+
+   - Specific Objectives:     
+
+     We have finalized LINA's design and are drafting a paper
+     describing it called "An Intuitionistic Linear Logical Semantics
+     of SAND Attack Trees" and we will be submitting it to Graphical
+     Models in Computer Security (GraMSec) 2018.
+
+     This paper includes three new semantics for attack trees, and
+     Lina's core logic.  It can be found on the Arxiv:
+
+     ADD LINK
+
+     We have also begun fleshing out the extension to dependent types,
+     and have already obtained intereting results.
+
+     Finally, we have been working on the implementation of Lina and
+     its webbased IDE.
+
+   - Significant Results:
+
+     We have finialized Lina's semantics and design and will be
+     communicating it to the community in a future paper to be
+     submitted to Graphical Models in Computer Security (GraMSec)
+     2018.
+
+     It can be found on the Arxiv:
+
+     ADD LINK
+
+   - Key outcomes or Other achievements:
+     Nothing to report.
+
+- What opportunities for training and professional development has the
+  project provided?
+
+  This project has again proven to have a substantial impact on
+  mentorship and professional development of the PI.
+
+  Over the past year I had successful hires of two graduate research
+  assistants, and several undergraduate research assistants.  I
+  continue to be the only professor in our department able to hire
+  students for research, and so this has a substantial impact on the
+  training of our students, and the motivation of our faculty.
+  However, this should be changing soon, because of new hires.
+
+  I have also been able to attend both the International Conference on
+  Functional Programming (ICFP) 2017, and Logical Foundations of
+  Computer Science 2018 to present my work, but both of these have
+  lead to new ideas and new collaboratios.
+
+  This semester one of my undergraduate research assistants, Aubrey
+  Bryant, has had a talk accepted as part of the Augusta University
+  undergraduate research conference on a new algorithm she has been
+  developing for testing the equivalence of attack trees.
+
+  Lastly, my second undergraduate research assistant, Preston Keel,
+  has been actively collaborating online with Dominic Orchard's
+  undergraduate research assistant on the dependent types angle of
+  this project.
+
+  Both of these points significantly contribute to their developement
+  as young researchers.
+
+- How have the results been disseminated to communities of interest?
+
+  Through presentations at workshops and conferences, specifically, at
+  Trends in Linear Logic and Applications 2017 and Logical Foundations
+  in Computer Science 2018.
+
+- What do you plan to do during the next reporting period to
+  accomplish the goals?
+
+  - Disseminate our current results.
+
+  - Finish Lina's implementation.
+
+  - My student, Aubrey Bryant, and I have found a new connection
+    between our work on attack trees and Alexandra Silva's work on
+    POMSET languages that can be used to give a new efficent algorithm
+    for attack trees with sequential composition.  We also found a
+    counter example to the current known method in the literature, and
+    so this work will fix that problem.
+
+  - Continue exploring the extenion to dependent types, and how it
+    will impact substructural type theories in general.
+
+Products : What has the project produced?
+-----------------------------------------
+
+Nothing to report.
+
+Participants/Organizations : Participants & Other Collaborating
+Organizations - Who has been involved?
+------------------------------------------------------------------------------------------------------
+
+- Who has been involved?
+
+  Aubrey Bryant: Undergraduate student at Augusta University
+  Months: 3
+
+  Working on a new algorithm for testing the equivalence of attack
+  trees.
+
+  Preston Keel: Undergraduate student at Augusta University
+  Months: 3
+
+  Working on the new extension of Lina to dependent types.
+
+  Jiaming Jiang: Graduate student at North Carolina State University
+  Months: 3
+
+  Developmed the mathematical model in monoidal categories, and Lina's
+  core logic.
+
+  Michael Townsend: Undergraduate student at Augusta University
+  Months: 2
+
+  Working on the connection of the mathematical model of this project
+  to gradual type systems.  He graduated in Spring 2017.
+
+Impact: What is the impact of the project? How has it contributed?
+-----------------------------------------------------------------
+
+I would like to reiterate what I reported during year 1, and that is
+that this award continues to have a major impact on our students,
+faculty, and department.  The students are impacted by being able to
+partipate in cutting edge research, and being introduced to visiting
+graduate students which allows them to learn about graduate school.
+
+The faculty have benefited from the interaction with graduate students
+as well.  Every summer I host a graduate level seminar on a research
+topic that is open to students, faculty, and remote participants.
+The visiting graduate students bring a lot to this event, and the
+other faculty often report learning from them. 
+
+This award is also having and will continue to have an impact in
+research.  We keep finding connections to security, interactive theory
+proving, and verification using substructural logics which this award
+may lead to solutions to open problems.
+
+Finally, this award will lead to the submission of a CAREER award
+proposal which will be based on a generlization of the research in
+this award.
+
+- What is the impact on other disciplines?
+
+  Our recent LFCS paper and Jiaming's draft on the non-commutative
+  linear provides two solutions to open problem posed by computational
+  linguist that asks whether exchange can be controlled via a modality
+  in the Lambek calculus.  Thus, having an impact on linguistitcs.
+
+- What is the impact on the development of human recourses (impact on
+  human resource development)?
+   Nothing to report
+
+- What is the impact on physical resources that form infrastructure?
+   Nothing to report
+
+- What is the impact on information resources that form infrastructure?
+   Nothing to report
+
+- What is the impact on technology transfer?
+  Nothing to report
+
+- What is the impact on society beyond science and technology?
+  Nothing to report
+
+Changes/Problems
+----------------
+
+  Due to my research assistants graduating it took a semester to be
+  able to find and ramp up new students.  Thus, delaying some of the
+  results from being finished up.  I have since recruited new students
+  who are exceeding my expectations, and the project is now moving
+  along as expected.
+
