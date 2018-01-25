@@ -65,6 +65,28 @@ main.pdf : indexed-atll-output.tex main.tex appendix-SSG-monoidal.tex ref.bib ap
 	$(PDFLATEX) -jobname=main main.tex
 	$(PDFLATEX) -jobname=main main.tex
 
+TEXFILES = llncs.cls\
+	   attack-trees-ott.tex \
+	   atll-ott.tex \
+	   oll-ott.tex \
+	   aterms-ott.tex \
+	   ATM-Tree1.png \
+	   ATM-Tree2.png \
+	   mathpartir.sty \
+	   ref.bib \
+	   main.tex \
+	   intro-output.tex \
+	   attack-trees-output.tex \
+	   quaternary-semantics-output.tex \
+           postal-semantics-output.tex \
+	   dialectica-semantics-output.tex \
+	   atll-output.tex \
+	   rfw-output.tex
+
+create-arxiv : $(TEXFILES)
+	mkdir -p arxiv
+	cp $(TEXFILES) arxiv
+
 clean :
 	rm -f *.aux *.dvi *.ps *.log *-ott.tex *-output.tex *.bbl *.blg *.rel *.pdf *~
 

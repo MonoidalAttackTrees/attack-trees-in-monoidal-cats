@@ -29,15 +29,15 @@ Accomplishments: What was done? What was learned?
 
      Jiaming finished her work on the new categorical model, logic,
      and type theory capable of modeling attack trees.  The draft is
-     ready to be submited to LINEARITY 2018 a FLOC workshop in March.
+     ready to be submitted to LINEARITY 2018 a FLOC workshop in March.
 
-     Richarch Blair extended the work on gradual typing with Michael
+     Richard Blair extended the work on gradual typing with Michael
      Townsend, who graduated in Spring 2017, to include linearity. We
      have an initial draft that we are finishing up now.
 
      I was able to connect the work of this project, specifically to
      non-commutative linear logic, to Valeria de Paiva's older work on
-     the same subjet.  We published the following paper on the
+     the same subject.  We published the following paper on the
      subject:
 
      Valeria de Paiva and Harley Eades III. "Dialectica Categories for
@@ -51,8 +51,8 @@ Accomplishments: What was done? What was learned?
      to more systems and has a more algebraic semantics.
 
      After presenting our work at multiple workshops and conferences
-     over the past two years many collegues were of the opionion that
-     it might be worth exaiming the potential to extend our system to
+     over the past two years many colleagues were of the opinion that
+     it might be worth examining the potential to extend our system to
      include dependent types which would also lend to an existing open
      problem.  I presented some of my initial ideas on this approach
      at Trends in Linear Logic and Applications:
@@ -66,7 +66,7 @@ Accomplishments: What was done? What was learned?
      This connection will have a substantial amount of broader
      impacts, especially, in dependent types for substructural logics.
      In addition, this new connection has blossomed a new
-     collaboration between my group and Dominc Orchard's group at Kent
+     collaboration between my group and Dominic Orchard's group at Kent
      University in the UK.
 
    - Specific Objectives:     
@@ -79,24 +79,20 @@ Accomplishments: What was done? What was learned?
      This paper includes three new semantics for attack trees, and
      Lina's core logic.  It can be found on the Arxiv:
 
-     ADD LINK
+     https://arxiv.org/abs/1801.06886
 
      We have also begun fleshing out the extension to dependent types,
-     and have already obtained intereting results.
+     and have already obtained interesting results.
 
      Finally, we have been working on the implementation of Lina and
-     its webbased IDE.
+     its web-based IDE.
 
    - Significant Results:
 
-     We have finialized Lina's semantics and design and will be
+     We have finalized Lina's semantics and design and will be
      communicating it to the community in a future paper to be
      submitted to Graphical Models in Computer Security (GraMSec)
-     2018.
-
-     It can be found on the Arxiv:
-
-     ADD LINK
+     2018.     
 
    - Key outcomes or Other achievements:
      Nothing to report.
@@ -117,7 +113,7 @@ Accomplishments: What was done? What was learned?
   I have also been able to attend both the International Conference on
   Functional Programming (ICFP) 2017, and Logical Foundations of
   Computer Science 2018 to present my work, but both of these have
-  lead to new ideas and new collaboratios.
+  lead to new ideas and new collaborations.
 
   This semester one of my undergraduate research assistants, Aubrey
   Bryant, has had a talk accepted as part of the Augusta University
@@ -129,7 +125,7 @@ Accomplishments: What was done? What was learned?
   undergraduate research assistant on the dependent types angle of
   this project.
 
-  Both of these points significantly contribute to their developement
+  Both of these points significantly contribute to their development
   as young researchers.
 
 - How have the results been disseminated to communities of interest?
@@ -147,12 +143,12 @@ Accomplishments: What was done? What was learned?
 
   - My student, Aubrey Bryant, and I have found a new connection
     between our work on attack trees and Alexandra Silva's work on
-    POMSET languages that can be used to give a new efficent algorithm
+    POMSET languages that can be used to give a new efficient algorithm
     for attack trees with sequential composition.  We also found a
     counter example to the current known method in the literature, and
     so this work will fix that problem.
 
-  - Continue exploring the extenion to dependent types, and how it
+  - Continue exploring the extension to dependent types, and how it
     will impact substructural type theories in general.
 
 Products : What has the project produced?
@@ -167,7 +163,7 @@ Organizations - Who has been involved?
 - Who has been involved?
 
   Aubrey Bryant: Undergraduate student at Augusta University
-  Months: 3
+  Months: 1
 
   Working on a new algorithm for testing the equivalence of attack
   trees.
@@ -180,7 +176,7 @@ Organizations - Who has been involved?
   Jiaming Jiang: Graduate student at North Carolina State University
   Months: 3
 
-  Developmed the mathematical model in monoidal categories, and Lina's
+  Developed the mathematical model in monoidal categories, and Lina's
   core logic.
 
   Michael Townsend: Undergraduate student at Augusta University
@@ -195,7 +191,7 @@ Impact: What is the impact of the project? How has it contributed?
 I would like to reiterate what I reported during year 1, and that is
 that this award continues to have a major impact on our students,
 faculty, and department.  The students are impacted by being able to
-partipate in cutting edge research, and being introduced to visiting
+participate in cutting edge research, and being introduced to visiting
 graduate students which allows them to learn about graduate school.
 
 The faculty have benefited from the interaction with graduate students
@@ -210,7 +206,7 @@ proving, and verification using substructural logics which this award
 may lead to solutions to open problems.
 
 Finally, this award will lead to the submission of a CAREER award
-proposal which will be based on a generlization of the research in
+proposal which will be based on a generalization of the research in
 this award.
 
 - What is the impact on other disciplines?
@@ -218,7 +214,7 @@ this award.
   Our recent LFCS paper and Jiaming's draft on the non-commutative
   linear provides two solutions to open problem posed by computational
   linguist that asks whether exchange can be controlled via a modality
-  in the Lambek calculus.  Thus, having an impact on linguistitcs.
+  in the Lambek calculus.  Thus, having an impact on linguistics.
 
 - What is the impact on the development of human recourses (impact on
   human resource development)?
