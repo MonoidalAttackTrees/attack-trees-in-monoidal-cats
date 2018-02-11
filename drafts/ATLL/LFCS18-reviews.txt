@@ -1,0 +1,111 @@
+> ----------------------- REVIEW 1 ---------------------
+> PAPER: 28
+> TITLE: An Intuitionistic Linear Logical Semantics of SAND Attack Trees
+> AUTHORS: Harley Eades
+> 
+> Overall evaluation: -1 (weak reject)
+> 
+> ----------- Overall evaluation -----------
+> 
+> There is a potentially interesting idea behind this paper but at the
+> moment it does not go far. The aim is to provide semantics for a logic
+> with and, or and a sequential and. Fine but that makes sense when one
+> has some deductive system. That appears to be very weal if it is
+> carried by equivalence of SAND Attack Trees - Definition 1. Definition
+> 2 presents a model in a 4 valued logic and Lemma 2 is the claim that
+> it is sound (which should be pretty trivial) and complete for this
+> equivalence. That latter is a serious claim can it really be proved by
+> induction as claimed?  It is certainly not clearly true. After all
+> there are an awful lot of potentially distinct propositions and few
+> truth values.
+
+I didn't mean to do completeness here, and I agree this is worrying.
+I modified the result to be only soundness which is indeed trivial.
+
+> Section 4 is on lineales viz partially ordered models.
+> of linear logic. The significance of this is not clear to me and I am
+> disturbed by the fact that the definition of linear implication in
+> Definition 4 does not seem right.  In Section 5 we move to Dialectica
+> Models. There is straightforward background and then in Definition 9 a
+> proposed lifting to a 4-valued Dialectica model. The choice is not the
+> only one possible and no justification is given.  Again I take issue
+> with Lemma 10 which includes effectively another completeness claim.
+> Finally we get something by way of a full logic with SAND connectives
+> and the linear implication in section 6. The weight seems to be
+> carried by the complex contexts. I think that something interesting is
+> going on here but in the context of the paper it is hard to tell what.
+> The project to try to make logical sense of SAND attack trees is a
+> good one and the idea to take it s a kind of linear logic very
+> plausible but I do not think that what is presented in the paper
+> coheres into an account suitable for LFCS.
+> 
+> 
+> ----------------------- REVIEW 2 ---------------------
+> PAPER: 28
+> TITLE: An Intuitionistic Linear Logical Semantics of SAND Attack Trees
+> AUTHORS: Harley Eades
+> 
+> Overall evaluation: 2 (accept)
+> 
+> ----------- Overall evaluation -----------
+> 
+> This paper gives an (intuitionistic) linear logic modelling of
+> Schneier's "Attack Trees", a graphical model for analyzing secure
+> systems. The author analyzes Attack trees (and their equivalence)
+> using various semantics, notably certain Dialectica models of linear
+> logic. Indeed, the idea is to use monoidal categories as a basis for
+> various modellings, and appropriate linear logics as a formal logical
+> foundations for Attack trees. Indeed, the author introduces an Attack
+> Tree Linear Logic (ATLL)based in part on O'Hearn-Pym's "bunched
+> logic".  The author analyzes parallel and sequential conjunctions
+> among various operations (choice, distributive laws) on Attack
+> trees. The author notes that Sections 1-5 of the paper have been
+> formalized in Agda, and there is a continuing program to develop a
+> functional (and term) language for the ATLL logic system.
+> 
+> In general, I found this paper very interesting as an application of
+> intuitionistic linear logic to security: it is pleasant to read and
+> represents a novel development which seems to clarify more traditional
+> logical treatments in the literature.
+> 
+> 
+> ----------------------- REVIEW 3 ---------------------
+> PAPER: 28
+> TITLE: An Intuitionistic Linear Logical Semantics of SAND Attack Trees
+> AUTHORS: Harley Eades
+> 
+> Overall evaluation: -1 (weak reject)
+> 
+> ----------- Overall evaluation -----------
+> 
+> The paper develops a logical semantics of attack trees based on
+> intuitionistic linear logic. There are a number of interesting ideas
+> presented and discussed in the paper. The author should be encouraged
+> to develop them further. Large portions of the paper read like
+> expository material. It is not clear from the presentation what the
+> new results are, how significant is the difference from previous
+> literature, especially [8], and why the difference, if any, is
+> important specifically for attack trees. The author might revise the
+> paper accordingly and submit it to an appropriate specialized
+> workshop.
+> 
+> 
+> ----------------------- REVIEW 4 ---------------------
+> PAPER: 28
+> TITLE: An Intuitionistic Linear Logical Semantics of SAND Attack Trees
+> AUTHORS: Harley Eades
+> 
+> Overall evaluation: 1 (weak accept)
+> 
+> ----------- Overall evaluation -----------
+> 
+> This paper presents a logical foundation of SAND attac trees (from
+> security) in Intuitionistic Linear Logic.The motivation is convincing
+> even for a non-expert and the logical development seems to the referee
+> more or less ok It becomes obvious why the intuitionistic setting is
+> preferable (althoug this shouldbe explained also verbally) to the
+> classicaal setting (present in the literature)
+> 
+> Small criticism: Not all foundational works serves the applications
+> originally intended, which does not reduce its value. If real
+> applications are considered the complexity issue has to be raised!

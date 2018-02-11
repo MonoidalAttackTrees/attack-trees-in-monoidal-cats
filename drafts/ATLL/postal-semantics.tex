@@ -56,10 +56,11 @@ closed.
           \end{array}
           &
           \begin{array}{lll}
-          A \limp_4 B = 0, \text{where $B <_4 A$}\\
-          A \limp_4 A = A, \text{where $A \in \{\forth,\half\}$}\\
-          A \limp_4 B = 1, \text{otherwise}
-        \end{array}
+            A \limp_4 B = 0, \text{where $B <_4 A$}\\
+            A \limp_4 A = A, \text{where $A \in \{\forth,\half\}$}\\
+            \forth \limp_4 \half = \half\\
+            A \limp_4 B = 1, \text{otherwise}
+          \end{array}
         \end{array}
       \end{math}
     \end{center}
@@ -175,8 +176,8 @@ can be abstracted.
   Suppose $\mathbb{B}$ is some set of base attacks, and $\alpha :
   \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
   propositional variables.  Then for any attack trees $[[T1]]$ and
-  $[[T2]]$, $[[T1 ~ T2]]$ if and only if $\interp{[[T1]]} \leq_4 \interp{[[T2]]}$ and
-  $\interp{[[T2]]} \leq_4 \interp{[[T1]]}$.
+  $[[T2]]$, if $[[T1 ~ T2]]$, then $\interp{[[T1]]} \leq_4
+  \interp{[[T2]]}$ and $\interp{[[T2]]} \leq_4 \interp{[[T1]]}$.
 \end{lemma}
 \begin{proof}
   This proof holds by induction on the form of $[[T1 ~ T2]]$.
