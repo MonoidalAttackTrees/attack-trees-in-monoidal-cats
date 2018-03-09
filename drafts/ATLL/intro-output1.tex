@@ -1,180 +1,323 @@
-Attack trees are a type of tree based graphical model used in
-analyzing the threat potential of secure systems.  They were
-popularized by Bruce Schneier \cite{Schneier:1999} at the NSA and they
-were found to be affective at analyzing both physical and virtual
-secure systems.  An attack tree represents all possible ways to
-accomplish a particular attack on a system.  The root of the tree is
-the over all goal, and then each child node represents a refinement of
-the overall goal.  The leafs are particular attacks needed to
-accomplish the goal of the tree.  An example attack tree for attacking
-an ATM can be found in Figure~\ref{fig:atm-tree1}.
+%% - Better understanding the theory of attack trees
+%% - Specializations using implication
+%% - Lina!!
+Attack trees are perhaps the most popular graphical model used to
+conduct threat analysis of both physical and virtual secure
+systems. They were made popular by Bruce Schneier in the late nineties
+\cite{Schneier:1999}.  In those early years attack trees were studied
+and used as a syntactic tool to help guide analysis.  However, as
+systems grew more complex the need for a semantics of attack trees
+become apparent, after all, without a proper semantics how can we
+safely manipulate attack trees, extend the expressivity of attack
+trees, or compare them?
 
-In this paper attack trees have three types of branching nodes:
-and-node, or-nodes, and sequence-nodes.  And-nodes are depicted
-graphically by drawing a horizontal line linking the children nodes.
-This type of node represents a set of attacks that all must be
-executed, but there is no particular order on which must be executed
-first. Similarly, sequence-nodes are depicted by a horizontal arrow
-linking the children nodes.  These nodes represent ordered execution
-of attacks.  Finally, the remaining nodes are or-nodes which represent
-a choice between attacks.  This formalization of attack trees is known
-as SAND attack trees and were introduced by Jhawar
-et. al~\cite{Jhawar:2015}.
+A number of different models of attack trees have been proposed: a
+model in boolean algebras
+\cite{Kordy:2014,Kordy:2012,Pietre-Cambacedes:2010}, series-parallel
+pomsets \cite{Mauw:2006}, Petri nets \cite{McDermott:2001}, and tree
+automata \cite{Camtepe:2007}.  There have also been various
+extensions, such as, adding sequential composition \cite{Jhawar:2015},
+and defense nodes \cite{Kordy:2011,Kordy:2012}.  All of these models
+and extensions have their benefits, but at the heart of them all is
+logic.
 
-The way in which we describe attack trees suggests that they should be
-considered as describing a process in terms of smaller processes.
-Then each leaf of an attack tree represents a process -- an attack --
-that must be executed to reach the overall goal.  Branching nodes are
-then operators of process algebra.  Thus, an attack tree is a process
-tree representing an attack.
+The model in boolean algebras was the first and most elegant model of
+attack trees, but it failed to capture the process notion of attack
+trees, that is, the fact that base attacks are actual processes that
+need to be carried out, and the branching nodes composed these
+processes in different ways.  Thus, the community moved towards models
+of resources like parallel-series pomsets, Petri nets, and automata.
+However, the complexity of these models increased, and hence,
+comparing the models is difficult which makes it hard to decide which
+to use and under which circumstances, and so we have wondered, is
+there a means of recovering the elegant model in logic, and can this
+logic teach us anything new?
 
-Until recently attack trees have been primarily a tool without a
-theoretical foundation.  This has become worrisome, because several
-projects have used them to asses the security of large scale systems.
-Therefore, a leading question regarding attack trees is, what is a
-mathematical model of attack trees?  There have been numerous proposed
-answers to this question.  Some examples are propositional logic,
-multisets, directed acyclic graphs, source sink graphs (or
-parallel-series pomsets), Petri nets, and Markov processes.
+\textbf{Linear Logic.}  It is fitting that attack trees are the most
+popular model used in threat analysis, because one of the most widely
+studied logics used to reason about resources is \emph{linear logic}
+which is an excellent candidate for modeling attack trees.  In fact,
+Horne et al.\cite{horne2017semantics} has already produced a number of
+interesting results.  Most importantly, they show that attack trees
+can be modeled as formulas in linear logic, and then one can prove
+properties between attack trees by proving implications between them.
+Furthermore, by studying attack trees from a linear logical
+perspective they introduce a new property between attack trees called
+\emph{specializations}.  Prior to their paper the literature was
+primarily concerned with equality between attack trees, but
+implication allows us to break that equality up.  A specialization is
+a one way relationship between two attack trees that may even be
+influenced by the attack trees attribute domain; we will discuss
+specializations in more detail in Section~\ref{}.
 
-Give that there are quite a few different models one can then ask, is
-there a unifying foundation in common to each of these proposed
-models?  Furthermore, can this unifying foundation be used to further
-the field of attack trees and build new tools for conducting threat
-analysis?  This paper contributes to the answer of these questions.
-Each of the proposed models listed above have something in common.
-They can all be modeled in some form of a symmetric monoidal category
-\cite{Tzouvaras:1998,Brown:1991,Fiore:2013,FrancescoAlbasini2010}.
-That is all well and good, but what can we gain from monoidal
-categories?
+This paper has two main contributions, the first is a new simple
+linear logical semantics of causal attack trees -- attack trees with
+sequential composition -- in four-valued truth tables.  We show that
+our semantics is surprisingly expressive.  It supports
+specializations, and even lays outside of the semantics proposed by
+Horne et al.\cite{horne2017semantics}, because it combines in an
+interesting way what they call the \emph{ideal} and \emph{filter}
+semantics of causal attack trees.  However, the most appealing aspect
+of this semantics is that it is extremely simple.  Furthermore, we
+introduce a family of natural deduction systems based in the logic of
+bunched implications which were formed by studying the truth table
+semantics.
 
-Monoidal categories are a mathematical model of linear logic as
-observed through the beautiful Curry-Howard-Lambek correspondence
-\cite{Mellies:2009}.  In linear logic every hypothesis must be used
-exactly once, and hence, if we view a hypothesis as a resource, then
-this property can be stated as every resource must be consumed.  This
-is an ideal setting for reasoning about processes like attack trees.
-
-Multisets and Petri nets both capture the idea that the nodes of an
-attack tree consist of the attack action and the state -- the
-resource -- of the system being analyzed. As it turns out, linear
-logic has been shown to be a logical foundation for multisets
-\cite{Tzouvaras:1998} and Petri Nets \cite{Brown:1991}.  Thus, linear
-logic has the ability to model the state as well as attack actions of
-the goals of an attack tree.  
-
-In this paper\footnote{This material is based upon work supported by
-  the National Science Foundation CRII CISE Research Initiation grant,
-  ``CRII:SHF: A New Foundation for Attack Trees Based on Monoidal
-  Categories``, under Grant No. 1565557.} we introduce a new logical
-foundation of SAND attack trees in intuitionistic linear logic.  This
-new foundation is based on a new logic called the Attack Tree Linear
-Logic (ATLL).
-
-\begin{wrapfigure}{r}{0.5\textwidth}
-  \vspace{-45px}
-  \begin{center}
-    \includegraphics[scale=0.210]{ATM-Tree1}
-  \end{center}  
+\textbf{Functional Programming.} Our second contribution is Lina, a
+new domain specific functional programming language for conducting
+threat analysis using attack trees.  Consider the example attack trees
+in Fig.~\ref{fig:atm-tree1}.
+\begin{figure}  
+  \begin{tabular}{|l|l|}
+    \hline
+    \begin{tabular}{l}
+      \textbf{A.}\\
+    \hspace{-0.35in}
+    \begin{minipage}{2.5in}        
+    \begin{minted}[fontsize=\footnotesize]{haskell}
+      seq_node "ATM attack"
+       (and_node "get credientials"
+         (base_na "steal card")
+         (or_node "get PIN"
+          (base_na "social engineer")
+          (base_na "find a post-it")))
+       (base_na "withdraw money")
+    \end{minted}
+    \vspace{33px}
+    \end{minipage}
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \textbf{B.}\\
+      \begin{minipage}{2.5in}
+      \begin{minted}[fontsize=\footnotesize]{haskell}
+  or_node "ATM attack"
+   (seq_node "attack vector 1"
+      (and_node "get credentials 1"
+         (base_na "social engineer")
+         (base_na "steal card"))
+      (base_na "withdraw money"))
+   (seq_node "attack vector 2"
+      (and_node "get credentials 2"
+         (base_na "steal card")
+         (base_na "find a post-it"))
+      (base_na "withdraw money"))      
+      \end{minted}
+    \end{minipage}
+    \end{tabular}\\
+    \hline
+  \end{tabular}  
   \label{fig:atm-tree1}
-  \caption{Attack Tree for an ATM attack from Figure~1 on page 2 of Kordy et al.~\cite{Kordy2017}}
-  \vspace{-55px}
-\end{wrapfigure}
-In ATLL (Section~\ref{sec:the_attack_tree_linear_logic_(atll)}) attack
-trees are modeled as linear formulas where base attacks are atomic
-formulas, and each branching node corresponds to a binary logical
-connective.  Consider the attack tree for an ATM attack from
-Figure~\ref{fig:atm-tree1}.  We can model this attack tree as a
-formula in ATLL as follows:
-\[
-\begin{array}{lll}
-  \ATLLnt{B_{{\mathrm{1}}}} := \text{``steal card''}\\
-  \ATLLnt{B_{{\mathrm{2}}}} := \text{``social engineer''}\\
-  \ATLLnt{B_{{\mathrm{3}}}} := \text{``find a post-it''}\\
-  \ATLLnt{B_{{\mathrm{4}}}} := \text{``withdrawal money''}\\
-  \ATLLnt{T_{{\mathrm{1}}}} := \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{2}}}}  \sqcup  \ATLLnt{B_{{\mathrm{3}}}}  \ATLLsym{)}  \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}
-\end{array}
-\]
-Each $\ATLLnt{B_{\ATLLmv{i}}}$ is an atomic formula, parallel conjunction -- and-nodes
--- of attack trees is denoted by $\ATLLnt{T_{{\mathrm{1}}}}  \odot  \ATLLnt{T_{{\mathrm{2}}}}$, choice between
-attacks -- or-nodes -- by $\ATLLnt{T_{{\mathrm{1}}}}  \sqcup  \ATLLnt{T_{{\mathrm{2}}}}$, and sequential conjunction of
-attacks -- sequence-nodes -- by $\ATLLnt{T_{{\mathrm{1}}}}  \rhd  \ATLLnt{T_{{\mathrm{2}}}}$.  Parallel conjunction
-and choice are both symmetric, but sequential conjunction is not.  Now
-that we can model attack trees as formulas we should be able to use
-the logic to reason about attack trees.
-
-Reasoning about attack trees corresponds to proving implications
-between them.  In fact, every equation from Jhawar et al.'s
-work on attack trees with sequential conjunction \cite{Jhawar:2015}
-can be proven as an implication in ATLL.  Consider a second attack
-tree from Figure~\ref{fig:atm-tree2}.
-\begin{figure}
-  \begin{center}
-    \includegraphics[scale=0.35]{ATM-Tree2}
-  \end{center}
-  \caption{Canonical Attack Tree for an ATM attack from Figure~2 on page 3 of Kordy et al.~\cite{Kordy2017}}
-  \label{fig:atm-tree2}
+  \caption{Attack Tree for an ATM attack from Figure~1 (A) and Figure~2 (B) of Kordy et al.~\cite{Kordy2017}}
 \end{figure}
-We can model this attack tree as a formula in ATLL as well (the base
-attacks are the same):
-\[
-\begin{array}{lll}
-  \ATLLnt{T_{{\mathrm{2}}}} := \ATLLsym{(}  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{2}}}}  \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}  \ATLLsym{)}  \sqcup  \ATLLsym{(}  \ATLLsym{(}  \ATLLnt{B_{{\mathrm{1}}}}  \odot  \ATLLnt{B_{{\mathrm{3}}}}  \ATLLsym{)}  \rhd  \ATLLnt{B_{{\mathrm{4}}}}  \ATLLsym{)}
-\end{array}
-\]
-The attack trees $\ATLLnt{T_{{\mathrm{1}}}}$ and $\ATLLnt{T_{{\mathrm{2}}}}$ represents the same attack, and
-this can be proven in ATLL by showing that $\ATLLnt{T_{{\mathrm{1}}}}  \multimapboth  \ATLLnt{T_{{\mathrm{2}}}}$ where
-$ \multimapboth $ denotes bi-implication.  The proof holds by using the
-distributive rules for choice.
+Both of these are actual Lina programs, in fact every example in this
+paper are Lina programs. Lina supports causal attack trees both with
+attributes or without, thus, there are two types of base attacks:
+\underline{base} attacks \underline{w}ith \underline{a}ttributes,
+denoted \verb!base_wa!, and \underline{base} attacks \text{w}ith
+\underline{n}o \underline{a}ttributes, denoted \verb!base_na!.  Lina
+is designed to be extremely simple, and actually reflect the typical
+pseudocode found throughout the literature.  However, Lina is more
+than just a simple definitional language.
 
-Modeling attack trees in linear logic has a number of benefits.
-First, it connects attack trees back to logic, but in elegant and
-simple way.  Kordy et al.~\cite{Kordy2010,Kordy:2012} proposed that
-attack trees be modeled in propositional logic, but in this model
-attacks can be freely duplicated and contracted which goes against the
-process nature of an attack tree.  However, linear logic restores this
-natural interpretation without loosing the process interpretation of
-attack trees and without having to resort to complicated notation
-unlike models similar to the situation calculus \cite{Samarji2013}.
-By connecting attack trees to logic we can also tap into the long
-standing research and development of automation, for example, SAT,
-SMT, proof search, etc.  Finally, by connecting to logic we also
-connect to the theory of statically typed functional programming
-through the Curry-Howard-Lambek correspondence which will allow for
-the development of a programming language that can be used to certify
-the correctness of attack trees and the analysis performed using them.
-In particular, we can use ATLL to design a functional scripting
-language for the definition of attack trees that has the same
-semantics as attack trees.
+Lina is an embedded domain specific language whose host language is
+the Haskell programming language \cite{jones2003haskell}.  So, why
+purely functional and why strongly typed?  As security
+researchers/professionals we are in the business of verifying the
+correctness of various systems. Thus, our tools should be taking
+advantage of verification tools to insure that our constructions,
+tools, and analysis are correct.  By embedding Lina into Haskell we
+are able to take advantage of cutting edge verification tools while
+conducting threat analysis.  For example, right out the box Lina
+supports using property-based randomized testing using QuickCheck
+\cite{Claessen:2011:QLT:1988042.1988046}, and refinement types in
+Liquid Haskell \cite{Vazou:2014:RTH:2692915.2628161} to verify
+properties of our attack trees or the attribute domains used while
+analyzing attack trees.  Furthermore, strong typing helps catch bugs
+while we develop our attack trees and their attribute domains as a
+side-effect of type checking.  Finally, functional programs are short,
+but not obfuscated, and hence, allow for very compact and trustworthy
+programs.
 
-Before introducing ATLL we given several new logical models of attack
-trees starting in
-Section~\ref{sec:a_quaternary_semantics_for_sand_attack_trees} with a
-very basic truth table semantics.  Then we lift this semantics into a
-semantics of attack trees based on lineales in
-Section~\ref{sec:lineale_semantics_for_sand_attack_trees}, but this
-can be further lifted into a dialectica model which ATLL is based
-(Section~\ref{sec:dialectica_semantics_of_sand_attack_trees}).
+That being said, we are designing Lina so that it can be used with
+very little Haskell experience.  It is our hope that one will be able
+to make use of Lina without having to know how to write Haskell
+programs, and we plan to develop new tooling to support this.
 
-\textbf{Contributions.}  This paper offers the following
-contributions:
-\begin{itemize}
-\item The first simple truth table semantics of SAND attack trees,
-\item The first categorical model of attack trees in dialectica
-  categories,
-\item The Attack Tree Linear Logic (ATLL): a new intuitionistic linear
-  logic for the specification and analysis of attack trees.
+Lina is approaching threat analysis from a programming language
+perspective.  This approach leads to a number of new advances.  First,
+as Gadyatskaya and Trujillo-Rasua \cite{10.1007/978-3-319-74860-3_9}
+argue as a community we need to start building more automated means of
+conducting threat analysis, and there is no better way to build or
+connect automated tools than a programming language.  Lina is perfect
+as a target for new tools, and it can be connected to existing tools
+fairly easily.  In fact, Lina already supports automation using the
+automatic rewrite system Maude \cite{clavel2005maude}, for example,
+the two attack trees in Fig.~\ref{fig:atm-tree1} can be automatically
+proven equivalent to each other in Lina.  This is similar to Krody's
+\cite{Kordy2017} SPTool, but Lina goes further and supports more than
+one backend rewrite system, for example, Lina is the first tool to
+support automatically proving specializations of attack trees.  The
+user can choose which backend they wish to use.
 
-\item Horne et al.~\cite{horne2017semantics} propose to model attack
-  trees in linear logic as well, but their logic is based on classical
-  linear logic, and does not support full distribution of sequential
-  conjunction over choice, while ATLL does.
-\end{itemize}
+We have a number of extensions planned for the future like supporting
+attack-defense trees, attack(-defense) graphs, and attack nets. We
+plan to support even more automation using SAT and SMT solvers.  It is
+our hope that Lina grows into a one stop shop for threat analysis.
 
-Every section except
-Section~\ref{sec:the_attack_tree_linear_logic_(atll)} has been
-formalized in the Agda proof assistant\footnote{The Agda formalization
-  can be found here
-  \url{https://github.com/MonoidalAttackTrees/ATLL-Formalization}}.
-Furthermore, all of the syntax used in this paper was formalized using
-OTT~\cite{Sewell:2010}.
+\begin{figure}
+  \begin{tabular}{|l|l|}
+    \hline
+    \begin{tabular}{l}
+      \textbf{A.}\\
+      \begin{minipage}{\textwidth/2}
+        \vspace{3px}
+        \begin{minted}[fontsize=\footnotesize]{haskell}
+ and_node "obtain secret"
+  (or_node "obtain encryped file"
+     (base_na "bribe sysadmin")
+     (base_na "steal backup"))
+  (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger"))
+        \end{minted}
+        \vspace{-3px}
+      \end{minipage}      
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \textbf{B.}\\
+      \begin{minipage}{\textwidth/2-5.6px}
+        \vspace{3px}
+        \begin{minted}[fontsize=\footnotesize]{haskell}
+ and_node "obtain secret"
+  (or_node "obtain encryped file"
+     (base_na "bribe sysadmin")
+     (base_na "steal backup"))
+  (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger"))
+        \end{minted}
+        \vspace{-3px}
+      \end{minipage}      
+    \end{tabular}
+    \\    
+    \hline
+  \end{tabular}\vspace{-2px}
+  \begin{tabular}{|l|}
+    \begin{tabular}{l}
+      \\[-9.8px]
+    \textbf{C.}\\
+      \begin{minipage}{\textwidth}
+        \begin{minted}[fontsize=\footnotesize]{haskell}
+ or_node "obtain secret"
+  (and_node "obtain secret via sysadmin"
+   (base_na "bribe sysadmin")
+   (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger")))
+   (seq_node "break in, then obtain secrect"
+     (base_na "break into system")
+     (and_node "obtain secret from inside"
+       (base_na "install keylogger")
+       (base_na "steal backup")))        
+        \end{minted}
+        \vspace{2px}
+      \end{minipage}
+    \end{tabular}
+    \\
+    \hline
+  \end{tabular}
+    \caption{Encrypted Data Attack from Figure~1 (A), Figure~3 (B), and Figure~2 (C) of Horne et al.~\cite{horne2017semantics}}
+    \label{fig:2}
+  \end{figure}
+
+\begin{figure}
+      \begin{tabular}{|l|}
+        \hline\\[-7px]
+      \begin{minipage}{\textwidth}
+        \begin{minted}[fontsize=\footnotesize]{haskell}
+vehicle_attack :: APAttackTree Double String
+vehicle_attack = start_PAT $
+  or_node "Autonomous Vehicle Attack"
+    (seq_node "external sensor attack"
+       (base_wa 0.2 "modify street signs to cause wreck")
+       (and_node "social engineering attack"
+          (base_wa 0.6 "pose as mechanic")
+          (base_wa 0.1 "install malware")))
+    (seq_node "over night attack"
+       (base_wa 0.05 "Find address where car is stored")
+       (seq_node "compromise vehicle"
+          (or_node "break in"
+             (base_wa 0.8 "break window")
+             (base_wa 0.5 "disable door alarm/locks"))
+          (base_wa 0.1 "install malware")))
+        \end{minted}
+        \vspace{2px}
+      \end{minipage} \\
+      \hline
+    \end{tabular}
+  \caption{Lina Script for an Autonomous Vehicle Attack}
+  \label{fig:vehicle_attack}
+\end{figure}
+
+\begin{figure}  
+  \begin{tabular}{|l|l|l|}
+    \hline \\[-7px]    
+    \begin{tabular}{l}
+    \\[-9.8px]
+    \begin{minipage}{\textwidth}        
+      \begin{minted}[fontsize=\scriptsize]{haskell}
+          OR("Autonomous Vehicle Attack",0.6)
+	    (SEQ("external sensor attack",0.6)
+	       ("modify street signs to cause wreck",0.2)
+	       (AND("social engineering attack",0.6)
+	          ("pose as mechanic",0.6)
+		  ("install malware",0.1)))
+      \end{minted}
+      \vspace{2px}
+    \end{minipage}
+    \end{tabular}
+    \\
+    \hline\\[-7px]    
+    \begin{tabular}{l}
+    \\[-9.8px]
+    \begin{minipage}{\textwidth}        
+      \begin{minted}[fontsize=\scriptsize]{haskell}
+          OR("Autonomous Vehicle Attack",0.6)
+	    (SEQ("external sensor attack",0.6)
+	       ("modify street signs to cause wreck",0.2)
+	       (AND("social engineering attack",0.6)
+	          ("pose as mechanic",0.6)
+		  ("install malware",0.1)))
+      \end{minted}
+      \vspace{2px}
+    \end{minipage}
+    \end{tabular}
+    \\
+    \hline\\[-7px]    
+    \begin{tabular}{l}
+    \\[-9.8px]
+    \begin{minipage}{\textwidth}        
+      \begin{minted}[fontsize=\scriptsize]{haskell}
+          OR("Autonomous Vehicle Attack",0.6)
+	    (SEQ("external sensor attack",0.6)
+	       ("modify street signs to cause wreck",0.2)
+	       (AND("social engineering attack",0.6)
+	          ("pose as mechanic",0.6)
+		  ("install malware",0.1)))
+      \end{minted}
+      \vspace{2px}
+    \end{minipage}
+    \end{tabular}\\
+    \hline
+  \end{tabular}
+  \caption{Set of Possible Attacks for an Autonomous Vehicle Attack}
+  \label{fig:vehicle_attack}
+\end{figure}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: main.tex
+%%% End: 

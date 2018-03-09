@@ -1,16 +1,16 @@
 \documentclass{llncs}
 
 \usepackage{wrapfig}
-\usepackage{amssymb,amsmath,txfonts,mathtools}
+\usepackage{amssymb,amsmath,mathtools}
 \usepackage{cmll}
 \usepackage{stmaryrd}
 \usepackage{todonotes}
 \usepackage{mathpartir}
 \usepackage{hyperref}
-\usepackage[barr]{xy}
 \usepackage{mdframed}
 \usepackage{thmtools, thm-restate}
 \usepackage{enumitem}
+\usepackage{minted}
 
 %% This renames Barr's \to to \mto.  This allows us to use \to for imp
 %% and \mto for a inline morphism.
@@ -75,134 +75,23 @@
 %% \newtheorem{observation}[theorem]{Observation}
 
 %% Ott
-\input{attack-trees-ott}
-\input{atll-ott}
-\input{oll-ott}
 \input{aterms-ott}
-\renewcommand{\ATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,#4}}
-\renewcommand{\ATLLdruleLXXvarName}{\text{id}}
-\renewcommand{\ATLLdruleLXXnodeName}{\text{base}}
-\renewcommand{\ATLLdruleLXXCtxName}{\text{CM}}
-\renewcommand{\ATLLdruleLXXparaIName}{\odot_i}
-\renewcommand{\ATLLdruleLXXchoiceIName}{\sqcup_i}
-\renewcommand{\ATLLdruleLXXseqIName}{\rhd_i}
-\renewcommand{\ATLLdruleLXXparaEName}{\odot_e}
-\renewcommand{\ATLLdruleLXXchoiceEName}{\sqcup_e}
-\renewcommand{\ATLLdruleLXXseqEName}{\rhd_e}
-\renewcommand{\ATLLdruleLXXlimpIName}{\limp_i}
-\renewcommand{\ATLLdruleLXXlimpEName}{\limp_e}
-\renewcommand{\ATLLdruleCXXidName}{\text{id}}
-\renewcommand{\ATLLdruleCXXcName}{\text{comp}}
-\renewcommand{\ATLLdruleCXXaOneName}{\text{assoc}}
-\renewcommand{\ATLLdruleCXXuOneName}{\text{unit}_1}
-\renewcommand{\ATLLdruleCXXuTwoName}{\text{unit}_2}
-\renewcommand{\ATLLdruleCXXeOneName}{\text{ex}_1}
-\renewcommand{\ATLLdruleCXXeTwoName}{\text{ex}_2}
-\renewcommand{\ATLLdruleCXXdOneName}{\text{dist}_1}
-\renewcommand{\ATLLdruleCXXdTwoName}{\text{dist}_2}
-\renewcommand{\ATLLdruleCXXdThreeName}{\text{dist}_3}
-\renewcommand{\ATLLdruleCXXdFourName}{\text{dist}_4}
-\renewcommand{\ATLLdruleCXXWeakName}{}
-\renewcommand{\ATLLdruleATXXvarName}{\text{id}}
-\renewcommand{\ATLLdruleATXXnodeName}{\text{base}}
-\renewcommand{\ATLLdruleATXXparaIName}{\odot_i}
-\renewcommand{\ATLLdruleATXXchoiceIName}{\sqcup_i}
-\renewcommand{\ATLLdruleATXXseqIName}{\rhd_i}
+\input{atll-ott}
 
-%% \renewcommand{\IATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\IATLLdrulename{#4}}}
-%% \renewcommand{\IATLLdrulename}[1]{#1}
-%% \renewcommand{\IATLLdruleTXXvarName}{\text{id}_{\odot}}
-%% \renewcommand{\IATLLdruleTXXparaName}{\odot}
-%% \renewcommand{\IATLLdruleTXXseqName}{\rhd}
-%% \renewcommand{\IATLLdruleTXXchoiceName}{\sqcup}
-
-%% \renewcommand{\IATLLdruleEXXvarName}{\text{id}_{\odot}}
-%% \renewcommand{\IATLLdruleEXXvarCName}{\text{id}_{\rhd}}
-%% \renewcommand{\IATLLdruleEXXvarCCName}{\text{id}_{\sqcup}}
-%% \renewcommand{\IATLLdruleEXXdistParaOneName}{\text{dis}_{\odot_1}}
-%% \renewcommand{\IATLLdruleEXXdistSeqOneName}{\text{dis}_{\rhd_1}}
-%% \renewcommand{\IATLLdruleEXXdistParaTwoName}{\text{dis}_{\odot_2}}
-%% \renewcommand{\IATLLdruleEXXdistSeqTwoName}{\text{dis}_{\rhd_2}}
-%% \renewcommand{\IATLLdruleEXXparaIName}{\odot_I}
-%% \renewcommand{\IATLLdruleEXXparaEName}{\odot_E}
-%% \renewcommand{\IATLLdruleEXXseqIName}{\rhd_I}
-%% \renewcommand{\IATLLdruleEXXseqEName}{\rhd_E}
-%% \renewcommand{\IATLLdruleEXXexPName}{\text{sym}_\odot}
-%% \renewcommand{\IATLLdruleEXXexCName}{\text{sym}_\sqcup}
-%% \renewcommand{\IATLLdruleEXXimpIName}{\multimap_I}
-%% \renewcommand{\IATLLdruleEXXimpEName}{\multimap_E}
-%% \renewcommand{\ATLLdruleEXXcompName}{\text{comp}_\multimap}
-
-%% \renewcommand{\ATLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\ATLLdrulename{#4}}}
-%% \renewcommand{\ATLLdrulename}[1]{#1}
-%% \renewcommand{\ATLLdruleTXXvarName}{\text{id}_{\odot}}
-%% \renewcommand{\ATLLdruleTXXparaName}{\odot}
-%% \renewcommand{\ATLLdruleTXXseqName}{\rhd}
-%% \renewcommand{\ATLLdruleTXXchoiceName}{\sqcup}
-
-%% \renewcommand{\ATLLdruleEXXvarName}{\text{id}_{\odot}}
-%% \renewcommand{\ATLLdruleEXXvarCName}{\text{id}_{\rhd}}
-%% \renewcommand{\ATLLdruleEXXvarCCName}{\text{id}_{\sqcup}}
-%% \renewcommand{\ATLLdruleEXXdistParaOneName}{\text{dis}_{\odot_1}}
-%% \renewcommand{\ATLLdruleEXXdistSeqOneName}{\text{dis}_{\rhd_1}}
-%% \renewcommand{\ATLLdruleEXXdistParaTwoName}{\text{dis}_{\odot_2}}
-%% \renewcommand{\ATLLdruleEXXdistSeqTwoName}{\text{dis}_{\rhd_2}}
-%% \renewcommand{\ATLLdruleEXXparaIName}{\odot_I}
-%% \renewcommand{\ATLLdruleEXXparaEName}{\odot_E}
-%% \renewcommand{\ATLLdruleEXXseqIName}{\rhd_I}
-%% \renewcommand{\ATLLdruleEXXseqEName}{\rhd_E}
-%% \renewcommand{\ATLLdruleEXXexPName}{\text{sym}_\odot}
-%% \renewcommand{\ATLLdruleEXXexCName}{\text{sym}_\sqcup}
-%% \renewcommand{\ATLLdruleEXXimpIName}{\multimap_I}
-%% \renewcommand{\ATLLdruleEXXimpEName}{\multimap_E}
-%% \renewcommand{\ATLLdruleEXXweakCName}{\text{wk}_\sqcup}
-%% \renewcommand{\ATLLdruleEXXweakPName}{\text{wk}_\odot}
-%% \renewcommand{\ATLLdruleEXXweakSName}{\text{wk}_\rhd}
-%% \renewcommand{\ATLLdruleEXXchoiIName}{\sqcup_I}
-%% \renewcommand{\ATLLdruleEXXchoiEName}{\sqcup_E}
-%% \renewcommand{\IATLLdruleEXXchoiIName}{\sqcup_I}
-%% \renewcommand{\IATLLdruleEXXchoiEName}{\sqcup_E}
-%% \renewcommand{\ATLLdruleEXXdupName}{\text{dup}_\sqcup}
-%% \renewcommand{\IATLLdruleEXXdupName}{\text{dup}_\sqcup}
-%% \renewcommand{\ATLLdruleEXXcontName}{\text{cont}_\sqcup}
-%% \renewcommand{\IATLLdruleEXXcontName}{\text{cont}_\sqcup}
-
-%% \renewcommand{\OLLdrule}[4][]{{\displaystyle\frac{\begin{array}{l}#2\end{array}}{#3}\,\OLLdrulename{#4}}}
-%% \renewcommand{\OLLdrulename}[1]{#1}
-%% \renewcommand{\OLLdrulevarName}{\text{id}_{\odot}}
-%% \renewcommand{\OLLdrulevarCName}{\text{id}_{\rhd}}
-%% \renewcommand{\OLLdruleparaIName}{\odot_I}
-%% \renewcommand{\OLLdruleparaEName}{\odot_E}
-%% \renewcommand{\OLLdruleseqIName}{\rhd_I}
-%% \renewcommand{\OLLdruleseqEName}{\rhd_E}
-%% \renewcommand{\OLLdruleexName}{\text{sym}_\odot}
-%% \renewcommand{\OLLdruleimpIName}{\multimap_I}
-%% \renewcommand{\OLLdruleimpEName}{\multimap_E}
-%% \renewcommand{\OLLdruleTopName}{\top}
-%% \renewcommand{\OLLdruleconjIName}{\times_I}
-%% \renewcommand{\OLLdruleconjEOneName}{\times_{E_1}}
-%% \renewcommand{\OLLdruleconjETwoName}{\times_{E_2}}
-  
 \begin{document}
 
-\title{An Intuitionistic Linear Logical Semantics of SAND Attack Trees}
+\title{On Linear Logic, Functional Programming, and Attack Trees}
 
-\author{Harley Eades III}
-\institute{Computer Science\\Augusta University \\ \href{mailto:heades@augusta.edu}{harley.eades@gmail.com}}
+\author{Harley Eades III\inst{1} \and Jiaming Jiang\inst{2} \and Aubrey Bryant\inst{1}}
 
-\maketitle 
+\institute{Computer Science, Augusta University, \href{mailto:harley.eades@gmail.com}{harley.eades@gmail.com}
+\and
+Computer Science, North Carolina State University}
+
+\maketitle
 
 \begin{abstract}
-  In this paper we introduce a new logical foundation of SAND attack
-  trees in intuitionistic linear logic.  This new foundation is based
-  on a new logic called the Attack Tree Linear Logic (ATLL).  Before
-  introducing ATLL we given several new logical models of attack trees,
-  the first, is a very basic model based in truth tables.  Then we lift
-  this semantics into a semantics of attack trees based on lineales
-  which introduces implication, but this can be further lifted into a
-  dialectica model which ATLL is based.  One important feature of ATLL
-  is that it supports full distributivity of sequential conjunction
-  over choice.
+  TODO
 \end{abstract}
 
 \section{Introduction}
@@ -214,21 +103,20 @@
 \input{attack-trees-output}
 % section sand_attack_trees (end)
 
-
 \section{A Quaternary Semantics for SAND Attack Trees}
 \label{sec:a_quaternary_semantics_for_sand_attack_trees}
 \input{quaternary-semantics-output}
 % section a_ternary_semantics_for_sand_attack_trees (end)
 
-\section{Lineale Semantics for SAND Attack Trees}
-\label{sec:lineale_semantics_for_sand_attack_trees}
-\input{postal-semantics-output}
+%% \section{Lineale Semantics for SAND Attack Trees}
+%% \label{sec:lineale_semantics_for_sand_attack_trees}
+%% \input{postal-semantics-output}
 % section postal_semantics_for_sand_attack_trees (end)
 
-\section{Dialectica Semantics of SAND Attack Trees}
-\label{sec:dialectica_semantics_of_sand_attack_trees}
-\input{dialectica-semantics-output}
-% section dialectica_semantics_of_sand_attack_trees (end)
+%% \section{Dialectica Semantics of SAND Attack Trees}
+%% \label{sec:dialectica_semantics_of_sand_attack_trees}
+%% \input{dialectica-semantics-output}
+%% % section dialectica_semantics_of_sand_attack_trees (end)
 
 \section{The Attack Tree Linear Logic (ATLL)}
 \label{sec:the_attack_tree_linear_logic_(atll)}
