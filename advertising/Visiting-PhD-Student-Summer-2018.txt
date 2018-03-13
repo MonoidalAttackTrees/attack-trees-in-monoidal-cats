@@ -1,0 +1,96 @@
+Are you or do you know a PhD student looking for an exciting new
+research project to join this summer?  You are in luck!
+
+I am looking for a visiting PhD student for summer 2018 to collaborate
+with me on a funded NSF project studying at the intersection of
+graphical models of security, functional programming using category
+theory, linear logic, and dependent types for substructrual logics.
+
+There are two ongoing projects the student can join depending on their
+interests.
+
+=Project 1:=
+
+CRII: SHF: A New Foundation for Attack Trees Based on Monoidal Categories
+
+In short, the project aims to give a new mathematical foundation of
+attack trees using monoidal categories, and then by capitalizing on
+the Curry-Howard-Lambek correspondence defining a new domain-specific
+functional programming language based in linear logic where types will
+correspond to attack trees, and programs to semantically valid
+transformations on attack trees called Lina for Linear Threat
+Analysis.
+
+More information on the project including the complete proposal can be
+found here:
+
+https://github.com/MonoidalAttackTrees
+
+The Lina language is under active developement, you can find the
+language here:
+
+https://github.com/MonoidalAttackTrees/Lina
+
+=Project 2:=
+
+In collaboration with Dominc Orchard, and his student Vilem Liepelt,
+at the University of Kent, we are working on a new linear dependent
+type theory based on graded modal type theory.  This project is just
+getting started, but we do have some initial results.
+
+The interested student would help with the specification of our
+new type theory, as well as, exploring categorical models, and/or
+even implementation of the language prototype.
+
+Both of these projects have lots of exciting problems to solve.
+
+=Who I am looking for?=
+
+I am looking for an energetic and passionate student to work closely
+with me on one of the above projects during the summer of 2018, more
+specfically, approximately through the following dates:
+
+May 1, 2018 - August 1, 2018
+
+The hope is for the student and I to work towards some results that
+can be published during the following academic year.
+
+The student should have an *interest* in the some of the following
+topics:
+
+- Models of security,
+- Categorical logic,
+- Intuitionistic linear logic,
+- Dependent type theory, or
+- The design and anlysis of statically-typed functional programming
+  languages.
+
+Experience in category theory is a plus, but not strictly required as
+long as the student is willing to learn.
+
+This opporunity comes with a $5,000 stipend to cover food and lodging
+during the visit.  I have additional money to pay for your travel.
+
+=Who am I?=
+
+I am a rather new professor in computer science at Augusta University
+in the wonderful Augusta Georgia.  More about me here:
+
+http://metatheorem.org/
+
+Augusta is perfectly positioned on the border of Georiga and South
+Carolina only two and a half hours from Savannah, GA and the beach at
+Tybee Island.  In addition, we are only three hours away from the
+Great Smokey Mountains for those who enjoy the great outdoors.
+
+This is an equal opportunity for all! All interested applicants will
+receive consideration without regard to race, color, religion, sex,
+national origin, disability status, protected veteran status, or any
+other characteristic protected by law.
+
+I welcome emails from anyone who is interested!
+
+Very best,
+Harley Eades
+
+

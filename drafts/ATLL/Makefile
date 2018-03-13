@@ -43,7 +43,7 @@ atll-output.tex : atll.tex atll/atll.ott
 	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
 		-tex_filter atll.tex atll-output.tex
 
-main.pdf : main.tex ref.bib Makefile attack-trees-output.tex intro-output.tex quaternary-semantics-output.tex atll-output.tex postal-semantics-output.tex rfw-output.tex
+main.pdf : main.tex ref.bib Makefile attack-trees-output.tex intro-output.tex quaternary-semantics-output.tex atll-output.tex postal-semantics-output.tex rfw-output.tex Lina.tex
 	$(PDFLATEX) -shell-escape -jobname=main main.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -shell-escape -jobname=main main.tex
@@ -62,7 +62,8 @@ TEXFILES = llncs.cls\
 	   attack-trees-output.tex \
 	   quaternary-semantics-output.tex \
 	   atll-output.tex \
-	   rfw-output.tex
+	   rfw-output.tex \
+	   Lina.tex
 
 create-arxiv : $(TEXFILES)
 	mkdir -p arxiv

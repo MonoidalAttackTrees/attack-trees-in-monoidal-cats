@@ -98,104 +98,31 @@ Computer Science, North Carolina State University}
 \label{sec:introduction}
 \input{intro-output}
 
-\section{SAND Attack Trees}
-\label{sec:sand_attack_trees}
+\section{Causal Attack Trees}
+\label{sec:causal_attack_trees}
 \input{attack-trees-output}
-% section sand_attack_trees (end)
+% section causal_attack_trees (end)
 
-\section{A Quaternary Semantics for SAND Attack Trees}
-\label{sec:a_quaternary_semantics_for_sand_attack_trees}
+\section{A Quaternary Semantics for Causal Attack Trees}
+\label{sec:a_quaternary_semantics_for_causal_attack_trees}
 \input{quaternary-semantics-output}
-% section a_ternary_semantics_for_sand_attack_trees (end)
+% section a_ternary_semantics_for_causal_attack_trees (end)
 
-%% \section{Lineale Semantics for SAND Attack Trees}
-%% \label{sec:lineale_semantics_for_sand_attack_trees}
-%% \input{postal-semantics-output}
-% section postal_semantics_for_sand_attack_trees (end)
+%% \section{The Attack Tree Linear Logic (ATLL)}
+%% \label{sec:the_attack_tree_linear_logic_(atll)}
+%% \input{atll-output}
+%% % section the_attack_tree_linear_logic_(atll) (end)
 
-%% \section{Dialectica Semantics of SAND Attack Trees}
-%% \label{sec:dialectica_semantics_of_sand_attack_trees}
-%% \input{dialectica-semantics-output}
-%% % section dialectica_semantics_of_sand_attack_trees (end)
+\section{Lina: An EDSL for Conducting Threat Analysis using Causal Attack Trees}
+\label{sec:lina:_an_edsl_for_conducting_threat_analysis_using_causal_attack_trees}
+\input{Lina}
+% section lina:_an_edsl_for_conducting_threat_analysis_using_causal_attack_trees (end)
 
-\section{The Attack Tree Linear Logic (ATLL)}
-\label{sec:the_attack_tree_linear_logic_(atll)}
-\input{atll-output}
-% section the_attack_tree_linear_logic_(atll) (end)
-
-\section{Related and Future Work}
-\label{sec:related_and_future_work}
-\input{rfw-output}
-% section related_and_future_work (end)
-
-
-%% \section{A Brief Introduction to Ordered Linear Logic}
-%% \label{sec:a_brief_introduction_to_ordered_linear_logic}
-%% \input{oll-output}
-%% % section a_brief_introduction_to_ordered_linear_logic (end)
-
-
-%% \section{Attack Trees without Costs}
-%% \label{sec:attack_trees_without_costs}
-%% \input{attack-trees-output}
-%% % section attack_trees_without_costs (end)
-
-%% \section{Attack Trees with Costs}
-%% \label{sec:attack_trees_with_costs}
-%% \input{indexed-atll-output}
-% section attack_trees_with_costs (end)
 
 %% \section{Related and Future Work}
-%% \label{sec:related_work}
-%% The following summarizes related work and proposes a few open
-%% problems:
-%% \begin{itemize}
-%% \item Attack trees with sequential conjunction were first proposed by
-%%   Jhawar et al.~\cite{Jhawar:2015}.  They found their attack trees in
-%%   sets of series-parallel graphs.  The foundation given here offers a
-%%   new perspective by founding attack trees in linear logic.
-
-%% \item Kordy et al.~\cite{Kordy2010,Kordy:2012} proposed that attack
-%%   trees be modeled in propositional logic.  Their work provided many
-%%   insights into how to use logic to model attack trees, but
-%%   propositional logic does not enforce the concurrency aspect of
-%%   attack trees.  This is regained in ATLL by using linear logic.
-%%   There is a rich amount of research that has gone into giving linear
-%%   logic a game semantics \cite{Abramsky1999}.  I propose an open
-%%   problem, in the spirit of Kordy et al.~\cite{Kordy2010} \textbf{can
-%%     we use a game semantics of linear logic to model attack trees?}
-%%   This would provide the same benefits as their work, but with the
-%%   resource semantics left intact.
-  
-%% \item Samarji et al.~\cite{Samarji2013} propose that graph based
-%%   attack-defense models can be automatically constructed using and
-%%   extension of John McCarthy's situation calculus.  Originally the
-%%   situation calculus did not contain the ability to model concurrent
-%%   attacks, but has since been updated to allow the modeling of
-%%   concurrency \cite{Reiter96naturalactions,Pinto:1994:TRS:921488}. An
-%%   additional sort had to be added to the situation calculus called
-%%   $\mathsf{concurrent}$ whose inhabitants are all concurrent actions.
-%%   This is in contrast to linear logic where concurrency and state
-%%   change are innate properties of the logic.  Thus, linear logic is
-%%   more fundamental than the situation calculus.  This shows up already
-%%   in ATLL which correctly models attack trees in a simpler system --
-%%   propositional linear logic -- than the situation calculus --
-%%   first-order logic.  Furthermore, this opens up an interesting
-%%   questions, \textbf{can one model the situation calculus in first-order
-%%   linear logic?} This needs to be explored.
-%% \end{itemize}
-%% \noindent
-%% \textbf{Future work.} My students and I are working on designing and
-%% implementing a term-assignment to the fully general version of Indexed
-%% ATLL.  Under the Curry-Howard-Lambek correspondence this will produce
-%% a statically-typed functional programming language for specifying and
-%% reasoning about attack trees.  We hope to then study the feasibility
-%% of constructing a means of automatically constructing and reasoning
-%% about attack trees in a proof producing manner.  Finally, we are
-%% looking into if it is possible to use current graphical models of
-%% linear logic in string diagrams and proof nets to reason about attack
-%% trees graphically.
-% section related_work (end)
+%% \label{sec:related_and_future_work}
+%% \input{rfw-output}
+%% % section related_and_future_work (end)
 
 \bibliographystyle{plain}
 \bibliography{ref}

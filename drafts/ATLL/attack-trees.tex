@@ -1,5 +1,9 @@
-In this section we introduce SAND attack trees.  This formulation of
-attack trees was first proposed by Jhawar et al. \cite{Jhawar:2015}.
+We begin by introducing causal attack trees.  This formulation of
+attack trees was first proposed by Jhawar et al. \cite{Jhawar:2015}
+where they called them causal attack trees, but sequential composition
+does not always meet the same properties as conjunction, for example,
+classically it is a self dual operator, thus, we follow Horne et al.'s
+lead \cite{horne2017semantics} and call them causal attack trees.
 \begin{definition}
   \label{def:atrees}
   Suppose $\mathsf{B}$ is a set of base attacks whose elements are
@@ -7,7 +11,7 @@ attack trees was first proposed by Jhawar et al. \cite{Jhawar:2015}.
   the following grammar:
   \[
   \begin{array}{lll}
-    [[A]],[[B]],[[C]],[[T]] := [[b]] \mid [[OR(A,B)]] \mid [[AND(A,B)]] \mid [[SAND(A,B)]]\\
+    [[A]],[[B]],[[C]],[[T]] := [[b]] \mid [[OR(A,B)]] \mid [[AND(A,B)]] \mid [[SEQ(A,B)]]\\
   \end{array}
   \]
   \noindent
@@ -17,25 +21,29 @@ attack trees was first proposed by Jhawar et al. \cite{Jhawar:2015}.
     \begin{math}
       \setlength{\arraycolsep}{10px}
       \begin{array}{lll}
-        (\text{E}_1) & [[OR(OR(A,B),C) ~ OR(A,OR(B,C))]]\\
-        (\text{E}_2) & [[AND(AND(A,B),C) ~ AND(A,AND(B,C))]]\\
-        (\text{E}_3) & [[SAND(SAND(A,B),C) ~ SAND(A,SAND(B,C))]]\\
-        (\text{E}_4) & [[OR(A,B) ~ OR(B,A)]]\\
-        (\text{E}_5) & [[AND(A,B) ~ AND(B,A)]]\\
-        (\text{E}_6) & [[AND(A,OR(B,C)) ~ OR(AND(A,B),AND(A,C))]]\\
-        (\text{E}_7) & [[SAND(A,OR(B,C)) ~ OR(SAND(A,B),SAND(A,C))]]\\
+        [[OR(A,A) ~ A]]\\
+        [[OR(OR(A,B),C) ~ OR(A,OR(B,C))]]\\
+        [[AND(AND(A,B),C) ~ AND(A,AND(B,C))]]\\
+        [[SEQ(SEQ(A,B),C) ~ SEQ(A,SEQ(B,C))]]\\
+        [[OR(A,B) ~ OR(B,A)]]\\
+        [[AND(A,B) ~ AND(B,A)]]\\
+        [[AND(A,OR(B,C)) ~ OR(AND(A,B),AND(A,C))]]\\
+        [[SEQ(A,OR(B,C)) ~ OR(SEQ(A,B),SEQ(A,C))]]\\
       \end{array}
     \end{math}
   \end{center}
 \end{definition}
-This definition of SAND attack trees differs slightly from Jhawar
+This definition of causal attack trees differs slightly from Jhawar
 et. al.'s~\cite{Jhawar:2015} definition.  They define $n$-ary
 operators, but we only consider the binary case, because it fits better
 with the models presented here and it does not loose any generality
 because we can model the $n$-ary case using binary operators in the
-obvious way.  Finally, they also include the equivalence $[[OR(A,A) ~
-    A]]$, but it is not obvious how to include this in the models
-presented here and we leave its addition to future work.
+obvious way.
+
+Throughout the sequel we will show that the previous rules are sound
+with respect to our new models, but just as Horne et
+al. \cite{horne2017semantics} we will then show that there are
+properties of attack trees that these rules do not support.
 
 %%% Local Variables: 
 %%% mode: latex

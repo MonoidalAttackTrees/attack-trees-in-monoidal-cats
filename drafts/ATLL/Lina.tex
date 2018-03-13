@@ -1,0 +1,274 @@
+%% - Different types of attack trees
+%%    - Process
+%%    - Attributed
+%%    - Full
+%%    - Configurations (change this to attribute domains?)
+%%      - We don't yet support or_node operators
+%% - The AT data types
+%%   - Mention their generality (polymorphism)
+%% - Syntax
+%%   - Should this be a grammar? yes
+%% - Backend support
+%%   - Flexibility in an id labeled tree where attributes and labels are isolated in tables
+%%   - Maude  
+%%     - Causal AT Eq
+%%     - Quaternary Semantics (specializations)
+%%       - We can automatically prove the example from the last section.
+%% - Attribute domains
+%%    - Generating attacks
+%%    - Ordering attacks based on type classes
+All of the models mentioned in this paper have been incorporated into
+a new embedded domain specific language (EDSL) for conducting threat
+analysis called Lina; which means small, young palm tree, but we
+constructed the name by combining the words linear and attack.
+ 
+Lina is embedded inside of Haskell, a statically typed purely
+functional programming language.  The most important property of any
+EDSL is that they subsume the entirety of their host language, and can
+be prototyped quite rapidly.  Haskell has several advantages, like
+Lina's ability to utilize Haskell's cutting edge verification tools,
+and its strong type system for catching bugs quickly.  In addition,
+Haskell has several tools that make building EDSLs more easily, for
+example, type classes.
+
+Lina currently supports three types of causal attack trees:
+\begin{itemize}
+\item Process Attack Trees: these are attack trees with no attributes
+  at all,
+  
+\item Attributed Process Attack Trees: these are attack trees with
+  attributes on the base attacks only.  This is an intermediate
+  representation used to build full attack trees.
+  
+\item Full Attack Trees: these are attributed process attack trees
+  with an associated attribute domain.
+\end{itemize}
+Internally, we represent causal attack trees by a simple data type:
+\begin{center}
+\begin{minted}[fontsize=\scriptsize]{haskell}
+data IAT where
+  Base :: ID -> IAT            
+  OR   :: ID -> IAT -> IAT -> IAT
+  AND  :: ID -> IAT -> IAT -> IAT
+  SEQ  :: ID -> IAT -> IAT -> IAT   
+\end{minted}
+\end{center}
+\newcommand{\mh}[1]{\mintinline{haskell}{#1}}
+where \mh{ID} is a type synonym of \mh{Integer}.    We then define each type of attack tree:
+\begin{tabular}{cccccccc}
+  \\ 
+  \begin{minipage}{2in}        
+    \begin{minted}[fontsize=\scriptsize]{haskell}
+-- Attributed Process Attack Tree
+data APAttackTree attribute label =
+ APAttackTree {
+  process_tree :: IAT,
+  labels :: B.Bimap label ID,
+  attributes :: M.Map ID attribute
+ } 
+    \end{minted}
+    \vspace{-2px}
+  \end{minipage}  
+  & \quad &
+  \begin{minipage}{1in}        
+    \begin{minted}[fontsize=\scriptsize]{haskell}
+-- Process Attack Tree
+type PAttackTree label = APAttackTree () label
+
+-- Full Attack Tree
+data AttackTree attribute label = AttackTree {            
+      ap_tree :: APAttackTree attribute label,
+      configuration :: Conf attribute
+}
+    \end{minted}
+  \end{minipage}
+  \\\\
+\end{tabular}
+
+\noindent
+A \mh{B.Bimap} is a dictionary where we can efficiently lookup
+\mh{ID}s given a \verb!label! or efficiently lookup \verb!label!s given an
+\mh{ID}, a \mh{M.Map} is a typical dictionary, and \mh{()} is the unit
+type.
+
+The previous data types reveal that actually all attack trees are
+attributed process attack trees where a process attack tree simply
+does not use the attributes.  This design has two main benefits:
+internal attack trees are very easy to translate to various backends,
+especially formulas because we can use the \mh{ID}s on base attacks as
+atomic formulas -- which has its own benefits discussed below -- and the
+second benefit is that modifying labels and attributes is more
+efficient than having them labeled on the trees themselves.
+
+One important aspect of the definition of the various forms of attack
+trees is that the types \verb!label! and \verb!attribute! are actually
+type variables, and thus, our definition of attack trees is very
+general, in fact, \verb!label! and \verb!attribute! can be
+instantiated with any type whose elements are comparable.  This
+property is captured by ad-hoc polymorphism using type classes in
+Haskell, and are checked during type checking.
+
+Conducting threat analysis using attack trees requires them to be
+associated with an attribute domain.  Typically, an attribute domain
+is a set together with operations for computing the attribute of the
+branching nodes of an attack tree given attributes on the base
+attacks.  In Lina attribute domains are defined by a type, here called
+\verb!attribute!, and a configuration:
+\begin{center}
+  \begin{minted}[fontsize=\scriptsize]{haskell}
+data Conf attribute = (Ord attribute) => Conf {
+      andOp :: attribute -> attribute -> attribute,
+      seqOp :: attribute -> attribute -> attribute
+}
+\end{minted}
+\end{center}
+Utilizing higher-order functions we can define configurations quite
+easily, and quite generically.  For example, here is the configuration
+that computes the make attribute on parallel nodes and takes the sum
+of the children of sequential nodes as the attribute for sequential
+nodes:
+\begin{center}
+  \begin{minted}[fontsize=\scriptsize]{haskell}
+maxAddConf :: (Ord attribute,Semiring attribute) => Conf attribute
+maxAddConf = Conf max (.+.)
+\end{minted}
+\end{center}
+Notice here that this configuration will work with any type at all
+whose elements are comparable and form a semiring.  This includes
+types like \mh{Integer} and \mh{Double}.
+
+The definitional language for attributed process attack trees of type \\
+\mh{APAttackTree attribute label} is described by the following
+grammar:
+\begin{center}
+  \begin{math}
+    \begin{array}{lcl}
+      at & ::=  & \mh{base_na label}\\
+         & \mid & \mh{base_wa attribute label}\\
+         & \mid & \mh{or_node label at1 at2}\\
+         & \mid & \mh{and_node label at1 at2}\\
+         & \mid & \mh{seq_node label at1 at2}\\
+    \end{array}
+  \end{math}
+\end{center}
+A full example of the definition of an attributed process attack tree
+for attacking an autonomous vehicle can be found in
+Fig.~\ref{fig:vehicle_attack}. 
+\begin{figure}
+      \begin{tabular}{|l|}
+        \hline\\[-7px]
+      \begin{minipage}{\textwidth}
+        \begin{minted}[fontsize=\footnotesize]{haskell}
+vehicle_attack :: APAttackTree Double String
+vehicle_attack = start_PAT $
+  or_node "Autonomous Vehicle Attack"
+    (seq_node "external sensor attack"
+       (base_wa 0.2 "modify street signs to cause wreck")
+       (and_node "social engineering attack"
+          (base_wa 0.6 "pose as mechanic")
+          (base_wa 0.1 "install malware")))
+    (seq_node "over night attack"
+       (base_wa 0.05 "Find address where car is stored")
+       (seq_node "compromise vehicle"
+          (or_node "break in"
+             (base_wa 0.8 "break window")
+             (base_wa 0.5 "disable door alarm/locks"))
+          (base_wa 0.1 "install malware")))
+        \end{minted}
+        \vspace{2px}
+      \end{minipage} \\
+      \hline
+    \end{tabular}
+  \caption{Lina Script for an Autonomous Vehicle Attack}
+  \label{fig:vehicle_attack}
+\end{figure}
+The definition of \mh{vehicle_attack} begins with a call to
+\mh{start_PAT}.  Behind the scenes all of the \mh{ID}'s within the
+internal attack tree are managed implicitly, and this requires the
+internals of Lina to work within a special state-based type.  The
+function \mh{start_PAT} initializes this state.
+
+Finally, we can define the vehicle attack tree as follows:
+\begin{minted}[fontsize=\scriptsize]{haskell}
+vehicle_AT :: AttackTree Double String
+vehicle_AT = AttackTree vehicle_attack maxMaxConf
+\end{minted}
+This attack tree associates the vehicle attack attributed process
+attack tree with a configuration called \mh{maxMaxConf} that simply
+takes the maximum as the attribute of every parallel and sequential node.
+
+Two features that Lina has that other tools lack is its ability to
+abstract the definitions of attack trees, and it is highly
+compositional, because it is embedded inside of a functional
+programming language.  Consider the following abstraction of
+\mh{vehicle_attack}:
+\begin{minted}[fontsize=\scriptsize]{haskell}
+vehicle_AT' :: Conf Double -> AttackTree Double String
+vehicle_AT' conf = AttackTree vehicle_attack conf
+\end{minted}
+Here the configuration has been abstracted.  This facilitates
+experimentation because the security practitioner can run several
+different forms of analysis on the same attack tree using different
+attribute domains.
+
+Attack trees in Lina can also be composed, and hence, complex trees
+can be broken down into smaller ones, then studied in isolation.  This
+helps facilitate correctness, and offers more flexibility.  As an
+example, we break up \mh{vehicle_attack} into several smaller attack
+trees:
+
+
+\begin{figure}  
+  \begin{tabular}{|l|l|l|}
+    \hline \\[-7px]    
+    \begin{tabular}{l}
+    \\[-9.8px]
+    \begin{minipage}{\textwidth}        
+      \begin{minted}[fontsize=\scriptsize]{haskell}
+          OR("Autonomous Vehicle Attack",0.6)
+	    (SEQ("external sensor attack",0.6)
+	       ("modify street signs to cause wreck",0.2)
+	       (AND("social engineering attack",0.6)
+	          ("pose as mechanic",0.6)
+		  ("install malware",0.1)))
+      \end{minted}
+      \vspace{2px}
+    \end{minipage}
+    \end{tabular}
+    \\
+    \hline\\[-7px]    
+    \begin{tabular}{l}
+    \\[-9.8px]
+    \begin{minipage}{\textwidth}        
+      \begin{minted}[fontsize=\scriptsize]{haskell}
+          OR("Autonomous Vehicle Attack",0.6)
+	    (SEQ("external sensor attack",0.6)
+	       ("modify street signs to cause wreck",0.2)
+	       (AND("social engineering attack",0.6)
+	          ("pose as mechanic",0.6)
+		  ("install malware",0.1)))
+      \end{minted}
+      \vspace{2px}
+    \end{minipage}
+    \end{tabular}
+    \\
+    \hline\\[-7px]    
+    \begin{tabular}{l}
+    \\[-9.8px]
+    \begin{minipage}{\textwidth}        
+      \begin{minted}[fontsize=\scriptsize]{haskell}
+          OR("Autonomous Vehicle Attack",0.6)
+	    (SEQ("external sensor attack",0.6)
+	       ("modify street signs to cause wreck",0.2)
+	       (AND("social engineering attack",0.6)
+	          ("pose as mechanic",0.6)
+		  ("install malware",0.1)))
+      \end{minted}
+      \vspace{2px}
+    \end{minipage}
+    \end{tabular}\\
+    \hline
+  \end{tabular}
+  \caption{Set of Possible Attacks for an Autonomous Vehicle Attack}
+  \label{fig:vehicle_attack}
+\end{figure}

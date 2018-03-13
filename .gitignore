@@ -50,3 +50,6 @@ _minted_main/*
 _minted-main/*
 fvextra/*
 fvextra/*
+\\_minted_main
+\\_minted_main/*
+*minted*

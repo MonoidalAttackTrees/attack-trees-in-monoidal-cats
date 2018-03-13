@@ -2,9 +2,8 @@ embed
   {{tex-preamble \usepackage{cmll}
                  \usepackage{relsize} }}
 
-metavar costvar, c ::=
 metavar termvar, x, y , z, f ::=
-metavar baseAttackVars, b , N ::=
+metavar baseAttackVars, a,b,c,dd {{tex d}}, N ::=
 metavar baseAttackTVars, n ::= 
 indexvar index, i , j, k ::=
 
@@ -13,8 +12,8 @@ grammar
     | b        :: :: Base
     | AND ( A , B )  :: :: Para
     {{tex \mathsf{AND}([[A]],[[B]]) }}
-    | SAND ( A , B ) :: :: Seq
-    {{tex \mathsf{SAND}([[A]],[[B]]) }}
+    | SEQ ( A , B ) :: :: Seq
+    {{tex \mathsf{SEQ}([[A]],[[B]]) }}
     | OR ( A , B )   :: :: Or
     {{tex \mathsf{OR}([[A]],[[B]]) }}
     | ( A )    :: :: Paren
