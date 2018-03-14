@@ -1,15 +1,19 @@
 Are you or do you know a PhD student looking for an exciting new
-research project to join this summer?  You are in luck!
+funded research project to join this summer?  You are in luck!
 
 I am looking for a visiting PhD student for summer 2018 to collaborate
-with me on a funded NSF project studying at the intersection of
+with me on a funded NSF project working in the intersection of
 graphical models of security, functional programming using category
 theory, linear logic, and dependent types for substructrual logics.
 
-There are two ongoing projects the student can join depending on their
-interests.
+This opporunity comes with a $5,000 stipend to cover food and lodging
+during the visit.  I have additional money to pay for your travel.
 
-=Project 1:=
+There are two ongoing projects the student can join depending on their
+interests. Both of these projects have lots of exciting problems to
+solve.
+
+=Project 1=
 
 CRII: SHF: A New Foundation for Attack Trees Based on Monoidal Categories
 
@@ -31,32 +35,42 @@ language here:
 
 https://github.com/MonoidalAttackTrees/Lina
 
-=Project 2:=
+=Project 2=
 
-In collaboration with Dominc Orchard, and his student Vilem Liepelt,
-at the University of Kent, we are working on a new linear dependent
-type theory based on graded modal type theory.  This project is just
-getting started, but we do have some initial results.
+In collaboration with Dominc Orchard
+(https://www.cs.kent.ac.uk/people/staff/dao7/), and his student Vilem
+Liepelt, at the University of Kent, we are working on a new linear
+dependent type theory based on graded modal type theory.
+
+Using graded coeffects our language allows the programmer to control
+various structural rules with minimal annotations, thus, producing a
+very elegant and general framework with full dependency for various
+substructural logics.
+
+This project can also be seen as a generalization of the Granual
+language, please find more info here:
+
+https://github.com/dorchard/granule
+
+We are just getting started, but we do have some initial results.
 
 The interested student would help with the specification of our
 new type theory, as well as, exploring categorical models, and/or
 even implementation of the language prototype.
 
-Both of these projects have lots of exciting problems to solve.
-
 =Who I am looking for?=
 
 I am looking for an energetic and passionate student to work closely
 with me on one of the above projects during the summer of 2018, more
-specfically, approximately through the following dates:
+specfically, through the following dates (subject to discussion):
 
 May 1, 2018 - August 1, 2018
 
 The hope is for the student and I to work towards some results that
 can be published during the following academic year.
 
-The student should have an *interest* in the some of the following
-topics:
+The student should have an interest, but does not have to be
+experienced, in some of the following topics:
 
 - Models of security,
 - Categorical logic,
@@ -68,12 +82,9 @@ topics:
 Experience in category theory is a plus, but not strictly required as
 long as the student is willing to learn.
 
-This opporunity comes with a $5,000 stipend to cover food and lodging
-during the visit.  I have additional money to pay for your travel.
-
 =Who am I?=
 
-I am a rather new professor in computer science at Augusta University
+I am an assistant professor in computer science at Augusta University
 in the wonderful Augusta Georgia.  More about me here:
 
 http://metatheorem.org/
@@ -83,14 +94,18 @@ Carolina only two and a half hours from Savannah, GA and the beach at
 Tybee Island.  In addition, we are only three hours away from the
 Great Smokey Mountains for those who enjoy the great outdoors.
 
+=How to apply?=
+
+Simply send me an email with your CV and a brief summary of your
+research interests.  I will be considering applications until April
+20th.
+
+I welcome emails from anyone who is interested!
+
 This is an equal opportunity for all! All interested applicants will
 receive consideration without regard to race, color, religion, sex,
 national origin, disability status, protected veteran status, or any
 other characteristic protected by law.
 
-I welcome emails from anyone who is interested!
-
 Very best,
 Harley Eades
-
-
