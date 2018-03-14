@@ -1,10 +1,11 @@
 Are you or do you know a PhD student looking for an exciting new
-funded research project to join this summer?  You are in luck!
+funded research project to join this summer or fall?  You are in luck!
 
-I am looking for a visiting PhD student for summer 2018 to collaborate
-with me on a funded NSF project working in the intersection of
-graphical models of security, functional programming using category
-theory, linear logic, and dependent types for substructrual logics.
+I am looking for a visiting PhD student for summer or fall 2018 to
+collaborate with me on a funded NSF project working in the
+intersection of graphical models of security, functional programming
+using category theory, linear logic, and dependent types for
+substructrual logics.
 
 This opporunity comes with a $5,000 stipend to cover food and lodging
 during the visit.  I have additional money to pay for your travel.
@@ -47,7 +48,7 @@ various structural rules with minimal annotations, thus, producing a
 very elegant and general framework with full dependency for various
 substructural logics.
 
-This project can also be seen as a generalization of the Granual
+This project can also be seen as a generalization of the Granule
 language, please find more info here:
 
 https://github.com/dorchard/granule
@@ -61,10 +62,9 @@ even implementation of the language prototype.
 =Who I am looking for?=
 
 I am looking for an energetic and passionate student to work closely
-with me on one of the above projects during the summer of 2018, more
-specfically, through the following dates (subject to discussion):
-
-May 1, 2018 - August 1, 2018
+with me on one of the above projects during the summer or fall of
+2018.  The visit will be three months in total, but specific dates
+will be discussed with each candidate.
 
 The hope is for the student and I to work towards some results that
 can be published during the following academic year.
