@@ -124,7 +124,7 @@ data Conf attribute = (Ord attribute) => Conf {
 \end{center}
 Utilizing higher-order functions we can define configurations quite
 easily, and quite generically.  For example, here is the configuration
-that computes the make attribute on parallel nodes and takes the sum
+that computes the max attribute for parallel nodes and takes the sum
 of the children of sequential nodes as the attribute for sequential
 nodes:
 \begin{center}
@@ -141,6 +141,7 @@ The definitional language for attributed process attack trees of type \\
 \mh{APAttackTree attribute label} is described by the following
 grammar:
 \begin{center}
+  \footnotesize
   \begin{math}
     \begin{array}{lcl}
       at & ::=  & \mh{base_na label}\\
@@ -158,7 +159,7 @@ Fig.~\ref{fig:vehicle_attack}.
       \begin{tabular}{|l|}
         \hline\\[-7px]
       \begin{minipage}{\textwidth}
-        \begin{minted}[fontsize=\footnotesize]{haskell}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
 vehicle_attack :: APAttackTree Double String
 vehicle_attack = start_PAT $
   or_node "Autonomous Vehicle Attack"
@@ -214,9 +215,103 @@ attribute domains.
 Attack trees in Lina can also be composed, and hence, complex trees
 can be broken down into smaller ones, then studied in isolation.  This
 helps facilitate correctness, and offers more flexibility.  As an
-example, we break up \mh{vehicle_attack} into several smaller attack
-trees:
-
+example, in Fig.~\ref{fig:vehicle_attack_decomp} we break up
+\mh{vehicle_attack} into several smaller attack trees.
+\begin{figure}  
+  \begin{tabular}{|l|l|l|}
+    \hline & \\[-8px]
+    \begin{tabular}{l}
+      \begin{minipage}{2.2in}        
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+se_attack :: APAttackTree Double String
+se_attack = start_PAT $
+  and_node "social engineering attack"
+     (base_wa 0.6 "pose as mechanic")
+     (base_wa 0.1 "install malware")
+        \end{minted}
+        \vspace{3px}
+      \end{minipage}
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \begin{minipage}{2.5in}        
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+bi_attack :: APAttackTree Double String
+bi_attack = start_PAT $
+  or_node "break in"
+     (base_wa 0.8 "break window")
+     (base_wa 0.5 "disable door alarm/locks")
+        \end{minted}
+        \vspace{2px}
+      \end{minipage}
+    \end{tabular}\\
+    \hline & \\[-8px]
+        \begin{tabular}{l}
+      \begin{minipage}{2.2in}        
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+cv_attack :: APAttackTree Double String
+cv_attack = start_PAT $
+  seq_node "compromise vehicle"
+    (insert bi_attack)
+    (base_wa 0.1 "install malware")
+        \end{minted}
+        \vspace{10px}
+      \end{minipage}
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \begin{minipage}{2.5in}        
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+es_attack :: APAttackTree Double String
+es_attack = start_PAT $
+  seq_node "external sensor attack"
+       (base_wa 0.2 "modify street signs to cause
+                     wreck")
+       (insert se_attack)
+        \end{minted}
+        \vspace{2px}
+      \end{minipage}
+    \end{tabular}\\
+    \hline & \\[-8px]
+        \begin{tabular}{l}
+      \begin{minipage}{2.2in}        
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+on_attack :: APAttackTree Double String
+on_attack = start_PAT $
+  seq_node "over night attack"
+     (base_wa 0.05 "Find address where car
+                    is stored")
+     (insert cv_attack)
+        \end{minted}
+        \vspace{3px}
+      \end{minipage}
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \begin{minipage}{2.5in}        
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+vehicle_attack'' :: APAttackTree Double String
+vehicle_attack'' = start_PAT $
+  or_node "Autonomous Vehicle Attack"
+    (insert es_attack)
+    (insert on_attack)
+        \end{minted}
+        \vspace{11px}
+      \end{minipage}
+    \end{tabular}\\
+    \hline 
+\end{tabular}
+\caption{The Autonomous Vehicle Attack Decomposed}
+\label{fig:vehicle_attack_decomp}
+\end{figure}
+We can see in the example that if we wish to use an already defined
+attack tree in one we are defining, then we can make use of
+\mh{insert}.  Behind the scenes Lina maintains a special state that
+tracks the identifiers of each node, thus, when one wishes to insert
+an existing attack tree, which will have its own identifier labeling,
+into a new tree, then that internal state must be updated, thus,
+\mh{insert} carries out this updating.  Lina is designed so that the
+user never has to encounter that internal state.
 
 \begin{figure}  
   \begin{tabular}{|l|l|l|}

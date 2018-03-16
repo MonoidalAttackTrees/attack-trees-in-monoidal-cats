@@ -20,7 +20,7 @@ CRII: SHF: A New Foundation for Attack Trees Based on Monoidal Categories
 
 In short, the project aims to give a new mathematical foundation of
 attack trees using monoidal categories, and then by capitalizing on
-the Curry-Howard-Lambek correspondence defining a new domain-specific
+the Curry-Howard-Lambek correspondence, defining a new domain-specific
 functional programming language based in linear logic where types will
 correspond to attack trees, and programs to semantically valid
 transformations on attack trees called Lina for Linear Threat

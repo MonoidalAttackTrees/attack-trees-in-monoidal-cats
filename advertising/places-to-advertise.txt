@@ -46,7 +46,7 @@ University of North Carolina at Chapel Hill
   116 Brooks Building
   919-590-6238 (phone)
   919-590-6105 (fax)
-  jeffay (at) cs.unc.edu
+  jeffay@cs.unc.edu
 
 North Carolina State
   Dr. Mladen Vouk
