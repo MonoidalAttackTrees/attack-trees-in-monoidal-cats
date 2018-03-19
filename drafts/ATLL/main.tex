@@ -91,18 +91,35 @@ Computer Science, North Carolina State University}
 \maketitle
 
 \begin{abstract}
-  TODO
+  This paper has two main contributions, the first is a new simple
+  linear logical semantics of causal attack trees in four-valued truth
+  tables.  Our semantics is very expressive, supporting
+  specializations, and combines in an interesting way the \emph{ideal}
+  and \emph{filter} semantics of causal attack trees. Our second
+  contribution is Lina, a new embedded, in Haskell, domain specific
+  functional programming language for conducting threat analysis using
+  attack trees.  Lina has many benefits over existing tools, for
+  example, Lina allows one to specify attack trees very abstractly
+  increasing reuse, and is highly compositional allowing one to break
+  down complex attack trees into smaller ones that can be reasoned
+  about and analyzed incrementally.  Furthermore, Lina supports
+  automatically proving properties about attack trees using Maude, and
+  is the first tool to support proving specializations about attack
+  trees by using the truth table semantics first proposed in this
+  paper.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:introduction}
 \input{intro-output}
 
+\vspace{-7px}
 \section{Causal Attack Trees}
 \label{sec:causal_attack_trees}
 \input{attack-trees-output}
 % section causal_attack_trees (end)
 
+\vspace{-7px}
 \section{A Quaternary Semantics for Causal Attack Trees}
 \label{sec:a_quaternary_semantics_for_causal_attack_trees}
 \input{quaternary-semantics-output}
@@ -113,38 +130,41 @@ Computer Science, North Carolina State University}
 %% \input{atll-output}
 %% % section the_attack_tree_linear_logic_(atll) (end)
 
+\vspace{-7px}
 \section{Lina: An EDSL for Conducting Threat Analysis using Causal Attack Trees}
 \label{sec:lina:_an_edsl_for_conducting_threat_analysis_using_causal_attack_trees}
 \input{Lina}
 % section lina:_an_edsl_for_conducting_threat_analysis_using_causal_attack_trees (end)
 
+\vspace{-7px}
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+We made two main contributions: a new four-valued truth table
+semantics of causal attack trees that supports specializations of
+attack trees, and a new embedded, in Haskell, domain specific
+programming language called Lina for specifying, reasoning, and
+analyzing attack trees.
 
-%% \section{Related and Future Work}
-%% \label{sec:related_and_future_work}
-%% \input{rfw-output}
-%% % section related_and_future_work (end)
+We plan to lift the quaternary semantics into a natural deduction
+system based on the logic of bunched implications, and then study
+proof search within this new system.  Lina is under active
+development, and we have a number of extensions planned, for example,
+adding support for attack-defense trees, attack(-defense) graphs,
+attack nets, a GUI for viewing the various models, and a SMT backend.
+Finally, it is necessary for number of case studies to be carried out
+within Lina to be able to support the types of analysis required for
+real world applications.  
+% section conclusion (end)
+
+\vspace{-7px}
+\section{Acknowledgments}
+\label{sec:acknowledgments}
+This work was supported by NSF award \#1565557.
+% section acknowledgments (end)
+
 
 \bibliographystyle{plain}
 \bibliography{ref}
-
-%% \appendix
-
-%% \section*{Appendix}
-%% \label{sec:appendix}
-
-%% \section{The Full Specification of Indexed ATLL}
-%% \label{subsec:the_full_specification_of_indexed_atll}
-%% \input{full-indexed-atll-output}
-% section the_full_specification_of_indexed_atll (end)
-
-%% \subsection{SSG Semantics}
-%% \label{subsec:ssg_semantics}
-%% \input{appendix-SSG-monoidal}
-% subsection ssg_semantics (end)
-
-% section appendix (end)
-
-
 
 \end{document}
 

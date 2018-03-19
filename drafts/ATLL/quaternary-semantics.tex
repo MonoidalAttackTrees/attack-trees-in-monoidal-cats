@@ -7,7 +7,8 @@ while their semantics is elegant it does not capture the resource
 aspect of attack trees, it allows contraction, and it does not provide
 a means to model sequential composition.  In this section we give a
 semantics of attack trees in the spirit of Kordy et al.'s using a four
-valued logic.
+valued logic.  This section was formally verified in the Agda Proof
+Assistant~\cite{Norell:2009}\footnote{The formalization can be found at \url{https://github.com/MonoidalAttackTrees/ATLL-Formalization}}.
 
 The propositional variables of our quaternary logic, denoted by $A$, $B$,
 $C$, and $D$, range over the set $\mathsf{4} = \{0, \forth, \half,
@@ -22,7 +23,7 @@ composition.
   The logical connectives of our four valued logic are defined as
   follows:
   \begin{itemize}
-  \item[] Parallel and Sequential Conjunction:
+  \item[] Parallel and Sequential Conjunction:\vspace{-13px}
     \begin{center}
       \begin{math}
         \setlength{\arraycolsep}{10px}
@@ -43,6 +44,7 @@ composition.
         \end{array}
       \end{math}
     \end{center}
+    \vspace{-5px}
   \item[] Choice: $A \sqcup_4 B = \mathsf{max}(A,B)$    
   \end{itemize}
 \end{definition}
@@ -137,7 +139,7 @@ in Fig.~\ref{fig:2}.
       \textbf{A.}\\
       \begin{minipage}{\textwidth/2}
         \vspace{3px}
-        \begin{minted}[fontsize=\footnotesize]{haskell}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
  and_node "obtain secret"
   (or_node "obtain encryped file"
      (base_na "bribe sysadmin")
@@ -154,7 +156,7 @@ in Fig.~\ref{fig:2}.
       \textbf{B.}\\
       \begin{minipage}{\textwidth/2-5.6px}
         \vspace{3px}
-        \begin{minted}[fontsize=\footnotesize]{haskell}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
  seq_node "break in, obtain secret"
   (base_na "break into system")
   (and_node "obtain secret inside"
@@ -172,7 +174,7 @@ in Fig.~\ref{fig:2}.
       \\[-9.8px]
     \textbf{C.}\\
       \begin{minipage}{\textwidth}
-        \begin{minted}[fontsize=\footnotesize]{haskell}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
  or_node "obtain secret"
   (and_node "obtain secret via sysadmin"
    (base_na "bribe sysadmin")
@@ -226,46 +228,46 @@ The next result proves some additional properties in the quaternary
 semantics that can be used to reason about attack trees.
 \begin{lemma}[Properties of Entailment in the Quaternary Semantics]
   \label{lemma:properties_of_entailment_in_the_quaternary_semantics}
+  \begin{tabular}{lll}
     \begin{tabular}{lll}
-      \begin{tabular}{lll}
-        Ideal Entailments:\\
-        \begin{math}
-          \scriptsize
-          \begin{array}{lll}
-            ((a \odot_4 b) \rhd_4 (c \odot_4 d)) \leq_4 ((a \rhd_4 c) \odot_4 (b \rhd_4 d))\\
-            ((a \odot_4 b) \rhd_4 c) \leq_4 (a \odot_4 (b \rhd_4 c))\\                    
-            (a \rhd_4 (b \odot_4 c)) \leq_4 (b \odot_4 (a \rhd_4 c))\\
-            (a \rhd_4 b) \leq_4 (a \odot_4 b)\\          
-          \end{array}
-        \end{math}      
-      \end{tabular}
-      &
-      \quad
-      &
-      \begin{tabular}{lll}
-        Filter Entailments:\\
-        \begin{math}
-          \scriptsize
-          \begin{array}{lll}
-            ((a \rhd_4 c) \odot_4 (b \rhd_4 d)) \leq_4 ((a \odot_4 b) \rhd_4 (c \odot_4 d))\\
-            (a \odot_4 (b \rhd_4 c)) \leq_4 ((a \odot_4 b) \rhd_4 c)\\
-            \\
-            \\
-          \end{array}
-        \end{math}           
-      \end{tabular}
-      \\\\
-      \begin{tabular}{lll}
-      Choice Entailments:\\
+    Ideal Entailments:\\
+    \begin{math}
+      \footnotesize
+      \begin{array}{lll}
+        ((a \odot_4 b) \rhd_4 (c \odot_4 d)) \leq_4 ((a \rhd_4 c) \odot_4 (b \rhd_4 d))\\
+        ((a \odot_4 b) \rhd_4 c) \leq_4 (a \odot_4 (b \rhd_4 c))\\                    
+        (a \rhd_4 (b \odot_4 c)) \leq_4 (b \odot_4 (a \rhd_4 c))\\
+        (a \rhd_4 b) \leq_4 (a \odot_4 b)\\          
+      \end{array}
+    \end{math}      
+  \end{tabular}
+  \\\\
+  \begin{tabular}{lllll}
+    \begin{tabular}{lll}
+      Filter Entailments:\\
       \begin{math}
-        \scriptsize
+        \footnotesize
         \begin{array}{lll}
-          a \leq_4 (a \sqcup_4 b)\\
-          b \leq_4 (a \sqcup_4 b)\\
+          ((a \rhd_4 c) \odot_4 (b \rhd_4 d)) \leq_4 ((a \odot_4 b) \rhd_4 (c \odot_4 d))\\
+          (a \odot_4 (b \rhd_4 c)) \leq_4 ((a \odot_4 b) \rhd_4 c)\\
+          \\
+          \\
         \end{array}
-      \end{math}
+      \end{math}           
     \end{tabular}
-    \end{tabular}       
+    & \quad & 
+    \begin{tabular}{lll}
+        Choice Entailments:\\
+        \begin{math}
+          \footnotesize
+          \begin{array}{lll}
+            a \leq_4 (a \sqcup_4 b)\\
+            b \leq_4 (a \sqcup_4 b)\\
+          \end{array}
+        \end{math}
+      \end{tabular}
+  \end{tabular}
+  \end{tabular}
 \end{lemma}
 Each of the above entailments are due to Horne et
 al.~\cite{horne2017semantics}.  They introduce two types of semantics
@@ -293,7 +295,8 @@ attribute domains can we reason about in this semantics when we blend
 them?  This is left to future work.
 
 We can now formally prove that the attack tree C is a specialization
-of attack trees A and B in Fig.~\ref{fig:2}.
+of attack tree A, and that attack tree B is a specialization of attack
+tree A from Fig.~\ref{fig:2}.
 \begin{example}
   \label{ex:ex1}
   First, consider the following assignment:
@@ -312,6 +315,7 @@ of attack trees A and B in Fig.~\ref{fig:2}.
 \end{center}
 Then we have the following interpretations:
 \begin{center}
+  \footnotesize
   \begin{math}
     \begin{array}{c}
       \begin{array}{ccc}

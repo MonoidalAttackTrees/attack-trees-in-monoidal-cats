@@ -48,7 +48,8 @@ primarily concerned with equality between attack trees, but
 implication allows us to break that equality up.  A specialization is
 a one way relationship between two attack trees that may even be
 influenced by the attack trees attribute domain; we will discuss
-specializations in more detail in Section~\ref{}.
+specializations in more detail in
+Section~\ref{sec:specialization_in_the_quaternary_semantics}.
 
 This paper has two main contributions, the first is a new simple
 linear logical semantics of causal attack trees -- attack trees with
@@ -58,16 +59,14 @@ specializations, and even lays outside of the semantics proposed by
 Horne et al.\cite{horne2017semantics}, because it combines in an
 interesting way what they call the \emph{ideal} and \emph{filter}
 semantics of causal attack trees.  However, the most appealing aspect
-of this semantics is that it is extremely simple.  Furthermore, we
-introduce a family of natural deduction systems based in the logic of
-bunched implications which were formed by studying the truth table
-semantics.
+of this semantics is that it is extremely simple.  
 
 \textbf{Functional Programming.} Our second contribution is Lina, a
 new domain specific functional programming language for conducting
 threat analysis using attack trees.  Consider the example attack trees
 in Fig.~\ref{fig:atm-tree1}.
-\begin{figure}  
+\begin{figure}
+  \vspace{-10px}
   \begin{tabular}{|l|l|}
     \hline
     \begin{tabular}{l}
@@ -109,6 +108,7 @@ in Fig.~\ref{fig:atm-tree1}.
   \end{tabular}  
   \label{fig:atm-tree1}
   \caption{Attack Tree for an ATM attack from Figure~1 (A) and Figure~2 (B) of Kordy et al.~\cite{Kordy2017}}
+\vspace{-15px}  
 \end{figure}
 Both of these are actual Lina programs, in fact every example in this
 paper are Lina programs. Lina supports causal attack trees both with
@@ -159,11 +159,6 @@ proven equivalent to each other in Lina.  This is similar to Krody's
 one backend rewrite system, for example, Lina is the first tool to
 support automatically proving specializations of attack trees.  The
 user can choose which backend they wish to use.
-
-We have a number of extensions planned for the future like supporting
-attack-defense trees, attack(-defense) graphs, and attack nets. We
-plan to support even more automation using SAT and SMT solvers.  It is
-our hope that Lina grows into a one stop shop for threat analysis.
 
 %%% Local Variables: 
 %%% mode: latex

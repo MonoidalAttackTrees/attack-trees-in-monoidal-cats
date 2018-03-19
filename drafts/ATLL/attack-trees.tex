@@ -1,6 +1,6 @@
 We begin by introducing causal attack trees.  This formulation of
 attack trees was first proposed by Jhawar et al. \cite{Jhawar:2015}
-where they called them causal attack trees, but sequential composition
+where they called them SAND attack trees, but sequential composition
 does not always meet the same properties as conjunction, for example,
 classically it is a self dual operator, thus, we follow Horne et al.'s
 lead \cite{horne2017semantics} and call them causal attack trees.
@@ -18,7 +18,7 @@ lead \cite{horne2017semantics} and call them causal attack trees.
   Equivalence of attack trees, denoted by $[[A ~ B]]$, is defined as
   follows:
   \begin{center}
-    \begin{math}
+    \begin{math} \footnotesize
       \setlength{\arraycolsep}{10px}
       \begin{array}{lll}
         [[OR(A,A) ~ A]]\\
@@ -33,17 +33,11 @@ lead \cite{horne2017semantics} and call them causal attack trees.
     \end{math}
   \end{center}
 \end{definition}
-This definition of causal attack trees differs slightly from Jhawar
-et. al.'s~\cite{Jhawar:2015} definition.  They define $n$-ary
-operators, but we only consider the binary case, because it fits better
-with the models presented here and it does not loose any generality
-because we can model the $n$-ary case using binary operators in the
-obvious way.
-
 Throughout the sequel we will show that the previous rules are sound
-with respect to our new models, but just as Horne et
+with respect to our new model, but just as Horne et
 al. \cite{horne2017semantics} we will then show that there are
-properties of attack trees that these rules do not support.
+properties of attack trees that these rules do not support, but our
+semantics allows.
 
 %%% Local Variables: 
 %%% mode: latex
