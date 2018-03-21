@@ -82,31 +82,32 @@
 
 \title{On Linear Logic, Functional Programming, and Attack Trees}
 
-\author{Harley Eades III\inst{1} \and Jiaming Jiang\inst{2} \and Aubrey Bryant\inst{1}}
+\author{Harley Eades III\inst{1} \and Jiaming Jiang\inst{2} \and Aubrey Bryant\inst{3}}
 
 \institute{Computer Science, Augusta University, \href{mailto:harley.eades@gmail.com}{harley.eades@gmail.com}
 \and
-Computer Science, North Carolina State University}
+Computer Science, North Carolina State University
+\and
+Computer Science, Augusta University}
 
 \maketitle
 
 \begin{abstract}
-  This paper has two main contributions, the first is a new simple
-  linear logical semantics of causal attack trees in four-valued truth
-  tables.  Our semantics is very expressive, supporting
+  This paper has two main contributions, the first is a new linear
+  logical semantics of causal attack trees in four-valued truth
+  tables.  Our semantics is very simple and expressive, supporting
   specializations, and combines in an interesting way the \emph{ideal}
   and \emph{filter} semantics of causal attack trees. Our second
   contribution is Lina, a new embedded, in Haskell, domain specific
   functional programming language for conducting threat analysis using
   attack trees.  Lina has many benefits over existing tools, for
   example, Lina allows one to specify attack trees very abstractly
-  increasing reuse, and is highly compositional allowing one to break
-  down complex attack trees into smaller ones that can be reasoned
-  about and analyzed incrementally.  Furthermore, Lina supports
-  automatically proving properties about attack trees using Maude, and
-  is the first tool to support proving specializations about attack
-  trees by using the truth table semantics first proposed in this
-  paper.
+  increasing reuse, and is compositional allowing one to break down
+  complex attack trees into smaller ones that can be reasoned about
+  and analyzed incrementally.  Furthermore, Lina supports
+  automatically proving properties, such as equivalences and
+  specializations, about attack trees using Maude and the semantics
+  introduced in this paper.
 \end{abstract}
 
 \section{Introduction}
@@ -165,6 +166,38 @@ This work was supported by NSF award \#1565557.
 
 \bibliographystyle{plain}
 \bibliography{ref}
+
+\appendix
+
+\section{Maude Specification for Causal Attack Trees}
+\label{sec:maude-spec-causal-attack-trees}
+\begin{verbatim}
+mod Causal is
+
+protecting LOOP-MODE .
+
+sorts Formula .
+subsort Nat < Formula .
+
+op _||_    : Formula Formula -> Formula [ctor assoc comm] .
+op _._     : Formula Formula -> Formula [ctor assoc comm] .
+op _;_     : Formula Formula -> Formula [ctor assoc] .
+op EQ(_,_) : Formula Formula -> Bool .
+
+var P Q R S : Formula .
+
+eq P . (Q || R)  = (P . Q)  || (P . R) .
+eq P ; (Q || R)  = (P ; Q)  || (P ; R) .
+eq (Q || R) ; P  = (Q ; P)  || (R ; P) .
+
+ceq EQ(P,Q) = true
+  if P = Q .
+eq EQ(P,Q) = false .
+
+endm  
+\end{verbatim}
+% section  (end)
+
 
 \end{document}
 

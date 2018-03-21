@@ -6,7 +6,7 @@ classically it is a self dual operator, thus, we follow Horne et al.'s
 lead \cite{horne2017semantics} and call them causal attack trees.
 \begin{definition}
   \label{def:atrees}
-  Suppose $\mathsf{B}$ is a set of base attacks whose elements are
+  Suppose $\mathbb{B}$ is a set of base attacks whose elements are
   denoted by $[[b]]$.  Then an \textbf{attack tree} is defined by
   the following grammar:
   \[
@@ -19,18 +19,25 @@ lead \cite{horne2017semantics} and call them causal attack trees.
   follows:
   \begin{center}
     \begin{math} \footnotesize
-      \setlength{\arraycolsep}{10px}
-      \begin{array}{lll}
-        [[OR(A,A) ~ A]]\\
-        [[OR(OR(A,B),C) ~ OR(A,OR(B,C))]]\\
-        [[AND(AND(A,B),C) ~ AND(A,AND(B,C))]]\\
-        [[SEQ(SEQ(A,B),C) ~ SEQ(A,SEQ(B,C))]]\\
-        [[OR(A,B) ~ OR(B,A)]]\\
-        [[AND(A,B) ~ AND(B,A)]]\\
-        [[AND(A,OR(B,C)) ~ OR(AND(A,B),AND(A,C))]]\\
-        [[SEQ(A,OR(B,C)) ~ OR(SEQ(A,B),SEQ(A,C))]]\\
+      \begin{array}{|l|l|}
+        \hline
+        \begin{array}{lll}
+          [[OR(A,A) ~ A]]\\
+          [[OR(A,B) ~ OR(B,A)]]\\
+          [[AND(A,B) ~ AND(B,A)]]\\
+          \\\\
+        \end{array}
+        &
+        \begin{array}{lll}          
+          [[OR(OR(A,B),C) ~ OR(A,OR(B,C))]]\\
+          [[AND(AND(A,B),C) ~ AND(A,AND(B,C))]]\\
+          [[SEQ(SEQ(A,B),C) ~ SEQ(A,SEQ(B,C))]]\\                
+          [[AND(A,OR(B,C)) ~ OR(AND(A,B),AND(A,C))]]\\
+          [[SEQ(A,OR(B,C)) ~ OR(SEQ(A,B),SEQ(A,C))]]\\
+        \end{array}\\
+        \hline
       \end{array}
-    \end{math}
+    \end{math}  
   \end{center}
 \end{definition}
 Throughout the sequel we will show that the previous rules are sound

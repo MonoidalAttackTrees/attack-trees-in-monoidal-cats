@@ -46,18 +46,11 @@ Lina currently supports three types of causal attack trees:
 \item \underline{Full Attack Trees}: these are attributed process attack trees
   with an associated attribute domain.
 \end{itemize}
-Internally, we represent causal attack trees by a simple data type:
-\begin{center}
-\begin{minted}[fontsize=\scriptsize]{haskell}
-data IAT where
-  Base :: ID -> IAT            
-  OR   :: ID -> IAT -> IAT -> IAT
-  AND  :: ID -> IAT -> IAT -> IAT
-  SEQ  :: ID -> IAT -> IAT -> IAT   
-\end{minted}
-\end{center}
-\newcommand{\mh}[1]{\mintinline{haskell}{#1}}
-where \mh{ID} is a type synonym of \mh{Integer}.    We then define each type of attack tree:
+\newcommand{\mh}[1]{\mintinline{haskell}{#1}} Internally, we represent
+causal attack trees by a simple data type, called \mh{IAT}, whose
+nodes are labeled with an integer identifier we call \mh{ID}.  We then
+define each type of attack tree as a record (labeled tuple):
+
 \begin{tabular}{cccccccc}
   \\ 
   \begin{minipage}{2in}        
@@ -149,12 +142,9 @@ grammar:
 \begin{center}
   \footnotesize
   \begin{math}
-    \begin{array}{lcl}
-      at & ::=  & \mh{base_na label}\\
-         & \mid & \mh{base_wa attribute label}\\
-         & \mid & \mh{or_node label at1 at2}\\
-         & \mid & \mh{and_node label at1 at2}\\
-         & \mid & \mh{seq_node label at1 at2}\\
+    \begin{array}{lrlll}
+      at & ::=  & \mh{base_na label} \mid \mh{base_wa attribute label} \mid \mh{or_node label at1 at2} \\
+      & \mid & \mh{and_node label at1 at2} \mid \mh{seq_node label at1 at2}\\
     \end{array}
   \end{math}
 \end{center}
@@ -344,9 +334,8 @@ define new Maude backends, where a \emph{Maude backend} corresponds to
 a Maude specification of a particular rewrite system.  Currently, Lina
 has two Maude backends: equivalences for causal attack trees, and the
 multiplicative attack tree linear logic (MATLL).  The former is
-essentially the exact same specification as the SPTool, but with one
-improvement discussed below, and the latter corresponds to the
-quaternary semantics defined in
+essentially the exact same specification as the SPTool, but the latter
+corresponds to the quaternary semantics defined in
 Section~\ref{sec:a_quaternary_semantics_for_causal_attack_trees} and
 Section~\ref{sec:specialization_in_the_quaternary_semantics},
 specifically, this backend is defined as a rewrite system that
@@ -374,51 +363,11 @@ to write the Maude specification for the various backends.
 
 The full Maude specification for the causal attack tree equivalence
 checker can be found in
-Fig.~\ref{fig:causal_attack_tree_maude_specification}.
-\begin{figure}
-\begin{mdframed}      
-\scriptsize
-\begin{verbatim}
-mod Causal is
-
-protecting LOOP-MODE .
-
-sorts Formula .
-subsort Nat < Formula .
-
-op _||_    : Formula Formula -> Formula [ctor assoc comm] .
-op _._     : Formula Formula -> Formula [ctor assoc comm] .
-op _;_     : Formula Formula -> Formula [ctor assoc] .
-op EQ(_,_) : Formula Formula -> Bool .
-
-var P Q R S : Formula .
-
-eq P . (Q || R)  = (P . Q)  || (P . R) .
-eq P ; (Q || R)  = (P ; Q)  || (P ; R) .
-eq (Q || R) ; P  = (Q ; P)  || (R ; P) .
-
-ceq EQ(P,Q) = true
-  if P = Q .
-eq EQ(P,Q) = false .
-
-endm  
-\end{verbatim}
-\end{mdframed}
-  \caption{Maude Specification for Causal Attack Trees}
-  \label{fig:causal_attack_tree_maude_specification}
-\end{figure}
-This specification has one improvement over the specification used by
-the SPTool \cite{Kordy2017}.  Kordy et al.'s specification uses
-strings to represent base attacks, but we use integer values.  Thus,
-their specification is less general because it ties the attack trees
-to a particular data type for labels, and arguably less efficient
-because strings are harder to compare than integers.  As one can see
-this specification only supports proving equivalences, but what about
-specializations?
-
-Lina also supports proving specializations between attack trees using
-the MATLL Maude backend.  Its full Maude specification can be found in
-Fig.~\ref{fig:maude-spec-matll}.
+Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, their
+specification only supports proving equivalences, but what about
+specializations?  Lina supports proving specializations between attack
+trees using the MATLL Maude backend.  Its full Maude specification can
+be found in Fig.~\ref{fig:maude-spec-matll}.
 \begin{figure}
 \begin{mdframed}
 \scriptsize
@@ -550,43 +499,12 @@ uses the configuration associated with the attack tree to compute the
 values at each branching node.  It is also possible to project out
 various attacks from an attack tree.
 
-Lina defines an attack as the following data type:
-\begin{mdframed}
-  \begin{tabular}{cccccccc}
-  \\ 
-  \begin{minipage}{2in}
-    \vspace{-15px}
-    \begin{minted}[fontsize=\scriptsize]{haskell}
--- Internal Attack:
-data IAttack where
-  BaseA :: ID -> IAttack
-  ANDA  :: ID -> IAttack
-              -> IAttack
-              -> IAttack
-  SEQA  :: ID -> IAttack
-              -> IAttack
-              -> IAttack      
-    \end{minted}
-    \vspace{-2px}
-  \end{minipage}  
-  & \quad &  
-  \begin{minipage}{1in}
-    \vspace{-45px}
-    \begin{minted}[fontsize=\scriptsize]{haskell}
--- Full Attack:
-data Attack attribute label = Attack {
-  attack_itree :: IAttack,
-  attack_labels :: B.Bimap label ID,
-  attack_attributes :: M.Map ID attribute
-}
-    \end{minted}
-  \end{minipage}
-\end{tabular}
-\end{mdframed}
-An attack does not have any choice nodes, because they are all split
-into multiple attacks; one for each child node.  For example, the set
-of possible attacks for the autonomous vehicle attack from
-Fig.~\ref{fig:vehicle_attack} can be found in
+In Lina an \emph{attack} corresponds to essentially an attack tree
+with no choice nodes.  We call its data type \mh{Attack attribute
+  label}.  An attack does not have any choice nodes, because they are
+all split into multiple attacks; one for each child node.  For
+example, the set of possible attacks for the autonomous vehicle attack
+from Fig.~\ref{fig:vehicle_attack} can be found in
 Fig.~\ref{fig:vehicle_attack_attacks}.
 \begin{figure}  
   \begin{tabular}{|l|l|l|}
