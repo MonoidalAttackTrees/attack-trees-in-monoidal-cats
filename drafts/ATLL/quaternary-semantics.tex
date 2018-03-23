@@ -60,7 +60,8 @@ defined similarly, but parallel composition is not a product --
 ordinary conjunction -- but rather a linear tensor product, and
 sequential composition is not actually definable in a boolean algebra,
 and hence, makes heavy use of the intermediate values to insure that
-neither exchange nor contraction hold.  
+neither exchange nor contraction hold (see
+Lemma~\ref{lemma:props_atree_ops_quaternary-semantics}).
 
 We use the usual notion of equivalence between propositions, that is,
 propositions $\phi$ and $\psi$ are considered equivalent, denoted by
@@ -73,9 +74,9 @@ the following result.
   \label{lemma:props_atree_ops_quaternary-semantics}
   \begin{itemize}
   \item[] (Symmetry) For any $P$ and $Q$, $P \bullet Q \equiv Q \bullet P$, for $\bullet \in \{\odot_4, \sqcup_4\}$.\\[-5px]
-  \item[] (Symmetry for Sequential Conjunction) It is not the case that, for any $P$ and $Q$, $P \rhd_4 Q \equiv Q \rhd_4 P$.\\[-5px]
+  \item[] (Non-symmetry for Sequential Conjunction) It is not the case that, for any $P$ and $Q$, $P \rhd_4 Q \equiv Q \rhd_4 P$.\\[-5px]
   \item[] (Associativity) For any $P$, $Q$, and $R$, $(P \bullet Q) \bullet R \equiv P \bullet (Q \bullet R)$, for $\bullet \in \{\odot_4, \rhd_4, \sqcup_4\}$.\\[-5px]
-  \item[] (Contraction for Parallel and Sequential Conjunction) It is not the case that for any $P$, $P \bullet P \equiv P$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
+  \item[] (Non-contraction for Parallel and Sequential Conjunction) It is not the case that for any $P$, $P \bullet P \equiv P$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
   \item[] (Distributive Law) For any $P$, $Q$, and $R$, $P \bullet (Q \sqcup_4 R) \equiv (P \bullet Q) \sqcup_4 (P \bullet R)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
   \end{itemize}
 \end{lemma}
@@ -209,7 +210,6 @@ B has dropped bribing the sysadmin and simply requires the attacker to
 just steal the backups.  Notice that none of the attack trees in
 Fig.~\ref{fig:2} are equivalent.  So how do we prove these
 specializations are sound?
-
 We simply define a notion of entailment in the quaternary semantics.
 Denote by $P \leq_4 Q$ the obvious ordering on $\mathsf{4}$.  Then we
 have the following result immediately.
@@ -234,18 +234,32 @@ semantics that can be used to reason about attack trees.
 \begin{lemma}[Properties of Entailment in the Quaternary Semantics]
   \label{lemma:properties_of_entailment_in_the_quaternary_semantics}
   \begin{tabular}{lll}
-    \begin{tabular}{lll}
+    \begin{tabular}{llllll}
+      \begin{tabular}{lll}
     Ideal Entailments:\\
     \begin{math}
       \footnotesize
       \begin{array}{lll}
-        ((a \odot_4 b) \rhd_4 (c \odot_4 d)) \leq_4 ((a \rhd_4 c) \odot_4 (b \rhd_4 d))\\
-        ((a \odot_4 b) \rhd_4 c) \leq_4 (a \odot_4 (b \rhd_4 c))\\                    
-        (a \rhd_4 (b \odot_4 c)) \leq_4 (b \odot_4 (a \rhd_4 c))\\
-        (a \rhd_4 b) \leq_4 (a \odot_4 b)\\          
+        ((P \odot_4 Q) \rhd_4 (R \odot_4 d)) \leq_4 ((P \rhd_4 R) \odot_4 (Q \rhd_4 d))\\
+        ((P \odot_4 Q) \rhd_4 R) \leq_4 (P \odot_4 (Q \rhd_4 R))\\                    
+        (P \rhd_4 (Q \odot_4 R)) \leq_4 (Q \odot_4 (P \rhd_4 R))\\
+        (P \rhd_4 Q) \leq_4 (P \odot_4 Q)\\          
       \end{array}
     \end{math}      
-  \end{tabular}
+      \end{tabular}
+      & \quad & 
+    \begin{tabular}{lll}
+        Choice Entailments:\\
+        \begin{math}
+          \footnotesize
+          \begin{array}{lll}
+            P \leq_4 (P \sqcup_4 Q)\\
+            Q \leq_4 (P \sqcup_4 Q)\\
+          \end{array}
+        \end{math}
+        \\\\\\[-2px]
+      \end{tabular}
+    \end{tabular}
   \\\\
   \begin{tabular}{lllll}
     \begin{tabular}{lll}
@@ -253,24 +267,13 @@ semantics that can be used to reason about attack trees.
       \begin{math}
         \footnotesize
         \begin{array}{lll}
-          ((a \rhd_4 c) \odot_4 (b \rhd_4 d)) \leq_4 ((a \odot_4 b) \rhd_4 (c \odot_4 d))\\
-          (a \odot_4 (b \rhd_4 c)) \leq_4 ((a \odot_4 b) \rhd_4 c)\\
+          ((P \rhd_4 R) \odot_4 (Q \rhd_4 d)) \leq_4 ((P \odot_4 Q) \rhd_4 (R \odot_4 d))\\
+          (P \odot_4 (Q \rhd_4 R)) \leq_4 ((P \odot_4 Q) \rhd_4 R)\\
           \\
           \\
         \end{array}
       \end{math}           
     \end{tabular}
-    & \quad & 
-    \begin{tabular}{lll}
-        Choice Entailments:\\
-        \begin{math}
-          \footnotesize
-          \begin{array}{lll}
-            a \leq_4 (a \sqcup_4 b)\\
-            b \leq_4 (a \sqcup_4 b)\\
-          \end{array}
-        \end{math}
-      \end{tabular}
   \end{tabular}
   \end{tabular}
 \end{lemma}
@@ -288,12 +291,11 @@ properties of attack trees with different attribute domains than the
 filter entailments.
 
 In comparison with their work the semantics presented here is a blend
-of the ideal and filter semantics.  It primarily consists of the ideal
-semantics, but as we can see from
+of the ideal and filter semantics. As we can see from
 Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics}
 the first two axioms are actually logical equivalences. This implies
-that this semantics can prove properties that neither the ideal nor the
-filter semantics can capture.  However, we do not yet know which
+that this semantics can prove properties that neither the ideal nor
+the filter semantics can capture.  However, we do not yet know which
 attribute domains correspond to this semantics.  We can isolate
 ourselves to just the ideal or the filter semantics, but what
 attribute domains can we reason about in this semantics when we blend
@@ -347,7 +349,8 @@ above.  Finally, we have the following two entailments:
 \begin{center}
   \begin{math}
     \footnotesize
-    \begin{array}{lll}
+    \begin{array}{|ll|l|}
+      \hline
       \begin{array}{lll}
         \underline{\interp{C} \leq_4 \interp{A}}:\\[4px]
         \,\,\,\,\begin{array}{rl}
@@ -366,7 +369,8 @@ above.  Finally, we have the following two entailments:
         \leq_4 &  b \rhd_4 ((a \sqcup_4 d) \odot_4 c)\\
         \leq_4 & (a \sqcup_4 d) \odot_4 (b \rhd_4 c)\\
         \end{array}
-      \end{array}
+      \end{array}\\
+      \hline
     \end{array}
   \end{math}
 \end{center}

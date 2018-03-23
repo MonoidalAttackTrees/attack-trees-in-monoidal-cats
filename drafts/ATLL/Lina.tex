@@ -51,9 +51,9 @@ causal attack trees by a simple data type, called \mh{IAT}, whose
 nodes are labeled with an integer identifier we call \mh{ID}.  We then
 define each type of attack tree as a record (labeled tuple):
 
-\begin{tabular}{cccccccc}
-  \\ 
-  \begin{minipage}{2in}        
+\noindent \begin{tabular}{|l|ll|}
+  \hline & & \\[-7px]
+    \begin{minipage}{2in}        
     \begin{minted}[fontsize=\scriptsize]{haskell}
 -- Attributed Process Attack Tree
 data APAttackTree attribute label =
@@ -66,7 +66,7 @@ data APAttackTree attribute label =
     \vspace{-2px}
   \end{minipage}  
   & \quad &
-  \begin{minipage}{1in}        
+    \begin{minipage}{2.4in}        
     \begin{minted}[fontsize=\scriptsize]{haskell}
 -- Process Attack Tree
 type PAttackTree label = APAttackTree () label
@@ -77,8 +77,9 @@ data AttackTree attribute label = AttackTree {
       configuration :: Conf attribute
 }
     \end{minted}
-  \end{minipage}
-  \\\\
+    \end{minipage}\\
+    & &\\    
+    \hline
 \end{tabular}
 
 \noindent
@@ -211,11 +212,11 @@ experimentation because the security practitioner can run several
 different forms of analysis on the same attack tree using different
 attribute domains.
 
-Attack trees in Lina can also be composed, and hence, complex trees
-can be broken down into smaller ones, then studied in isolation.  This
-helps facilitate correctness, and offers more flexibility.  As an
-example, in Fig.~\ref{fig:vehicle_attack_decomp} we break up
-\mh{vehicle_attack} into several smaller attack trees.
+Attack trees in Lina can also be composed and decomposed, hence,
+complex trees can be broken down into smaller ones, then studied in
+isolation.  This helps facilitate correctness, and offers more
+flexibility.  As an example, in Fig.~\ref{fig:vehicle_attack_decomp}
+we break up \mh{vehicle_attack} into several smaller attack trees.
 \begin{figure}  
   \begin{tabular}{|l|l|l|}
     \hline & \\[-8px]
@@ -404,10 +405,8 @@ endm
   \label{fig:maude-spec-matll}
 \end{figure}
 The axioms \verb!a1! through \verb!a5! are actually equivalences, but
-the last two rules are not.  The existence of inverses may cause Maude
-try additional paths during search, and hence, may increase the search
-time.  We are looking into alternatives.  At this point we can use
-these backends to reason about attack trees.
+the last two rules are not.  At this point we can use these backends
+to reason about attack trees.
 
 The programmer can make queries to Lina by first importing one or more
 Lina modules, and then making a query using Haskell's REPL -- read,
@@ -447,7 +446,7 @@ enc_data2 = start_PAT $
          (base_na "steal backup")))
     \end{minted}
   \end{mdframed}
-  \caption{Full Lina Script for Attack Trees A and C from Fig.~\ref{fig:2}}
+  \caption{Full Lina Script for the Attack Trees A and C from Fig.~\ref{fig:2}}
   \label{fig:lina-script-encrypt}
 \end{figure}
 Then an example Lina session is as follows:
