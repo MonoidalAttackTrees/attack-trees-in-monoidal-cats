@@ -63,7 +63,7 @@ of this semantics is that it is extremely simple.
 \textbf{Functional Programming.} Our second contribution is Lina, a
 new domain specific functional programming language for conducting
 threat analysis using attack trees.  Consider the example attack trees
-in Fig.~\ref{fig:atm-tree1} and Fig.~\ref{fig:atm-tree2}.
+in Fig.~\ref{fig:atm-tree}.
 \begin{figure}
   \vspace{-10px}
   \begin{tabular}{|l|l|}
@@ -80,18 +80,13 @@ seq_node "ATM attack"
     (or_node "get PIN"
       (base_na "social engineer")
       (base_na "find a post-it")))
-    (base_na "withdraw money")
+  (base_na "withdraw money")
         \end{minted}        
       \end{minipage}
     \end{tabular}\\
     \hline
-  \end{tabular}  
-  \label{fig:atm-tree1}
-  \caption{Attack Tree for an ATM attack from Figure~1 Kordy et al.~\cite{Kordy2017} with its corresponding Lina script}
-\vspace{-15px}  
-\end{figure}
-\begin{figure}
-  \vspace{-10px}
+  \end{tabular}
+  \\[5px]
   \begin{tabular}{|c|l|}
     \hline
     \includegraphics[scale=0.37]{ATM-Tree2}
@@ -118,9 +113,9 @@ or_node "ATM attack"
     \end{tabular}\\
     \hline
   \end{tabular}  
-  \label{fig:atm-tree2}
-  \caption{Attack Tree for an ATM attack from Figure~2 of Kordy et
-    al.~\cite{Kordy2017} and its corresponding Lina script}
+  \label{fig:atm-tree}
+  \caption{Attack Trees for an ATM attack from Figure~1 and Figure~2 of Kordy et
+    al.~\cite{Kordy2017} and their corresponding Lina scripts}
 \vspace{-15px}  
 \end{figure}
 Both of these contain actual Lina programs for each of the
@@ -129,10 +124,12 @@ Lina programs. Lina supports causal attack trees both with attributes
 or without, thus, there are two types of base attacks:
 \underline{base} attacks \underline{w}ith \underline{a}ttributes,
 denoted \verb!base_wa!, and \underline{base} attacks \text{w}ith
-\underline{n}o \underline{a}ttributes, denoted \verb!base_na!.  Lina
-is designed to be extremely simple, and actually reflect the typical
-pseudocode found throughout the literature.  However, Lina is more
-than just a simple definitional language.
+\underline{n}o \underline{a}ttributes, denoted \verb!base_na!; an
+example usage of the former can be found in
+Fig.~\ref{fig:vehicle_attack}.  Lina is designed to be extremely
+simple, and actually reflect the typical pseudocode found throughout
+the literature.  However, Lina is more than just a simple definitional
+language.
 
 Lina is an embedded domain specific language whose host language is
 the Haskell programming language \cite{jones2003haskell}.  So, why
@@ -167,7 +164,7 @@ connect automated tools than a programming language.  Lina is perfect
 as a target for new tools, and it can be connected to existing tools
 fairly easily.  In fact, Lina already supports automation using the
 automatic rewrite system Maude \cite{clavel2005maude}, for example,
-the two attack trees in Fig.~\ref{fig:atm-tree1} can be automatically
+the two attack trees in Fig.~\ref{fig:atm-tree} can be automatically
 proven equivalent to each other in Lina.  This is similar to Krody's
 \cite{Kordy2017} SPTool, but Lina goes further and supports more than
 one backend rewrite system, for example, Lina is the first tool to

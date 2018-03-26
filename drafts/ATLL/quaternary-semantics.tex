@@ -22,36 +22,42 @@ holding for parallel and sequential composition.
 \begin{definition}
   \label{def:logical-connectives}
   The logical connectives of our four valued logic are defined as
-  follows:\vspace{-5px}
-  \begin{itemize}
-  \item[] Parallel and Sequential Conjunction:\vspace{-19px}
+  follows:\vspace{-5px}  
     \begin{center}
       \begin{math}
-        \setlength{\arraycolsep}{10px}
+        \setlength{\arraycolsep}{5px}
         \begin{array}{lll}
           \begin{array}{lll}
-            P \odot_4 Q = 1,\\
-            \,\,\,\,\,\,\,\text{where neither $P$ nor $Q$ are $0$}\\
-          P \odot_4 Q = 0, \text{otherwise}\\
-          \\[14px]
-        \end{array}
-        &
-        \begin{array}{lll}          
-          P \rhd_4 Q = 1,\\
-          \,\,\,\,\,\,\,\text{where } P \in \{\half, 1\} \text{ and } Q \neq 0\\
-          P \rhd_4 Q = \forth, \\
-          \,\,\,\,\,\,\,\text{where $P = \forth$ and $Q \neq 0$}\\[2px]         
-          P \rhd_4 Q = 0, \text{otherwise}
-        \end{array}
+            \text{Parallel Conjunction:}\\
+            \begin{array}{lll}
+              P \odot_4 Q = 1,\\
+              \,\,\,\,\,\,\,\text{where neither $P$ nor $Q$ are $0$}\\
+              P \odot_4 Q = 0, \text{otherwise}\\
+              \\\\[2px]
+            \end{array}
+            \\[14px]
+          \end{array}
+          &
+          \begin{array}{lll}
+            \text{Sequential Conjunction:}\\
+            \begin{array}{lll}          
+              P \rhd_4 Q = 1,\\
+              \,\,\,\,\,\,\,\text{where } P \in \{\half, 1\} \text{ and } Q \neq 0\\
+              P \rhd_4 Q = \forth, \\
+              \,\,\,\,\,\,\,\text{where $P = \forth$ and $Q \neq 0$}\\[2px]         
+              P \rhd_4 Q = 0, \text{otherwise}
+            \end{array}
+          \end{array}
+          \\
+          \begin{array}{lll}
+            \text{Choice:}\\    
+            \begin{array}{lll}
+              P \sqcup_4 Q = \mathsf{max}(P,Q)
+            \end{array}
+          \end{array}
         \end{array}
       \end{math}
-    \end{center}
-    \vspace{-5px}
-  \item[] Choice: \\    
-    \begin{tabular}{lll}
-      \hspace{19px}$P \sqcup_4 Q = \mathsf{max}(P,Q)$    
-    \end{tabular}
-  \end{itemize}
+    \end{center}        
 \end{definition}
 These definitions are carefully crafted to satisfy the necessary
 properties to model attack trees.  Comparing these definitions with
@@ -74,9 +80,9 @@ the following result.
   \label{lemma:props_atree_ops_quaternary-semantics}
   \begin{itemize}
   \item[] (Symmetry) For any $P$ and $Q$, $P \bullet Q \equiv Q \bullet P$, for $\bullet \in \{\odot_4, \sqcup_4\}$.\\[-5px]
-  \item[] (Non-symmetry for Sequential Conjunction) It is not the case that, for any $P$ and $Q$, $P \rhd_4 Q \equiv Q \rhd_4 P$.\\[-5px]
+  \item[] (Non-symmetry for Sequential Conjunction) It is not the case that, for all $P$ and $Q$, $P \rhd_4 Q \equiv Q \rhd_4 P$.\\[-5px]
   \item[] (Associativity) For any $P$, $Q$, and $R$, $(P \bullet Q) \bullet R \equiv P \bullet (Q \bullet R)$, for $\bullet \in \{\odot_4, \rhd_4, \sqcup_4\}$.\\[-5px]
-  \item[] (Non-contraction for Parallel and Sequential Conjunction) It is not the case that for any $P$, $P \bullet P \equiv P$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
+  \item[] (Non-contraction for Parallel and Sequential Conjunction) It is not the case that for all $P$, $P \bullet P \equiv P$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
   \item[] (Distributive Law) For any $P$, $Q$, and $R$, $P \bullet (Q \sqcup_4 R) \equiv (P \bullet Q) \sqcup_4 (P \bullet R)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
   \end{itemize}
 \end{lemma}
@@ -209,10 +215,10 @@ the backup, but attack tree A does not require this.  Then attack tree
 B has dropped bribing the sysadmin and simply requires the attacker to
 just steal the backups.  Notice that none of the attack trees in
 Fig.~\ref{fig:2} are equivalent.  So how do we prove these
-specializations are sound?
-We simply define a notion of entailment in the quaternary semantics.
-Denote by $P \leq_4 Q$ the obvious ordering on $\mathsf{4}$.  Then we
-have the following result immediately.
+specializations are sound?  We simply define a notion of entailment in
+the quaternary semantics.  Denote by $P \leq_4 Q$ the usual natural
+number ordering restricted to $\mathsf{4}$.  Then we have the
+following result immediately.
 \begin{lemma}[Entailment in the Quaternary Semantics]
   \label{lemma:entailment_in_the_quaternary_semantics}
   $P \equiv Q$ if and only if $P \leq_4 Q$ and $Q \leq_4 P$
@@ -222,7 +228,7 @@ trees into directional properties captured here by entailments, and
 hence, every equivalence proved in the previous section can also be
 used directionally.
 
-We may now formally define when a attack tree is a sound
+We may now formally define when an attack tree is a sound
 specialization of another attack tree.
 \begin{definition}
   \label{def:specialization}
@@ -284,7 +290,9 @@ The former satisfies all of the entailments in
 Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and the left
 side of
 Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics},
-but the latter is similar, however, satisfying the right side of
+but latter satisfies all of the entailments in
+Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and the right
+side of
 Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics}.
 They were able to show that the ideal entailments allow one to prove
 properties of attack trees with different attribute domains than the
@@ -293,13 +301,15 @@ filter entailments.
 In comparison with their work the semantics presented here is a blend
 of the ideal and filter semantics. As we can see from
 Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics}
-the first two axioms are actually logical equivalences. This implies
-that this semantics can prove properties that neither the ideal nor
-the filter semantics can capture.  However, we do not yet know which
-attribute domains correspond to this semantics.  We can isolate
-ourselves to just the ideal or the filter semantics, but what
-attribute domains can we reason about in this semantics when we blend
-them?  This is left to future work.
+the first two axioms of the ideal and filter entailments are actually
+logical equivalences. This implies that this semantics can prove
+properties that neither the ideal nor the filter semantics can
+capture, furthermore, these equivalences cannot be proven using the
+rules of attack trees in Definition~\ref{def:atrees}.  However, we do
+not yet know which attribute domains correspond to this semantics.  We
+can isolate ourselves to just the ideal or the filter semantics, but
+what attribute domains can we reason about in this semantics when we
+blend them?  This is left to future work.
 
 We can now formally prove that the attack tree C is a specialization
 of attack tree A, and that attack tree B is a specialization of attack
