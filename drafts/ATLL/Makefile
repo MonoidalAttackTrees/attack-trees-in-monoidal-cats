@@ -20,14 +20,6 @@ attack-trees-output.tex : attack-trees.tex attack-trees/attack-trees.ott
 	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
 		-tex_filter attack-trees.tex attack-trees-output.tex
 
-postal-semantics-output.tex : postal-semantics.tex attack-trees/attack-trees.ott
-	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
-		-tex_filter postal-semantics.tex postal-semantics-output.tex
-
-rfw-output.tex : rfw.tex attack-trees/attack-trees.ott
-	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
-		-tex_filter rfw.tex rfw-output.tex
-
 intro-output.tex : intro.tex atll/atll.ott
 	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
 		-tex_filter intro.tex intro-output1.tex
@@ -39,30 +31,23 @@ quaternary-semantics-output.tex : quaternary-semantics.tex attack-trees/attack-t
 	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
 		-tex_filter quaternary-semantics.tex quaternary-semantics-output.tex
 
-atll-output.tex : atll.tex atll/atll.ott
-	$(OTT) $(OTT_FLAGS) -i atll/atll.ott -o atll-ott.tex -tex_name_prefix ATLL \
-		-tex_filter atll.tex atll-output.tex
-
-main.pdf : main.tex ref.bib Makefile attack-trees-output.tex intro-output.tex quaternary-semantics-output.tex atll-output.tex postal-semantics-output.tex rfw-output.tex Lina.tex
+main.pdf : main.tex ref.bib Makefile attack-trees-output.tex intro-output.tex quaternary-semantics-output.tex Lina.tex
 	$(PDFLATEX) -shell-escape -jobname=main main.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -shell-escape -jobname=main main.tex
 	$(PDFLATEX) -shell-escape -jobname=main main.tex
 
-TEXFILES = llncs.cls\
-	   attack-trees-ott.tex \
-	   atll-ott.tex \
+TEXFILES = attack-trees-output.tex \
+	   intro-output.tex \
+	   quaternary-semantics-output.tex \
+	   main.tex \
+	   ref.bib \
+	   llncs.cls \
 	   aterms-ott.tex \
 	   ATM-Tree1.png \
 	   ATM-Tree2.png \
 	   mathpartir.sty \
-	   ref.bib \
-	   main.tex \
-	   intro-output.tex \
-	   attack-trees-output.tex \
-	   quaternary-semantics-output.tex \
 	   atll-output.tex \
-	   rfw-output.tex \
 	   Lina.tex
 
 create-arxiv : $(TEXFILES)
