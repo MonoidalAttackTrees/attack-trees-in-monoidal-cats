@@ -3,13 +3,14 @@
 
 Kordy et al.~\cite{Kordy:2012} gave a very elegant and simple
 semantics of attack-defense trees in boolean algebras.  Unfortunately,
-while their semantics is elegant it does not capture the resource
+while their semantics is elegant, it does not capture the resource
 aspect of attack trees, it allows contraction, and it does not provide
 a means to model sequential composition.  In this section we give a
-semantics of attack trees in the spirit of Kordy et al.'s using a four
-valued logic.  This section was formally verified in the Agda Proof
-Assistant~\cite{Norell:2009}\footnote{The formalization can be found
-  at \url{https://github.com/MonoidalAttackTrees/ATLL-Formalization}}.
+semantics of attack trees in the spirit of Kordy et al.'s using a
+four-valued logic.  This section was formally verified in the Agda
+Proof Assistant~\cite{Norell:2009}\footnote{The formalization can be
+  found at
+  \url{https://github.com/MonoidalAttackTrees/ATLL-Formalization}}.
 
 The propositional variables, elements of the set $\mathsf{PVar}$, of
 our quaternary logic, denoted by $P$, $Q$, $R$, and $D$, range over
@@ -63,19 +64,19 @@ These definitions are carefully crafted to satisfy the necessary
 properties to model attack trees.  Comparing these definitions with
 Kordy et al.'s~\cite{Kordy:2012} work we can see that choice is
 defined similarly, but parallel composition is not a product --
-ordinary conjunction -- but rather a linear tensor product, and
-sequential composition is not actually definable in a boolean algebra,
-and hence, makes heavy use of the intermediate values to insure that
-neither exchange nor contraction hold (see
+ordinary conjunction -- but rather a linear tensor product. Sequential
+composition is not actually definable in a boolean algebra, and hence
+makes heavy use of the intermediate values to insure that neither
+exchange nor contraction hold (see
 Lemma~\ref{lemma:props_atree_ops_quaternary-semantics}).
 
-We use the usual notion of equivalence between propositions, that is,
+We use the usual notion of equivalence between propositions; that is,
 propositions $\phi$ and $\psi$ are considered equivalent, denoted by
 $\phi \equiv \psi$, if and only if they have the same truth tables. In
-order to model attack trees the previously defined logical connectives
-must satisfy the appropriate equivalences corresponding to the
-equations between attack trees.  These equivalences are all proven by
-the following result.
+order to model attack trees, the previously defined logical
+connectives must satisfy the appropriate equivalences corresponding to
+the equations between attack trees.  These equivalences are all proven
+by the following result.
 \begin{lemma}[Properties of the Attack Tree Operators in the Quaternary Semantics]
   \label{lemma:props_atree_ops_quaternary-semantics}
   \begin{itemize}
@@ -91,9 +92,9 @@ the following result.
   distributive law for each operator hold by simply comparing truth
   tables.  As for contraction for parallel composition, suppose $P =
   \forth$.  Then by definition $P \odot_4 P = 1$, but $\forth$ is not
-  $1$.  Contraction for sequential composition also fails, suppose $P
+  $1$.  Contraction for sequential composition also fails: suppose $P
   = \half$.  Then by definition $P \rhd_4 P = 1$, but $\half$ is not
-  $1$.  Similarly, symmetry fails for sequential composition. Suppose
+  $1$.  Similarly, symmetry fails for sequential composition: suppose
   $P = \forth$ and $Q = \half$.  Then $P \rhd_4 Q = \forth$, but $Q
   \rhd_4 P = 1$.
 \end{proof}
@@ -205,7 +206,7 @@ in Fig.~\ref{fig:2}.
     \\
     \hline
   \end{tabular}
-    \caption{Encrypted Data Attack from Figure~1 (A), Figure~3 (B), and Figure~2 (C) of Horne et al.~\cite{horne2017semantics}}
+    \caption{Encrypted Data Attack from Figure~1 (A), Figure~3 (B), and Figure~2 (C) of Horne et al.~\cite{horne2017semantics}.}
     \label{fig:2}
 \end{figure}
 Attack tree C is a sound specialization of attack tree A, and attack
@@ -283,14 +284,14 @@ semantics that can be used to reason about attack trees.
   \end{tabular}
   \end{tabular}
 \end{lemma}
-Each of the above entailments are due to Horne et
+Each of the above entailments is due to Horne et
 al.~\cite{horne2017semantics}.  They introduce two types of semantics
 called the \emph{ideal semantics} and the \emph{filter semantics}.
 The former satisfies all of the entailments in
 Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and the left
 side of
-Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics},
-but latter satisfies all of the entailments in
+Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics};
+the latter satisfies all of the entailments in
 Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and the right
 side of
 Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics}.
@@ -298,9 +299,9 @@ They were able to show that the ideal entailments allow one to prove
 properties of attack trees with different attribute domains than the
 filter entailments.
 
-In comparison with their work the semantics presented here is a blend
-of the ideal and filter semantics. As we can see from
-Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics}
+In comparison with their work, the semantics presented here blends the
+ideal and filter semantics. As we can see from
+Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics},
 the first two axioms of the ideal and filter entailments are actually
 logical equivalences. This implies that this semantics can prove
 properties that neither the ideal nor the filter semantics can

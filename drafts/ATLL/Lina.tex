@@ -21,18 +21,16 @@ All of the models mentioned in this paper have been incorporated into
 a new embedded domain specific language (EDSL) for conducting threat
 analysis called Lina\footnote{Lina is under active development and its
   implementation can be found online at
-  \url{https://github.com/MonoidalAttackTrees/Lina}}; which means
+  \url{https://github.com/MonoidalAttackTrees/Lina}} which means
 small, young palm tree, but we constructed the name by combining the
 words linear and attack.
  
-Lina is embedded inside of Haskell, a statically typed functional
+Lina is embedded inside of Haskell, a statically-typed functional
 programming language.  The most important property of any EDSL is that
 they subsume the entirety of their host language, and can be
-prototyped quite rapidly.  Haskell has several advantages, like Lina's
-ability to utilize Haskell's cutting edge verification tools, and its
-strong type system for catching bugs quickly.  In addition, Haskell
-has several tools that make building EDSLs more easily, for example,
-type classes.
+prototyped quite rapidly.  Haskell contributes several advantages,
+such as cutting edge verification tools, and a strong type system for
+catching bugs quickly.  
 
 Lina currently supports three types of causal attack trees:
 \begin{itemize}
@@ -83,10 +81,10 @@ data AttackTree attribute label = AttackTree {
 \end{tabular}
 
 \noindent
-A \mh{B.Bimap} is a dictionary where we can efficiently lookup
-\mh{ID}s given a \verb!label! or efficiently lookup \verb!label!s given an
-\mh{ID}, a \mh{M.Map} is a typical dictionary, and \mh{()} is the unit
-type.
+A \mh{B.Bimap} is a dictionary where we can efficiently look up
+\mh{ID}s given a \verb!label! or efficiently look up \verb!label!s
+given an \mh{ID}. A \mh{M.Map} is a typical dictionary, and \mh{()} is
+the unit type.
 
 This design has several benefits. Internal attack trees are very easy
 to translate to various backends, especially formulas because we can
@@ -94,21 +92,21 @@ use the \mh{ID}s on base attacks as atomic formulas -- which has its
 own benefits discussed below -- and modifying labels and attributes is
 more efficient than having them labeled on the trees themselves.  The
 previous data types reveal that actually all attack trees are
-attributed process attack trees where a process attack tree simply
-does not use the attributes.  This allows Lina to offer a uniform
-syntax for specifying each type of attack tree.
+attributed process attack trees, and a process attack tree simply does
+not use the attributes.  This allows Lina to offer a uniform syntax
+for specifying all types of attack tree.
 
 One important aspect of the definition of the various forms of attack
 trees is that the types \verb!label! and \verb!attribute! are actually
 type variables, and thus, our definition of attack trees is very
-general, in fact, \verb!label! and \verb!attribute! can be
+general; in fact, \verb!label! and \verb!attribute! can be
 instantiated with any type whose elements are comparable.  This
 property is captured by ad-hoc polymorphism using type classes in
-Haskell, and are checked during type checking.
+Haskell, and is checked during type checking.
 
 Conducting threat analysis using attack trees requires them to be
 associated with an attribute domain.  Typically, an attribute domain
-is a set together with operations for computing the attribute of the
+is a set, together with operations for computing the attribute of the
 branching nodes of an attack tree given attributes on the base
 attacks.  In Lina attribute domains are defined by a type, here called
 \verb!attribute!, and a configuration:
@@ -121,11 +119,11 @@ data Conf attribute = (Ord attribute) => Conf {
 }
 \end{minted}
 \end{center}
-Utilizing higher-order functions we can define configurations quite
-easily, and quite generically.  For example, here is the configuration
-that computes the minimum attribute for choice nodes, the maximum
-attribute for parallel nodes, and takes the sum of the children nodes
-as the attribute for sequential nodes:
+Utilizing higher-order functions we can define configurations easily
+and generically.  For example, here is the configuration that computes
+the minimum attribute for choice nodes, the maximum attribute for
+parallel nodes, and takes the sum of the children nodes as the
+attribute for sequential nodes:
 \begin{center}
   \begin{minted}[fontsize=\scriptsize]{haskell}
 minMaxAddConf :: (Ord attribute,Semiring attribute) => Conf attribute
@@ -133,7 +131,7 @@ minMaxAddConf = Conf min max (.+.)
 \end{minted}
 \end{center}
 Notice here that this configuration will work with any type at all
-whose elements are comparable and form a semiring, thus, making
+whose elements are comparable and form a semiring, thus making
 configurations generic and reusable.  This includes types like
 \mh{Integer} and \mh{Double}.
 
@@ -179,12 +177,12 @@ vehicle_attack = start_PAT $
       \end{minipage} \\
       \hline
     \end{tabular}
-  \caption{Lina Script for an Autonomous Vehicle Attack}
+  \caption{Lina Script for an Autonomous Vehicle Attack.}
   \label{fig:vehicle_attack}
 \end{figure}
 The definition of \mh{vehicle_attack} begins with a call to
-\mh{start_PAT}.  Behind the scenes all of the \mh{ID}'s within the
-internal attack tree are managed implicitly, and this requires the
+\mh{start_PAT}.  Behind the scenes, all of the \mh{ID}'s within the
+internal attack tree are managed implicitly, which requires the
 internals of Lina to work within a special state-based type.  The
 function \mh{start_PAT} initializes this state.
 
@@ -198,8 +196,8 @@ attack tree with a configuration called \mh{minMaxMaxConf} that simply
 takes the minimum as the attribute of choice nodes, and the maximum as
 the attribute of every parallel and sequential node.
 
-Two features that Lina has that other tools lack is its ability to
-abstract the definitions of attack trees, and it is highly
+Lina as two important features that other tools lack.  First, it can
+abstract the definitions of attack trees. Second, it is highly
 compositional, because it is embedded inside of a functional
 programming language.  Consider the following abstraction of
 \mh{vehicle_attack}:
@@ -212,7 +210,7 @@ experimentation because the security practitioner can run several
 different forms of analysis on the same attack tree using different
 attribute domains.
 
-Attack trees in Lina can also be composed and decomposed, hence,
+Attack trees in Lina can also be composed and decomposed; hence,
 complex trees can be broken down into smaller ones, then studied in
 isolation.  This helps facilitate correctness, and offers more
 flexibility.  As an example, in Fig.~\ref{fig:vehicle_attack_decomp}
@@ -278,7 +276,7 @@ es_attack = start_PAT $
         \begin{minted}[fontsize=\scriptsize]{haskell}
 on_attack :: APAttackTree Double String
 on_attack = start_PAT $
-  seq_node "over night attack"
+  seq_node "overnight attack"
      (base_wa 0.05 "Find address where car
                     is stored")
      (insert cv_attack)
@@ -305,32 +303,32 @@ vehicle_attack'' = start_PAT $
 \label{fig:vehicle_attack_decomp}
 \end{figure}
 We can see in the example that if we wish to use an already defined
-attack tree in one we are defining, then we can make use of the
+attack tree in an attack tree we are defining, then we can make use of the
 \mh{insert} function.  As we mentioned above, behind the scenes Lina
-maintains a special state that tracks the identifiers of each node,
+maintains a special state that tracks the identifiers of each node;
 thus, when one wishes to insert an existing attack tree, which will
 have its own identifier labeling, into a new tree, then that internal
-state must be updated, thus, \mh{insert} carries out this updating.
+state must be updated; thus, \mh{insert} carries out this updating.
 Lina is designed so that the user never has to encounter that internal
 state.
 
 So far we have introduced Lina's basic design and definitional
 language for specifying causal attack trees, and we have already begun
-seeing improvements over existing tools, however, Lina has so much
-more to offer.  We now introduce Lina's support for reasoning and
-performing analysis on causal attack trees.
+seeing improvements over existing tools; however, Lina has so much
+more to offer.  We now introduce Lina's support for reasoning about
+and performing analysis on causal attack trees.
 
 Kordy et al.~\cite{Kordy2017} introduce the SPTool, an equivalence
-checker for causal attack trees, that makes use of the rewriting logic
+checker for causal attack trees that makes use of the rewriting logic
 system Maude~\cite{clavel2005maude} which allows one to specify
-rewrite systems, but also systems of equivalences.  Kordy et
-al. specify the equivalences for causal attack trees from Jhawar et
+rewrite systems and systems of equivalences.  Kordy et al. specify the
+equivalences for causal attack trees from Jhawar et
 al.'s~\cite{Jhawar:2015} work in Maude, and then use Maude's querying
 system to automatically prove equivalences between causal attack
 trees.  This is a great idea, and we incorporate it into Lina, but we
 make several advancements over SPTool.
 
-Lina includes a general Maude interface, and allows one to easily
+Lina includes a general Maude interface, and allows the user to easily
 define new Maude backends, where a \emph{Maude backend} corresponds to
 a Maude specification of a particular rewrite system.  Currently, Lina
 has two Maude backends: equivalences for causal attack trees, and the
@@ -338,7 +336,7 @@ multiplicative attack tree linear logic (MATLL).  The former is
 essentially the exact same specification as the SPTool, but the latter
 corresponds to the quaternary semantics defined in
 Section~\ref{sec:a_quaternary_semantics_for_causal_attack_trees} and
-Section~\ref{sec:specialization_in_the_quaternary_semantics},
+Section~\ref{sec:specialization_in_the_quaternary_semantics};
 specifically, this backend is defined as a rewrite system that
 includes all of the rules from
 Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and
@@ -364,8 +362,8 @@ to write the Maude specification for the various backends.
 
 The full Maude specification for the causal attack tree equivalence
 checker can be found in
-Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, their
-specification only supports proving equivalences, but what about
+Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, Kordey et
+al.'s specification only supports proving equivalences, but what about
 specializations?  Lina supports proving specializations between attack
 trees using the MATLL Maude backend.  Its full Maude specification can
 be found in Fig.~\ref{fig:maude-spec-matll}.
@@ -401,7 +399,7 @@ rl [seq-to-para] : a ; b              => a . b .
 endm      
 \end{verbatim}
 \end{mdframed}
-  \caption{Maude Specification for MATLL}
+  \caption{Maude Specification for MATLL.}
   \label{fig:maude-spec-matll}
 \end{figure}
 The axioms \verb!a1! through \verb!a5! are actually equivalences, but
@@ -411,7 +409,7 @@ to reason about attack trees.
 The programmer can make queries to Lina by first importing one or more
 Lina modules, and then making a query using Haskell's REPL -- read,
 evaluate, print, loop -- called GHCi.  Consider the example Lina
-program in Fig.~\ref{fig:lina-script-encrypt}, these are the attack
+program in Fig.~\ref{fig:lina-script-encrypt}. These are the attack
 trees from Fig.~\ref{fig:2}.
 \begin{figure}
   \begin{mdframed}
@@ -446,7 +444,7 @@ enc_data2 = start_PAT $
          (base_na "steal backup")))
     \end{minted}
   \end{mdframed}
-  \caption{Full Lina Script for the Attack Trees A and C from Fig.~\ref{fig:2}}
+  \caption{Full Lina Script for the Attack Trees A and C from Fig.~\ref{fig:2}.}
   \label{fig:lina-script-encrypt}
 \end{figure}
 Then an example Lina session is as follows:
@@ -464,22 +462,21 @@ In this session we first load the Lina script from
 Fig.~\ref{fig:lina-script-encrypt} which is stored in the file
 \verb!Specializations.hs!.  Then we ask Lina if \verb!enc_data2! is a
 specialization of \verb!enc_data1!, and Lina responds \verb!True!,
-thus, automating the proof given in Example~\ref{ex:ex1}.  In addition
-to reasoning about attack trees Lina also support analysis of attack
-trees.
+thus automating the proof given in Example~\ref{ex:ex1}.
 
-Currently, Lina supports the several types of analysis: evaluating
-attack trees, querying the attack tree for the attribute value of a
-node, projecting out the set of attacks from an attack tree, computing
-the maximal and minimal attack.
+In addition to reasoning about attack trees, Lina also support
+analysis of attack trees.  Currently, Lina supports several types of
+analysis: evaluating attack trees, querying the attack tree for the
+attribute value of a node, projecting out the set of attacks from an
+attack tree, and computing the maximal and minimal attack.
 
-When one defines an attack tree that tree is left unevaluated, that
+When one defines an attack tree that tree is left unevaluated; that
 is, the attribute dictionary associated with the attack tree only has
 attributes recorded for the base attacks.  If one wishes to know the
 attribute values at the branching nodes, then one must evaluate the
-attack tree, which then populates the attribute dictionary with the
-missing attributes.  For example, we may evaluate the attack tree for
-the autonomous vehicle attack from Fig.~\ref{fig:vehicle_attack}, and
+attack tree, which populates the attribute dictionary with the missing
+attributes.  For example, we may evaluate the attack tree for the
+autonomous vehicle attack from Fig.~\ref{fig:vehicle_attack}, and
 query the tree for the attributes at various nodes:
 \begin{mdframed}
 \scriptsize
@@ -495,11 +492,11 @@ name \mh{e_vat}, and then we use the attributed query combinator
 \verb!<@>! to ask for the attribute at the parallel node labeled with
 \mh{"social engineering attack"}. Note that the evaluator, \mh{eval},
 uses the configuration associated with the attack tree to compute the
-values at each branching node.  It is also possible to project out
-various attacks from an attack tree.
+values at each branching node.
 
-In Lina an \emph{attack} corresponds to essentially an attack tree
-with no choice nodes.  We call its data type \mh{Attack attribute
+It is also possible to project out various attacks from an attack
+tree.  In Lina an \emph{attack} corresponds to essentially an attack
+tree with no choice nodes.  We call its data type \mh{Attack attribute
   label}.  An attack does not have any choice nodes, because they are
 all split into multiple attacks; one for each child node.  For
 example, the set of possible attacks for the autonomous vehicle attack
@@ -553,7 +550,7 @@ SEQ("over night attack",0.5)
     \end{tabular}\\
     \hline
   \end{tabular}
-  \caption{Set of Possible Attacks for an Autonomous Vehicle Attack}
+  \caption{Set of Possible Attacks for an Autonomous Vehicle Attack.}
   \label{fig:vehicle_attack_attacks}
 \end{figure}
 Lina can compute these automatically using the \mh{get_attacks}
