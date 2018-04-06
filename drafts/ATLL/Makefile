@@ -47,10 +47,9 @@ TEXFILES = attack-trees-output.tex \
 	   ATM-Tree1.png \
 	   ATM-Tree2.png \
 	   mathpartir.sty \
-	   atll-output.tex \
 	   Lina.tex
 
-create-arxiv : $(TEXFILES)
+arxiv : $(TEXFILES)
 	mkdir -p arxiv
 	cp $(TEXFILES) arxiv
 
