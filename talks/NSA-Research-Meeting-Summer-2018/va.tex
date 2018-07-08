@@ -1,0 +1,18 @@
+\begin{center}
+  \begin{math}
+    \begin{array}{lll}
+      A = \text{``Modify Street Signs to Cause Wreck``}\\
+      B = \text{``Pose as Mechanic``}\\
+      C = \text{``Install Malware``}\\
+      D = \text{``Find Address of Cars Location``}\\
+      E = \text{``Break Window``}\\
+      F = \text{``Disable Door Alarm/Locks``}\\
+      \\
+      \begin{array}{lll}
+               & (A \rhd (B \odot C)) \sqcup (D \rhd ((E \sqcup F) \rhd C))\\
+        \equiv & ((A \rhd B) \odot (A \rhd C)) \sqcup ((D \rhd (E \rhd C)) \sqcup (D \rhd (F \rhd C)))\\
+      \end{array}
+      
+    \end{array}
+  \end{math}
+\end{center}

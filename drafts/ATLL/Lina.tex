@@ -160,18 +160,18 @@ import Lina.AttackTree
 vehicle_attack :: APAttackTree Double String
 vehicle_attack = start_PAT $
   or_node "Autonomous Vehicle Attack"
-    (seq_node "external sensor attack"
-       (base_wa 0.2 "modify street signs to cause wreck")
-       (and_node "social engineering attack"
-          (base_wa 0.6 "pose as mechanic")
-          (base_wa 0.1 "install malware")))
-    (seq_node "over night attack"
-       (base_wa 0.05 "Find address where car is stored")
-       (seq_node "compromise vehicle"
-          (or_node "break in"
-             (base_wa 0.8 "break window")
-             (base_wa 0.5 "disable door alarm/locks"))
-          (base_wa 0.1 "install malware")))
+    (seq_node "External Sensor Attack"
+       (base_wa 0.2 "Modify Street Signs to Cause Wreck")
+       (and_node "Social Engineering Attack"
+          (base_wa 0.6 "Pose as Mechanic")
+          (base_wa 0.1 "Install Malware")))
+    (seq_node "Over Night Attack"
+       (base_wa 0.05 "Find Address where Car is Stored")
+       (seq_node "Compromise Vehicle"
+          (or_node "Break In"
+             (base_wa 0.8 "Break Window")
+             (base_wa 0.5 "Disable Door Alarm/Locks"))
+          (base_wa 0.1 "Install Malware")))
         \end{minted}
         \vspace{2px}
       \end{minipage} \\
@@ -568,6 +568,7 @@ For example, consider the following session:
 		("install malware",0.1))]
   \end{verbatim}
 \end{mdframed}
+
 In this session we first apply \mh{get_attacks} to \mh{vehicle_AT} to
 compute the set of possible attacks, and then we compute the minimal
 attack from this set.

@@ -5,45 +5,60 @@ embed
 
 metavar costvar, c ::=
 metavar termvar, x, y , z, f ::=
-metavar baseAttackVars, N ::=
-metavar baseAttackTVars, n ::= 
+metavar baseAttackTVars, b ::= 
 indexvar index, i , j, k ::=
 
 grammar
   A, B, C, E, F, d {{tex D}}, T :: 'A_' ::=
-    | N        :: :: Base
-    | A (.) B  :: :: Para
-    | A > B    :: :: Seq
-    | A + B    :: :: Choice
-    | A -o B   :: :: Limp
-    | A -> B   :: :: SeqImpL
-    | B <- A   :: :: SeqImpR
-    | A o-o B  :: :: Bilimp    
-    | ( A )    :: :: Paren
-    | h( A )   ::  :: HParen
+    | Base     ::   :: Base
+    {{tex \mathsf{Base} }}
+    | A *  B   ::   :: Ten
+    | A (.) B  ::   :: Para
+    | A + B    ::   :: Choice
+    | A -o B   ::   :: Limp
+    | A o-o B  ::   :: Bilimp    
+    | ( A )    ::   :: Paren
+    | h( A )   :: M :: HParen
     {{tex [[A]] }}
 
   p :: 'Pat_' ::=
     | -  :: :: H
     | x  :: :: Var
-    | p1 (+) p2 :: :: Par
+    | p1 * p2 :: :: Ten
     | p1 (.) p2 :: :: Para
-    | p1 > p2   :: :: Seq
     | p1 + p2   :: :: Choice
+    | p1 o p2   :: M :: Circ
+    {{tex [[p1]] \circ [[p2]] }}    
     | ( p )     :: :: Parens
 
+  t :: 'Term_' ::=
+    | b                ::   :: BaseAttacks
+    | x                ::   :: Var
+    | t1 * t2          ::   :: Ten
+    | t1 o t2          :: M :: Circ
+    {{tex [[t1]] \circ [[t2]] }}
+    | t1 (.) t2        ::   :: Para
+    | let p = t1 in t2 :: :: Let
+    {{tex \mathsf{let}\,[[p]] = [[t1]]\,\mathsf{in}\,[[t2]] }}
+    | t1 + t2          ::   :: Choice
+    | \ x . t          ::   :: Fun
+    {{tex \lambda [[x]] . [[t]] }}
+    | t1 t2            ::   :: App
+    | ( t )            :: M :: paren
+    | [ t1 / x ] t2    :: M :: Sub
+
   G {{ tex \Gamma }}, D {{tex \Delta }} :: G_ ::=                 
-    | *                   ::   :: emptyCtx     
-    | A                   ::   :: hyp
+    | .                   ::   :: emptyCtx
+    {{tex \emptyset }}
+    | x : A               ::   :: hyp
     | G ( G' )            ::   :: peak
     {{tex [[G]]([[G']]) }}
     | G , G'              ::   :: tensorA
-    | G ; G'              ::   :: seqenceA
     | G1 [] G2            ::   :: choiceA
     {{tex [[G1]] \sqbullet [[G2]] }}
     | G1 . G2             ::   :: paraA
     {{tex [[G1]] \bullet [[G2]] }}
-    | G1 o G2             ::   :: circ
+    | G1 o G2             :: M :: Circ
     {{tex [[G1]] \circ [[G2]] }}
     | ( G )               ::   :: parens
     | h( G )              ::   :: hparens
@@ -100,6 +115,8 @@ grammar
     | ( formula )         :: S :: parens
     {{tex [[formula]] }}
     | D1 != D2            :: M :: NeqC
+    | b in BB             :: M :: BaseAttacks
+    {{tex [[b]] \in \mathbb{B} }}
     
 defns
   Typing :: '' ::=
@@ -120,46 +137,19 @@ defn
   (G1 o G2) o G3 |- G1 o (G2 o G3)
 
   ---------- :: u1
-  G o * |- G
+  G o . |- G
 
   ---------- :: u2
-  * o G |- G
+  . o G |- G
 
-  ---------------- :: e1
-  G(A,B) |- G(B,A)
+  -------------------------------- :: e1
+  G(x : A,y : B) |- G(y : B,x : A)
 
-  ---------------- :: e2
-  G(A.B) |- G(B.A)
+  -------------------------------- :: e2
+  G(x : A.y : B) |- G(x : B.y : A)
 
-  ---------------------- :: e3
-  G(A [] B) |- G(B [] A)
-
-  ---------------------------------------- :: i1
-  G((D1;D3).(D2;D4)) |- G((D1.D2);(D3.D4))
- 
-  ----------------------------------------------- :: i2
-  G((D1;D3)[](D2;D4)) |- G((D1 [] D2);(D3 [] D4))
-
-  ----------------------------------------------- :: i2i
-  G((D1 [] D2);(D3 [] D4)) |- G((D1;D3)[](D2;D4))
-
-  ------------------------------------------------- :: i3
-  G((D1.D3) [] (D2.D4)) |- G((D1 [] D2).(D3 [] D4))
-
-  ------------------------------------------------- :: i3i
-  G((D1 [] D2).(D3 [] D4)) |- G((D1.D3) [] (D2.D4))
-
-  -------------------------------- :: d1
-  G(A;(D1.D2)) |- G((A;D1).(A;D2))
-
-  -------------------------------- :: d2
-  G((A;D1).(A;D2)) |- G(A;(D1.D2))
-
-  -------------------------------- :: d3
-  G(A,(D1.D2)) |- G((A,D1).(A,D2))
-
-  -------------------------------- :: d4
-  G((A,D1).(A,D2)) |- G(A,(D1.D2))
+  -------------------------------------- :: e3
+  G(x : A [] y : B) |- G(y : B [] x : A)
 
   -------------------- :: Weak
   G(D1) |- G(D1 [] D2)
@@ -168,66 +158,67 @@ defn
   G(D [] D) |- G(D)
 
 defn
- G |- A :: :: atl :: 'L_'
+ G |- t : A :: :: atl :: 'L_'
  {{com Attack Tree Logic (ATL) }}
- {{tex [[G]] \vdash [[A]] }} by
+ {{tex [[G]] \vdash [[t]]:[[A]] }} by
     
- ------ :: var
- B |- B
+ -------------- :: var
+ x : B |- x : B
 
- ------ :: node
- * |- N
+ b in BB
+ ------------- :: base
+ . |- b : Base
 
- G1 |- G2 && G2 |- A
+ G1 |- G2 && G2 |- t : A
  ----------------------- :: Ctx
- G1 |- A
+ G1 |- t : A
 
- G |- A && D |- B
- ---------------- :: paraI
- G.D |- A (.) B
+ G |- t1 : A && D |- t2 : B
+ -------------------------- :: tenI
+ G , D |- t1 * t2 : A * B
 
- G |- A && D |- B
- ---------------- :: choiceI
- G [] D |- A + B
+ G |- t1 : A && D |- t2 : B
+ -------------------------- :: paraI
+ G.D |- t1 (.) t2 : A (.) B
 
- G |- A && D |- B
- ---------------- :: seqI
- G;D |- A >  B
+ G |- t1 : A && D |- t2 : B
+ -------------------------- :: choiceI
+ G [] D |- t1 + t2 : A + B
 
- G |- A (.) B && D(A.B) |- C
- --------------------------- :: paraE
- D(G) |- C
+ G |- t1 : A * B && D(x : A,y : B) |- t2 : C
+ --------------------------------------------- :: tenE
+ D(G) |- let x * y = t1 in t2 : C
 
- G |- A + B && D(A [] B) |- C
- -------------------------------------- :: choiceE
- D(G) |- C
+ G |- t1 : A (.) B && D(x : A.y : B) |- t2 : C
+ --------------------------------------------- :: paraE
+ D(G) |- let x (.) y = t1 in t2 : C
 
- G |- A > B && D(A;B) |- C
- -------------------------------------- :: seqE
- D(G) |- C
+ G |- t1 : A + B && D(x : A [] y : B) |- t2 : C
+ ---------------------------------------------- :: choiceE
+ D(G) |- let x + y = t1 in t2 : C
 
- G,A |- B
- ----------- :: limpI
- G |- A -o B
+ G,x : A |- t : B
+ ------------------ :: limpI
+ G |- \x.t : A -o B
 
- G |- A -o B && D |- A
- --------------------- :: limpE
- G,D |- B
+ G |- t1 : A -o B && D |- t2 : A
+ ------------------------------- :: limpE
+ G,D |- t1 t2 : B
 
- G;A |- B
- ----------- :: RlimpI
- G |- A -> B
+defn
+  t1 ~> t2 :: :: atl_RW :: 'R_'
+by
 
- G |- A -> B && D |- A
- ------------------------------- :: RlimpE
- G;D |- B
+  ---------------------- :: beta
+  (\x.t2) t1 ~> [t1/x]t2
 
- A;G |- B
- ----------- :: LlimpI
- G |- B <- A
+  ----------------------------------------------- :: let
+  (let x o y = t1 o t2 in t3) ~> ([t1/x][t2/y]t3)
 
- G |- B <- A && D |- A
- --------------------- :: LlimpE
- D;G |- B
+  ----------------------------------------------- :: letC1
+  (let p = t1 in t2) t3 ~> (let p = t1 in (t2 t3))
+
+  -------------------------------------------------------------------------- :: letC2         
+  (let p2 = (let p1 = t1 in t2) in t3) ~> (let p1 = t1 in let p2 = t2 in t3)
 
 %
