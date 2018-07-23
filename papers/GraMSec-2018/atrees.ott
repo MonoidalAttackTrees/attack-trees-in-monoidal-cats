@@ -1,0 +1,137 @@
+metavar term_var, b , w, x, y, z, v ::=
+metavar n , m ::=
+metavar vecs, vw {{tex \vec{w} }}, vx {{tex \vec{x} }}, vy {{tex \vec{y} }}, vz {{tex \vec{z} }} ::=
+indexvar index_var, i, j, k ::= 
+
+grammar
+
+% Object-level Formulas.
+atree, t :: 'ATree_' ::=
+  | b         :: :: Base
+  | ( b1 , c( b2 ) ) :: :: BaseCost
+  {{tex ([[b1]], \mathsf{c}([[b2]])) }}
+  | t1 + t2   :: :: Parallel
+  {{tex [[t1]] \odot [[t2]] }}
+  | t1 (+) t2 :: :: Choice
+  {{tex [[t1]] \sqcup [[t2]] }}
+  | t1 (x) t2 :: :: Ortho
+  {{tex [[t1]] \otimes [[t2]] }}  
+  | t1 ; t2   :: :: SeqComp
+  {{tex [[t1]] \rhd [[t2]] }}
+  | t1 +op t2   :: :: Parallel2
+  {{tex [[t1]] \odot_{\mathsf{op}_\odot} [[t2]] }}
+  | t1 (+)op t2 :: :: Choice2
+  {{tex [[t1]] \sqcup_{\mathsf{op}_\sqcup} [[t2]] }}
+  | t1 ;op t2   :: :: SeqComp2
+  {{tex [[t1]] \rhd_{\mathsf{op}_\rhd} [[t2]] }}  
+  | ! t       :: :: OfCourse
+  {{tex \textcopyright [[t]] }}
+  | ( t )     :: S :: Parens
+  | h( t )    :: M :: HParens
+  {{tex [[t]] }}
+  | t1 op t2  :: M :: Op
+  {{tex [[t1]] \mathop{\mathsf{op} } [[t2]] }}
+  | t1 opS t2 :: M :: OpS
+  {{tex [[t1]] \mathop{\mathsf{op_S} } [[t2]] }}  
+
+type, T :: 'Type_' ::=
+  | I         ::   :: Unit
+  | T1 ; T2   ::   :: Seq
+  | T1 (x) T2 :: M :: Tensor
+  | e T       ::   :: Ex
+
+term, s {{tex s}} :: 'Term_' ::=
+  | x                       ::   :: Var
+  | unit                    ::   :: Unit  
+  | s1 ; s2                 ::   :: Seq
+  | ex s1 with y , z in s2  ::   :: Ex
+  | derelict s              ::   :: Derel
+  | promote s for s' in s'' ::   :: Promote
+  | s1 (x) s2               :: M :: Tensor
+  | let unit = s in s'      ::   :: LetU
+  | let x ; y = s in s'     ::   :: LetT
+  | vec s                   :: M :: Vec
+  {{tex \overrightarrow{[[s]]} }}
+
+ctx, G {{tex \Gamma }} :: 'Ctx_' ::=
+  | . :: :: Empty
+  | x : T :: :: El  
+  | G1 , G2 :: :: Ext
+  | x1 : T1 , ... , xi : Ti :: M :: Vec
+
+terminals :: 'terminals_' ::=
+  | e :: :: E
+  {{tex \mathsf{e} }}
+  | . :: :: EmptyCtx
+  {{tex \cdot }}
+  | |- :: :: Vdash
+  {{tex \vdash }}
+  | ; :: :: Seq
+  {{tex \rhd }}
+  | (x) :: :: Tensor
+  {{tex \otimes }}
+  | delrelict :: :: Delrel
+  {{tex \mathsf{delrelict}\, }}
+  | promote :: :: Promote
+  {{tex \mathsf{promote}\, }}
+  | unit :: :: Unit
+  {{tex \mathsf{unit} }}
+  | in :: :: In
+  {{tex \,\mathsf{in}\, }}
+  | let :: :: Let
+  {{tex \mathsf{let}\, }}  
+  | with :: :: with
+  {{tex \,\mathsf{with}\, }}
+  | for :: :: for
+  {{tex \,\mathsf{for}\, }}  
+  | ex :: :: Ex
+  {{tex \mathsf{ex}\, }}
+  | I :: :: UnitTy
+  {{tex \mathsf{I} }}
+
+formula :: 'formula_' ::=
+  | judgement           ::   :: judgement
+  | formula && formula' ::   :: Quad
+  {{tex [[formula]] \quad [[formula']] }}
+  | formula1 ... formulai :: :: FormDot
+  | vec formula :: M :: VecForm
+  {{tex \overrightarrow{[[formula]]} }}
+  | ( formula ) :: :: Formula
+  {{tex [[formula]] }}
+
+defns
+  Jtype :: '' ::=
+
+defn
+  G |- s : T :: :: type :: ''
+by
+
+  -------------- :: var
+  x : T |- x : T
+
+  ------------- :: unitI
+  . |- unit : I
+
+  G2 |- s1 : I && G1 |- s2 : T
+  -------------------------------- :: unitE
+  G1,G2 |- let unit = s1 in s2 : T
+
+  G1 |- s1 : T1 && G2 |- s2 : T2
+  ------------------------------ :: tenI
+  G1,G2 |- s1 ; s2 : T1 ; T2
+
+  G2 |- s1 : T1 ; T2 && G1,x : T1,y : T2,G3 |- s2 : T3
+  ------------------------------------------------------ :: tenE
+  G1,G2,G3 |- let x ; y = s1 in s2 : T3
+
+  G2 |- s1 : e T1 ; e T2 && G1,w : e T2,x : e T1,G2 |- s : T
+  ------------------------------------------------------------ :: ex
+  G1,G2,G3 |- ex s1 with w , x in s : T
+  
+  G |- s : e T
+  ------------------- :: dereliction
+  G |- derelict s : T
+
+  (vec Gi |- si : e Ti) && x1 : e T1 , ... , xi : e Ti |- s : T
+  ------------------------------------------------------------- :: promotion
+  G |- promote vec s for vec xi in s : T

@@ -1,0 +1,100 @@
+embed
+  {{tex-preamble \usepackage{cmll}
+                 \usepackage{relsize} }}
+
+metavar termvar, x, y , z, f ::=
+metavar baseAttackVars, a,b,c,dd {{tex d}}, N ::=
+metavar baseAttackTVars, n ::= 
+indexvar index, i , j, k ::=
+
+grammar
+  A, B, C, E, F, d {{tex D}}, T, S :: 'A_' ::=
+    | b        :: :: Base
+    | AND ( A , B )  :: :: Para
+    {{tex \mathsf{AND}([[A]],[[B]]) }}
+    | SEQ ( A , B ) :: :: Seq
+    {{tex \mathsf{SEQ}([[A]],[[B]]) }}
+    | OR ( A , B )   :: :: Or
+    {{tex \mathsf{OR}([[A]],[[B]]) }}
+    | ( A )    :: :: Paren
+    | h( A )   ::  :: HParen
+    {{tex [[A]] }}
+
+  terminals :: 'terminals_' ::=
+    | (.) :: :: Para
+    {{tex \odot}}
+    | (+) :: :: Par
+    {{tex \oplus}}    
+    | > :: :: Seq
+    {{tex \rhd}}
+    | + :: :: Choice
+    {{tex \sqcup }}
+    |  ->                 ::   :: arrow
+    {{tex \rightharpoonup }}
+    |  <-                 ::   :: arrow2
+    {{tex \leftharpoonup }}
+    |  -o                 ::   :: arrow3
+    {{tex \multimap }}
+    |  o-o                 ::   :: arrow4
+    {{tex \multimapboth }}        
+    | |-                  ::   :: turnstile
+    {{tex \vdash }}
+    | |~                  ::   :: ndash
+    {{tex \not \vdash }}    
+    | succ                ::   :: succ
+    {{tex \mathsf{succ} }}
+    | ~                   ::   :: cons
+    {{tex \approx }}
+    | ~U                  ::   :: conv
+    {{tex \sim_U }}    
+    | elem                ::   :: elem
+    {{tex \in }}
+    | ~>                  ::   :: red
+    {{tex \rightsquigarrow }}
+    | ~>c                  ::   :: red5
+    {{tex \rightsquigarrow_\copyright }}
+    | ~>c*                ::   :: red6
+    {{tex \rightsquigarrow^*_\copyright }}        
+    | <~                  ::   :: red2
+    {{tex \leftsquigarrow }}
+    | ~>*                 ::   :: red3
+    {{tex \rightsquigarrow^{\hspace{-1.5px}*} }}
+    | *<~                 ::   :: red4
+    {{tex \prescript{*\hspace{-2px} }{}{\leftsquigarrow} }}        
+    | box        :: :: box
+    {{tex \mathsf{box} }}
+    | unbox        :: :: unbox
+    {{tex \mathsf{unbox} }}
+    | fst        :: :: fst
+    {{tex \mathsf{fst} }}
+    | snd        :: :: snd
+    {{tex \mathsf{snd} }}
+    | !=         :: :: Neq
+    {{tex \neq }}
+    | nin        :: :: Nin
+    {{tex \not\in }}
+    | ~= :: :: SimEq
+    {{tex \simeq }}
+
+  formula :: 'formula_' ::=
+    | judgement           ::   :: judgement
+    | formula1 && formula2 ::  :: Quad
+    {{tex [[formula1]] \quad [[formula2]] }}
+    | ( formula )         :: S :: parens
+    {{tex [[formula]] }}
+    | T1 ~> T2            :: M :: RW1
+    | T1 ~>c T2           :: M :: RW5
+    | T1 ~>c* T2          :: M :: RW6
+    | T1 <~ T2            :: M :: RW2
+    | T1 ~>* T2           :: M :: RW3
+    | T1 *<~ T2           :: M :: RW4
+    | T1 ~= T2            :: M :: Eq2
+    | join T1 T2          :: M :: JoinT
+    {{tex [[T1]] \curlyveedownarrow [[T2]] }}
+
+defns
+  Typing :: '' ::=
+
+defn
+  T1 ~ T2 :: :: eqat :: 'E_'
+  {{tex [[T1]] \approx [[T2]] }} by

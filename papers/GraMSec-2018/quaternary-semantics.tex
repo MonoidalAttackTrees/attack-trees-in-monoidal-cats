@@ -1,0 +1,398 @@
+\newcommand{\forth}{\frac{1}{4}}
+\newcommand{\half}{\frac{1}{2}}
+
+Kordy et al.~\cite{Kordy:2012} gave a very elegant and simple
+semantics of attack-defense trees in boolean algebras.  Unfortunately,
+while their semantics is elegant, it does not capture the resource
+aspect of attack trees, it allows contraction, and it does not provide
+a means to model sequential composition.  In this section we give a
+semantics of attack trees in the spirit of Kordy et al.'s using a
+four-valued logic.  This section was formally verified in the Agda
+Proof Assistant~\cite{Norell:2009}\footnote{The formalization can be
+  found at
+  \url{https://github.com/MonoidalAttackTrees/ATLL-Formalization}}.
+
+The propositional variables, elements of the set $\mathsf{PVar}$, of
+our quaternary logic, denoted by $P$, $Q$, $R$, and $D$, range over
+the set $\mathsf{4} = \{0, \forth, \half, 1\}$.  We think of $0$ and
+$1$ as we usually do in boolean algebras, but we think of $\forth$ and
+$\half$ as intermediate values that can be used to break various
+structural rules.  In particular we will use these values to prevent
+exchange for sequential composition from holding, and contraction from
+holding for parallel and sequential composition.
+\begin{definition}
+  \label{def:logical-connectives}
+  The logical connectives of our four valued logic are defined as
+  follows:\vspace{-5px}  
+    \begin{center}
+      \begin{math}
+        \setlength{\arraycolsep}{5px}
+        \begin{array}{lll}
+          \begin{array}{lll}
+            \text{Parallel Conjunction:}\\
+            \begin{array}{lll}
+              P \odot_4 Q = 1,\\
+              \,\,\,\,\,\,\,\text{where neither $P$ nor $Q$ are $0$}\\
+              P \odot_4 Q = 0, \text{otherwise}\\
+              \\\\[2px]
+            \end{array}
+            \\[14px]
+          \end{array}
+          &
+          \begin{array}{lll}
+            \text{Sequential Conjunction:}\\
+            \begin{array}{lll}          
+              P \rhd_4 Q = 1,\\
+              \,\,\,\,\,\,\,\text{where } P \in \{\half, 1\} \text{ and } Q \neq 0\\
+              P \rhd_4 Q = \forth, \\
+              \,\,\,\,\,\,\,\text{where $P = \forth$ and $Q \neq 0$}\\[2px]         
+              P \rhd_4 Q = 0, \text{otherwise}
+            \end{array}
+          \end{array}
+          \\
+          \begin{array}{lll}
+            \text{Choice:}\\    
+            \begin{array}{lll}
+              P \sqcup_4 Q = \mathsf{max}(P,Q)
+            \end{array}
+          \end{array}
+        \end{array}
+      \end{math}
+    \end{center}        
+\end{definition}
+These definitions are carefully crafted to satisfy the necessary
+properties to model attack trees.  Comparing these definitions with
+Kordy et al.'s~\cite{Kordy:2012} work we can see that choice is
+defined similarly, but parallel composition is not a product --
+ordinary conjunction -- but rather a linear tensor product. Sequential
+composition is not actually definable in a boolean algebra, and hence
+makes heavy use of the intermediate values to insure that neither
+exchange nor contraction hold (see
+Lemma~\ref{lemma:props_atree_ops_quaternary-semantics}).
+
+We use the usual notion of equivalence between propositions; that is,
+propositions $\phi$ and $\psi$ are considered equivalent, denoted by
+$\phi \equiv \psi$, if and only if they have the same truth tables. In
+order to model attack trees, the previously defined logical
+connectives must satisfy the appropriate equivalences corresponding to
+the equations between attack trees.  These equivalences are all proven
+by the following result.
+\begin{lemma}[Properties of the Attack Tree Operators in the Quaternary Semantics]
+  \label{lemma:props_atree_ops_quaternary-semantics}
+  \begin{itemize}
+  \item[] (Symmetry) For any $P$ and $Q$, $P \bullet Q \equiv Q \bullet P$, for $\bullet \in \{\odot_4, \sqcup_4\}$.\\[-5px]
+  \item[] (Non-symmetry for Sequential Conjunction) It is not the case that, for all $P$ and $Q$, $P \rhd_4 Q \equiv Q \rhd_4 P$.\\[-5px]
+  \item[] (Associativity) For any $P$, $Q$, and $R$, $(P \bullet Q) \bullet R \equiv P \bullet (Q \bullet R)$, for $\bullet \in \{\odot_4, \rhd_4, \sqcup_4\}$.\\[-5px]
+  \item[] (Non-contraction for Parallel and Sequential Conjunction) It is not the case that for all $P$, $P \bullet P \equiv P$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
+  \item[] (Distributive Law) For any $P$, $Q$, and $R$, $P \bullet (Q \sqcup_4 R) \equiv (P \bullet Q) \sqcup_4 (P \bullet R)$, for $\bullet \in \{\odot_4, \rhd_4\}$.\\[-5px]
+  \end{itemize}
+\end{lemma}
+\begin{proof}
+  Symmetry, associativity, contraction for choice, and the
+  distributive law for each operator hold by simply comparing truth
+  tables.  As for contraction for parallel composition, suppose $P =
+  \forth$.  Then by definition $P \odot_4 P = 1$, but $\forth$ is not
+  $1$.  Contraction for sequential composition also fails: suppose $P
+  = \half$.  Then by definition $P \rhd_4 P = 1$, but $\half$ is not
+  $1$.  Similarly, symmetry fails for sequential composition: suppose
+  $P = \forth$ and $Q = \half$.  Then $P \rhd_4 Q = \forth$, but $Q
+  \rhd_4 P = 1$.
+\end{proof}
+
+At this point it is quite easy to model attack trees as formulas.  The
+following defines their interpretation.
+\begin{definition}
+  \label{def:interp-aterms-quaternary}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then we define the interpretation of
+  attack trees to propositions as follows:
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{5px}
+      \begin{array}{lll}
+        \begin{array}{lll}
+          \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
+          \interp{[[AND(A, B)]]} & = & \interp{[[A]]} \odot_4 \interp{[[B]]}\\
+        \end{array}
+        &
+        \begin{array}{lll}
+          \interp{[[SEQ(A,B)]]} & = & \interp{[[A]]} \rhd_4 \interp{[[B]]}\\
+          \interp{[[OR(A,B)]]} & = & \interp{[[A]]} \sqcup_4 \interp{[[B]]}\\
+        \end{array}
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+We can use this semantics to prove equivalences between attack trees.
+\begin{lemma}[Equivalence of Attack Trees in the Quaternary Semantics]
+  \label{lemma:equivalence_of_attack_trees}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then for any attack trees $[[A]]$ and
+  $[[B]]$, if $[[A ~ B]]$, then $\interp{[[A]]} \equiv
+  \interp{[[B]]}$.
+\end{lemma}
+\begin{proof}
+  This proof holds by induction on the form of $[[A ~ B]]$.
+\end{proof}
+This is a very simple and elegant semantics, but it also leads to a
+more substantial theory.
+
+\section{Specialization in the Quaternary Semantics}
+\label{sec:specialization_in_the_quaternary_semantics}
+The quaternary semantics introduced in the previous section does
+indeed capture all of the equivalences of attack trees, but it also
+supports proving specializations.  Consider the example attack trees
+in Fig.~\ref{fig:2}.  
+\begin{figure}
+  \begin{tabular}{|l|l|}
+    \hline
+    \begin{tabular}{l}
+      \textbf{A.}\\
+      \begin{minipage}{\textwidth/2}
+        \vspace{3px}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+ and_node "obtain secret"
+  (or_node "obtain encryped file"
+     (base_na "bribe sysadmin")
+     (base_na "steal backup"))
+  (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger"))
+        \end{minted}
+        \vspace{-3px}
+      \end{minipage}      
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \textbf{B.}\\
+      \begin{minipage}{\textwidth/2-5.6px}
+        \vspace{3px}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+ seq_node "break in, obtain secret"
+  (base_na "break into system")
+  (and_node "obtain secret inside"
+    (base_na "install keylogger")
+    (base_na "steal backup"))
+        \end{minted}
+        \vspace{20px}
+      \end{minipage}      
+    \end{tabular}    
+    \\    
+    \hline
+  \end{tabular}\vspace{-2px}
+  \begin{tabular}{|l|}
+    \begin{tabular}{l}
+      \\[-9.8px]
+    \textbf{C.}\\
+      \begin{minipage}{\textwidth}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+ or_node "obtain secret"
+  (and_node "obtain secret via sysadmin"
+   (base_na "bribe sysadmin")
+   (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger")))
+   (seq_node "break in, obtain secrect"
+     (base_na "break into system")
+     (and_node "obtain secret inside"
+       (base_na "install keylogger")
+       (base_na "steal backup")))        
+        \end{minted}
+        \vspace{2px}
+      \end{minipage}
+    \end{tabular}
+    \\
+    \hline
+  \end{tabular}
+    \caption{Encrypted Data Attack from Figure~1 (A), Figure~3 (B), and Figure~2 (C) of Horne et al.~\cite{horne2017semantics}.}
+    \label{fig:2}
+\end{figure}
+Attack tree C is a sound specialization of attack tree A, and attack
+tree B is a sound specialization of attack tree A.  Attack tree C
+requires the attacker to break into the system before they can steal
+the backup, but attack tree A does not require this.  Then attack tree
+B has dropped bribing the sysadmin and simply requires the attacker to
+just steal the backups.  Notice that none of the attack trees in
+Fig.~\ref{fig:2} are equivalent.  So how do we prove these
+specializations are sound?  We simply define a notion of entailment in
+the quaternary semantics.  Denote by $P \leq_4 Q$ the usual natural
+number ordering restricted to $\mathsf{4}$.  Then we have the
+following result immediately.
+\begin{lemma}[Entailment in the Quaternary Semantics]
+  \label{lemma:entailment_in_the_quaternary_semantics}
+  $P \equiv Q$ if and only if $P \leq_4 Q$ and $Q \leq_4 P$
+\end{lemma}
+This result shows that we can now break up the equivalence of attack
+trees into directional properties captured here by entailments, and
+hence, every equivalence proved in the previous section can also be
+used directionally.
+
+We may now formally define when an attack tree is a sound
+specialization of another attack tree.
+\begin{definition}
+  \label{def:specialization}
+  An attack tree $A$ is a sound specialization of an attack $B$ if and
+  only if $\interp{A} \leq_4 \interp{B}$.
+\end{definition}
+The next result proves some additional properties in the quaternary
+semantics that can be used to reason about attack trees.
+\begin{lemma}[Properties of Entailment in the Quaternary Semantics]
+  \label{lemma:properties_of_entailment_in_the_quaternary_semantics}
+  \begin{tabular}{lll}
+    \begin{tabular}{llllll}
+      \begin{tabular}{lll}
+    Ideal Entailments:\\
+    \begin{math}
+      \footnotesize
+      \begin{array}{lll}
+        ((P \odot_4 Q) \rhd_4 (R \odot_4 d)) \leq_4 ((P \rhd_4 R) \odot_4 (Q \rhd_4 d))\\
+        ((P \odot_4 Q) \rhd_4 R) \leq_4 (P \odot_4 (Q \rhd_4 R))\\                    
+        (P \rhd_4 (Q \odot_4 R)) \leq_4 (Q \odot_4 (P \rhd_4 R))\\
+        (P \rhd_4 Q) \leq_4 (P \odot_4 Q)\\          
+      \end{array}
+    \end{math}      
+      \end{tabular}
+      & \quad & 
+    \begin{tabular}{lll}
+        Choice Entailments:\\
+        \begin{math}
+          \footnotesize
+          \begin{array}{lll}
+            P \leq_4 (P \sqcup_4 Q)\\
+            Q \leq_4 (P \sqcup_4 Q)\\
+          \end{array}
+        \end{math}
+        \\\\\\[-2px]
+      \end{tabular}
+    \end{tabular}
+  \\\\
+  \begin{tabular}{lllll}
+    \begin{tabular}{lll}
+      Filter Entailments:\\
+      \begin{math}
+        \footnotesize
+        \begin{array}{lll}
+          ((P \rhd_4 R) \odot_4 (Q \rhd_4 d)) \leq_4 ((P \odot_4 Q) \rhd_4 (R \odot_4 d))\\
+          (P \odot_4 (Q \rhd_4 R)) \leq_4 ((P \odot_4 Q) \rhd_4 R)\\
+          \\
+          \\
+        \end{array}
+      \end{math}           
+    \end{tabular}
+  \end{tabular}
+  \end{tabular}
+\end{lemma}
+Each of the above entailments is due to Horne et
+al.~\cite{horne2017semantics}.  They introduce two types of semantics
+called the \emph{ideal semantics} and the \emph{filter semantics}.
+The former satisfies all of the entailments in
+Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and the left
+side of
+Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics};
+the latter satisfies all of the entailments in
+Lemma~\ref{lemma:props_atree_ops_quaternary-semantics} and the right
+side of
+Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics}.
+They were able to show that the ideal entailments allow one to prove
+properties of attack trees with different attribute domains than the
+filter entailments.
+
+In comparison with their work, the semantics presented here blends the
+ideal and filter semantics. As we can see from
+Lemma~\ref{lemma:properties_of_entailment_in_the_quaternary_semantics},
+the first two axioms of the ideal and filter entailments are actually
+logical equivalences. This implies that this semantics can prove
+properties that neither the ideal nor the filter semantics can
+capture, furthermore, these equivalences cannot be proven using the
+rules of attack trees in Definition~\ref{def:atrees}.  However, we do
+not yet know which attribute domains correspond to this semantics.  We
+can isolate ourselves to just the ideal or the filter semantics, but
+what attribute domains can we reason about in this semantics when we
+blend them?  This is left to future work.
+
+We can now formally prove that the attack tree C is a specialization
+of attack tree A, and that attack tree B is a specialization of attack
+tree A from Fig.~\ref{fig:2}.
+\begin{example}
+  \label{ex:ex1}
+  First, consider the following assignment:
+\begin{center}
+  \begin{math}
+    \begin{array}{lllllll}
+      a := \verb!"bribe sysadmin"!
+      & \quad &
+      b := \verb!"break into system"!
+      \\
+      c := \verb!"install keylogger"!
+      & \quad &
+      d := \verb!"steal backup"!
+    \end{array}
+  \end{math}
+\end{center}
+Then we have the following interpretations:
+\begin{center}
+  \footnotesize
+  \begin{math}
+    \begin{array}{c}
+      \begin{array}{ccc}
+        \begin{array}{rclcl}
+        \interp{A} & = & \interp{[[AND(OR(a,dd),SEQ(b,c))]]} \\
+                   & = & (a \sqcup_4 d) \odot_4 (b \rhd_4 c)\\
+      \end{array}
+      & \quad &
+      \begin{array}{rclcl}
+        \interp{B} & = & \interp{[[SEQ(b,AND(c,dd))]]} \\
+                   & = & b \rhd_4 (c \odot_4 d)\\      
+      \end{array}
+      \end{array}
+      \\ \\
+      \begin{array}{rclcl}
+        \interp{C} & = & \interp{[[OR(AND(a,SEQ(b,c)),SEQ(b,AND(c,dd)))]]}\\
+                   & = & (a \odot_4 (b \rhd_4 c)) \sqcup_4 (b \rhd_4 (c \odot_4 d))\\
+      \end{array}
+    \end{array}        
+  \end{math}
+\end{center}
+We reuse the same names for base attacks across the interpretations
+above.  Finally, we have the following two entailments:
+\begin{center}
+  \begin{math}
+    \footnotesize
+    \begin{array}{|ll|l|}
+      \hline
+      \begin{array}{lll}
+        \underline{\interp{C} \leq_4 \interp{A}}:\\[4px]
+        \,\,\,\,\begin{array}{rl}
+               & (a \odot_4 (b \rhd_4 c)) \sqcup_4 (b \rhd_4 (c \odot_4 d))\\
+        \leq_4 &  (a \odot_4 (b \rhd_4 c)) \sqcup_4 (b \rhd_4 (d \odot_4 c))\\
+        \leq_4 &  (a \odot_4 (b \rhd_4 c)) \sqcup_4 (d \odot_4 (b \rhd_4 c))\\
+        \leq_4 &  (a \sqcup_4 d) \odot_4 (b \rhd_4 c)\\
+        \end{array}
+      \end{array}
+      & \quad &
+      \begin{array}{lll}
+        \underline{\interp{B} \leq_4 \interp{A}}:\\[4px]
+        \,\,\,\,\,\begin{array}{lll}
+               & b \rhd_4 (c \odot_4 d)\\
+        \leq_4 &  b \rhd_4 (c \odot_4 (a \sqcup_4 d))\\
+        \leq_4 &  b \rhd_4 ((a \sqcup_4 d) \odot_4 c)\\
+        \leq_4 & (a \sqcup_4 d) \odot_4 (b \rhd_4 c)\\
+        \end{array}
+      \end{array}\\
+      \hline
+    \end{array}
+  \end{math}
+\end{center}
+Notice that neither $\interp{[[A]]} \leq_4 \interp{[[C]]}$ nor $\interp{[[A]]} \leq_4 \interp{[[B]]}$
+hold, and thus, equivalences cannot prove the previous properties.
+\end{example}
+
+% section specialization_in_the_quaternary_semantics (end)
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: main.tex
+%%% End: 
