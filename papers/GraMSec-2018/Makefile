@@ -27,11 +27,19 @@ intro-output.tex : intro.tex atll/atll.ott
 	$(OTT) $(OTT_FLAGS) -i indexed-atll/indexed-atll.ott -o indexed-atll-ott.tex -tex_name_prefix IATLL \
 		-tex_filter intro-output1.tex intro-output.tex
 
-quaternary-semantics-output.tex : quaternary-semantics.tex attack-trees/attack-trees.ott
+ideal-output.tex : ideal.tex attack-trees/attack-trees.ott
 	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
-		-tex_filter quaternary-semantics.tex quaternary-semantics-output.tex
+		-tex_filter ideal.tex ideal-output.tex
 
-main.pdf : main.tex ref.bib Makefile attack-trees-output.tex intro-output.tex quaternary-semantics-output.tex Lina.tex
+filter-output.tex : filter.tex attack-trees/attack-trees.ott
+	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
+		-tex_filter filter.tex filter-output.tex
+
+example-output.tex : example.tex attack-trees/attack-trees.ott
+	$(OTT) $(OTT_FLAGS) -i attack-trees/attack-trees.ott -o aterms-ott.tex -tex_name_prefix ATerms \
+		-tex_filter example.tex example-output.tex
+
+main.pdf : main.tex ref.bib Makefile attack-trees-output.tex intro-output.tex Lina.tex ideal-output.tex filter-output.tex example-output.tex
 	$(PDFLATEX) -shell-escape -jobname=main main.tex
 	$(BIBTEX) main
 	$(PDFLATEX) -shell-escape -jobname=main main.tex

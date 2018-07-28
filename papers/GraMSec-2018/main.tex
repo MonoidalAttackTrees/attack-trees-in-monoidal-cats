@@ -84,19 +84,19 @@ Computer Science, Augusta University}
   This paper has two main contributions. The first is a new linear
   logical semantics of causal attack trees in four-valued truth
   tables.  Our semantics is very simple and expressive, supporting
-  specializations, and combines in an interesting way the \emph{ideal}
-  and \emph{filter} semantics of causal attack trees. Our second
-  contribution is Lina, a new embedded, in Haskell, domain specific
-  functional programming language for conducting threat analysis using
-  attack trees.  Lina has many benefits over existing tools; for
-  example, Lina allows one to specify attack trees very abstractly,
-  which provides the ability to develop libraries of attack trees,
-  furthermore, Lina is compositional, allowing one to break down
-  complex attack trees into smaller ones that can be reasoned about
-  and analyzed incrementally.  Furthermore, Lina supports
-  automatically proving properties of attack trees, such as
-  equivalences and specializations, using Maude and the semantics
-  introduced in this paper.
+  specializations, and supports the \emph{ideal} semantics of causal
+  attack trees, and partially supporting the \emph{filter} semantics
+  of causal attack trees. Our second contribution is Lina, a new
+  embedded, in Haskell, domain specific functional programming
+  language for conducting threat analysis using attack trees.  Lina
+  has many benefits over existing tools; for example, Lina allows one
+  to specify attack trees very abstractly, which provides the ability
+  to develop libraries of attack trees, furthermore, Lina is
+  compositional, allowing one to break down complex attack trees into
+  smaller ones that can be reasoned about and analyzed incrementally.
+  Furthermore, Lina supports automatically proving properties of
+  attack trees, such as equivalences and specializations, using Maude
+  and the semantics introduced in this paper.
 \end{abstract}
 
 \section{Introduction}
@@ -112,7 +112,7 @@ Computer Science, Augusta University}
 \vspace{-7px}
 \section{A Quaternary Semantics for Causal Attack Trees}
 \label{sec:a_quaternary_semantics_for_causal_attack_trees}
-\input{quaternary-semantics-output}
+\input{quaternary-semantics}
 % section a_ternary_semantics_for_causal_attack_trees (end)
 
 \vspace{-7px}
@@ -182,7 +182,6 @@ eq EQ(P,Q) = false .
 endm  
 \end{verbatim}
 % section  (end)
-
 
 \end{document}
 

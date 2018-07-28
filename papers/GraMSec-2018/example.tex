@@ -1,0 +1,160 @@
+The quaternary logics introduced in the previous section do indeed
+capture all of the equivalences of attack trees, but they also support
+proving specializations.  Consider the example attack trees in
+Fig.~\ref{fig:2}.
+\begin{figure}
+  \begin{tabular}{|l|l|}
+    \hline
+    \begin{tabular}{l}
+      \textbf{A.}\\
+      \begin{minipage}{\textwidth/2}
+        \vspace{3px}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+ and_node "obtain secret"
+  (or_node "obtain encryped file"
+     (base_na "bribe sysadmin")
+     (base_na "steal backup"))
+  (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger"))
+        \end{minted}
+        \vspace{-3px}
+      \end{minipage}      
+    \end{tabular}
+    &
+    \begin{tabular}{l}
+      \textbf{B.}\\
+      \begin{minipage}{\textwidth/2-5.6px}
+        \vspace{3px}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+ seq_node "break in, obtain secret"
+  (base_na "break into system")
+  (and_node "obtain secret inside"
+    (base_na "install keylogger")
+    (base_na "steal backup"))
+        \end{minted}
+        \vspace{20px}
+      \end{minipage}      
+    \end{tabular}    
+    \\    
+    \hline
+  \end{tabular}\vspace{-2px}
+  \begin{tabular}{|l|}
+    \begin{tabular}{l}
+      \\[-9.8px]
+    \textbf{C.}\\
+      \begin{minipage}{\textwidth}
+        \begin{minted}[fontsize=\scriptsize]{haskell}
+ or_node "obtain secret"
+  (and_node "obtain secret via sysadmin"
+   (base_na "bribe sysadmin")
+   (seq_node "obtain password"
+     (base_na "break into system")
+     (base_na "install keylogger")))
+   (seq_node "break in, obtain secrect"
+     (base_na "break into system")
+     (and_node "obtain secret inside"
+       (base_na "install keylogger")
+       (base_na "steal backup")))        
+        \end{minted}
+        \vspace{2px}
+      \end{minipage}
+    \end{tabular}
+    \\
+    \hline
+  \end{tabular}
+    \caption{Encrypted Data Attack from Figure~1 (A), Figure~3 (B), and Figure~2 (C) of Horne et al.~\cite{horne2017semantics}.}
+    \label{fig:2}
+\end{figure}
+In the ideal semantics attack tree C is a sound specialization of
+attack tree A, and attack tree B is a sound specialization of attack
+tree A.  Attack tree C requires the attacker to break into the system
+before they can steal the backup, but attack tree A does not require
+this.  Then attack tree B has dropped bribing the sysadmin and simply
+requires the attacker to just steal the backups.  Notice that none of
+the attack trees in Fig.~\ref{fig:2} are equivalent.  So how do we
+prove these specializations are sound?  We prove that they are related
+through an entailment rather than an equivalence.
+\begin{definition}
+  \label{def:specialization}
+  An attack tree $A$ is a sound specialization of an attack $B$ if and
+  only if $\interp{A} \leq_4 \interp{B}$.
+\end{definition}
+
+We can now formally prove that the attack tree C is a specialization
+of attack tree A, and that attack tree B is a specialization of attack
+tree A from Fig.~\ref{fig:2}.
+\begin{example}
+  \label{ex:ex1}
+  First, consider the following assignment:
+\begin{center}
+  \begin{math}
+    \begin{array}{lllllll}
+      a := \verb!"bribe sysadmin"!
+      & \quad &
+      b := \verb!"break into system"!
+      \\
+      c := \verb!"install keylogger"!
+      & \quad &
+      d := \verb!"steal backup"!
+    \end{array}
+  \end{math}
+\end{center}
+Then we have the following interpretations:
+\begin{center}
+  \footnotesize
+  \begin{math}
+    \begin{array}{c}
+      \begin{array}{ccc}
+        \begin{array}{rclcl}
+        \interp{A} & = & \interp{[[AND(OR(a,dd),SEQ(b,c))]]} \\
+                   & = & (a \sqcup_I d) \odot_I (b \rhd_I c)\\
+      \end{array}
+      & \quad &
+      \begin{array}{rclcl}
+        \interp{B} & = & \interp{[[SEQ(b,AND(c,dd))]]} \\
+                   & = & b \rhd_I (c \odot_I d)\\      
+      \end{array}
+      \end{array}
+      \\ \\
+      \begin{array}{rclcl}
+        \interp{C} & = & \interp{[[OR(AND(a,SEQ(b,c)),SEQ(b,AND(c,dd)))]]}\\
+                   & = & (a \odot_I (b \rhd_I c)) \sqcup_I (b \rhd_I (c \odot_I d))\\
+      \end{array}
+    \end{array}        
+  \end{math}
+\end{center}
+We reuse the same names for base attacks across the interpretations
+above.  Finally, we have the following two entailments:
+\begin{center}
+  \begin{math}
+    \footnotesize
+    \begin{array}{|ll|l|}
+      \hline
+      \begin{array}{lll}
+        \underline{\interp{C} \leq_4 \interp{A}}:\\[4px]
+        \,\,\,\,\begin{array}{rl}
+               & (a \odot_I (b \rhd_I c)) \sqcup_I (b \rhd_I (c \odot_I d))\\
+        \leq_4 &  (a \odot_I (b \rhd_I c)) \sqcup_I (b \rhd_I (d \odot_I c))\\
+        \leq_4 &  (a \odot_I (b \rhd_I c)) \sqcup_I (d \odot_I (b \rhd_I c))\\
+        \leq_4 &  (a \sqcup_I d) \odot_I (b \rhd_I c)\\
+        \end{array}
+      \end{array}
+      & \quad &
+      \begin{array}{lll}
+        \underline{\interp{B} \leq_I \interp{A}}:\\[4px]
+        \,\,\,\,\,\begin{array}{lll}
+               & b \rhd_I (c \odot_I d)\\
+        \leq_4 &  b \rhd_I (c \odot_I (a \sqcup_I d))\\
+        \leq_4 &  b \rhd_I ((a \sqcup_I d) \odot_I c)\\
+        \leq_4 & (a \sqcup_I d) \odot_I (b \rhd_I c)\\
+        \end{array}
+      \end{array}\\
+      \hline
+    \end{array}
+  \end{math}
+\end{center}
+Notice that neither $\interp{[[A]]} \leq_4 \interp{[[C]]}$ nor
+$\interp{[[A]]} \leq_4 \interp{[[B]]}$ hold, and thus, equivalences
+cannot prove the previous properties.
+\end{example}

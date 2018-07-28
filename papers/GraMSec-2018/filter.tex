@@ -1,0 +1,158 @@
+We now introduce the filterish semantics for casual attack trees.
+This is a restricted notion of the filter semantics of Horne et
+al.~\cite{horne2017semantics}.  We were unable to find a quaternary
+semantics for the full filter semantics, because we obtained
+contractions when attempting to satisfy the corresponding
+specialization properties in the filter model.  We are unsure if these
+contradictions arise due to the fact that the semantics proposed here
+is intuitionistic while Horne et al.~\cite{horne2017semantics} use
+classical logic, or if four values just are not enough, or if we just
+have not been able to find it.
+
+In this section we do as we did in the previous and define a
+quaternary logic called the \emph{filterish quaternary logic}.
+\begin{definition}
+  \label{def:filterish-semantics}
+  The logical connectives of the \emph{filterish quaternary logic} are
+  defined as follows:\vspace{-5px}
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{5px}
+      \begin{array}{lll}
+        \begin{array}{lll}
+          \text{Parallel Composition:}\\
+          \begin{array}{lll}
+            P \odot_F Q = \half,\\
+            \,\,\,\,\,\,\,\text{where neither $P$ nor $Q$ are $0$}\\
+            P \odot_F Q = 0, \text{otherwise}\\\\\\
+          \end{array}
+        \end{array}
+        &
+        \begin{array}{lll}
+          \text{Sequential Composition:}\\
+          \begin{array}{lll}          
+            P \rhd_F Q = 1,\\
+            \,\,\,\,\,\,\,\text{where } P \in \{\half, 1\} \text{ and } Q \neq 0\\
+            P \rhd_F Q = \forth,\\
+            \,\,\,\,\,\,\,\text{where } P = \forth  \text{ and } Q \neq 0\\
+            P \rhd_F Q = 0, \text{otherwise}
+          \end{array}
+        \end{array}
+        \\[30px]
+        \begin{array}{lll}
+          \text{Choice:}\\    
+          \begin{array}{lll}
+            P \sqcup_F Q = \mathsf{max}(P,Q)
+          \end{array}
+        \end{array}
+      \end{array}
+    \end{math}
+  \end{center}        
+\end{definition}
+We have the same basic properties as the ideal quaternary logic.  We
+omit proofs, because they are similar to the corresponding properties
+in the ideal semantics.
+\begin{lemma}[Basic Properties for Choice]
+  \label{lemma:basic_properties_for_choice}
+  The following properties hold:
+  \begin{enumerate}
+  \item $(P \sqcup_F Q) \equiv (Q \sqcup_F P)$\\[-5px]
+  \item $((P \sqcup_F Q) \sqcup_F R) \equiv (P \sqcup_F (Q \sqcup_F R))$\\[-5px]
+  \item $P \leq_4 (P \sqcup_F Q)$\\[-5px]
+  \item $Q \leq_4 (P \sqcup_F Q)$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 R \text{, then } (P \sqcup_F Q) \leq_4 R$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 S \text{, then } (P \sqcup_F Q) \leq_4 (R \sqcup_F S)$
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}[Basic Properties for Parallel Composition]
+  \label{lemma:basic_properties_for_parallel}
+  The following properties hold:
+  \begin{enumerate}
+  \item $(P \odot_F P) \not\equiv P$\\[-5px]
+  \item $(P \odot_F Q) \equiv (Q \odot_F P)$\\[-5px]
+  \item $((P \odot_F Q) \odot_F R) \equiv (P \odot_F (Q \odot_F R))$\\[-5px]
+  \item $(P \odot_F (Q \sqcup_F R)) \equiv ((P \odot_F Q) \sqcup_F (P \odot_F R))$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 S \text{, then } (P \odot_F Q) \leq_4 (R \odot_F S)$
+  \end{enumerate}
+\end{lemma}
+
+\begin{lemma}[Basic Properties for Sequential Composition]
+  \label{lemma:basic_properties_for_parallel}
+  The following properties hold:
+  \begin{enumerate}
+  \item $(P \rhd_F P) \not\equiv P$\\[-5px]
+  \item $(P \rhd_F Q) \not\equiv (Q \rhd_F P)$\\[-5px]
+  \item $(P \rhd_F (Q \rhd_F R)) \equiv ((P \rhd_F Q) \rhd_F R)$\\[-5px]
+  \item $(P \rhd_F (Q \sqcup_F R)) \equiv ((P \rhd_F Q) \sqcup_F (P \rhd_F R))$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 S \text{, then } (P \rhd_F Q) \leq_4 (R \rhd_F S)$
+  \end{enumerate}
+\end{lemma}
+We now give the filterish properties that correspond to a subset of
+the filter properties proposed by Horne et
+al.~\cite{horne2017semantics}.
+\begin{lemma}[The Filterish Properties]
+  \label{lemma:the_filterish_properties}
+  The following properties hold:
+  \begin{enumerate}
+  \item $((P \rhd_F R) \odot_F (Q \rhd_F S)) \leq_4 ((P \odot_F Q) \rhd_F (R \sqcup_F S))$\\[-5px]
+  \item $(P \sqcup_F (Q \rhd_F R)) \leq_4 ((P \sqcup_F Q) \rhd_F R)$
+  \end{enumerate}
+\end{lemma}
+The remaining filter properties proposed by Horne et
+al.~\cite{horne2017semantics} actually fail in both directions.
+\begin{lemma}
+  \label{lemma:the_unfilterish_properties}
+  There exists an $P$, $Q$, and $R$ that cause the following
+  properties to not hold:
+  \begin{enumerate}
+  \item $(P \rhd_F (Q \odot_F R)) \leq_r (Q \sqcup_F (P \rhd_F R))$\\[-5px]
+  \item $(P \rhd_F Q) \leq_4 (P \sqcup_F Q)$
+  \end{enumerate}
+\end{lemma}
+Interestingly, if we change Definition~\ref{def:filterish-semantics}
+so that all the basic properties hold and
+Lemma~\ref{lemma:the_unfilterish_properties} holds, then the
+inequalities in Lemma~\ref{lemma:the_filterish_properties} degenerate
+to equalities.  We were unable to find a definition of the logical
+connectives that make all of the properties in both of the previous
+lemmas hold.
+
+Just as we did for the ideal quaternary semantics we can show that we
+can model attack trees as formulas.  The following defines their
+interpretation.
+\begin{definition}
+  \label{def:interp-aterms-quaternary}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then we define the interpretation of
+  attack trees to propositions as follows:
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{5px}
+      \begin{array}{lll}
+        \begin{array}{lll}
+          \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
+          \interp{[[AND(A, B)]]} & = & \interp{[[A]]} \odot_F \interp{[[B]]}
+        \end{array}
+        &
+        \begin{array}{lll}
+          \interp{[[SEQ(A,B)]]} & = & \interp{[[A]]} \rhd_F \interp{[[B]]}\\
+          \interp{[[OR(A,B)]]} & = & \interp{[[A]]} \sqcup_F \interp{[[B]]}
+        \end{array}
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+We can use this semantics to prove equivalences between attack trees.
+\begin{lemma}[Equivalence of Attack Trees in the Ideal Quaternary Semantics]
+  \label{lemma:equivalence_of_attack_trees}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then for any attack trees $[[A]]$ and
+  $[[B]]$, if $[[A ~ B]]$, then $\interp{[[A]]} \equiv
+  \interp{[[B]]}$.
+\end{lemma}
+\begin{proof}
+  This proof holds by induction on the form of $[[A ~ B]]$.
+\end{proof}

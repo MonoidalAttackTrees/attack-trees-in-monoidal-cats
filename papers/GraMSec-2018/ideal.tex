@@ -1,0 +1,172 @@
+The ideal semantics for casual attack trees was first proposed by
+Horne et al.\cite{horne2017semantics}.  In this section we give a
+simple truth table semantics that corresponds to their ideal semantics
+within the ideal quaternary logic.
+
+\begin{definition}
+  \label{def:ideal-semantics}
+  The logical connectives of the \emph{ideal quaternary logic} are
+  defined as follows:\vspace{-5px}
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{5px}
+      \begin{array}{lll}
+        \begin{array}{lll}
+          \text{Parallel Composition:}\\
+          \begin{array}{lll}
+            P \odot_I Q = 1,\\
+            \,\,\,\,\,\,\,\text{where neither $P$ nor $Q$ are $0$}\\
+            P \odot_I Q = 0, \text{otherwise}\\\\\\
+          \end{array}
+        \end{array}
+        &
+        \begin{array}{lll}
+          \text{Sequential Composition:}\\
+          \begin{array}{lll}          
+            P \rhd_I Q = \half,\\
+            \,\,\,\,\,\,\,\text{where } P \in \{\half, 1\} \text{ and } Q \neq 0\\            
+            P \rhd_I Q = \forth,\\
+            \,\,\,\,\,\,\,\text{where } P = \forth \text{ and } Q \neq 0\\
+            P \rhd_I Q = 0, \text{otherwise}\\
+          \end{array}
+        \end{array}
+        \\[30px]
+        \begin{array}{lll}
+          \text{Choice:}\\    
+          \begin{array}{lll}
+            P \sqcup_I Q = \mathsf{max}(P,Q)
+          \end{array}
+        \end{array}
+      \end{array}
+    \end{math}
+  \end{center}        
+\end{definition}
+These definitions are carefully crafted to satisfy the necessary
+properties to model attack trees on the ideal semantics.  Comparing
+these definitions with Kordy et al.'s~\cite{Kordy:2012} work we can
+see that choice is defined similarly, but parallel composition is not
+a product -- ordinary conjunction -- but rather a linear tensor
+product. Sequential composition is not actually definable in a boolean
+algebra, and hence makes use of the intermediate values to insure that
+neither exchange nor contraction hold.
+
+In order to model attack trees, the previously defined logical
+connectives must satisfy the appropriate equivalences corresponding to
+the equations between attack trees.  We break these properties up into
+the following lemmata.
+
+\begin{lemma}[Basic Properties for Choice]
+  \label{lemma:basic_properties_for_choice}
+  The following properties hold:
+  \begin{enumerate}
+  \item $(P \sqcup_I Q) \equiv (Q \sqcup_I P)$\\[-5px]
+  \item $((P \sqcup_I Q) \sqcup_I R) \equiv (P \sqcup_I (Q \sqcup_I R))$\\[-5px]
+  \item $P \leq_4 (P \sqcup_I Q)$\\[-5px]
+  \item $Q \leq_4 (P \sqcup_I Q)$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 R \text{, then } (P \sqcup_I Q) \leq_4 R$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 S \text{, then } (P \sqcup_I Q) \leq_4 (R \sqcup_I S)$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Each of the properties hold by comparing truth tables.
+\end{proof}
+The previous lemma shows that choice has the same properties as
+boolean disjunction.  Hence, it is possible to show using these rules
+that $P \sqcup_I P \equiv P$ which follows from properties three,
+four, and five.
+\begin{lemma}[Basic Properties for Parallel Composition]
+  \label{lemma:basic_properties_for_parallel}
+  The following properties hold:
+  \begin{enumerate}
+  \item $(P \odot_I P) \not\equiv P$\\[-5px]
+  \item $(P \odot_I Q) \equiv (Q \odot_I P)$\\[-5px]
+  \item $((P \odot_I Q) \odot_I R) \equiv (P \odot_I (Q \odot_I R))$\\[-5px]
+  \item $(P \odot_I (Q \sqcup_I R)) \equiv ((P \odot_I Q) \sqcup_I (P \odot_I R))$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 S \text{, then } (P \odot_I Q) \leq_4 (R \odot_I S)$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  We give the proof of property one.  The other properties hold by
+  comparing truth tables.  Suppose $P = \half$, then $P \odot_I P =
+  \half \odot_I \half = 1$, but $1$ is not $\half$.
+\end{proof}
+The previous lemma shows that sequential composition is a linear
+tensor product.  In particular, the first property guarantees that
+sequential composition does not contract parallel copies of attack
+trees into a single attack tree.
+\begin{lemma}[Basic Properties for Sequential Composition]
+  \label{lemma:basic_properties_for_parallel}
+  The following properties hold:
+  \begin{enumerate}
+  \item $(P \rhd_I P) \not\equiv P$\\[-5px]
+  \item $(P \rhd_I Q) \not\equiv (Q \rhd_I P)$\\[-5px]
+  \item $(P \rhd_I (Q \rhd_I R)) \equiv ((P \rhd_I Q) \rhd_I R)$\\[-5px]
+  \item $(P \rhd_I (Q \sqcup_I R)) \equiv ((P \rhd_I Q) \sqcup_I (P \rhd_I R))$\\[-5px]
+  \item $\text{If }P \leq_4 R \text{ and } Q \leq_4 S \text{, then } (P \rhd_I Q) \leq_4 (R \rhd_I S)$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  We give proofs for properties one and two, but the others hold by
+  comparing truth tables.  As for property one, suppose $P = 1$, then
+  $P \rhd_I P = 1 \rhd_I 1 = \half$, but $1$ is not $\half$.  Now for
+  property two, suppose $P = 1$ and $Q = \forth$, then $P \rhd_I Q = 1
+  \rhd_I \forth = \half$, but $Q \rhd_I P = \forth \rhd_I 1 = \forth$.
+\end{proof}
+This lemma is similar to the previous.  However, property two
+guarantees that sequential composition is not commutative.
+\begin{lemma}[The Ideal Properties]
+  \label{lemma:the_ideal_properties}
+  The following properties hold:
+  \begin{enumerate}
+  \item $((P \sqcup_I Q) \rhd_I (R \sqcup_I S)) \leq_4 ((P \rhd_I R) \sqcup_I (Q \rhd_I S))$\\[-5px]
+  \item $((P \sqcup_I Q) \rhd_I R) \leq_4 (P \sqcup_I (Q \rhd_I R))$\\[-5px]
+  \item $(P \rhd_I (Q \sqcup_I R) \leq_4 (Q \sqcup_I (P \rhd_I R))$\\[-5px]
+  \item $(P \rhd_I Q) \leq_4 (P \sqcup_I Q)$
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  Each property holds by comparing truth tables.
+\end{proof}
+
+At this point it is quite easy to model attack trees as formulas.  The
+following defines their interpretation.
+\begin{definition}
+  \label{def:interp-aterms-quaternary}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then we define the interpretation of
+  attack trees to propositions as follows:
+  \begin{center}
+    \begin{math}
+      \setlength{\arraycolsep}{5px}
+      \begin{array}{lll}
+        \begin{array}{lll}
+          \interp{[[b]] \in \mathbb{B}} & = & \nu([[b]])\\
+          \interp{[[AND(A, B)]]} & = & \interp{[[A]]} \odot_I \interp{[[B]]}
+        \end{array}
+        &
+        \begin{array}{lll}
+          \interp{[[SEQ(A,B)]]} & = & \interp{[[A]]} \rhd_I \interp{[[B]]}\\
+          \interp{[[OR(A,B)]]} & = & \interp{[[A]]} \sqcup_I \interp{[[B]]}
+        \end{array}
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+We can use this semantics to prove equivalences between attack trees.
+\begin{lemma}[Equivalence of Attack Trees in the Ideal Quaternary Semantics]
+  \label{lemma:equivalence_of_attack_trees}
+  Suppose $\mathbb{B}$ is some set of base attacks, and $\nu :
+  \mathbb{B} \mto \mathsf{PVar}$ is an assignment of base attacks to
+  propositional variables.  Then for any attack trees $[[A]]$ and
+  $[[B]]$, if $[[A ~ B]]$, then $\interp{[[A]]} \equiv
+  \interp{[[B]]}$.
+\end{lemma}
+\begin{proof}
+  This proof holds by induction on the form of $[[A ~ B]]$.
+\end{proof}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: main.tex
+%%% End: 
