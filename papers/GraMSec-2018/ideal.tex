@@ -118,10 +118,10 @@ guarantees that sequential composition is not commutative.
   \label{lemma:the_ideal_properties}
   The following properties hold:
   \begin{enumerate}
-  \item $((P \sqcup_I Q) \rhd_I (R \sqcup_I S)) \leq_4 ((P \rhd_I R) \sqcup_I (Q \rhd_I S))$\\[-5px]
-  \item $((P \sqcup_I Q) \rhd_I R) \leq_4 (P \sqcup_I (Q \rhd_I R))$\\[-5px]
-  \item $(P \rhd_I (Q \sqcup_I R) \leq_4 (Q \sqcup_I (P \rhd_I R))$\\[-5px]
-  \item $(P \rhd_I Q) \leq_4 (P \sqcup_I Q)$
+  \item $((P \odot_I Q) \rhd_I (R \odot_I S)) \leq_4 ((P \rhd_I R) \odot_I (Q \rhd_I S))$\\[-5px]
+  \item $((P \odot_I Q) \rhd_I R) \leq_4 (P \odot_I (Q \rhd_I R))$\\[-5px]
+  \item $(P \rhd_I (Q \odot_I R) \leq_4 (Q \odot_I (P \rhd_I R))$\\[-5px]
+  \item $(P \rhd_I Q) \leq_4 (P \odot_I Q)$
   \end{enumerate}
 \end{lemma}
 \begin{proof}

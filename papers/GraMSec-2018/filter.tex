@@ -95,8 +95,8 @@ al.~\cite{horne2017semantics}.
   \label{lemma:the_filterish_properties}
   The following properties hold:
   \begin{enumerate}
-  \item $((P \rhd_F R) \odot_F (Q \rhd_F S)) \leq_4 ((P \odot_F Q) \rhd_F (R \sqcup_F S))$\\[-5px]
-  \item $(P \sqcup_F (Q \rhd_F R)) \leq_4 ((P \sqcup_F Q) \rhd_F R)$
+  \item $((P \rhd_F R) \odot_F (Q \rhd_F S)) \leq_4 ((P \odot_F Q) \rhd_F (R \odot_F S))$\\[-5px]
+  \item $(P \odot_F (Q \rhd_F R)) \leq_4 ((P \odot_F Q) \rhd_F R)$
   \end{enumerate}
 \end{lemma}
 The remaining filter properties proposed by Horne et
@@ -106,8 +106,8 @@ al.~\cite{horne2017semantics} actually fail in both directions.
   There exists an $P$, $Q$, and $R$ that cause the following
   properties to not hold:
   \begin{enumerate}
-  \item $(P \rhd_F (Q \odot_F R)) \leq_r (Q \sqcup_F (P \rhd_F R))$\\[-5px]
-  \item $(P \rhd_F Q) \leq_4 (P \sqcup_F Q)$
+  \item $(P \rhd_F (Q \odot_F R)) \leq_r (Q \odot_F (P \rhd_F R))$\\[-5px]
+  \item $(P \rhd_F Q) \leq_4 (P \odot_F Q)$
   \end{enumerate}
 \end{lemma}
 Interestingly, if we change Definition~\ref{def:filterish-semantics}
