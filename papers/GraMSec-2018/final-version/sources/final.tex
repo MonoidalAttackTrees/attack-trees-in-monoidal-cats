@@ -318,7 +318,7 @@ in Fig.~\ref{fig:atm-tree}.
         \vspace{-200px}
         \begin{minted}[fontsize=\footnotesize]{haskell}
 seq_node "ATM attack"
-  (and_node "get credientials"
+  (and_node "get credentials"
     (base_na "steal card")
     (or_node "get PIN"
       (base_na "social engineer")
@@ -886,7 +886,7 @@ Fig.~\ref{fig:2}.
         \vspace{3px}
         \begin{minted}[fontsize=\scriptsize]{haskell}
  and_node "obtain secret"
-  (or_node "obtain encryped file"
+  (or_node "obtain encrypted file"
      (base_na "bribe sysadmin")
      (base_na "steal backup"))
   (seq_node "obtain password"
@@ -926,7 +926,7 @@ Fig.~\ref{fig:2}.
    (seq_node "obtain password"
      (base_na "break into system")
      (base_na "install keylogger")))
-   (seq_node "break in, obtain secrect"
+   (seq_node "break in, obtain secret"
      (base_na "break into system")
      (and_node "obtain secret inside"
        (base_na "install keylogger")
@@ -1234,7 +1234,6 @@ The definition of \mh{vehicle_attack} begins with a call to
 internal attack tree are managed implicitly, which requires the
 internals of Lina to work within a special state-based type.  The
 function \mh{start_PAT} initializes this state.
-
 Finally, we can define the vehicle attack tree as follows:
 \begin{minted}[fontsize=\scriptsize]{haskell}
 vehicle_AT :: AttackTree Double String
@@ -1244,7 +1243,6 @@ This attack tree associates the vehicle attack attributed process
 attack tree with a configuration called \mh{minMaxMaxConf} that simply
 takes the minimum as the attribute of choice nodes, and the maximum as
 the attribute of every parallel and sequential node.
-
 Lina as two important features that other tools lack.  First, it can
 abstract the definitions of attack trees. Second, it is highly
 compositional, because it is embedded inside of a functional
@@ -1258,7 +1256,6 @@ Here the configuration has been abstracted.  This facilitates
 experimentation because the security practitioner can run several
 different forms of analysis on the same attack tree using different
 attribute domains.
-
 Attack trees in Lina can also be composed and decomposed; hence,
 complex trees can be broken down into smaller ones, then studied in
 isolation.  This helps facilitate correctness, and offers more
@@ -1360,13 +1357,11 @@ have its own identifier labeling, into a new tree, then that internal
 state must be updated; thus, \mh{insert} carries out this updating.
 Lina is designed so that the user never has to encounter that internal
 state.
-
 So far we have introduced Lina's basic design and definitional
 language for specifying causal attack trees, and we have already begun
 seeing improvements over existing tools; however, Lina has so much
 more to offer.  We now introduce Lina's support for reasoning about
 and performing analysis on causal attack trees.
-
 Kordy et al.~\cite{Kordy2017} introduce the SPTool, an equivalence
 checker for causal attack trees that makes use of the rewriting logic
 system Maude~\cite{clavel2005maude} which allows one to specify
@@ -1376,7 +1371,6 @@ al.'s~\cite{Jhawar:2015} work in Maude, and then use Maude's querying
 system to automatically prove equivalences between causal attack
 trees.  This is a great idea, and we incorporate it into Lina, but we
 make several advancements over SPTool.
-
 Lina includes a general Maude interface, and allows the user to easily
 define new Maude backends, where a \emph{Maude backend} corresponds to
 a Maude specification of a particular rewrite system.  Currently, Lina
@@ -1385,7 +1379,6 @@ multiplicative attack tree linear logic (MATLL).  The former is
 essentially the exact same specification as the SPTool, but the latter
 corresponds to the two quaternary logics defined in
 Section~\ref{sec:a_quaternary_semantics_for_causal_attack_trees}.
-
 Attributed process attack trees are converted into the following
 syntax:
 \begin{center}
@@ -1403,7 +1396,6 @@ corresponds to the identifier of the base attacks.  Note that the base
 attack $\mh{2}$ appears twice, this is because this base attack
 appears twice in the original attack tree.  This syntax is then used
 to write the Maude specification for the various backends.
-
 The full Maude specification for the causal attack tree equivalence
 checker can be found in
 Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, Kordey et
@@ -1416,18 +1408,13 @@ be found in Fig.~\ref{fig:maude-spec-matll}.
 \scriptsize
 \begin{verbatim}
 mod MATLL is
-
 protecting LOOP-MODE .
-
 sorts Formula .
 subsort Nat < Formula .
-
 op _||_  : Formula Formula -> Formula [ctor assoc comm] .
 op _._   : Formula Formula -> Formula [ctor assoc comm prec 41] .
 op _;_   : Formula Formula -> Formula [ctor assoc prec 40] .
-
 var a b c d : Formula .
-
 rl [a1]          : a . (b || c)       => (a . b) || (a . c) .
 rl [a1Inv]       : (a . b) || (a . c) => a . (b || c) .
 rl [a2]          : a ; (b || c)       => (a ; b) || (a ; c) .
@@ -1449,7 +1436,6 @@ endm
 The axioms \verb!a1! through \verb!a5! are actually equivalences, but
 the last two rules are not.  At this point we can use these backends
 to reason about attack trees.
-
 The programmer can make queries to Lina by first importing one or more
 Lina modules, and then making a query using Haskell's REPL -- read,
 evaluate, print, loop -- called GHCi.  Consider the example Lina
@@ -1460,12 +1446,11 @@ trees from Fig.~\ref{fig:2}.
 \begin{minted}[fontsize=\scriptsize]{haskell}
 import Lina.AttackTree
 import Lina.Maude.MATLL
-
 -- A
 enc_data1 :: PAttackTree String
 enc_data1 = start_PAT $
   and_node "obtain secret"
-    (or_node "obtain encryped file"
+    (or_node "obtain encrypted file"
        (base_na "bribe sysadmin")
        (base_na "steal backup"))
     (seq_node "obtain password"
@@ -1481,7 +1466,7 @@ enc_data2 = start_PAT $
           (seq_node "obtain password"
              (base_na "break into system")
              (base_na "install keylogger")))
-    (seq_node "break in, then obtain secrect"
+    (seq_node "break in, then obtain secret"
        (base_na "break into system")
        (and_node "obtain secret from inside"
          (base_na "install keylogger")
@@ -1507,13 +1492,11 @@ Fig.~\ref{fig:lina-script-encrypt} which is stored in the file
 \verb!Specializations.hs!.  Then we ask Lina if \verb!enc_data2! is a
 specialization of \verb!enc_data1!, and Lina responds \verb!True!,
 thus automating the proof given in Example~\ref{ex:ex1}.
-
 In addition to reasoning about attack trees, Lina also support
 analysis of attack trees.  Currently, Lina supports several types of
 analysis: evaluating attack trees, querying the attack tree for the
 attribute value of a node, projecting out the set of attacks from an
 attack tree, and computing the maximal and minimal attack.
-
 When one defines an attack tree that tree is left unevaluated; that
 is, the attribute dictionary associated with the attack tree only has
 attributes recorded for the base attacks.  If one wishes to know the
@@ -1537,7 +1520,6 @@ name \mh{e_vat}, and then we use the attributed query combinator
 \mh{"social engineering attack"}. Note that the evaluator, \mh{eval},
 uses the configuration associated with the attack tree to compute the
 values at each branching node.
-
 It is also possible to project out various attacks from an attack
 tree.  In Lina an \emph{attack} corresponds to essentially an attack
 tree with no choice nodes.  We call its data type \mh{Attack attribute
@@ -1692,4 +1674,3 @@ endm
 %%% mode: latex
 %%% TeX-master: t
 %%% End: 
-
