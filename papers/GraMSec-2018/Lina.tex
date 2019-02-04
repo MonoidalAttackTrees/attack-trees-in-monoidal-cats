@@ -357,7 +357,7 @@ to write the Maude specification for the various backends.
 
 The full Maude specification for the causal attack tree equivalence
 checker can be found in
-Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, Kordey et
+Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, Kordy et
 al.'s specification only supports proving equivalences, but what about
 specializations?  Lina supports proving specializations between attack
 trees using the MATLL Maude backend.  Its full Maude specification can
@@ -416,7 +416,7 @@ import Lina.Maude.MATLL
 enc_data1 :: PAttackTree String
 enc_data1 = start_PAT $
   and_node "obtain secret"
-    (or_node "obtain encryped file"
+    (or_node "obtain encrypted file"
        (base_na "bribe sysadmin")
        (base_na "steal backup"))
     (seq_node "obtain password"
@@ -432,7 +432,7 @@ enc_data2 = start_PAT $
           (seq_node "obtain password"
              (base_na "break into system")
              (base_na "install keylogger")))
-    (seq_node "break in, then obtain secrect"
+    (seq_node "break in, then obtain secret"
        (base_na "break into system")
        (and_node "obtain secret from inside"
          (base_na "install keylogger")

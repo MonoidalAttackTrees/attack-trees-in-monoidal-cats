@@ -12,7 +12,7 @@ safely manipulate attack trees, extend their expressivity, or compare
 them?
 
 A number of different models of attack trees have been proposed: a
-model in boolean algebras
+model in Boolean algebras
 \cite{Kordy:2014,Kordy:2012,Pietre-Cambacedes:2010}, series-parallel
 pomsets \cite{Mauw:2006}, Petri nets \cite{McDermott:2001}, and tree
 automata \cite{Camtepe:2007}.  There have also been various
@@ -77,7 +77,7 @@ in Fig.~\ref{fig:atm-tree}.
         \vspace{-200px}
         \begin{minted}[fontsize=\footnotesize]{haskell}
 seq_node "ATM attack"
-  (and_node "get credientials"
+  (and_node "get credentials"
     (base_na "steal card")
     (or_node "get PIN"
       (base_na "social engineer")
