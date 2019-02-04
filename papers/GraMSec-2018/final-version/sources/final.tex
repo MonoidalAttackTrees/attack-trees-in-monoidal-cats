@@ -253,7 +253,7 @@ safely manipulate attack trees, extend their expressivity, or compare
 them?
 
 A number of different models of attack trees have been proposed: a
-model in boolean algebras
+model in Boolean algebras
 \cite{Kordy:2014,Kordy:2012,Pietre-Cambacedes:2010}, series-parallel
 pomsets \cite{Mauw:2006}, Petri nets \cite{McDermott:2001}, and tree
 automata \cite{Camtepe:2007}.  There have also been various
@@ -262,7 +262,7 @@ and defense nodes \cite{Kordy:2011,Kordy:2012}.  All of these models
 and extensions have their benefits, but at the heart of them all is
 logic.
 
-The model in boolean algebras was the first and most elegant model of
+The model in Boolean algebras was the first and most elegant model of
 attack trees, but it failed to capture the process aspect of attack
 trees, that is, the fact that base attacks are actual processes that
 need to be carried out, and the branching nodes compose these
@@ -488,7 +488,7 @@ semantics allows.
 \newcommand{\half}{\frac{1}{2}}
 
 Kordy et al.~\cite{Kordy:2012} gave a very elegant and simple
-semantics of attack-defense trees in boolean algebras.  Unfortunately,
+semantics of attack-defense trees in Boolean algebras.  Unfortunately,
 while their semantics is elegant, it does not capture the resource
 aspect of attack trees, it allows contraction, and it does not provide
 a means to model sequential composition.  In this section we give a
@@ -503,7 +503,7 @@ Proof Assistant~\cite{Norell:2009}\footnote{The formalization can be
  quaternary logics.  The propositional variables, elements of the set
  $\mathsf{PVar}$, of our quaternary logics, denoted by $P$, $Q$, $R$,
  and $S$, range over the set $\mathsf{4} = \{0, \forth, \half, 1\}$.
- We think of $0$ and $1$ as we usually do in boolean algebras, but we
+ We think of $0$ and $1$ as we usually do in Boolean algebras, but we
  think of $\forth$ and $\half$ as intermediate values that can be used
  to break various structural rules\footnote{Choosing $\forth$ and
    $\half$ as the symbols for the intermediate values was arbitrary,
@@ -579,7 +579,7 @@ properties to model attack trees on the ideal semantics.  Comparing
 these definitions with Kordy et al.'s~\cite{Kordy:2012} work we can
 see that choice is defined similarly, but parallel composition is not
 a product -- ordinary conjunction -- but rather a linear tensor
-product. Sequential composition is not actually definable in a boolean
+product. Sequential composition is not actually definable in a Boolean
 algebra, and hence makes use of the intermediate values to insure that
 neither exchange nor contraction hold.
 
@@ -604,7 +604,7 @@ the following lemmata.
   Each of the properties hold by comparing truth tables.
 \end{proof}
 The previous lemma shows that choice has the same properties as
-boolean disjunction.  Hence, it is possible to show using these rules
+Boolean disjunction.  Hence, it is possible to show using these rules
 that $P \sqcup_I P \equiv P$ which follows from properties three,
 four, and five.
 \begin{lemma}[Basic Properties for Parallel Composition]
@@ -1398,7 +1398,7 @@ appears twice in the original attack tree.  This syntax is then used
 to write the Maude specification for the various backends.
 The full Maude specification for the causal attack tree equivalence
 checker can be found in
-Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, Kordey et
+Appendix~\ref{sec:maude-spec-causal-attack-trees}.  However, Kordy et
 al.'s specification only supports proving equivalences, but what about
 specializations?  Lina supports proving specializations between attack
 trees using the MATLL Maude backend.  Its full Maude specification can
